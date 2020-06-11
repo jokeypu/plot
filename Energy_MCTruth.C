@@ -1,7 +1,7 @@
-int My_MCTrack2()
+int Energy_MCTruth()
 {
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../../data/new/evtcomplete_digi.root");
+    TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
@@ -24,15 +24,18 @@ int My_MCTrack2()
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
     int bin1(100),bin2(100);
-    double xmin(60),xmax(90),ymin(-15),ymax(15);
-    TH2D* histxy=new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
+    float tx(800),ty(600);
+    float xsct(74),ysct(0);
+    float Rad(15);
+    double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
     
-    TCanvas* c1=new TCanvas();
+    TCanvas* c1=new TCanvas("PANDA","MCTruth",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
     gStyle->SetOptStat(0);
     
+    TH2D* histxy=new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     histxy->GetXaxis()->SetTitle("#theta");
     histxy->GetYaxis()->SetTitle("#phi");
     histxy->Draw();
@@ -45,26 +48,9 @@ int My_MCTrack2()
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         
-        int ncluster = fClusterArray->GetEntriesFast();
-        
-        cout << ncluster << "*******" << endl;
-	for (int n = 0; n < ncluster ; n++){
-        PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(n);
-        std::vector<Int_t> list = cluster->DigiList();
-        for (int i=0; i < list.size(); i++){
-            PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(list[i]);
-            double E = digi->GetEnergy();
-            double theta = digi->GetTheta();
-            double phi = digi->GetPhi();
-            double S = 1.2 * pow(E, 0.3);
-            theta = theta * ( 180.0 / 3.1416);
-            phi = phi * ( 180.0 / 3.1416);
-            TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,66+5*n,-2,-3);
-            twb->Draw("SAME");
-            
-        }
-	}
-        /*for ( Int_t i = 0; i < ncluster; i++ ){
+        int nhits = fHitArray->GetEntriesFast();
+        //for ( Int_t i = 9; i < 10; i++ ){
+        for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
             cout << "hit: " << i << endl;
@@ -75,13 +61,13 @@ int My_MCTrack2()
             for( it=ds.begin(); it!=ds.end(); ++it){
                 cout << it->first << endl;
                 cout << it->second << endl;
-                double S = 1.2 * pow(it->second, 0.3);
-                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,46+4*((it->first)%6),-2,-3);
+                double S = 0.8 * pow(it->second, 1 / M_E);
+                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*((it->first)),-9,0);
                 twb->Draw("SAME");
             }
             
             
-        }*/
+        }
     }
     return 0;
 }

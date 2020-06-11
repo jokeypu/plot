@@ -49,7 +49,6 @@ int Energy_MCTruth()
         ioman->ReadEvent(ievt);
         
         int nhits = fHitArray->GetEntriesFast();
-        //for ( Int_t i = 9; i < 10; i++ ){
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();

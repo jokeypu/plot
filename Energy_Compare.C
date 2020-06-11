@@ -1,4 +1,4 @@
-int Energy_Bump()
+int Energy_Compare()
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
@@ -7,7 +7,7 @@ int Energy_Bump()
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../../data/new/evtcomplete_sim.root");
+    TFile* f = new TFile("../../data/new1/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
@@ -17,8 +17,6 @@ int Energy_Bump()
     t->SetBranchAddress("EmcHit",&fHitArray);
     if (!fHitArray) return -1;
     
-    TClonesArray* fBumpArray = (TClonesArray*) ioman->GetObject("EmcBump");
-    if (!fBumpArray) return -1;
     TClonesArray* fClusterArray = (TClonesArray*) ioman->GetObject("EmcCluster");
     if (!fClusterArray) return -1;
     TClonesArray* fDigiArray = (TClonesArray*) ioman->GetObject("EmcDigi");
@@ -33,7 +31,7 @@ int Energy_Bump()
     float Rad(15);
     double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
     
-    TCanvas* c1=new TCanvas("PANDA","Bump",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA","MCTruth",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -46,7 +44,7 @@ int Energy_Bump()
     
     std::map<Int_t, Double_t>::iterator it;
     
-    int aa=2;
+        int aa=2;
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
@@ -60,6 +58,7 @@ int Energy_Bump()
             for (int i=0; i < list.size(); i++){
                 cout << i <<" "<<list[i]<<endl;
                 PndEmcDigi* digi = (PndEmcDigi*)fSharedDigiArray->At(list[i]);
+                
                 double E = digi->GetEnergy();
                 double theta = digi->GetTheta();
                 double phi = digi->GetPhi();

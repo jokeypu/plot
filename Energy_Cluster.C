@@ -43,47 +43,29 @@ int Energy_Cluster(int aa=1)
     std::map<Int_t, Double_t>::iterator it;
     
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+        //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         
         int ncluster = fClusterArray->GetEntriesFast();
         
         cout << ncluster << "*******" << endl;
-	for (int n = 0; n < ncluster ; n++){
-        PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(n);
-        std::vector<Int_t> list = cluster->DigiList();
-        for (int i=0; i < list.size(); i++){
-            PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(list[i]);
-            double E = digi->GetEnergy();
-            double theta = digi->GetTheta();
-            double phi = digi->GetPhi();
-            double S = 0.8 * pow(E, 1 / M_E);
-            theta = theta * ( 180.0 / 3.1416);
-            phi = phi * ( 180.0 / 3.1416);
-            TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*n,-9,0);
-            twb->Draw("SAME");
-            
-        }
-	}
-        /*for ( Int_t i = 0; i < ncluster; i++ ){
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
-            cout << "hit: " << i << endl;
-            double E = hit->GetEnergy();
-            double theta = hit->GetTheta();
-            double phi = hit->GetPhi();
-
-            for( it=ds.begin(); it!=ds.end(); ++it){
-                cout << it->first << endl;
-                cout << it->second << endl;
-                double S = 1.2 * pow(it->second, 0.3);
-                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,46+4*((it->first)%6),-2,-3);
+        for (int n = 0; n < ncluster ; n++){
+            PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(n);
+            std::vector<Int_t> list = cluster->DigiList();
+            for (int i=0; i < list.size(); i++){
+                PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(list[i]);
+                double E = digi->GetEnergy();
+                double theta = digi->GetTheta();
+                double phi = digi->GetPhi();
+                double S = 0.8 * pow(E, 1 / M_E);
+                theta = theta * ( 180.0 / 3.1416);
+                phi = phi * ( 180.0 / 3.1416);
+                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*n,-9,0);
                 twb->Draw("SAME");
+                
             }
-            
-            
-        }*/
+        }
     }
     return 0;
 }

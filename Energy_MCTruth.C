@@ -43,7 +43,7 @@ int Energy_MCTruth(int aa=1)
     std::map<Int_t, Double_t>::iterator it;
     
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+        //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         
@@ -55,7 +55,7 @@ int Energy_MCTruth(int aa=1)
             double E = hit->GetEnergy();
             double theta = hit->GetTheta();
             double phi = hit->GetPhi();
-
+            
             for( it=ds.begin(); it!=ds.end(); ++it){
                 cout << it->first << endl;
                 cout << it->second << endl;

@@ -1,4 +1,4 @@
-int Energy_Bump()
+int Energy_Bump(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
@@ -46,7 +46,6 @@ int Energy_Bump()
     
     std::map<Int_t, Double_t>::iterator it;
     
-    int aa=2;
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);

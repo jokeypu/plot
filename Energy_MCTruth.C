@@ -34,10 +34,20 @@ int Energy_MCTruth(int aa=1)
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
     gStyle->SetOptStat(0);
+    gStyle->SetLabelFont(42,"xyz");
+    gStyle->SetLabelSize(0.05,"xyz");
+    gStyle->SetLabelOffset(0.01,"xyz");
+    gStyle->SetNdivisions(510,"xyz");
+    gStyle->SetTitleFont(42,"xyz");
+    gStyle->SetTitleColor(1,"xyz");
+    gStyle->SetTitleSize(0.05,"xyz");
+    gStyle->SetTitleOffset(1.0,"xyz");
     
     TH2D* histxy=new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     histxy->GetXaxis()->SetTitle("#theta");
     histxy->GetYaxis()->SetTitle("#phi");
+    histxy->GetXaxis()->CenterTitle();
+    histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
     
     std::map<Int_t, Double_t>::iterator it;

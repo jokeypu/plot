@@ -1,3 +1,6 @@
+bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
+        return a.second > b.second;
+}
 int Energy_MCTruth(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
@@ -50,8 +53,6 @@ int Energy_MCTruth(int aa=1)
     histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
     
-    std::map<Int_t, Double_t>::iterator it;
-    
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
@@ -61,20 +62,20 @@ int Energy_MCTruth(int aa=1)
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            vector<pair<Int_t, Double_t>> SourceEnergy(ds.begin(), ds.end());
+            sort(SourceEnergy.begin(), SourceEnergy.end(), cmp);
             cout << "hit: " << i << endl;
             double E = hit->GetEnergy();
             double theta = hit->GetTheta();
             double phi = hit->GetPhi();
             
-            for( it=ds.begin(); it!=ds.end(); ++it){
-                cout << it->first << endl;
-                cout << it->second << endl;
-                double S = 0.8 * pow(it->second, 1 / M_E);
-                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*((it->first)),-9,0);
+            for( Int_t j = 0; j < SourceEnergy.size(); j++){
+                cout << SourceEnergy[j].first << endl;
+                cout << SourceEnergy[j].second << endl;
+                double S = 0.8 * pow(SourceEnergy[j].second, 1 / M_E);
+                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*((SourceEnergy[j].first)),-9,0);
                 twb->Draw("SAME");
             }
-            
-            
         }
     }
     return 0;

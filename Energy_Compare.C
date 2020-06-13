@@ -29,7 +29,8 @@ int Energy_Compare()
     
     int bin1(100),bin2(100);
     float tx(800),ty(600);
-    double xmin(0),xmax(3),ymin(0),ymax(1.2);
+    //double xmin(0),xmax(3),ymin(0),ymax(1.2);
+    double xmin(0),xmax(3),ymin(0),ymax(3);
     
     TCanvas* c1=new TCanvas("PANDA","MCTruth",tx,ty);
     //TCanvas* c2=new TCanvas("PANDA","MCTruth",tx,ty);
@@ -54,8 +55,8 @@ int Energy_Compare()
     int aa=2;
     int Nmiss = 0;
     int Nh1(0),Nh2(0),N11(0);
-    //for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    for (Int_t ievt = aa; ievt < aa+1; ievt++) {
+    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
     //for (Int_t ievt = 0; ievt < 100; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
@@ -78,6 +79,7 @@ int Energy_Compare()
             std::map<Int_t, Double_t> B_others_energy;
             std::map<Int_t, Double_t> M_others_energy;
             int nShared = fSharedDigiArray->GetEntriesFast();
+            cout << "nShared: " << nShared << endl;
             for (int i=0; i < nShared-1; i++){
                 for (int j=i+1; j < nShared; j++){
                     PndEmcDigi* digi1 = (PndEmcDigi*)fSharedDigiArray->At(i);
@@ -106,6 +108,16 @@ int Energy_Compare()
                     }
                 }else if ( ds.size() == 1 ) M_others_energy[hit->GetDetectorID()] = (ds.begin())->second;
             }
+//TEST
+            std::map<Int_t, std::vector<Double_t>>::iterator ps;
+            for ( ps = M_overlap_energy.begin(); ps != M_overlap_energy.end(); ++ps){
+                cout << "DetID: " << ps->first << " Energy: " << (ps->second)[0] << ", " << (ps->second)[1] << "    N:" << (ps->second).size() << endl;
+            }
+            cout << "************************************" << endl;
+            for ( ps = B_overlap_energy.begin(); ps != B_overlap_energy.end(); ++ps){
+                cout << "DetID: " << ps->first << " Energy: " << (ps->second)[0] << ", " << (ps->second)[1] << "    N:" << (ps->second).size() << endl;
+            }
+//TEST
             std::map<Int_t, std::vector<Double_t>>::iterator p;
             for ( p = M_overlap_energy.begin(); p != M_overlap_energy.end(); p++){
                 std::map<Int_t, std::vector<Double_t>>::iterator finder = B_overlap_energy.find(p->first);
@@ -155,7 +167,7 @@ int Energy_Compare()
     histxy->GetXaxis()->CenterTitle();
     histxy->GetYaxis()->CenterTitle();
     
-    histxy->Draw("SCAT");
+    //histxy->Draw("SCAT");
     
     histxy1->GetXaxis()->SetTitle("Energy");
     histxy1->GetYaxis()->SetTitle("#phi");

@@ -118,12 +118,16 @@ int Energy_Compare()
                     B_energy2 = (finder->second)[2];
                 }else continue;
                 if(B_energy1/M_energy1 > B_energy2/M_energy1){
-                    histxy->Fill(M_energy1,B_energy1/M_energy1);
-                    histxy->Fill(M_energy2,B_energy2/M_energy2);
+                    //histxy->Fill(M_energy1,B_energy1/M_energy1);
+                    //histxy->Fill(M_energy2,B_energy2/M_energy2);
+                    histxy->Fill(M_energy1,B_energy1);
+                    histxy->Fill(M_energy2,B_energy2);
                     Nh1+=2;
                 }else{
-                    histxy->Fill(M_energy1,B_energy2/M_energy1);
-                    histxy->Fill(M_energy2,B_energy1/M_energy2);
+                    //histxy->Fill(M_energy1,B_energy2/M_energy1);
+                    //histxy->Fill(M_energy2,B_energy1/M_energy2);
+                    histxy->Fill(M_energy1,B_energy2);
+                    histxy->Fill(M_energy2,B_energy1);
                     Nh1+=2;
                 }
             }
@@ -135,7 +139,8 @@ int Energy_Compare()
                 if ( fr != B_others_energy.end() ){
                     B_energy = (fr->second);
                 }else continue;
-                histxy1->Fill(M_energy,B_energy/M_energy);
+                //histxy1->Fill(M_energy,B_energy/M_energy);
+                histxy1->Fill(M_energy,B_energy);
                 Nh2++;
             }
             

@@ -29,7 +29,6 @@ int Energy_Compare()
     
     int bin1(100),bin2(100);
     float tx(800),ty(600);
-    //double xmin(0),xmax(3),ymin(0),ymax(1.2);
     double xmin(0),xmax(3),ymin(0),ymax(3);
     
     TCanvas* c1=new TCanvas("PANDA1","MCTruth1",tx,ty);
@@ -37,7 +36,7 @@ int Energy_Compare()
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    //gStyle->SetOptStat(0);
+    gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -47,8 +46,6 @@ int Energy_Compare()
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* histxy=new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
-    TH2D* histxy1=new TH2D("hvx0vy01","vx vs vy1",bin1,xmin,xmax,bin2,ymin,ymax);
     TGraph* g1 = new TGraph();
     TGraph* g2 = new TGraph();
     
@@ -110,7 +107,6 @@ int Energy_Compare()
                     B_others_energy[digi->GetDetectorId()] = digi->GetEnergy();
                 }
             }
-            
             for (int n =0; n < nhit; n++){
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(n);
                 std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
@@ -121,6 +117,67 @@ int Energy_Compare()
                 }else if ( ds.size() == 1 ) M_others_energy[hit->GetDetectorID()] = (ds.begin())->second;
             }
             
+            std::map<Int_t, std::vector<Double_t>>::iterator p;
+            for ( p = M_overlap_energy.begin(); p != M_overlap_energy.end(); p++){
+                std::map<Int_t, std::vector<Double_t>>::iterator finder = B_overlap_energy.find(p->first);
+                Double_t M_energy1 = (p->second)[0];
+                Double_t M_energy2 = (p->second)[1];
+                Double_t B_energy1(0);
+                Double_t B_energy2(0);
+                if ( finder != B_overlap_energy.end() ){
+                    B_energy1 = (finder->second)[0];
+                    B_energy2 = (finder->second)[1];
+                }else continue;
+                if(B_energy1/M_energy1 > B_energy2/M_energy1){
+                    g1->SetPoint(Nh1,M_energy1,B_energy1);
+                    g1->SetPoint(Nh1+1,M_energy2,B_energy2);
+                    Nh1+=2;
+                }else{
+                    g1->SetPoint(Nh1,M_energy1,B_energy2);
+                    g1->SetPoint(Nh1+1,M_energy2,B_energy1);
+                    Nh1+=2;
+                }
+            }
+            std::map<Int_t, Double_t>::iterator ptr;
+            for ( ptr = M_others_energy.begin(); ptr != M_others_energy.end(); ptr++){
+                std::map<Int_t, Double_t>::iterator fr = B_others_energy.find(ptr->first);
+                Double_t M_energy = (ptr->second);
+                Double_t B_energy(0);
+                if ( fr != B_others_energy.end() ){
+                    B_energy = (fr->second);
+                }else continue;
+                g2->SetPoint(Nh2,M_energy,B_energy);
+                Nh2++;
+            }
+            
+        }else if ( noverlap_M == 0 && noverlap_B == 0 ) {
+            N11++;
+        }else if ( noverlap_M == 1 && noverlap_B == 0 ) Nmiss++;
+        else continue;
+    }
+    
+    g1->SetMarkerStyle(7);
+    g1->SetMarkerColor(kRed);
+    g1->GetXaxis()->SetTitle("Energy");
+    g1->GetXaxis()->SetRangeUser(xmin,xmax);
+    g1->GetYaxis()->SetRangeUser(ymin,ymax);
+    c1->cd();
+    g1->Draw("AP");
+    
+    g2->SetMarkerStyle(7);
+    g2->SetMarkerColor(kBlue);
+    g2->GetXaxis()->SetTitle("Energy");
+    g2->GetXaxis()->SetRangeUser(xmin,xmax);
+    g2->GetYaxis()->SetRangeUser(ymin,ymax);
+    c2->cd();
+    g2->Draw("AP");
+    
+    cout << "miss: " << Nmiss << endl;
+    cout << "Nhist1: " << Nh1 << endl;
+    cout << "Nhist2: " << Nh2 << endl;
+    cout << "N11: " << N11 << endl;
+    return 0;
+}
 /*TEST/
             std::map<Int_t, Double_t>::iterator pg;
             for ( pg = M_others_energy.begin(); pg != M_others_energy.end(); ++pg){
@@ -135,87 +192,3 @@ int Energy_Compare()
                 cout << "DetID: " << ps->first << " Energy: " << (ps->second)[0] << ", " << (ps->second)[1] << "    N:" << (ps->second).size() << endl;
             }
 /TEST*/
-            std::map<Int_t, std::vector<Double_t>>::iterator p;
-            for ( p = M_overlap_energy.begin(); p != M_overlap_energy.end(); p++){
-                std::map<Int_t, std::vector<Double_t>>::iterator finder = B_overlap_energy.find(p->first);
-                Double_t M_energy1 = (p->second)[0];
-                Double_t M_energy2 = (p->second)[1];
-                Double_t B_energy1(0);
-                Double_t B_energy2(0);
-                if ( finder != B_overlap_energy.end() ){
-                    B_energy1 = (finder->second)[0];
-                    B_energy2 = (finder->second)[1];
-                }else continue;
-                if(B_energy1/M_energy1 > B_energy2/M_energy1){
-                    //histxy->Fill(M_energy1,B_energy1/M_energy1);
-                    //histxy->Fill(M_energy2,B_energy2/M_energy2);
-                    histxy->Fill(M_energy1,B_energy1);
-                    histxy->Fill(M_energy2,B_energy2);
-                    g1->SetPoint(Nh1,M_energy1,B_energy1);
-                    g1->SetPoint(Nh1+1,M_energy2,B_energy2);
-                    Nh1+=2;
-                }else{
-                    //histxy->Fill(M_energy1,B_energy2/M_energy1);
-                    //histxy->Fill(M_energy2,B_energy1/M_energy2);
-                    histxy->Fill(M_energy1,B_energy2);
-                    histxy->Fill(M_energy2,B_energy1);
-                    g1->SetPoint(Nh1,M_energy1,B_energy2);
-                    g1->SetPoint(Nh1+1,M_energy2,B_energy1);
-                    Nh1+=2;
-                }
-            }
-            std::map<Int_t, Double_t>::iterator ptr;
-            for ( ptr = M_others_energy.begin(); ptr != M_others_energy.end(); ptr++){
-                std::map<Int_t, Double_t>::iterator fr = B_others_energy.find(ptr->first);
-                Double_t M_energy = (ptr->second);
-                Double_t B_energy(0);
-                if ( fr != B_others_energy.end() ){
-                    B_energy = (fr->second);
-                }else continue;
-                //histxy1->Fill(M_energy,B_energy/M_energy);
-                histxy1->Fill(M_energy,B_energy);
-                g2->SetPoint(Nh2,M_energy,B_energy);
-                Nh2++;
-            }
-            
-        }else if ( noverlap_M == 0 && noverlap_B == 0 ) {
-            N11++;
-        }else if ( noverlap_M == 1 && noverlap_B == 0 ) Nmiss++;
-        else continue;
-    }
-    //c1->Divide(1,2);
-    histxy->GetXaxis()->SetTitle("Energy");
-    histxy->GetYaxis()->SetTitle("#phi");
-    histxy->GetXaxis()->CenterTitle();
-    histxy->GetYaxis()->CenterTitle();
-    
-    //c1->cd(1);
-    //histxy->Draw("SCAT");
-    
-    histxy1->GetXaxis()->SetTitle("Energy");
-    histxy1->GetYaxis()->SetTitle("#phi");
-    histxy1->GetXaxis()->CenterTitle();
-    histxy1->GetYaxis()->CenterTitle();
-    
-    //c1->cd(2);
-    //histxy1->Draw("SCAT");
-    
-    g1->SetMarkerStyle(7);
-    g1->SetMarkerColor(kRed);
-    g1->GetXaxis()->SetRangeUser(0,3);
-    c1->cd();
-    g1->Draw("AP");
-    
-    g2->SetMarkerStyle(7);
-    g2->SetMarkerColor(kBlue);
-    g2->GetXaxis()->SetRangeUser(0,3);
-    c2->cd();
-    g2->Draw("AP");
-    
-    cout << "miss: " << Nmiss << endl;
-    cout << "Nhist1: " << Nh1 << endl;
-    cout << "Nhist2: " << Nh2 << endl;
-    cout << "N11: " << N11 << endl;
-    return 0;
-}
-

@@ -1,3 +1,6 @@
+bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
+        return a.first < b.first;
+}
 int Energy_Bump(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
@@ -12,6 +15,16 @@ int Energy_Bump(int aa=1)
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
     if (!fMCtrackArray) return -1;
+    
+    PndEmcMapper::Init(1);
+    TFile *parfile = new TFile("../../data/new1/evtcomplete_par.root");
+    parfile->Get("FairGeoParSet");
+    PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
+    PndEmcMapper *fMapper = PndEmcMapper::Instance();
+    typedef std::map<Int_t, Float_t> mapper;
+    mapper emcX = fEmcStr->GetEmcX();
+    mapper emcY = fEmcStr->GetEmcY();
+    mapper emcZ = fEmcStr->GetEmcZ();
     
     TClonesArray* fHitArray = new TClonesArray("PndEmcHit");
     t->SetBranchAddress("EmcHit",&fHitArray);
@@ -34,6 +47,7 @@ int Energy_Bump(int aa=1)
     double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
     
     TCanvas* c1=new TCanvas("PANDA","Bump",tx,ty);
+    //c1->cd()->SetGrid(1,1);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -54,12 +68,13 @@ int Energy_Bump(int aa=1)
     histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
     
-    std::map<Int_t, Double_t>::iterator it;
+    std::map<Int_t, std::vector<pair<Int_t, Double_t>> >::iterator it;
     
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
+        std::map<Int_t, std::vector<pair<Int_t, Double_t>> > SourceEnergy;
         
         int nbump = fBumpArray->GetEntriesFast();
         for (int n = 0; n < nbump ; n++){
@@ -70,18 +85,25 @@ int Energy_Bump(int aa=1)
                 cout << i <<" "<<list[i]<<endl;
                 PndEmcDigi* digi = (PndEmcDigi*)fSharedDigiArray->At(list[i]);
                 double E = digi->GetEnergy();
-                double theta = digi->GetTheta();
-                double phi = digi->GetPhi();
-                double S = 0.8 * pow(E, 1 / M_E);
-                theta = theta * ( 180.0 / 3.1416);
-                phi = phi * ( 180.0 / 3.1416);
+                double DetID = digi->GetDetectorId();
+                SourceEnergy[DetID].push_back(make_pair(n,E));
+            }
+        }
+        for ( it = SourceEnergy.begin(); it != SourceEnergy.end(); it++){
+            sort((it->second).begin(), (it->second).end(), cmp);
+            TVector3 position(emcX[it->first], emcY[it->first], emcZ[it->first]);
+            double theta = position.Theta();
+            double phi = position.Phi();
+            theta = theta * ( 180.0 / 3.1416);
+            phi = phi * ( 180.0 / 3.1416);
+            for (int j = 0; j < (it->second).size(); j++ ){
+                double S = 0.8 * pow((it->second)[j].second, 1 / M_E);
+                float alpha = 0.2 + 2* sqrt(S) / 2;
                 TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
-                twb->SetFillColorAlpha(90-20*n, 0.35);
+                twb->SetFillColorAlpha(90-20*((it->second)[j].first), alpha);
                 twb->Draw("SAME");
-                
             }
         }
     }
     return 0;
 }
-

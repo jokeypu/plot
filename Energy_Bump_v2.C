@@ -1,7 +1,7 @@
 bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
         return a.second > b.second;
 }
-int Energy_Bump_old(int aa=1)
+int Energy_Bump_v2(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");

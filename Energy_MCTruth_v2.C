@@ -1,7 +1,7 @@
 bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
-        return a.first < b.first;
+        return a.second > b.second;
 }
-int Energy_MCTruth(int aa=1)
+int Energy_MCTruth_v2(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
@@ -73,9 +73,7 @@ int Energy_MCTruth(int aa=1)
                 cout << SourceEnergy[j].first << endl;
                 cout << SourceEnergy[j].second << endl;
                 double S = 0.8 * pow(SourceEnergy[j].second, 1 / M_E);
-                float alpha = 0.2 + 2* sqrt(S) / 2;
-                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
-                twb->SetFillColorAlpha(90-20*((SourceEnergy[j].first)), alpha);
+                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*((SourceEnergy[j].first)),-9,0);
                 twb->Draw("SAME");
             }
         }

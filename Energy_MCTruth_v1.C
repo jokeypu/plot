@@ -1,7 +1,4 @@
-bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
-        return a.first < b.first;
-}
-int Energy_MCTruth(int aa=1)
+int Energy_MCTruth_v1(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
@@ -37,21 +34,13 @@ int Energy_MCTruth(int aa=1)
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
     gStyle->SetOptStat(0);
-    gStyle->SetLabelFont(42,"xyz");
-    gStyle->SetLabelSize(0.05,"xyz");
-    gStyle->SetLabelOffset(0.01,"xyz");
-    gStyle->SetNdivisions(510,"xyz");
-    gStyle->SetTitleFont(42,"xyz");
-    gStyle->SetTitleColor(1,"xyz");
-    gStyle->SetTitleSize(0.05,"xyz");
-    gStyle->SetTitleOffset(1.0,"xyz");
     
     TH2D* histxy=new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     histxy->GetXaxis()->SetTitle("#theta");
     histxy->GetYaxis()->SetTitle("#phi");
-    histxy->GetXaxis()->CenterTitle();
-    histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
+    
+    std::map<Int_t, Double_t>::iterator it;
     
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
@@ -62,22 +51,21 @@ int Energy_MCTruth(int aa=1)
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
-            vector<pair<Int_t, Double_t>> SourceEnergy(ds.begin(), ds.end());
-            sort(SourceEnergy.begin(), SourceEnergy.end(), cmp);
             cout << "hit: " << i << endl;
             double E = hit->GetEnergy();
             double theta = hit->GetTheta();
             double phi = hit->GetPhi();
             
-            for( Int_t j = 0; j < SourceEnergy.size(); j++){
-                cout << SourceEnergy[j].first << endl;
-                cout << SourceEnergy[j].second << endl;
-                double S = 0.8 * pow(SourceEnergy[j].second, 1 / M_E);
-                float alpha = 0.2 + 2* sqrt(S) / 2;
+            for( it=ds.begin(); it!=ds.end(); ++it){
+                cout << it->first << endl;
+                cout << it->second << endl;
+                double S = 0.8 * pow(it->second, 1 / M_E);
                 TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
-                twb->SetFillColorAlpha(90-20*((SourceEnergy[j].first)), alpha);
+                twb->SetFillColorAlpha(90-20*((it->first)), 0.5);
                 twb->Draw("SAME");
             }
+            
+            
         }
     }
     return 0;

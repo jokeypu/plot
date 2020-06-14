@@ -1,7 +1,4 @@
-bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
-        return a.second > b.second;
-}
-int Energy_MCTruth_old(int aa=1)
+int Energy_Bump_v1(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
@@ -20,10 +17,14 @@ int Energy_MCTruth_old(int aa=1)
     t->SetBranchAddress("EmcHit",&fHitArray);
     if (!fHitArray) return -1;
     
+    TClonesArray* fBumpArray = (TClonesArray*) ioman->GetObject("EmcBump");
+    if (!fBumpArray) return -1;
     TClonesArray* fClusterArray = (TClonesArray*) ioman->GetObject("EmcCluster");
     if (!fClusterArray) return -1;
     TClonesArray* fDigiArray = (TClonesArray*) ioman->GetObject("EmcDigi");
     if (!fDigiArray) return -1;
+    TClonesArray* fSharedDigiArray = (TClonesArray*) ioman->GetObject("EmcSharedDigi");
+    if (!fSharedDigiArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
     int bin1(100),bin2(100);
@@ -32,7 +33,7 @@ int Energy_MCTruth_old(int aa=1)
     float Rad(15);
     double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
     
-    TCanvas* c1=new TCanvas("PANDA","MCTruth",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA","Bump",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -53,28 +54,31 @@ int Energy_MCTruth_old(int aa=1)
     histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
     
+    std::map<Int_t, Double_t>::iterator it;
+    
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
         //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         
-        int nhits = fHitArray->GetEntriesFast();
-        for ( Int_t i = 0; i < nhits; i++ ){
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
-            vector<pair<Int_t, Double_t>> SourceEnergy(ds.begin(), ds.end());
-            sort(SourceEnergy.begin(), SourceEnergy.end(), cmp);
-            cout << "hit: " << i << endl;
-            double E = hit->GetEnergy();
-            double theta = hit->GetTheta();
-            double phi = hit->GetPhi();
-            
-            for( Int_t j = 0; j < SourceEnergy.size(); j++){
-                cout << SourceEnergy[j].first << endl;
-                cout << SourceEnergy[j].second << endl;
-                double S = 0.8 * pow(SourceEnergy[j].second, 1 / M_E);
-                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,90-20*((SourceEnergy[j].first)),-9,0);
+        int nbump = fBumpArray->GetEntriesFast();
+        for (int n = 0; n < nbump ; n++){
+            PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(n);
+            cout << "Bump " << n << " ---> " << " Cluster " << bump->GetClusterIndex() << endl;
+            std::vector<Int_t> list = bump->DigiList();
+            for (int i=0; i < list.size(); i++){
+                cout << i <<" "<<list[i]<<endl;
+                PndEmcDigi* digi = (PndEmcDigi*)fSharedDigiArray->At(list[i]);
+                double E = digi->GetEnergy();
+                double theta = digi->GetTheta();
+                double phi = digi->GetPhi();
+                double S = 0.8 * pow(E, 1 / M_E);
+                theta = theta * ( 180.0 / 3.1416);
+                phi = phi * ( 180.0 / 3.1416);
+                TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
+                twb->SetFillColorAlpha(90-20*n, 0.35);
                 twb->Draw("SAME");
+                
             }
         }
     }

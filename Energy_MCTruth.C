@@ -1,8 +1,16 @@
 bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
-        return a.first < b.first;
+    return a.first < b.first;
 }
-int Energy_MCTruth(int aa=1)
+int Energy_MCTruth(int evNo = 1, bool UsedGrid = true)
 {
+    int bin1(100),bin2(100);
+    float tx(800),ty(600);
+    float xsct(74),ysct(0);
+    float Rad(12);
+    double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
+    
+    //*****************************************************
+    
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
@@ -26,12 +34,6 @@ int Energy_MCTruth(int aa=1)
     if (!fDigiArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
-    int bin1(100),bin2(100);
-    float tx(800),ty(600);
-    float xsct(74),ysct(0);
-    float Rad(15);
-    double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
-    
     TCanvas* c1=new TCanvas("PANDA","MCTruth",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -53,8 +55,60 @@ int Energy_MCTruth(int aa=1)
     histxy->GetYaxis()->CenterTitle();
     histxy->Draw();
     
-    for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-        //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    if ( UsedGrid ) {
+        Double_t px1(72.8607),px2(74.9418);
+        Double_t py1(0.496197),py2(-1.70964);
+        Double_t xstart = (px1+px2)/2, ystart = (py1+py2)/2;
+        Double_t xstep = abs(px1-px2), ystep = abs(py1-py2);
+        Int_t width(1),style(8);
+        Color_t color(kGray);
+        for (int n = 0; xstart + n * xstep < xmax; n++) {
+            TLine* line = new TLine();
+            line->SetLineColor(color);
+            line->SetLineWidth(width);
+            line->SetLineStyle(style);
+            line->SetX1(xstart + n * xstep);
+            line->SetY1(ymin);
+            line->SetX2(xstart + n * xstep);
+            line->SetY2(ymax);
+            line->Draw("SAME");
+        }
+        for (int n = 1; xstart - n * xstep > xmin; n++) {
+            TLine* line = new TLine();
+            line->SetLineColor(color);
+            line->SetLineWidth(width);
+            line->SetLineStyle(style);
+            line->SetX1(xstart - n * xstep);
+            line->SetY1(ymin);
+            line->SetX2(xstart - n * xstep);
+            line->SetY2(ymax);
+            line->Draw("SAME");
+        }
+        for (int n = 0; ystart + n * ystep < ymax; n++) {
+            TLine* line = new TLine();
+            line->SetLineColor(color);
+            line->SetLineWidth(width);
+            line->SetLineStyle(style);
+            line->SetX1(xmin);
+            line->SetY1(ystart + n * ystep);
+            line->SetX2(xmax);
+            line->SetY2(ystart + n * ystep);
+            line->Draw("SAME");
+        }
+        for (int n = 1; ystart - n * ystep > ymin; n++) {
+            TLine* line = new TLine();
+            line->SetLineColor(color);
+            line->SetLineWidth(width);
+            line->SetLineStyle(style);
+            line->SetX1(xmin);
+            line->SetY1(ystart - n * ystep);
+            line->SetX2(xmax);
+            line->SetY2(ystart - n * ystep);
+            line->Draw("SAME");
+        }
+    }
+    
+    for (Int_t ievt = evNo; ievt < evNo+1; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         

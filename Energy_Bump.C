@@ -152,7 +152,7 @@ int Energy_Bump(int evNo = 1, bool UsedGrid = true)
             phi = phi * ( 180.0 / 3.1416);
             for (int j = 0; j < (it->second).size(); j++ ){
                 double S = 0.8 * pow((it->second)[j].second, 1 / M_E);
-                float alpha = 0.2 + 2* sqrt(S) / 2;
+                float alpha = 0.2 + 2 * sqrt(S) / 2;
                 TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
                 twb->SetFillColorAlpha(90-20*((it->second)[j].first), alpha);
                 twb->Draw("SAME");

@@ -127,7 +127,7 @@ int Energy_MCTruth(int evNo = 1, bool UsedGrid = true)
                 cout << SourceEnergy[j].first << endl;
                 cout << SourceEnergy[j].second << endl;
                 double S = 0.8 * pow(SourceEnergy[j].second, 1 / M_E);
-                float alpha = 0.2 + 2* sqrt(S) / 2;
+                float alpha = 0.2 + 2 * sqrt(S) / 2;
                 TWbox *twb = new TWbox(theta-S,phi-S,theta+S,phi+S,0,-9,0);
                 twb->SetFillColorAlpha(90-20*((SourceEnergy[j].first)), alpha);
                 twb->Draw("SAME");

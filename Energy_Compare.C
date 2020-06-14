@@ -49,7 +49,7 @@ int Energy_Compare()
     
     TGraph* g1 = new TGraph();
     TGraph* g2 = new TGraph();
-    TH1D* h1 = new TH1D("hist1","h1",bin1,-0.04,0.04);
+    TH1D* h1 = new TH1D("hist","h1",bin1,-0.04,0.04);
     TH1D* h2 = new TH1D("hist2","h2",bin2,-0.04,0.04);
     
     std::map<Int_t, Double_t>::iterator it;
@@ -166,33 +166,56 @@ int Energy_Compare()
     
     g1->SetMarkerStyle(6);
     g1->SetMarkerColor(kRed);
-    g1->GetXaxis()->SetTitle("Energy");
+    g1->GetXaxis()->SetTitle("E_{truth} (GeV)");
+    g1->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    g1->GetXaxis()->CenterTitle();
+    g1->GetYaxis()->CenterTitle();
     g1->GetXaxis()->SetRangeUser(xmin,xmax);
     g1->GetYaxis()->SetRangeUser(ymin,ymax);
     c1->cd();
     g1->Draw("AP");
+    TLegend * leg1 = new TLegend(0.73,0.76,0.85,0.82);
+    TLegend * leg2 = new TLegend(0.73,0.76,0.85,0.82);
+    TLegend * leg3 = new TLegend(0.7,0.75,0.88,0.85);
+    leg1->AddEntry(g1, "overlap", "P");
+    leg1->SetTextFont(42);
+    leg1->Draw("SAME");
     
     g2->SetMarkerStyle(6);
     g2->SetMarkerColor(kBlue);
-    g2->GetXaxis()->SetTitle("Energy");
+    g2->GetXaxis()->SetTitle("E_{truth} (GeV)");
+    g2->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    g2->GetXaxis()->CenterTitle();
+    g2->GetYaxis()->CenterTitle();
     g2->GetXaxis()->SetRangeUser(xmin,xmax);
     g2->GetYaxis()->SetRangeUser(ymin,ymax);
     c2->cd();
     g2->Draw("AP");
+    leg2->AddEntry(g2, "others", "P");
+    leg2->SetTextFont(42);
+    leg2->Draw("SAME");
     
     h1->SetLineWidth(2);
-    h1->GetXaxis()->SetTitle("#DeltaE(GeV)");
+    h1->GetXaxis()->SetTitle("#DeltaE (GeV)");
     h1->GetYaxis()->SetTitle("Entries");
+    h1->GetXaxis()->CenterTitle();
+    h1->GetYaxis()->CenterTitle();
     h1->SetLineColor(kRed);
     
     h2->SetLineWidth(2);
-    h2->GetXaxis()->SetTitle("#DeltaE(GeV)");
+    h2->GetXaxis()->SetTitle("#DeltaE (GeV)");
     h2->GetYaxis()->SetTitle("Entries");
+    h2->GetXaxis()->CenterTitle();
+    h2->GetYaxis()->CenterTitle();
     h2->SetLineColor(kBlue);
     
     c3->cd();
     h1->Draw();
     h2->Draw("SAME");
+    leg3->AddEntry(h1, "overlap", "L");
+    leg3->AddEntry(h2, "others", "L");
+    leg3->SetTextFont(42);
+    leg3->Draw("SAME");
     
     cout << "miss: " << Nmiss << endl;
     cout << "Nhist1: " << Nh1 << endl;

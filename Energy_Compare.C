@@ -34,6 +34,7 @@ int Energy_Compare()
     TCanvas* c1=new TCanvas("PANDA1","MCTruth1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","MCTruth2",tx,ty);
     TCanvas* c3=new TCanvas("PANDA3","MCTruth3",tx,ty);
+    TCanvas* c4=new TCanvas("PANDA4","MCTruth4",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -51,6 +52,7 @@ int Energy_Compare()
     TGraph* g2 = new TGraph();
     TH1D* h1 = new TH1D("hist","h1",bin1,-0.04,0.04);
     TH1D* h2 = new TH1D("hist2","h2",bin2,-0.04,0.04);
+    TGraphErrors* g3 = new TGraphErrors();
     
     std::map<Int_t, Double_t>::iterator it;
     
@@ -136,12 +138,20 @@ int Energy_Compare()
                         g1->SetPoint(Nh1+1,M_energy2,B_energy2/M_energy2);
                         h1->Fill(B_energy1-M_energy1);
                         h1->Fill(B_energy2-M_energy2);
+                        g3->SetPoint(Nh1,M_energy1,B_energy1);
+                        g3->SetPoint(Nh1+1,M_energy2,B_energy2);
+                        g3->SetPointError(Nh1,0,abs(B_energy1-M_energy1));
+                        g3->SetPointError(Nh1+1,0,abs(B_energy2-M_energy2));
                         Nh1+=2;
                     }else{
                         g1->SetPoint(Nh1,M_energy1,B_energy2/M_energy1);
                         g1->SetPoint(Nh1+1,M_energy2,B_energy1/M_energy2);
                         h1->Fill(B_energy2-M_energy1);
                         h1->Fill(B_energy1-M_energy2);
+                        g3->SetPoint(Nh1,M_energy1,B_energy2);
+                        g3->SetPoint(Nh1+1,M_energy2,B_energy1);
+                        g3->SetPointError(Nh1,0,abs(B_energy2-M_energy1));
+                        g3->SetPointError(Nh1+1,0,abs(B_energy1-M_energy2));
                         Nh1+=2;
                     }
             }
@@ -216,6 +226,12 @@ int Energy_Compare()
     leg3->AddEntry(h2, "others", "L");
     leg3->SetTextFont(42);
     leg3->Draw("SAME");
+    
+    
+    c4->cd();
+    g3->SetMarkerColor(4);
+    g3->SetMarkerStyle(21);
+    g3->Draw("LP");
     
     cout << "miss: " << Nmiss << endl;
     cout << "Nhist1: " << Nh1 << endl;

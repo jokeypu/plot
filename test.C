@@ -1,13 +1,13 @@
 int test(){
-	std::map<Int_t, std::map<Int_t, Double_t> > shower;
-	shower[1882202][7577]=3;
-	cout<< shower[1882202][7577] << endl;
-	int id =1882202;
-	int md =7577;
-	if (shower.find(id) == shower.end() || shower[id].find(md) == shower[id].end() )
-	shower[id][md] = 3;
-	else shower[id][md] += 3;
-	cout << shower[id][md] << endl;
+	TCanvas *c1 = new TCanvas("c1","A Simple Graph Example",200,10,500,300);
+    Double_t x[100], y[100];
+    Int_t n = 20;
+    for (Int_t i=0;i<n;i++) {
+      x[i] = i*0.1;
+      y[i] = 10*sin(x[i]+0.2);
+    }
+    TGraph* gr = new TGraph(n,x,y);
+    gr->Draw("AC*");
 	return 0;
 
 }

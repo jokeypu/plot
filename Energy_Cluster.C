@@ -1,13 +1,13 @@
 int Energy_Cluster(int evNo = 1, bool UsedGrid = true)
 {
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../../data/new1/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/new1/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../../data/new1/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/new1/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);

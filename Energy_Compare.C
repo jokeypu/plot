@@ -29,12 +29,12 @@ int Energy_Compare()
     
     int bin1(300),bin2(300);
     float tx(800),ty(600);
-    double xmin(0),xmax(3),ymin(0),ymax(2);
+    double xmin(0),xmax(3),ymin(0),ymax(3);
     
     TCanvas* c1=new TCanvas("PANDA1","MCTruth1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","MCTruth2",tx,ty);
     TCanvas* c3=new TCanvas("PANDA3","MCTruth3",tx,ty);
-    TCanvas* c4=new TCanvas("PANDA4","MCTruth4",tx,ty);
+    //TCanvas* c4=new TCanvas("PANDA4","MCTruth4",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -52,7 +52,7 @@ int Energy_Compare()
     TGraph* g2 = new TGraph();
     TH1D* h1 = new TH1D("hist","h1",bin1,-0.04,0.04);
     TH1D* h2 = new TH1D("hist2","h2",bin2,-0.04,0.04);
-    TGraphErrors* g3 = new TGraphErrors();
+    //TGraphErrors* g3 = new TGraphErrors();
     
     std::map<Int_t, Double_t>::iterator it;
     
@@ -134,24 +134,24 @@ int Energy_Compare()
                     B_energy2 = (finder->second)[1];
                     }else continue;
                     if((abs(B_energy1-M_energy1)+abs(B_energy2-M_energy2)) < (abs(B_energy2-M_energy1)+abs(B_energy1-M_energy2))){
-                        g1->SetPoint(Nh1,M_energy1,B_energy1/M_energy1);
-                        g1->SetPoint(Nh1+1,M_energy2,B_energy2/M_energy2);
+                        g1->SetPoint(Nh1,M_energy1,B_energy1);
+                        g1->SetPoint(Nh1+1,M_energy2,B_energy2);
                         h1->Fill(B_energy1-M_energy1);
                         h1->Fill(B_energy2-M_energy2);
-                        g3->SetPoint(Nh1,M_energy1,B_energy1);
-                        g3->SetPoint(Nh1+1,M_energy2,B_energy2);
-                        g3->SetPointError(Nh1,0,abs(B_energy1-M_energy1));
-                        g3->SetPointError(Nh1+1,0,abs(B_energy2-M_energy2));
+                        //g3->SetPoint(Nh1,M_energy1,B_energy1);
+                        //g3->SetPoint(Nh1+1,M_energy2,B_energy2);
+                        //g3->SetPointError(Nh1,0,abs(B_energy1-M_energy1));
+                        //g3->SetPointError(Nh1+1,0,abs(B_energy2-M_energy2));
                         Nh1+=2;
                     }else{
-                        g1->SetPoint(Nh1,M_energy1,B_energy2/M_energy1);
-                        g1->SetPoint(Nh1+1,M_energy2,B_energy1/M_energy2);
+                        g1->SetPoint(Nh1,M_energy1,B_energy2);
+                        g1->SetPoint(Nh1+1,M_energy2,B_energy1);
                         h1->Fill(B_energy2-M_energy1);
                         h1->Fill(B_energy1-M_energy2);
-                        g3->SetPoint(Nh1,M_energy1,B_energy2);
-                        g3->SetPoint(Nh1+1,M_energy2,B_energy1);
-                        g3->SetPointError(Nh1,0,abs(B_energy2-M_energy1));
-                        g3->SetPointError(Nh1+1,0,abs(B_energy1-M_energy2));
+                        //g3->SetPoint(Nh1,M_energy1,B_energy2);
+                        //g3->SetPoint(Nh1+1,M_energy2,B_energy1);
+                        //g3->SetPointError(Nh1,0,abs(B_energy2-M_energy1));
+                        //g3->SetPointError(Nh1+1,0,abs(B_energy1-M_energy2));
                         Nh1+=2;
                     }
             }
@@ -163,7 +163,7 @@ int Energy_Compare()
                 if ( fr != B_others_energy.end() ){
                     B_energy = (fr->second);
                 }else continue;
-                g2->SetPoint(Nh2,M_energy,B_energy/M_energy);
+                g2->SetPoint(Nh2,M_energy,B_energy);
                 h2->Fill(B_energy-M_energy);
                 Nh2++;
             }
@@ -177,31 +177,35 @@ int Energy_Compare()
     g1->SetMarkerStyle(6);
     g1->SetMarkerColor(kRed);
     g1->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    g1->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    //g1->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    g1->GetYaxis()->SetTitle("E_{bump} (GeV)");
     g1->GetXaxis()->CenterTitle();
     g1->GetYaxis()->CenterTitle();
     g1->GetXaxis()->SetRangeUser(xmin,xmax);
     g1->GetYaxis()->SetRangeUser(ymin,ymax);
+    g1->SetTitle("Crystal deposition energy");
     c1->cd();
     g1->Draw("AP");
     TLegend * leg1 = new TLegend(0.73,0.76,0.85,0.82);
     TLegend * leg2 = new TLegend(0.73,0.76,0.85,0.82);
     TLegend * leg3 = new TLegend(0.7,0.75,0.88,0.85);
-    leg1->AddEntry(g1, "overlap", "P");
+    leg1->AddEntry(g1, "Overlap", "P");
     leg1->SetTextFont(42);
     leg1->Draw("SAME");
     
     g2->SetMarkerStyle(6);
     g2->SetMarkerColor(kBlue);
     g2->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    g2->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    //g2->GetYaxis()->SetTitle("E_{bump}/E_{truth}");
+    g2->GetYaxis()->SetTitle("E_{bump} (GeV)");
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     g2->GetXaxis()->SetRangeUser(xmin,xmax);
     g2->GetYaxis()->SetRangeUser(ymin,ymax);
+    g1->SetTitle("Crystal deposition energy");
     c2->cd();
     g2->Draw("AP");
-    leg2->AddEntry(g2, "others", "P");
+    leg2->AddEntry(g2, "No overlap", "P");
     leg2->SetTextFont(42);
     leg2->Draw("SAME");
     
@@ -222,17 +226,17 @@ int Energy_Compare()
     c3->cd();
     h1->Draw();
     h2->Draw("SAME");
-    leg3->AddEntry(h1, "overlap", "L");
-    leg3->AddEntry(h2, "others", "L");
+    leg3->AddEntry(h1, "Overlap", "L");
+    leg3->AddEntry(h2, "No overlap", "L");
     leg3->SetTextFont(42);
     leg3->Draw("SAME");
     
-    
+    /*
     c4->cd();
     g3->SetMarkerColor(4);
     g3->SetMarkerStyle(21);
     g3->Draw("LP");
-    
+    */
     cout << "miss: " << Nmiss << endl;
     cout << "Nhist1: " << Nh1 << endl;
     cout << "Nhist2: " << Nh2 << endl;

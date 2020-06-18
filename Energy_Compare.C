@@ -28,12 +28,12 @@ int Energy_Compare()
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
     int bin1(1000),bin2(1000);
-    float tx(800),ty(600);
+    float tx(800),ty(580);
     double xmin(0),xmax(3),ymin(-.05),ymax(.05); //double xmin(0),xmax(3),ymin(0),ymax(2);
     
     TCanvas* c1=new TCanvas("PANDA1","MCTruth1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","MCTruth2",tx,ty);
-    gStyle->SetOptTitle(0);
+    //gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
     gStyle->SetOptStat(0);
@@ -48,8 +48,8 @@ int Energy_Compare()
     
     TH2D* hxy1 = new TH2D("hist2D1", "hxy1" , bin1, xmin, xmax, bin2, ymin, ymax);
     TH2D* hxy2 = new TH2D("hist2D2", "hxy2" , bin1, xmin, xmax, bin2, ymin, ymax);
-    TH1D* h1 = new TH1D("hist","h1",300,-0.04,0.04);
-    TH1D* h2 = new TH1D("hist2","h2",300,-0.04,0.04);
+    TH1D* h1 = new TH1D("hist","",300,-0.04,0.04);
+    TH1D* h2 = new TH1D("hist2","",300,-0.04,0.04);
     
     std::map<Int_t, Double_t>::iterator it;
     
@@ -57,8 +57,8 @@ int Energy_Compare()
     int Nmiss = 0;
     int Nh1(0),Nh2(0),N11(0);
     //for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-        //for (Int_t ievt = 0; ievt < 500; ievt++) {
+    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+        for (Int_t ievt = 0; ievt < 350; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         int noverlap_M = 0;
@@ -166,32 +166,33 @@ int Energy_Compare()
     TLegend * leg1 = new TLegend(0.71,0.76,0.86,0.86);
     TLegend * leg2 = new TLegend(0.7,0.75,0.88,0.85);
     
-    hxy1->SetMarkerStyle(5);
-    hxy1->SetMarkerColorAlpha(kPink-3, 0.2);
+    hxy1->SetMarkerStyle(8);
+    hxy1->SetMarkerColorAlpha(kRed-7, 0.4);
+    hxy1->SetMarkerSize(0.8);
     hxy1->GetXaxis()->SetTitle("E_{truth} (GeV)");
     hxy1->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
     hxy1->GetXaxis()->CenterTitle();
     hxy1->GetYaxis()->CenterTitle();
     hxy1->GetXaxis()->SetRangeUser(xmin,xmax);
     hxy1->GetYaxis()->SetRangeUser(ymin,ymax);
-    hxy1->GetXaxis()->SetLabelSize(0.03);
-    hxy1->GetYaxis()->SetLabelSize(0.03);
+    hxy1->GetXaxis()->SetLabelSize(0.038);
+    hxy1->GetYaxis()->SetLabelSize(0.038);
     hxy1->GetXaxis()->SetTitleSize(0.04);
     hxy1->GetYaxis()->SetTitleSize(0.04);
     hxy1->GetXaxis()->SetTitleOffset(1.2);
     hxy1->GetYaxis()->SetTitleOffset(1.2);
     hxy1->SetTitle("Crystal deposition energy");
     
-    hxy2->SetMarkerStyle(3);
-    hxy2->SetMarkerColorAlpha(kBlue+1, 0.4);
+    hxy2->SetMarkerStyle(22);   //45 22
+    hxy2->SetMarkerColorAlpha(kAzure+3, 0.5);
     hxy2->GetXaxis()->SetTitle("E_{truth} (GeV)");
     hxy2->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
     hxy2->GetXaxis()->CenterTitle();
     hxy2->GetYaxis()->CenterTitle();
     hxy2->GetXaxis()->SetRangeUser(xmin,xmax);
     hxy2->GetYaxis()->SetRangeUser(ymin,ymax);
-    hxy2->GetXaxis()->SetLabelSize(0.03);
-    hxy2->GetYaxis()->SetLabelSize(0.03);
+    hxy2->GetXaxis()->SetLabelSize(0.038);
+    hxy2->GetYaxis()->SetLabelSize(0.038);
     hxy2->GetXaxis()->SetTitleSize(0.04);
     hxy2->GetYaxis()->SetTitleSize(0.04);
     hxy2->GetXaxis()->SetTitleOffset(1.2);

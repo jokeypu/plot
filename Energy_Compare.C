@@ -174,6 +174,12 @@ int Energy_Compare()
     hxy1->GetYaxis()->CenterTitle();
     hxy1->GetXaxis()->SetRangeUser(xmin,xmax);
     hxy1->GetYaxis()->SetRangeUser(ymin,ymax);
+    hxy1->GetXaxis()->SetLabelSize(0.03);
+    hxy1->GetYaxis()->SetLabelSize(0.03);
+    hxy1->GetXaxis()->SetTitleSize(0.04);
+    hxy1->GetYaxis()->SetTitleSize(0.04);
+    hxy1->GetXaxis()->SetTitleOffset(1.2);
+    hxy1->GetYaxis()->SetTitleOffset(1.2);
     hxy1->SetTitle("Crystal deposition energy");
     
     hxy2->SetMarkerStyle(3);
@@ -184,6 +190,12 @@ int Energy_Compare()
     hxy2->GetYaxis()->CenterTitle();
     hxy2->GetXaxis()->SetRangeUser(xmin,xmax);
     hxy2->GetYaxis()->SetRangeUser(ymin,ymax);
+    hxy2->GetXaxis()->SetLabelSize(0.03);
+    hxy2->GetYaxis()->SetLabelSize(0.03);
+    hxy2->GetXaxis()->SetTitleSize(0.04);
+    hxy2->GetYaxis()->SetTitleSize(0.04);
+    hxy2->GetXaxis()->SetTitleOffset(1.2);
+    hxy2->GetYaxis()->SetTitleOffset(1.2);
     hxy2->SetTitle("Crystal deposition energy");
     
     c1->cd();

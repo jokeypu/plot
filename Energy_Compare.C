@@ -29,7 +29,7 @@ int Energy_Compare()
     
     int bin1(1000),bin2(1000);
     float tx(800),ty(600);
-    double xmin(0),xmax(3),ymin(-.05),ymax(.05);
+    double xmin(0),xmax(3),ymin(-.05),ymax(.05); //double xmin(0),xmax(3),ymin(0),ymax(2);
     
     TCanvas* c1=new TCanvas("PANDA1","MCTruth1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","MCTruth2",tx,ty);
@@ -131,14 +131,14 @@ int Energy_Compare()
                     B_energy2 = (finder->second)[1];
                     }else continue;
                     if((abs(B_energy1-M_energy1)+abs(B_energy2-M_energy2)) < (abs(B_energy2-M_energy1)+abs(B_energy1-M_energy2))){
-                        hxy1->Fill(M_energy1,B_energy1-M_energy1);
-                        hxy1->Fill(M_energy2,B_energy2-M_energy2);
+                        hxy1->Fill(M_energy1,B_energy1-M_energy1);  //hxy1->Fill(M_energy1,B_energy1/M_energy1);
+                        hxy1->Fill(M_energy2,B_energy2-M_energy2);  //hxy1->Fill(M_energy2,B_energy2/M_energy2);
                         h1->Fill(B_energy1-M_energy1);
                         h1->Fill(B_energy2-M_energy2);
                         Nh1+=2;
                     }else{
-                        hxy1->Fill(M_energy1,B_energy2-M_energy1);
-                        hxy1->Fill(M_energy2,B_energy1-M_energy2);
+                        hxy1->Fill(M_energy1,B_energy2-M_energy1);  //hxy1->Fill(M_energy1,B_energy2/M_energy1);
+                        hxy1->Fill(M_energy2,B_energy1-M_energy2);  //hxy1->Fill(M_energy2,B_energy1/M_energy2);
                         h1->Fill(B_energy2-M_energy1);
                         h1->Fill(B_energy1-M_energy2);
                         Nh1+=2;
@@ -152,7 +152,7 @@ int Energy_Compare()
                 if ( fr != B_others_energy.end() ){
                     B_energy = (fr->second);
                 }else continue;
-                hxy2->Fill(M_energy,B_energy-M_energy);
+                hxy2->Fill(M_energy,B_energy-M_energy); //hxy2->Fill(M_energy,B_energy/M_energy);
                 h2->Fill(B_energy-M_energy);
                 Nh2++;
             }

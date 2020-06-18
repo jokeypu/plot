@@ -27,7 +27,7 @@ int Energy_Compare()
     if (!fSharedDigiArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
-    int bin1(300),bin2(300);
+    int bin1(1000),bin2(1000);
     float tx(800),ty(600);
     double xmin(0),xmax(3),ymin(-.05),ymax(.05);
     
@@ -169,7 +169,7 @@ int Energy_Compare()
     hxy1->SetMarkerStyle(5);
     hxy1->SetMarkerColorAlpha(kPink-3, 0.2);
     hxy1->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    hxy1->GetYaxis()->SetTitle("E_{bump} (GeV)");
+    hxy1->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
     hxy1->GetXaxis()->CenterTitle();
     hxy1->GetYaxis()->CenterTitle();
     hxy1->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -179,7 +179,7 @@ int Energy_Compare()
     hxy2->SetMarkerStyle(3);
     hxy2->SetMarkerColorAlpha(kBlue+1, 0.4);
     hxy2->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    hxy2->GetYaxis()->SetTitle("E_{bump} (GeV)");
+    hxy2->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
     hxy2->GetXaxis()->CenterTitle();
     hxy2->GetYaxis()->CenterTitle();
     hxy2->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -187,6 +187,7 @@ int Energy_Compare()
     hxy2->SetTitle("Crystal deposition energy");
     
     c1->cd();
+    c1->SetLogx();
     hxy1->Draw("SCAT");
     hxy2->Draw("SCATsame");
     

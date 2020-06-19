@@ -36,7 +36,7 @@ int Energy_Compare()
     //gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(0);
+    //gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -57,8 +57,8 @@ int Energy_Compare()
     int Nmiss = 0;
     int Nh1(0),Nh2(0),N11(0);
     //for (Int_t ievt = aa; ievt < aa+1; ievt++) {
-    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-        for (Int_t ievt = 0; ievt < 350; ievt++) {
+    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    //    for (Int_t ievt = 0; ievt < 350; ievt++) {
         t->GetEntry(ievt);
         ioman->ReadEvent(ievt);
         int noverlap_M = 0;
@@ -163,14 +163,14 @@ int Energy_Compare()
         else continue;
     }
     
-    TLegend * leg1 = new TLegend(0.71,0.76,0.86,0.86);
+    TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     TLegend * leg2 = new TLegend(0.7,0.75,0.88,0.85);
     
     hxy1->SetMarkerStyle(8);
-    hxy1->SetMarkerColorAlpha(kRed-7, 0.4);
+    hxy1->SetMarkerColorAlpha(kRed-7, 0.4);   //hxy1->SetMarkerColorAlpha(kAzure+3, 0.4);
     hxy1->SetMarkerSize(0.8);
     hxy1->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    hxy1->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
+    hxy1->GetYaxis()->SetTitle("#DeltaE (GeV)");
     hxy1->GetXaxis()->CenterTitle();
     hxy1->GetYaxis()->CenterTitle();
     hxy1->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -181,12 +181,12 @@ int Energy_Compare()
     hxy1->GetYaxis()->SetTitleSize(0.04);
     hxy1->GetXaxis()->SetTitleOffset(1.2);
     hxy1->GetYaxis()->SetTitleOffset(1.2);
-    hxy1->SetTitle("Crystal deposition energy");
+    hxy1->SetTitle("Crystal deposited energy when overlapping");
     
     hxy2->SetMarkerStyle(22);   //45 22
-    hxy2->SetMarkerColorAlpha(kAzure+3, 0.5);
+    hxy2->SetMarkerColorAlpha(kAzure+3, 0.5); //hxy2->SetMarkerColorAlpha(kRed-7, 0.5);
     hxy2->GetXaxis()->SetTitle("E_{truth} (GeV)");
-    hxy2->GetYaxis()->SetTitle("E_{Crystal} (GeV)");
+    hxy2->GetYaxis()->SetTitle("#DeltaE (GeV)");
     hxy2->GetXaxis()->CenterTitle();
     hxy2->GetYaxis()->CenterTitle();
     hxy2->GetXaxis()->SetRangeUser(xmin,xmax);
@@ -197,16 +197,17 @@ int Energy_Compare()
     hxy2->GetYaxis()->SetTitleSize(0.04);
     hxy2->GetXaxis()->SetTitleOffset(1.2);
     hxy2->GetYaxis()->SetTitleOffset(1.2);
-    hxy2->SetTitle("Crystal deposition energy");
+    hxy2->SetTitle("Crystal deposited energy when overlapping");
     
     c1->cd();
     c1->SetLogx();
     hxy1->Draw("SCAT");
     hxy2->Draw("SCATsame");
     
-    leg1->AddEntry(hxy1, "Overlap", "P");
-    leg1->AddEntry(hxy2, "No overlap", "P");
+    leg1->AddEntry(hxy1, "Overlapping area", "P");
+    leg1->AddEntry(hxy2, "Non-overlapping area", "P");
     leg1->SetTextFont(42);
+    leg1->SetTextSize(0.03);
     leg1->Draw("SAME");
     
     h1->SetLineWidth(2);
@@ -215,6 +216,13 @@ int Energy_Compare()
     h1->GetXaxis()->CenterTitle();
     h1->GetYaxis()->CenterTitle();
     h1->SetLineColor(kRed);
+    h1->GetXaxis()->SetLabelSize(0.038);
+    h1->GetYaxis()->SetLabelSize(0.038);
+    h1->GetXaxis()->SetTitleSize(0.04);
+    h1->GetYaxis()->SetTitleSize(0.04);
+    h1->GetXaxis()->SetTitleOffset(1.2);
+    h1->GetYaxis()->SetTitleOffset(1.2);
+    h1->SetTitle("Crystal deposited energy when overlapping");
     
     h2->SetLineWidth(2);
     h2->GetXaxis()->SetTitle("#DeltaE (GeV)");
@@ -222,12 +230,19 @@ int Energy_Compare()
     h2->GetXaxis()->CenterTitle();
     h2->GetYaxis()->CenterTitle();
     h2->SetLineColor(kBlue);
+    h2->GetXaxis()->SetLabelSize(0.038);
+    h2->GetYaxis()->SetLabelSize(0.038);
+    h2->GetXaxis()->SetTitleSize(0.04);
+    h2->GetYaxis()->SetTitleSize(0.04);
+    h2->GetXaxis()->SetTitleOffset(1.2);
+    h2->GetYaxis()->SetTitleOffset(1.2);
+    h2->SetTitle("Crystal deposited energy when overlapping");
     
     c2->cd();
     h1->Draw();
     h2->Draw("SAME");
-    leg2->AddEntry(h1, "Overlap", "L");
-    leg2->AddEntry(h2, "No overlap", "L");
+    leg2->AddEntry(h1, "Overlapping area", "L");
+    leg2->AddEntry(h2, "Non-overlapping area", "L");
     leg2->SetTextFont(42);
     leg2->Draw("SAME");
     

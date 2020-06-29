@@ -1,4 +1,4 @@
-int Energy_Compare()
+int Energy_Compare_v1()
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../data/new1/evtcomplete_digi.root");

@@ -51,12 +51,11 @@ int ReadHit_v2()
     
     TF1 *f=new TF1("f","exp(-2.5*x/2.0)",xmin,xmax);
     //TF1 *f=new TF1("f","exp(-[0]*x)+[1]",xmin,xmax);
-    //f->SetParameters(1.25,0.002);
+    //f->SetParameters(1.25,0.0025);
     //f->SetParameters(1.38,0.0025);
     
     int excnum(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-        cout << ievt <<endl;
         ioman->ReadEvent(ievt);
         int nbump = fBumpArray->GetEntriesFast();
         if ( nbump != 1 ) continue;

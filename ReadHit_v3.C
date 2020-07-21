@@ -1,8 +1,8 @@
-int ReadHit_v2()
+int ReadHit_v3()
 {
-    int bin1(300),bin2(300);
+    int bin1(600),bin2(600);
     float tx(800),ty(600);
-    double xmin(0),xmax(6),ymin(0),ymax(1);
+    double xmin(0),xmax(360),ymin(0),ymax(5);
     //TString dir_name("Gamma_6G");
     //TString dir_name("Gamma_0.1to6G");
     TString dir_name("Gamma_0.1to6G_all");
@@ -21,7 +21,6 @@ int ReadHit_v2()
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
     TCanvas* c1=new TCanvas("PANDA","Bump",tx,ty);
-    TCanvas* c2=new TCanvas("PANDA1","Bump1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -36,23 +35,10 @@ int ReadHit_v2()
     gStyle->SetTitleOffset(1.0,"xyz");
     
     TH2D* histxy = new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
-    histxy->GetXaxis()->SetTitle("d (cm)");
-    histxy->GetYaxis()->SetTitle("E/E_{0} (GeV)");
+    histxy->GetXaxis()->SetTitle("#phi");
+    histxy->GetYaxis()->SetTitle("#xi");
     histxy->GetXaxis()->CenterTitle();
     histxy->GetYaxis()->CenterTitle();
-    
-    //TH1D* hist = new TH1D("h","hist",bin1,-.1,.1);
-    TH1D* hist = new TH1D("h","hist",100,0,5);
-    hist->GetXaxis()->SetTitle("#xi");
-    hist->GetYaxis()->SetTitle("Entries");
-    hist->GetXaxis()->CenterTitle();
-    hist->GetYaxis()->CenterTitle();
-    //TH1D* hist1 = new TH1D("h1","hist1",bin1,0,3);
-    
-    TF1 *f=new TF1("f","exp(-2.5*x/2.0)",xmin,xmax);
-    //TF1 *f=new TF1("f","exp(-[0]*x)+[1]",xmin,xmax);
-    //f->SetParameters(1.25,0.0025);
-    //f->SetParameters(1.38,0.0025);
     
     int excnum(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
@@ -64,16 +50,23 @@ int ReadHit_v2()
         PndEmcDigi* mdigi = bump->Maxima(fDigiArray);
         double E_0 = mdigi->GetEnergy();
         
+        //**********************************
+        double theta = 180*(bump->theta())/3.14;
+        double phi = 180 + 180*(bump->phi())/3.14;
+        //int aa = 5
+        //if ( E_0 < aa ||  E_0 > aa+1 ) continue;
+        //if ( theta < 0 || theta > 180 ) continue;
+        //if ( phi < 0 || phi > 360 ) continue;
+        //**********************************
+        
         for ( int idigi = 0; idigi < ndigi ; idigi++) {
             PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(idigi);
             double E = digi->GetEnergy();
             if ( E/E_0 > 0.99 ) continue;
             double d = bump->DistanceToCentre(digi);
-            //double dE = E/E_0 - exp(-2.5*d/2.0);
             double dE = -2*log(E/E_0)/d;
-            hist->Fill(dE);
-            //hist1->Fill(-1*log(E/E_0-0.0025)/d);
-            histxy->Fill(d,E/E_0);
+            //histxy->Fill(E_0,dE);
+            histxy->Fill(phi,dE);
         }
         excnum++;
     }
@@ -81,13 +74,6 @@ int ReadHit_v2()
     histxy->SetMarkerStyle(7);
     histxy->SetMarkerColorAlpha(kAzure+3, 0.5);
     histxy->Draw("SCAT");
-    f->Draw("SAME");
-    c2->cd();
-    hist->SetLineWidth(2);
-    hist->SetLineColor(kBlue);
-    hist->Draw();
-    //hist1->SetLineColor(kRed);
-    //hist1->Draw("SAME");
     cout << "Exc Num:" << excnum << endl;
     return 0;
 }

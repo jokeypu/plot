@@ -2,7 +2,7 @@ int ReadHit_v2()
 {
     int bin1(300),bin2(300);
     float tx(800),ty(600);
-    double xmin(0),xmax(6),ymin(0),ymax(1);
+    double xmin(0),xmax(6),ymin(0),ymax(8);
     //TString dir_name("Gamma_6G");
     //TString dir_name("Gamma_0.1to6G");
     TString dir_name("Gamma_0.1to6G_all");
@@ -37,7 +37,7 @@ int ReadHit_v2()
     
     TH2D* histxy = new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     histxy->GetXaxis()->SetTitle("d (cm)");
-    histxy->GetYaxis()->SetTitle("E/E_{0} (GeV)");
+    histxy->GetYaxis()->SetTitle("-ln(E/E_{0})");
     histxy->GetXaxis()->CenterTitle();
     histxy->GetYaxis()->CenterTitle();
     
@@ -49,12 +49,20 @@ int ReadHit_v2()
     hist->GetYaxis()->CenterTitle();
     //TH1D* hist1 = new TH1D("h1","hist1",bin1,0,3);
     
-    TF1 *f=new TF1("f","exp(-2.5*x/2.0)",xmin,xmax);
-    //TF1 *f=new TF1("f","exp(-[0]*x)+[1]",xmin,xmax);
+    TGraph* g = new TGraph();
+    //TF1 *f=new TF1("f","2.5*x/2.0",xmin,xmax);
+    //TF1 *f=new TF1("f","2.5*pow(x-1.4,0.5)",1.4,xmax);
+    TF1 *f=new TF1("f","pow([0]*log(x-[1]),[2])",1.2,8);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(5.2,0.2,0.8);
+    f->SetParLimits(0, 3.0, 7.0);
+    f->SetParLimits(1, 0.0, 1.0);
+    f->SetParLimits(2, 0.0, 1.5);
     //f->SetParameters(1.25,0.0025);
     //f->SetParameters(1.38,0.0025);
     
-    int excnum(0);
+    int excnum(0),N(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt);
         int nbump = fBumpArray->GetEntriesFast();
@@ -73,16 +81,27 @@ int ReadHit_v2()
             double dE = -2*log(E/E_0)/d;
             hist->Fill(dE);
             //hist1->Fill(-1*log(E/E_0-0.0025)/d);
-            histxy->Fill(d,E/E_0);
+            histxy->Fill(d,-1*log(E/E_0));
+            //histxy->Fill(-0.8*log(E/E_0),0.1*pow(5.15*log(d-0.2),0.8)*d);
+            if ( d > 8 ) continue;
+            g->SetPoint(N,d,-1*log(E/E_0));
+            N++;
         }
         excnum++;
     }
-    c1->cd();
+    c2->cd();
     histxy->SetMarkerStyle(7);
     histxy->SetMarkerColorAlpha(kAzure+3, 0.5);
-    histxy->Draw("SCAT");
-    f->Draw("SAME");
-    c2->cd();
+    //histxy->Draw("SCAT");
+    //histxy->Fit(f);
+    //f->Draw("SAME");
+    
+    g->SetMarkerStyle(7);
+    g->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g->Fit(f,"R");
+    g->Draw("AP");
+    
+    c1->cd();
     hist->SetLineWidth(2);
     hist->SetLineColor(kBlue);
     hist->Draw();

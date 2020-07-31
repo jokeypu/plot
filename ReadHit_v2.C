@@ -34,6 +34,7 @@ int ReadHit_v2()
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
+    gStyle->SetOptFit(1111);
     
     TH2D* histxy = new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     histxy->GetXaxis()->SetTitle("d (cm)");
@@ -52,15 +53,27 @@ int ReadHit_v2()
     TGraph* g = new TGraph();
     //TF1 *f=new TF1("f","2.5*x/2.0",xmin,xmax);
     //TF1 *f=new TF1("f","2.5*pow(x-1.4,0.5)",1.4,xmax);
-    TF1 *f=new TF1("f","pow([0]*log(x-[1]),[2])",1.2,8);
+    /*TF1 *f=new TF1("f","pow([0]*log(x-[1]),[2])",1.34,9);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
-    f->SetParameters(5.2,0.2,0.8);
-    f->SetParLimits(0, 3.0, 7.0);
+    f->SetParameters(6.0,0.2,0.8);
+    f->SetParLimits(0, 5.8, 6.8);
     f->SetParLimits(1, 0.0, 1.0);
-    f->SetParLimits(2, 0.0, 1.5);
+    f->SetParLimits(2, 0.5, 1.34);*/
+    //f->SetParLimits(3, 0.1, 5.0);
     //f->SetParameters(1.25,0.0025);
     //f->SetParameters(1.38,0.0025);
+    
+    
+    TF1 *f=new TF1("f","[0]*pow((x-[1]),[2])",1.3,9);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(1,1.2,1);
+    f->SetParLimits(0, 0, 3);
+    f->SetParLimits(1, 0, 1.3);
+    f->SetParLimits(2, 0, 1.0);
+    
+    
     
     int excnum(0),N(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
@@ -83,8 +96,10 @@ int ReadHit_v2()
             //hist1->Fill(-1*log(E/E_0-0.0025)/d);
             histxy->Fill(d,-1*log(E/E_0));
             //histxy->Fill(-0.8*log(E/E_0),0.1*pow(5.15*log(d-0.2),0.8)*d);
-            if ( d > 8 ) continue;
+            if ( d > 9 ) continue;
             g->SetPoint(N,d,-1*log(E/E_0));
+            //g->SetPoint(N,2.865*pow(d-1.3,0.44),-1*log(E/E_0));
+            //g->SetPoint(N,pow(6.4*log(d-0.33),0.7),-1*log(E/E_0));
             N++;
         }
         excnum++;
@@ -98,6 +113,10 @@ int ReadHit_v2()
     
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g->GetXaxis()->SetTitle("d (cm)");
+    g->GetYaxis()->SetTitle("-ln(E/E_{0})");
+    g->GetXaxis()->CenterTitle();
+    g->GetYaxis()->CenterTitle();
     g->Fit(f,"R");
     g->Draw("AP");
     

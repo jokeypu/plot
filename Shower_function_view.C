@@ -48,7 +48,7 @@ int Shower_function_view()
     
     int N(0);
     int num(2);
-    for (Int_t ievt = num; ievt < num+1; ievt++) {
+    for (Int_t ievt = num; ievt < num+100; ievt++) {
     //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         int npoints = fPointArray->GetEntriesFast();

@@ -10,13 +10,13 @@ int Energy_Compare_new()
     //*****************************************************
     
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/new1/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../data/new1/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     
     TClonesArray* fHitArray = new TClonesArray("PndEmcHit");
@@ -24,7 +24,7 @@ int Energy_Compare_new()
     if (!fHitArray) return -1;
     
     PndEmcMapper::Init(1);
-    TFile *parfile = new TFile("../data/new1/evtcomplete_par.root");
+    TFile *parfile = new TFile("../data/Compare_n/evtcomplete_par.root");
     parfile->Get("FairGeoParSet");
     PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
     PndEmcMapper *fMapper = PndEmcMapper::Instance();
@@ -90,7 +90,7 @@ int Energy_Compare_new()
                 //double DetID = sharedigi->GetDetectorId();
                 PndEmcTwoCoordIndex* BumpTCI = sharedigi->GetTCI();
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(sharedigi->GetHitIndex());
-                std::map<Int_t, Double_t> Mclist = hit->GetMcSourceEnergy();
+                std::map<Int_t, Double_t> Mclist = hit->GetDepositedEnergyMap();
                 if ( Mclist.size() == 1 ) {
                     count[(Mclist.begin())->first]++;
                 }
@@ -112,7 +112,7 @@ int Energy_Compare_new()
                 PndEmcSharedDigi* sharedigi = (PndEmcSharedDigi*)fSharedDigiArray->At(list[i]);
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(sharedigi->GetHitIndex());
                 double w = sharedigi->weight();
-                std::map<Int_t, Double_t> Mclist = hit->GetMcSourceEnergy();
+                std::map<Int_t, Double_t> Mclist = hit->GetDepositedEnergyMap();
                 double E = hit->GetEnergy();
                 double Etotal = hit->GetEnergy();
                 double wt = 0;

@@ -1,13 +1,13 @@
 int Energy_Compare_t()
 {
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/new0/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../data/new0/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
@@ -69,7 +69,7 @@ int Energy_Compare_t()
         int nhit = fHitArray->GetEntriesFast();
         for (int n = 0; n < nhit; n++){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(n);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
             for ( it = ds.begin(); it != ds.end(); it++ ) {
                 TEnergy_M[it->first] += it->second;
             }

@@ -1,13 +1,17 @@
 int Energy_Compare()
 {
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/new1/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
+    //TFile* file = new TFile("../data/Compare_o/evtcomplete_digi.root");
+    //TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../data/new1/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
+    //TFile* f = new TFile("../data/Compare_o/evtcomplete_sim.root");
+    //TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
@@ -36,7 +40,7 @@ int Energy_Compare()
     //gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -65,7 +69,7 @@ int Energy_Compare()
         int nhit = fHitArray->GetEntriesFast();
         for (int n = 0; n < nhit; n++){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(n);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
             if ( ds.size() > noverlap_M ) noverlap_M = ds.size() - 1;
         }
         int nbump = fBumpArray->GetEntriesFast();
@@ -111,7 +115,7 @@ int Energy_Compare()
             }
             for (int n =0; n < nhit; n++){
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(n);
-                std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+                std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
                 if ( ds.size() == 2 ) {
                     for( it=ds.begin(); it!=ds.end(); ++it){
                         M_overlap_energy[hit->GetDetectorID()].push_back(it->second);
@@ -153,7 +157,7 @@ int Energy_Compare()
                     B_energy = (fr->second);
                 }else continue;
                 hxy2->Fill(M_energy,B_energy-M_energy); //hxy2->Fill(M_energy,B_energy/M_energy);
-                h2->Fill(B_energy-M_energy);
+                h1->Fill(B_energy-M_energy);
                 Nh2++;
             }
             

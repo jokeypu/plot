@@ -4,8 +4,8 @@ int ReadHit_v4()
     float tx(800),ty(600);
     //double xmin(0),xmax(10),ymin(0),ymax(1.1);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1G");
-    //TString dir_name("Gamma_0.1to6G");
+    //TString dir_name("Gamma_1G");
+    TString dir_name("Gamma_0.1to6G");
     //TString dir_name("Gamma_0.1to6G_all");
     
     FairRunAna *fRun = new FairRunAna();

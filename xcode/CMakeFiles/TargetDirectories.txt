@@ -1,3 +1,0 @@
-/Users/jokey/Panda/plot/xcode/CMakeFiles/plot.dir
-/Users/jokey/Panda/plot/xcode/CMakeFiles/ALL_BUILD.dir
-/Users/jokey/Panda/plot/xcode/CMakeFiles/ZERO_CHECK.dir

@@ -12,13 +12,13 @@ int Energy_MCTruth(int evNo = 1, bool UsedGrid = true)
     //*****************************************************
     
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/new1/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../data/new1/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
@@ -115,7 +115,7 @@ int Energy_MCTruth(int evNo = 1, bool UsedGrid = true)
         int nhits = fHitArray->GetEntriesFast();
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
             vector<pair<Int_t, Double_t>> SourceEnergy(ds.begin(), ds.end());
             sort(SourceEnergy.begin(), SourceEnergy.end(), cmp);
             cout << "hit: " << i << endl;

@@ -1,4 +1,4 @@
-int Shower_function()
+int Shower_function_view()
 {
     int bin1(600),bin2(600);
     float tx(800),ty(600);
@@ -24,7 +24,7 @@ int Shower_function()
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(1);
+    gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -35,36 +35,21 @@ int Shower_function()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH1D* h1D = new TH1D("h1D","h1",50,0,5);
-    h1D->SetLineColor(kBlue);
-    h1D->SetLineWidth(2);
-    h1D->GetXaxis()->SetTitle("distance");
-    h1D->GetYaxis()->SetTitle("Energy");
-    h1D->GetXaxis()->CenterTitle();
-    h1D->GetYaxis()->CenterTitle();
-    
-    /*
-    TF1 *f=new TF1("f","[0]*exp(-1*[1]*pow(x-[3],[2]))",0,5);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(300,1.25,0.8,0);
-    f->SetParLimits(0, 0, 500);
-    f->SetParLimits(1, 0.5, 8);
-    f->SetParLimits(2, 0.1, 1.5);
-    f->SetParLimits(3, -1.5, 1.5);
-    */
-    
-    TF1 *f=new TF1("f","[0]/(pow(x-[1],2)-[2])",0,5);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(1,0,0);
-    f->SetParLimits(0, 0, 100);
-    f->SetParLimits(1, -3, 3);
-    f->SetParLimits(2, -3, 3);
+    TH3D* h3D = new TH3D("h3D","3D",200,5,35,200,-15,15,200,55,80);
+    h3D->SetMarkerStyle(1);
+    //h3D->SetMarkerStyle(6);
+    h3D->SetMarkerColorAlpha(kAzure+3, 0.7);
+    //h3D->SetMarkerColorAlpha(kRed, 0.7);
+    h3D->GetXaxis()->SetTitle("x");
+    h3D->GetYaxis()->SetTitle("y");
+    h3D->GetZaxis()->SetTitle("z");
+    h3D->GetXaxis()->CenterTitle();
+    h3D->GetYaxis()->CenterTitle();
     
     int N(0);
-    int num(5);
-    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    int num(2);
+    for (Int_t ievt = num; ievt < num+1; ievt++) {
+    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         int npoints = fPointArray->GetEntriesFast();
         int ntrack = fMCTrackArray->GetEntriesFast();
@@ -88,14 +73,11 @@ int Shower_function()
             TVector3 pos(x, y, z);
             Double_t distance = pos.Mag()*sin(mom.Angle(pos));
             Double_t E = point->GetEnergyLoss();
-            h1D->Fill(distance,E);
+            h3D->Fill(z, y, x);
+            N++;
         }
-    N++;
     }
-    cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     c1->cd();
-    h1D->Fit(f,"R");
-    h1D->Draw("HIST");
-    f->Draw("SAME");
+    h3D->Draw("SCAT");
     return 0;
 }

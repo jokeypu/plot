@@ -1,4 +1,4 @@
-int ReadHit_v2()
+int ReadHit_v8()
 {
     int bin1(300),bin2(300);
     float tx(800),ty(600);

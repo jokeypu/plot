@@ -48,7 +48,7 @@ int Shower_function_view()
     
     int N(0);
     int num(2);
-    for (Int_t ievt = num; ievt < num+1; ievt++) {
+    for (Int_t ievt = num; ievt < num+100; ievt++) {
     //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         int npoints = fPointArray->GetEntriesFast();
@@ -60,6 +60,7 @@ int Shower_function_view()
         if (sqrt(mcStartPos.X()*mcStartPos.X()+mcStartPos.Y()*mcStartPos.Y()) < 56) continue;
         PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(0);
         TVector3 mom(mcTrack->GetMomentum());
+        //cout << mom.x() << "," << mom.Y() << "," << mom.Z() << endl;
         
         if (npoints == 0 ) continue;
         PndEmcPoint* point_0 = (PndEmcPoint*)fPointArray->At(0);

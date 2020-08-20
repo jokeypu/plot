@@ -36,7 +36,7 @@ int Shower_function()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH1D* h1D = new TH1D("h1D","h1",50,0,9);
+    TH1D* h1D = new TH1D("Hist","h1",100,0,9);
     h1D->SetLineColor(kBlue);
     h1D->SetLineWidth(2);
     h1D->GetXaxis()->SetTitle("distance");
@@ -48,10 +48,10 @@ int Shower_function()
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(210,-0.2,-0.1,4);
-    f->SetParLimits(0, 100, 300);
-    f->SetParLimits(1, -0.5, 0.5);
-    f->SetParLimits(2, -0.5, 0.5);
-    f->SetParLimits(3, 0, 8);
+    f->SetParLimits(0, 0.1, 300);
+    f->SetParLimits(1, -5, 5);
+    f->SetParLimits(2, -5, 5);
+    f->SetParLimits(3, 2, 10);
 
     int N(0);
     int num(5);
@@ -90,6 +90,7 @@ int Shower_function()
     f->Draw("SAME");
     return 0;
 }
+
 Double_t myfunc(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t x0) {
     Double_t value;
     if (x <= x0) value = p0/((x-p1) * (x-p1) - p2);

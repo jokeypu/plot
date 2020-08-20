@@ -1,11 +1,9 @@
 Double_t myfunc(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t x0);
-int Shower_function()
+int Shower_function( TString dir_name="Gamma_1G_all" )
 {
     int bin1(600),bin2(600);
     float tx(800),ty(600);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1G_all");
-    
     //******************************************//
     
     FairRunAna *fRun = new FairRunAna();

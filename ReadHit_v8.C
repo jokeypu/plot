@@ -14,14 +14,14 @@ int ReadHit_v8()
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TClonesArray* fBumpArray = (TClonesArray*) ioman->GetObject("EmcBump");
-    if (!fBumpArray) return -1;
-    TClonesArray* fDigiArray = (TClonesArray*) ioman->GetObject("EmcDigi");
-    if (!fDigiArray) return -1;
+    TClonesArray* fMCTrackArray = (TClonesArray*) ioman->GetObject("MCTrack");
+    if (!fMCTrackArray) return -1;
+    TClonesArray* fHitArray = (TClonesArray*) ioman->GetObject("EmcHit");
+    if (!fHitArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
-    TCanvas* c1=new TCanvas("PANDA","Bump",tx,ty);
-    TCanvas* c2=new TCanvas("PANDA1","Bump1",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA","Hit",tx,ty);
+    TCanvas* c2=new TCanvas("PANDA1","Hit1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -85,18 +85,17 @@ int ReadHit_v8()
     int excnum(0),N(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt);
-        int nbump = fBumpArray->GetEntriesFast();
-        if ( nbump != 1 ) continue;
-        int ndigi = fDigiArray->GetEntriesFast();
-        PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
-        PndEmcDigi* mdigi = bump->Maxima(fDigiArray);
-        double E_0 = mdigi->GetEnergy();
+        int ntrack = fMCTrackArray->GetEntriesFast();
+        int nhit = fHitArray->GetEntriesFast();
         
-        for ( int idigi = 0; idigi < ndigi ; idigi++) {
-            PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(idigi);
-            double E = digi->GetEnergy();
+        
+        for ( int ihit = 0; ihit < nhit ; ihit++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(ihit);
+            double E = hit->GetEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
+            
             if ( E/E_0 > 0.99 ) continue;
-            double d = bump->DistanceToCentre(digi);
+            double d = ;
             //double dE = E/E_0 - exp(-2.5*d/2.0);
             double dE = -2*log(E/E_0)/d;
             hist->Fill(dE);

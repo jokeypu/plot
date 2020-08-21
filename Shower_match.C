@@ -1,8 +1,8 @@
 int Shower_match( TString dir_name="Gamma_tow_1G" )
 {
-    int bin1(100),bin2(100);
-    float tx(800),ty(600);
-    double xmin(0),xmax(20),ymin(0),ymax(0.6);
+    int bin1(100),bin2(200);
+    float tx(1200),ty(900);
+    double xmin(0),xmax(20),ymin(0),ymax(0.5);
     //******************************************//
     
     FairRunAna *fRun = new FairRunAna();

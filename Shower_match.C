@@ -45,7 +45,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D1 = new TH2D("Hist1","h1",100,0,20, 100,0,5);
+    TH2D* h2D1 = new TH2D("Hist1","h1",100,0,20, 100,0,3.5);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D1->GetXaxis()->SetTitle("distance");
@@ -53,7 +53,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     h2D1->GetXaxis()->CenterTitle();
     h2D1->GetYaxis()->CenterTitle();
     
-    TH2D* h2D2 = new TH2D("Hist2","h2",100,0,20, 100,0,5);
+    TH2D* h2D2 = new TH2D("Hist2","h2",100,0,20, 100,0,3.5);
     h2D2->SetMarkerStyle(7);
     h2D2->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D2->GetXaxis()->SetTitle("distance");
@@ -61,7 +61,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     h2D2->GetXaxis()->CenterTitle();
     h2D2->GetYaxis()->CenterTitle();
     
-    TH2D* h2D3 = new TH2D("Hist3","h3",100,0,20, 100,0,0.1);
+    TH2D* h2D3 = new TH2D("Hist3","h3",100,0,20, 100,0,0.5);
     h2D3->SetMarkerStyle(7);
     h2D3->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D3->GetXaxis()->SetTitle("distance");
@@ -88,14 +88,14 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
         std::vector<Int_t> seed1;
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::vector<Int_t> mclist = hit->GetMcList();
-            for (int j = 0; j < mclist.size(); j++){
-                if (mclist[j] == 0) seed0.push_back( hit->GetDetectorID() );
-                if (mclist[j] == 1) seed1.push_back( hit->GetDetectorID() );
+            std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
+            for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++) {
+                if (linkIter->GetIndex() == 0) seed0.push_back( hit->GetDetectorID() );
+                if (linkIter->GetIndex() == 1) seed1.push_back( hit->GetDetectorID() );
             }
         }
-        if ((seed0.size() != 1) || (seed1.size() != 1)) continue;
-        
+                                                               
+        if ((seed0.size() == 0) || (seed1.size() == 0)) continue;
         Double_t truth_E0 = 0;
         Double_t truth_E1 = 0;
         

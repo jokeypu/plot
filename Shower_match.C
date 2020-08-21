@@ -2,7 +2,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
-    double xmin(0),xmax(20),ymin(0),ymax(0.5);
+    double xmin(0),xmax(20),ymin(0),ymax(0.6);
     //******************************************//
     
     FairRunAna *fRun = new FairRunAna();
@@ -161,11 +161,11 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     c1->GetPad(1)->SetGridx();
     c1->GetPad(2)->SetGridx();
     c1->GetPad(3)->SetGridx();
-    c1->cd(2);
-    h2D1->Draw("SCAT");
-    c1->cd(3);
-    h2D2->Draw("SCAT");
     c1->cd(1);
-    h2D3->Draw("CONT");
+    h2D3->Draw("SCAT");
+    c1->cd(2);
+    h2D1->Draw("CONT");
+    c1->cd(3);
+    h2D2->Draw("CONT");
     return 0;
 }

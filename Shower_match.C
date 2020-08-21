@@ -94,13 +94,13 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
                 if (linkIter->GetIndex() == 1) seed1.push_back( hit->GetDetectorID() );
             }
         }
-                                                               
+        
         if ((seed0.size() == 0) || (seed1.size() == 0)) continue;
         Double_t truth_E0 = 0;
         Double_t truth_E1 = 0;
         
         for (int i = 0; i < nhits; i++) {
-        //********** truth energy **********//
+            //********** truth energy **********//
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
             std::map<Int_t, Double_t>::iterator ptr;
@@ -131,7 +131,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
         
         Double_t delta_2 = (truth_E0 - bump_E0)*(truth_E0 - bump_E0) + (truth_E1 - bump_E1)*(truth_E1 - bump_E1);
         h2D3->Fill(distance, sqrt(delta_2));
-       N++;
+        N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     c1->cd();

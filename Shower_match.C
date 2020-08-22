@@ -142,7 +142,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
         Double_t bump_E1 = Bump1->energy();
         
         Double_t delta =sqrt( (truth_E0 - bump_E0)*(truth_E0 - bump_E0) + (truth_E1 - bump_E1)*(truth_E1 - bump_E1) );
-        h2D3->Fill(distance, sqrt(delta));
+        h2D3->Fill(distance, delta);
         
         TVector3 bump_p0 = Bump0->position();
         TVector3 bump_p1 = Bump1->position();

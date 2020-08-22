@@ -1,4 +1,4 @@
-int Shower_match( TString dir_name="Gamma_tow_1G" )
+int Shower_match( TString dir_name="Gamma_tow_1G_n" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);

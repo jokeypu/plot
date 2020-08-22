@@ -67,8 +67,8 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     return 0;
 }
 
+//*******************************************************************************************************//
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH2D *h2D4, Int_t NGamma, bool IsSplit){
-    //********************************************************//
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
@@ -196,7 +196,5 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH2D *h2D4, Int_t
         N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
-    
-    //********************************************************//
     return 0;
 }

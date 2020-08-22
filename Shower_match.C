@@ -1,3 +1,4 @@
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
 int Shower_match( TString dir_name="Gamma_tow_1G_n" )
 {
     int bin1(100),bin2(200);
@@ -62,7 +63,29 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     h2D3->GetXaxis()->SetLabelSize(0);
     h2D3->GetYaxis()->SetLabelSize(0.07);
 
-    //********************************************************//
+    if( Exec(dir_name, h2D1, h2D2, h2D3, 2, true) ) return 1;
+    
+    c1->Divide(1, 4);
+    c1->GetPad(1)->SetPad(0,1,1,0.45);
+    c1->GetPad(2)->SetPad(0,0.475,1,0.275);
+    c1->GetPad(3)->SetPad(0,0.3,1,0.025);
+    c1->GetPad(4)->SetPad(0,0.025,1,0);
+    c1->GetPad(1)->SetGridx();
+    c1->GetPad(2)->SetGridx();
+    c1->GetPad(3)->SetGridx();
+    c1->cd(1);
+    h2D3->Draw("SCAT");
+    c1->cd(2);
+    h2D1->Draw("CONT");
+    c1->cd(3);
+    h2D2->Draw("CONT");
+    return 0;
+}
+
+//*****************************************************************************************//
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, bool IsSplit){
+    //IsSplit: Whether shower separation is required
+    //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
     TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
@@ -90,8 +113,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
     
-    int N(0), NGamma(2); // NGamma: Number of photons produced
-    bool IsSplit(1); // Whether shower separation is required
+    int N(0);
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
@@ -191,20 +213,5 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     
     //********************************************************//
-    
-    c1->Divide(1, 4);
-    c1->GetPad(1)->SetPad(0,1,1,0.45);
-    c1->GetPad(2)->SetPad(0,0.475,1,0.275);
-    c1->GetPad(3)->SetPad(0,0.3,1,0.025);
-    c1->GetPad(4)->SetPad(0,0.025,1,0);
-    c1->GetPad(1)->SetGridx();
-    c1->GetPad(2)->SetGridx();
-    c1->GetPad(3)->SetGridx();
-    c1->cd(1);
-    h2D3->Draw("SCAT");
-    c1->cd(2);
-    h2D1->Draw("CONT");
-    c1->cd(3);
-    h2D2->Draw("CONT");
     return 0;
 }

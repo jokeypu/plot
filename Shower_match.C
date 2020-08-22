@@ -1,3 +1,4 @@
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH2D *h2D4, Int_t NGamma=2, bool IsSplit=1);
 int Shower_match( TString dir_name="Gamma_tow_1G" )
 {
     int bin1(600),bin2(600);
@@ -53,7 +54,23 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     h2D4->GetXaxis()->CenterTitle();
     h2D4->GetYaxis()->CenterTitle();
     
+    if( Exec(dir_name, h2D1, h2D2, h2D3, h2D4, 2, true) ) return 1;
+    
+    c1->cd();
+    h2D1->Draw("SCAT");
+    c2->cd();
+    h2D2->Draw("SCAT");
+    c3->cd();
+    h2D3->Draw("SCAT");
+    c4->cd();
+    h2D4->Draw("SCAT");
+    return 0;
+}
+
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH2D *h2D4, Int_t NGamma, bool IsSplit){
     //********************************************************//
+    //IsSplit: Whether shower separation is required
+    //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
     TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
@@ -81,8 +98,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
     
-    int N(0), NGamma(2); // NGamma: Number of photons produced
-    bool IsSplit(1); // Whether shower separation is required
+    int N(0);
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
@@ -182,14 +198,5 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     
     //********************************************************//
-    
-    c1->cd();
-    h2D1->Draw("SCAT");
-    c2->cd();
-    h2D2->Draw("SCAT");
-    c3->cd();
-    h2D3->Draw("SCAT");
-    c4->cd();
-    h2D4->Draw("SCAT");
     return 0;
 }

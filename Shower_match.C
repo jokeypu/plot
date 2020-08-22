@@ -1,4 +1,4 @@
-int Shower_match( TString dir_name="Gamma_tow_1G" )
+int Shower_match( TString dir_name="Gamma_tow_1G_n" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
@@ -91,7 +91,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     if (!fClusterArray) return -1;
     
     int N(0), NGamma(2); // NGamma: Number of photons produced
-    bool IsSplit(0); // Whether shower separation is required
+    bool IsSplit(1); // Whether shower separation is required
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event

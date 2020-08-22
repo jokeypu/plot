@@ -31,7 +31,8 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","c2",tx,ty);
-    TCanvas* c3=new TCanvas("PANDA3","c2",tx,ty);
+    TCanvas* c3=new TCanvas("PANDA3","c3",tx,ty);
+    TCanvas* c4=new TCanvas("PANDA4","c4",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -68,6 +69,14 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     h2D3->GetYaxis()->SetTitle("#delta");
     h2D3->GetXaxis()->CenterTitle();
     h2D3->GetYaxis()->CenterTitle();
+    
+    TH2D* h2D4 = new TH2D("Hist4","h4",100,0,20, 100,0,3);
+    h2D4->SetMarkerStyle(7);
+    h2D4->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h2D4->GetXaxis()->SetTitle("distance");
+    h2D4->GetYaxis()->SetTitle("#Deltad");
+    h2D4->GetXaxis()->CenterTitle();
+    h2D4->GetYaxis()->CenterTitle();
     
     int N(0);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
@@ -120,8 +129,11 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
         for (int i = 0; i < nbumps; i++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
             TVector3 pb = Bump->position();
-            if (pb.Mag()*sin(mom0.Angle(pb)) < pb.Mag()*sin(mom1.Angle(pb))) bumpmatch0.push_back(i);
-            else bumpmatch1.push_back(i);
+            /*if (pb.Mag()*sin(mom0.Angle(pb)) < pb.Mag()*sin(mom1.Angle(pb))) bumpmatch0.push_back(i);
+            else bumpmatch1.push_back(i);*///method1
+            if (((pb.Mag()*sin(mom0.Angle(pb))) / (pb.Mag()*sin(mom1.Angle(pb)))) < 0.33 ) bumpmatch0.push_back(i);
+            else if (((pb.Mag()*sin(mom1.Angle(pb))) / (pb.Mag()*sin(mom0.Angle(pb)))) < 0.33 ) bumpmatch1.push_back(i);
+            else continue;
         }
         if ((bumpmatch0.size() != 1) || (bumpmatch1.size() != 1)) continue;
         PndEmcBump* Bump0 = (PndEmcBump*)fBumpArray->At(bumpmatch0[0]);
@@ -129,8 +141,13 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
         Double_t bump_E0 = Bump0->energy();
         Double_t bump_E1 = Bump1->energy();
         
-        Double_t delta_2 = (truth_E0 - bump_E0)*(truth_E0 - bump_E0) + (truth_E1 - bump_E1)*(truth_E1 - bump_E1);
-        h2D3->Fill(distance, sqrt(delta_2));
+        Double_t delta =sqrt( (truth_E0 - bump_E0)*(truth_E0 - bump_E0) + (truth_E1 - bump_E1)*(truth_E1 - bump_E1) );
+        h2D3->Fill(distance, sqrt(delta));
+        
+        TVector3 bump_p0 = Bump0->position();
+        TVector3 bump_p1 = Bump1->position();
+        Double_t distance_e = 2 * 65.0 * sqrt( sin(mom0.Angle(bump_p0)/2.0)*sin(mom0.Angle(bump_p0)/2.0) + sin(mom1.Angle(bump_p1)/2.0)*sin(mom1.Angle(bump_p1)/2.0) );
+        h2D4->Fill(distance,distance_e);
         N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
@@ -140,5 +157,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G" )
     h2D2->Draw("SCAT");
     c3->cd();
     h2D3->Draw("SCAT");
+    c4->cd();
+    h2D4->Draw("SCAT");
     return 0;
 }

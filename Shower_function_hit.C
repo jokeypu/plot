@@ -64,11 +64,11 @@ int Shower_function_hit()
     h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     
-    TF1 *f=new TF1("f","[1]*exp(-1*[0]*x)",0,15);
+    TF1 *f=new TF1("f","[1]*exp(-1*[0]*x)",2,10);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(1.25,1);
-    f->SetParLimits(0, 1.25, 1.25);
+    f->SetParLimits(0, 0.01, 10);
     f->SetParLimits(1, 1, 1);
     
     int N(0);

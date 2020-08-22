@@ -1,33 +1,8 @@
-int Shower_match( TString dir_name="Gamma_tow_1G_n" )
+int Shower_match( TString dir_name="Gamma_tow_1G" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
-    //******************************************//
-    
-    FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/"+dir_name+"/evtcomplete_sim.root");
-    FairFileSource* source = new FairFileSource(file,"InputFile");
-    FairRootManager* ioman = FairRootManager::Instance();
-    ioman->SetSource(source);
-    ioman->InitSource();
-    
-    TClonesArray* fPointArray = (TClonesArray*) ioman->GetObject("EmcPoint");
-    if (!fPointArray) return -1;
-    TClonesArray* fMCTrackArray = (TClonesArray*) ioman->GetObject("MCTrack");
-    if (!fMCTrackArray) return -1;
-    TClonesArray* fHitArray = (TClonesArray*) ioman->GetObject("EmcHit");
-    if (!fHitArray) return -1;
-    Int_t maxEvtNo = ioman->CheckMaxEventNo();
-    
-    TFile* f = new TFile("../../data/"+dir_name+"/evtcomplete_digi.root");
-    TTree* t = (TTree*)f->Get("pndsim");
-    TClonesArray* fBumpArray = new TClonesArray("PndEmcBump");
-    t->SetBranchAddress("EmcBump",&fBumpArray);
-    if (!fBumpArray) return -1;
-    TClonesArray* fClusterArray = new TClonesArray("PndEmcCluster");
-    t->SetBranchAddress("EmcCluster",&fClusterArray);
-    if (!fClusterArray) return -1;
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -87,72 +62,136 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     h2D3->GetXaxis()->SetLabelSize(0);
     h2D3->GetYaxis()->SetLabelSize(0.07);
 
-    int N(0);
+    //********************************************************//
+    
+    TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
+    TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
+    
+    FairRunAna *fRun = new FairRunAna();
+    TFile* file = new TFile(file_path_sim);
+    FairFileSource* source = new FairFileSource(file,"InputFile");
+    FairRootManager* ioman = FairRootManager::Instance();
+    ioman->SetSource(source);
+    ioman->InitSource();
+    
+    TClonesArray* fPointArray = (TClonesArray*) ioman->GetObject("EmcPoint");
+    if (!fPointArray) return -1;
+    TClonesArray* fMCTrackArray = (TClonesArray*) ioman->GetObject("MCTrack");
+    if (!fMCTrackArray) return -1;
+    TClonesArray* fHitArray = (TClonesArray*) ioman->GetObject("EmcHit");
+    if (!fHitArray) return -1;
+    
+    TFile* f = new TFile(file_path_digi);
+    TTree* t = (TTree*)f->Get("pndsim");
+    TClonesArray* fBumpArray = new TClonesArray("PndEmcBump");
+    t->SetBranchAddress("EmcBump",&fBumpArray);
+    if (!fBumpArray) return -1;
+    TClonesArray* fClusterArray = new TClonesArray("PndEmcCluster");
+    t->SetBranchAddress("EmcCluster",&fClusterArray);
+    if (!fClusterArray) return -1;
+    
+    int N(0), NGamma(2); // NGamma: Number of photons produced
+    bool IsSplit(0); // Whether shower separation is required
+    Int_t maxEvtNo = ioman->CheckMaxEventNo();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-    //for (Int_t ievt = 0; ievt < 1000; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
-        int npoints = fPointArray->GetEntriesFast();
-        int ntrack = fMCTrackArray->GetEntriesFast();
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();
-        PndMCTrack *mcTrack0 = (PndMCTrack *)fMCTrackArray->At(0);
-        TVector3 mom0(mcTrack0->GetMomentum());
-        PndMCTrack *mcTrack1 = (PndMCTrack *)fMCTrackArray->At(1);
-        TVector3 mom1(mcTrack1->GetMomentum());
-        Double_t angle = mom0.Angle(mom1);
         
-        std::vector<Int_t> seed0;
-        std::vector<Int_t> seed1;
+        //Get the momentum of each photon
+        std::vector<TVector3> Gamma_mom;
+        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
+            PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(iGamma);
+            Gamma_mom.push_back(mcTrack->GetMomentum());
+        }
+        
+        //Calculate the average distance between photons
+        Double_t distance(0);
+        Int_t Ncunt(0);
+        for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
+            for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
+                Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                distance += TheDistance;
+                Ncunt++;
+            }
+        }
+        distance /= Ncunt;
+        
+        //Exclude events generated electron-positron
+        std::map<Int_t, bool> Exist;
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
             for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++) {
-                if (linkIter->GetIndex() == 0) seed0.push_back( hit->GetDetectorID() );
-                if (linkIter->GetIndex() == 1) seed1.push_back( hit->GetDetectorID() );
+                for (int iGamma = 0; iGamma < NGamma; iGamma++)
+                if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
+        if (Exist.size() != NGamma) continue;
         
-        if ((seed0.size() == 0) || (seed1.size() == 0)) continue;
-        Double_t truth_E0 = 0;
-        Double_t truth_E1 = 0;
-        
-        for (int i = 0; i < nhits; i++) {
-        //********** truth energy **********//
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
-            std::map<Int_t, Double_t>::iterator ptr;
-            for ( ptr = dep.begin(); ptr != dep.end(); ptr++){
-                if (ptr->first == 0) truth_E0 += ptr->second;
-                if (ptr->first == 1) truth_E1 += ptr->second;
-            }
-        }
-        
-        Double_t distance = 2 * 65.0 * sin(angle/2.0);
         h2D1->Fill(distance,nclusters);
         h2D2->Fill(distance, nbumps);
         
-        if (nbumps != 2) continue;
-        std::vector<Int_t> bumpmatch0;
-        std::vector<Int_t> bumpmatch1;
-        for (int i = 0; i < nbumps; i++) {
-            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
-            TVector3 pb = Bump->position();
-            if (pb.Mag()*sin(mom0.Angle(pb)) < pb.Mag()*sin(mom1.Angle(pb))) bumpmatch0.push_back(i);
-            else bumpmatch1.push_back(i);
+        //Get the true energy of each shower
+        std::map<Int_t, Double_t> truth_E;
+        for (int iGamma = 0; iGamma < NGamma; iGamma++) truth_E[iGamma] = 0.0;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
+            std::map<Int_t, Double_t>::iterator ptr;
+            for ( ptr = dep.begin(); ptr != dep.end(); ptr++) {
+                for (int iGamma = 0; iGamma < NGamma; iGamma++)
+                if (ptr->first == iGamma) truth_E[iGamma] += ptr->second;
+            }
         }
-        if ((bumpmatch0.size() != 1) || (bumpmatch1.size() != 1)) continue;
-        PndEmcBump* Bump0 = (PndEmcBump*)fBumpArray->At(bumpmatch0[0]);
-        PndEmcBump* Bump1 = (PndEmcBump*)fBumpArray->At(bumpmatch1[0]);
-        Double_t bump_E0 = Bump0->energy();
-        Double_t bump_E1 = Bump1->energy();
         
-        Double_t delta_2 = (truth_E0 - bump_E0)*(truth_E0 - bump_E0) + (truth_E1 - bump_E1)*(truth_E1 - bump_E1);
-        h2D3->Fill(distance, sqrt(delta_2));
+        //Match bump for each photon
+        std::vector<Int_t> match;
+        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
+            Double_t min_d(99999);
+            Int_t index(-1);
+            for (int i = 0; i < nbumps; i++) {
+                PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
+                TVector3 pos = Bump->position();
+                Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
+                if (d < min_d) { min_d = d; index = i; }
+            }
+            if ( index == -1 ) return 1;
+            match.push_back(index);
+        }
+        
+        //Count the number of times that Bump is shared by the MCtrack
+        std::map<Int_t, Int_t> Nshare;
+        for (int i = 0; i < match.size(); i++) Nshare[match[i]]++;
+        
+        //Whether to skip events where the shower is not separated
+        bool result(false);
+        std::map<Int_t, Int_t>::iterator it;
+        for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
+        if (IsSplit && result) continue;
+        
+        //Calculate the error of energy and position
+        Double_t delta_E(0), delta_pos(0);
+        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
+            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
+            Double_t bump_E = Bump->energy();
+            TVector3 bump_pos = Bump->position();
+            delta_E += (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]) * (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]);
+            delta_pos += sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0) * sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0);
+        }
+        delta_E = sqrt(delta_E/NGamma);
+        delta_pos = 2.0 * 65.0 * sqrt(delta_pos/NGamma);
+        
+        h2D3->Fill(distance, delta_E);
+        //h2D4->Fill(distance, delta_pos);
         N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
+    
+    //********************************************************//
+    
     c1->Divide(1, 4);
     c1->GetPad(1)->SetPad(0,1,1,0.45);
     c1->GetPad(2)->SetPad(0,0.475,1,0.275);

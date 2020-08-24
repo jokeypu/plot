@@ -1,12 +1,11 @@
-int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match_test_n( TString dir_name="Gamma_tow_1G_n" )
+int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma=2, bool IsSplit=1);
+int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
-    TCanvas* c2=new TCanvas("PANDA2","c2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -20,78 +19,27 @@ int Shower_match_test_n( TString dir_name="Gamma_tow_1G_n" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, 10,0.5,2.5);
-    h2D1->SetMarkerStyle(7);
-    h2D1->SetMarkerColorAlpha(kRed+3, 0.5);
-    h2D1->GetXaxis()->SetTitle("distance");
-    h2D1->GetYaxis()->SetTitle("N_{cluster}");
-    h2D1->GetXaxis()->CenterTitle();
-    h2D1->GetYaxis()->CenterTitle();
-    h2D1->GetXaxis()->SetTitleSize(0);
-    h2D1->GetYaxis()->SetTitleSize(0.2);
-    h2D1->GetXaxis()->SetTitleOffset(0.5);
-    h2D1->GetYaxis()->SetTitleOffset(0.15);
-    h2D1->GetXaxis()->SetLabelSize(0);
-    h2D1->GetYaxis()->SetLabelSize(0.2);
-    h2D1->GetYaxis()->SetNdivisions(503);
-
-    
-    TH2D* h2D2 = new TH2D("Hist2","h2",bin1,xmin,xmax, 10,0.5,2.5);
-    h2D2->SetMarkerStyle(7);
-    h2D2->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h2D2->GetXaxis()->SetTitle("distance");
-    h2D2->GetYaxis()->SetTitle("N_{bump}");
-    h2D2->GetXaxis()->CenterTitle();
-    h2D2->GetYaxis()->CenterTitle();
-    h2D2->GetXaxis()->SetTitleSize(0.15);
-    h2D2->GetYaxis()->SetTitleSize(0.15);
-    h2D2->GetXaxis()->SetTitleOffset(0.8);
-    h2D2->GetYaxis()->SetTitleOffset(0.2);
-    h2D2->GetXaxis()->SetLabelSize(0.15);
-    h2D2->GetYaxis()->SetLabelSize(0.15);
-    h2D2->GetYaxis()->SetNdivisions(503);
-    
-    TH2D* h2D3 = new TH2D("Hist3","h3",bin1,xmin,xmax, bin2,ymin,ymax);
-    h2D3->SetMarkerStyle(7);
-    h2D3->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h2D3->GetXaxis()->SetTitle("distance");
-    h2D3->GetYaxis()->SetTitle("#delta");
-    h2D3->GetXaxis()->CenterTitle();
-    h2D3->GetYaxis()->CenterTitle();
-    h2D3->GetXaxis()->SetTitleSize(0);
-    h2D3->GetYaxis()->SetTitleSize(0.1);
-    h2D3->GetYaxis()->SetTitleOffset(0.45);
-    h2D3->GetXaxis()->SetLabelSize(0);
-    h2D3->GetYaxis()->SetLabelSize(0.07);
-    
     TH1D* h1D1 = new TH1D("Hist1_1","h1_1", 100, 0, 1.5);
     h1D1->SetLineColor(kBlue);
     h1D1->SetLineWidth(2);
 
+    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", 100, 0, 1.5);
+    h1D2->SetLineColor(kRed);
+    h1D2->SetLineWidth(2);
 
-    if( Exec(dir_name, h2D1, h2D2, h2D3, h1D1, 2, true) ) return 1;
+    if( Exec(dir_name, h1D1, 2, true) ) return 1;
     
-    c1->Divide(1, 4);
-    c1->GetPad(1)->SetPad(0,1,1,0.45);
-    c1->GetPad(2)->SetPad(0,0.475,1,0.275);
-    c1->GetPad(3)->SetPad(0,0.3,1,0.025);
-    c1->GetPad(4)->SetPad(0,0.025,1,0);
-    c1->GetPad(1)->SetGridx();
-    c1->GetPad(2)->SetGridx();
-    c1->GetPad(3)->SetGridx();
-    c1->cd(1);
-    h2D3->Draw("SCAT");
-    c1->cd(2);
-    h2D1->Draw("CONT");
-    c1->cd(3);
-    h2D2->Draw("CONT");
-    c2->cd();
+    dir_name = "Gamma_tow_1G_n";
+    if( Exec(dir_name, h1D2, 2, true) ) return 1;
+    
+    c1->cd();
     h1D1->Draw();
+    h1D2->Draw("SAME");
     return 0;
 }
 
 //*****************************************************************************************//
-int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t NGamma, bool IsSplit){
+int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
@@ -159,8 +107,8 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t
         }
         if (Exist.size() != NGamma) continue;
         
-        h2D1->Fill(distance,nclusters);
-        h2D2->Fill(distance, nbumps);
+        //h2D1->Fill(distance,nclusters);
+        //h2D2->Fill(distance, nbumps);
         
         //Get the true energy of each shower
         std::map<Int_t, Double_t> truth_E;
@@ -208,12 +156,12 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t
             TVector3 bump_pos = Bump->position();
             delta_E += (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]) * (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]);
             delta_pos += sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0) * sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0);
-	    h1D1->Fill(bump_E);
+	        h1D1->Fill(bump_E);
         }
         delta_E = sqrt(delta_E/NGamma);
         delta_pos = 2.0 * 65.0 * sqrt(delta_pos/NGamma);
         
-        h2D3->Fill(distance, delta_E);
+        //h2D3->Fill(distance, delta_E);
         //h2D4->Fill(distance, delta_pos);
         N++;
     }

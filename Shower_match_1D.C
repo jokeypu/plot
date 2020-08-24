@@ -27,10 +27,9 @@ int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
 
-    if( Exec(dir_name, h1D1, 2, true) ) return 1;
+    if( Exec( "Gamma_tow_1G_o", h1D1, 2, true) ) return 1;
     
-    dir_name = "Gamma_tow_1G_n";
-    if( Exec(dir_name, h1D2, 2, true) ) return 1;
+    if( Exec( "Gamma_tow_1G_n", h1D2, 2, true) ) return 1;
     
     c1->cd();
     h1D1->Draw();
@@ -83,17 +82,6 @@ int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
             Gamma_mom.push_back(mcTrack->GetMomentum());
         }
         
-        //Calculate the average distance between photons
-        Double_t distance(0);
-        Int_t Ncunt(0);
-        for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
-            for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
-                Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
-                distance += TheDistance;
-                Ncunt++;
-            }
-        }
-        distance /= Ncunt;
         
         //Exclude events generated electron-positron
         std::map<Int_t, bool> Exist;
@@ -106,22 +94,6 @@ int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
             }
         }
         if (Exist.size() != NGamma) continue;
-        
-        //h2D1->Fill(distance,nclusters);
-        //h2D2->Fill(distance, nbumps);
-        
-        //Get the true energy of each shower
-        std::map<Int_t, Double_t> truth_E;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) truth_E[iGamma] = 0.0;
-        for (int i = 0; i < nhits; i++) {
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
-            std::map<Int_t, Double_t>::iterator ptr;
-            for ( ptr = dep.begin(); ptr != dep.end(); ptr++) {
-                for (int iGamma = 0; iGamma < NGamma; iGamma++)
-                if (ptr->first == iGamma) truth_E[iGamma] += ptr->second;
-            }
-        }
         
         //Match bump for each photon
         std::vector<Int_t> match;
@@ -149,20 +121,11 @@ int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
         if (IsSplit && result) continue;
         
         //Calculate the error of energy and position
-        Double_t delta_E(0), delta_pos(0);
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
             Double_t bump_E = Bump->energy();
-            TVector3 bump_pos = Bump->position();
-            delta_E += (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]) * (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]);
-            delta_pos += sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0) * sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0);
-	        h1D1->Fill(bump_E);
+	    h1D1->Fill(bump_E);
         }
-        delta_E = sqrt(delta_E/NGamma);
-        delta_pos = 2.0 * 65.0 * sqrt(delta_pos/NGamma);
-        
-        //h2D3->Fill(distance, delta_E);
-        //h2D4->Fill(distance, delta_pos);
         N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

@@ -3,7 +3,7 @@ int Shower_function_hit()
     int bin1(600),bin2(600);
     float tx(800),ty(600);
     double xmin(-0.1),xmax(15),ymin(0),ymax(1.1);
-    TString dir_name("Gamma_0.1to6G_all");
+    TString dir_name("Gamma_1G_all");
     
     //******************************************//
     
@@ -58,7 +58,7 @@ int Shower_function_hit()
     
     TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
     h2D->GetXaxis()->SetTitle("d (cm)");
-    h2D->GetYaxis()->SetTitle("-ln(E/E_{0})");
+    h2D->GetYaxis()->SetTitle("E/E_{0}");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
     h2D->SetMarkerStyle(7);
@@ -83,14 +83,15 @@ int Shower_function_hit()
     
     
     Double_t fitmin(2);
-    TF1 *f=new TF1("f","exp(-1*[0]*sqrt(x-[1]))",fitmin,8);
+    TF1 *f=new TF1("f","exp(-1*[0]*sqrt(x-[1]))",fitmin,14);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(1.25,1.4);
     f->SetParLimits(0, 0, 200);
     f->SetParLimits(1, 0, fitmin);
     
-    
+    //double test(0.0);
+    //int cunt(0);
     
     int N(0);
     int num(5);
@@ -130,7 +131,7 @@ int Shower_function_hit()
         if ( npoints == 0 ) continue;
         PndEmcHit* hit_0 = (PndEmcHit*)fHitArray->At(seedHit);
         Double_t E_0 = hit_0->GetEnergy();
-        if ( E_0 < 0.5 ) continue;
+        //if ( E_0 < 0.5 ) continue;
         for (int i = 0; i < nhits; i++) {
             // computing distance from each hit to track
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
@@ -142,9 +143,11 @@ int Shower_function_hit()
             //h2D->Fill(distance,-1*log(E/E_0));
             if (DetID == seedID) continue;
             h2D->Fill(distance,E/E_0);
+	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}
         }
     N++;
     }
+    //cout << test/cunt << endl;
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     c1->cd();
     h1D->Draw("HIST");

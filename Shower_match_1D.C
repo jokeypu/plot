@@ -1,10 +1,14 @@
-int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma=2, bool IsSplit=1);
+int Exec(TString dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
 int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
-    
+    string out1_name("out1.txt"), out2_name("out2.txt");
+    ifstream out1, out2;
+    out1.open(out1_name, ios::in);
+    out2.open(out2_name, ios::in);
+
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -27,10 +31,25 @@ int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
 
-    if( Exec( "Gamma_tow_1G_o", h1D1, 2, true) ) return 1;
+    //if( Exec( "Gamma_tow_1G_o", out1_name, 2, true) ) return 1;
     
-    if( Exec( "Gamma_tow_1G_n", h1D2, 2, true) ) return 1;
+    //if( Exec( "Gamma_tow_1G_n", out2_name, 2, true) ) return 1;
     
+    string str;
+
+    while (!out1.eof()) {
+    	getline(out1,str);
+	double value= atof(str.c_str());
+	h1D1->Fill(value);
+    }
+    while (!out2.eof()) {
+    	getline(out2,str);
+	double value= atof(str.c_str());
+	h1D2->Fill(value);
+    }
+
+    out1.close();
+    out2.close();
     c1->cd();
     h1D1->Draw();
     h1D2->Draw("SAME");
@@ -38,9 +57,11 @@ int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
 }
 
 //*****************************************************************************************//
-int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
+int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
+    ofstream out;
+    out.open(out_name,ios::out);
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
     TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
@@ -124,10 +145,11 @@ int Exec(TString dir_name, TH1D* h1D1, Int_t NGamma, bool IsSplit){
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
             Double_t bump_E = Bump->energy();
-	    h1D1->Fill(bump_E);
+	    out << bump_E << endl;
         }
         N++;
     }
+    out.close();
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     return 0;
 }

@@ -1,15 +1,16 @@
-int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match( TString dir_name="Gamma_tow_1G_n" )
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t NGamma=2, bool IsSplit=1);
+int Shower_match_test_n( TString dir_name="Gamma_tow_1G_n" )
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
+    TCanvas* c2=new TCanvas("PANDA2","c2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -63,7 +64,12 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     h2D3->GetXaxis()->SetLabelSize(0);
     h2D3->GetYaxis()->SetLabelSize(0.07);
     
-    if( Exec(dir_name, h2D1, h2D2, h2D3, 2, true) ) return 1;
+    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", 100, 0, 1.5);
+    h1D1->SetLineColor(kBlue);
+    h1D1->SetLineWidth(2);
+
+
+    if( Exec(dir_name, h2D1, h2D2, h2D3, h1D1, 2, true) ) return 1;
     
     c1->Divide(1, 4);
     c1->GetPad(1)->SetPad(0,1,1,0.45);
@@ -85,7 +91,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
 }
 
 //*****************************************************************************************//
-int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, bool IsSplit){
+int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, TH1D* h1D1, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
@@ -202,6 +208,7 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
             TVector3 bump_pos = Bump->position();
             delta_E += (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]) * (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]);
             delta_pos += sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0) * sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0);
+	    h1D1->Fill(bump_E);
         }
         delta_E = sqrt(delta_E/NGamma);
         delta_pos = 2.0 * 65.0 * sqrt(delta_pos/NGamma);

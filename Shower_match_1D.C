@@ -1,13 +1,14 @@
 int Exec(TString dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
+int Shower_match_1D()
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
-    string out1_name("out1.txt"), out2_name("out2.txt");
-    ifstream out1, out2;
+    string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
+    ifstream out1, out2, out3;
     out1.open(out1_name, ios::in);
     out2.open(out2_name, ios::in);
+    out3.open(out3_name, ios::in);
 
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -23,35 +24,80 @@ int Shower_match_1D( TString dir_name="Gamma_tow_1G_o" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", 100, 0, 1.5);
+    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", 200, 0.7, 1.3);
     h1D1->SetLineColor(kBlue);
     h1D1->SetLineWidth(2);
 
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", 100, 0, 1.5);
+    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", 200, 0.7, 1.3);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
 
-    //if( Exec( "Gamma_tow_1G_o", out1_name, 2, true) ) return 1;
-    
-    //if( Exec( "Gamma_tow_1G_n", out2_name, 2, true) ) return 1;
+    TH1D* h1D3 = new TH1D("Hist1_3","h1_3", 200, 0.7, 1.3);
+    h1D3->SetLineColor(kGreen);
+    h1D3->SetLineWidth(2);
     
     string str;
-
+    int mode(5); //1,2,3,4,5
+   if (mode == 1){
+    if( Exec( "Gamma_tow_1G_o", out1_name, 2, true) ) return 1;
+    }else if (mode == 2) {
+    if( Exec( "Gamma_tow_1G_n", out2_name, 2, true) ) return 1;
+}else if (mode == 3) {
+    if( Exec( "Gamma_one_1G", out3_name, 1, true) ) return 1;
+    }else if (mode == 4) {
+    int cunt;
+    cunt = 0;
     while (!out1.eof()) {
     	getline(out1,str);
 	double value= atof(str.c_str());
 	h1D1->Fill(value);
+	cunt++;
     }
+    cout << "N1:" << cunt << endl;
+    cunt = 0;
     while (!out2.eof()) {
     	getline(out2,str);
 	double value= atof(str.c_str());
 	h1D2->Fill(value);
+	cunt++;
     }
+    cout << "N2:" << cunt << endl;
+    cunt = 0;
+    while (!out3.eof()) {
+    	getline(out3,str);
+	double value= atof(str.c_str());
+	h1D3->Fill(value);
+	cunt++;
+    }
+    cout << "N3:" << cunt << endl;
+    cunt = 0;
+    }else if (mode == 5) {
+    int min(15000);
 
+    int cunt;
+    cunt = 0;
+    for (int i= 0;i < min; i++) {
+    	getline(out1,str);
+	double value= atof(str.c_str());
+	h1D1->Fill(value);
+    }
+    for (int i= 0;i < min; i++) {
+    	getline(out2,str);
+	double value= atof(str.c_str());
+	h1D2->Fill(value);
+    }
+    for (int i= 0;i < min; i++) {
+    	getline(out3,str);
+	double value= atof(str.c_str());
+	h1D3->Fill(value);
+    }
+}
     out1.close();
     out2.close();
+    out3.close();
     c1->cd();
-    h1D1->Draw();
+    h1D3->Draw();
+    h1D1->Draw("SAME");
     h1D2->Draw("SAME");
     return 0;
 }

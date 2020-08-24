@@ -97,8 +97,6 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TClonesArray* fPointArray = (TClonesArray*) ioman->GetObject("EmcPoint");
-    if (!fPointArray) return -1;
     TClonesArray* fMCTrackArray = (TClonesArray*) ioman->GetObject("MCTrack");
     if (!fMCTrackArray) return -1;
     TClonesArray* fHitArray = (TClonesArray*) ioman->GetObject("EmcHit");

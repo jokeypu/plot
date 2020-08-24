@@ -2,7 +2,7 @@ int Shower_function_hit()
 {
     int bin1(600),bin2(600);
     float tx(800),ty(600);
-    double xmin(-0.1),xmax(15),ymin(0),ymax(1.2);
+    double xmin(-0.1),xmax(15),ymin(0),ymax(1.1);
     TString dir_name("Gamma_0.1to6G_all");
     
     //******************************************//
@@ -64,12 +64,33 @@ int Shower_function_hit()
     h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     
-    TF1 *f=new TF1("f","[1]*exp(-1*[0]*x)",2,10);
+    /*
+    TF1 *f=new TF1("f","[1]*[0]*x",2,10);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(1.25,1);
     f->SetParLimits(0, 0.01, 10);
     f->SetParLimits(1, 1, 1);
+     */
+    /*
+    TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(1.25,1);
+    f->SetParLimits(0, 0.01, 10);
+    f->SetParLimits(1, 1.0, 1.0);
+    */
+    
+    
+    
+    TF1 *f=new TF1("f","exp([0]*[1]*sqrt(x-1.4))",1.4,15);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(1.25,-1);
+    f->SetParLimits(0, 0.01, 10);
+    f->SetParLimits(1, -1.0, -1.0);
+    
+    
     
     int N(0);
     int num(5);
@@ -97,6 +118,13 @@ int Shower_function_hit()
                 break;
             }
         }
+        
+        Double_t maxE = -1.0;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            if ((hit->GetEnergy()) > maxE) {maxE=(hit->GetEnergy());seedHit=i;seedID = hit->GetDetectorID();}
+        }
+        
         
         if ( seedHit == -1 ) continue;
         if ( npoints == 0 ) continue;

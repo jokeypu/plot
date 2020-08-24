@@ -82,13 +82,13 @@ int Shower_function_hit()
     */
     
     
-    
-    TF1 *f=new TF1("f","exp([0]*[1]*sqrt(x-1.4))",1.4,15);
+    Double_t fitmin(2);
+    TF1 *f=new TF1("f","exp(-1*[0]*sqrt(x-[1]))",fitmin,8);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
-    f->SetParameters(1.25,-1);
-    f->SetParLimits(0, 0.01, 10);
-    f->SetParLimits(1, -1.0, -1.0);
+    f->SetParameters(1.25,1.4);
+    f->SetParLimits(0, 0, 200);
+    f->SetParLimits(1, 0, fitmin);
     
     
     

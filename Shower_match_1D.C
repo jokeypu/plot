@@ -110,6 +110,11 @@ int Shower_match_1D()
     h1D3->Draw();
     h1D1->Draw("SAME");
     h1D2->Draw("SAME");
+    TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
+    leg->AddEntry(h1D1,"Bump Energy old" , "L");
+    leg->AddEntry(h1D2,"Bump Energy new", "L");
+    leg->AddEntry(h1D3,"Cluster Energy 1Gamma", "L");
+    leg->Draw();
     return 0;
 }
 

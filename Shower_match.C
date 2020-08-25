@@ -1,8 +1,8 @@
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match( TString dir_name="Gamma_tow_1G_n" )
+int Shower_match( TString dir_name="Gamma_tow_0.5G_n" )
 {
-    int bin1(100),bin2(200);
-    float tx(1200),ty(900);
+    int bin1(200),bin2(100);
+    float tx(800),ty(600);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
@@ -19,7 +19,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, 10,0.5,2.5);
+    TH2D* h2D1 = new TH2D("Hist1","h1",bin2,xmin,xmax, 10,0.5,2.5);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kRed+3, 0.5);
     h2D1->GetXaxis()->SetTitle("distance");
@@ -35,7 +35,7 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     h2D1->GetYaxis()->SetNdivisions(503);
 
     
-    TH2D* h2D2 = new TH2D("Hist2","h2",bin1,xmin,xmax, 10,0.5,2.5);
+    TH2D* h2D2 = new TH2D("Hist2","h2",bin2,xmin,xmax, 10,0.5,2.5);
     h2D2->SetMarkerStyle(7);
     h2D2->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D2->GetXaxis()->SetTitle("distance");
@@ -76,11 +76,11 @@ int Shower_match( TString dir_name="Gamma_tow_1G_n" )
     c1->cd(1);
     h2D3->Draw("SCAT");
     c1->cd(2);
-    h2D1->Draw("CONT");
+    //h2D1->Draw("CONT");
+    h2D1->Draw("SCAT");
     c1->cd(3);
-    h2D2->Draw("CONT");
-    c2->cd();
-    h1D1->Draw();
+    //h2D2->Draw("CONT");
+    h2D2->Draw("SCAT");
     return 0;
 }
 

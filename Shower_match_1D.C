@@ -24,17 +24,29 @@ int Shower_match_1D()
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", 200, 0.7, 1.3);
+    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, 0.7, 1.3);
     h1D1->SetLineColor(kBlue);
     h1D1->SetLineWidth(2);
+    h1D1->GetXaxis()->SetTitle("Energy");
+    h1D1->GetYaxis()->SetTitle("Entries");
+    h1D1->GetXaxis()->CenterTitle();
+    h1D1->GetYaxis()->CenterTitle();
     
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", 200, 0.7, 1.3);
+    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, 0.7, 1.3);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
+    h1D2->GetXaxis()->SetTitle("Energy");
+    h1D2->GetYaxis()->SetTitle("Entries");
+    h1D2->GetXaxis()->CenterTitle();
+    h1D2->GetYaxis()->CenterTitle();
     
-    TH1D* h1D3 = new TH1D("Hist1_3","h1_3", 200, 0.7, 1.3);
+    TH1D* h1D3 = new TH1D("Hist1_3","h1_3", bin1, 0.7, 1.3);
     h1D3->SetLineColor(kGreen);
     h1D3->SetLineWidth(2);
+    h1D3->GetXaxis()->SetTitle("Energy");
+    h1D3->GetYaxis()->SetTitle("Entries");
+    h1D3->GetXaxis()->CenterTitle();
+    h1D3->GetYaxis()->CenterTitle();
     
     string str;
     int mode(5); //1,2,3,4,5

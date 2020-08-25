@@ -1,10 +1,9 @@
-int Shower_function_view()
+Double_t myfunc(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t x0);
+int Shower_function_new( TString dir_name="Gamma_1G_all" )
 {
     int bin1(600),bin2(600);
     float tx(800),ty(600);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1G");
-    
     //******************************************//
     
     FairRunAna *fRun = new FairRunAna();
@@ -24,7 +23,7 @@ int Shower_function_view()
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -35,21 +34,36 @@ int Shower_function_view()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH3D* h3D = new TH3D("h3D","3D",200,5,35,200,-15,15,200,55,80);
-    h3D->SetMarkerStyle(1);
-    //h3D->SetMarkerStyle(6);
-    h3D->SetMarkerColorAlpha(kAzure+3, 0.7);
-    //h3D->SetMarkerColorAlpha(kRed, 0.7);
-    h3D->GetXaxis()->SetTitle("x");
-    h3D->GetYaxis()->SetTitle("y");
-    h3D->GetZaxis()->SetTitle("z");
-    h3D->GetXaxis()->CenterTitle();
-    h3D->GetYaxis()->CenterTitle();
+    TH1D* h1D = new TH1D("Hist","h1",100,0,9);
+    h1D->SetLineColor(kBlue);
+    h1D->SetLineWidth(2);
+    h1D->GetXaxis()->SetTitle("distance");
+    h1D->GetYaxis()->SetTitle("Energy");
+    h1D->GetXaxis()->CenterTitle();
+    h1D->GetYaxis()->CenterTitle();
     
+    TF1 *f=new TF1("f","myfunc(x,[0],[1],[2],[3])",0,9);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(210,-0.2,-0.1,4);
+    f->SetParLimits(0, 0.1, 300);
+    f->SetParLimits(1, -5, 5);
+    f->SetParLimits(2, -5, 5);
+    f->SetParLimits(3, 2, 10);
+    
+    /*TF1 *f=new TF1("f","myfunc1(x,[0],[1],[2],[3])",0,9);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(1,1,1,1);
+    f->SetParLimits(0, 0, 300);
+    f->SetParLimits(1, 0, 300);
+    f->SetParLimits(2, 0, 300);
+    f->SetParLimits(3, 0, 300);*/
+    
+
     int N(0);
-    int num(2);
-    for (Int_t ievt = num; ievt < num+100; ievt++) {
-    //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    int num(5);
+    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         int npoints = fPointArray->GetEntriesFast();
         int ntrack = fMCTrackArray->GetEntriesFast();
@@ -60,7 +74,6 @@ int Shower_function_view()
         if (sqrt(mcStartPos.X()*mcStartPos.X()+mcStartPos.Y()*mcStartPos.Y()) < 56) continue;
         PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(0);
         TVector3 mom(mcTrack->GetMomentum());
-        //cout << mom.x() << "," << mom.Y() << "," << mom.Z() << endl;
         
         if (npoints == 0 ) continue;
         PndEmcPoint* point_0 = (PndEmcPoint*)fPointArray->At(0);
@@ -74,11 +87,29 @@ int Shower_function_view()
             TVector3 pos(x, y, z);
             Double_t distance = pos.Mag()*sin(mom.Angle(pos));
             Double_t E = point->GetEnergyLoss();
-            h3D->Fill(z, y, x);
-            N++;
+            h1D->Fill(distance,E);
         }
+    N++;
     }
+    cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     c1->cd();
-    h3D->Draw("SCAT");
+    h1D->Draw("HIST");
+    h1D->Fit(f,"R");
+    f->Draw("SAME");
     return 0;
+}
+
+Double_t myfunc(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t x0) {
+    Double_t value;
+    if (x <= x0) value = p0/((x-p1) * (x-p1) - p2);
+    else{
+    Double_t fx0 = p0/((x0-p1) * (x0-p1) - p2);
+    Double_t c = fx0 * (x0-p1) * (x0-x) / (p0*1.1512925);
+    value = fx0 * pow(10, c); 
+    }
+    return value;
+}
+Double_t myfunc1(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t p3) {
+    if ( x< 1.2) return exp(-1*p0*x+p1);
+    else return exp(-1*p2*x+p3);
 }

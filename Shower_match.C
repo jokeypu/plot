@@ -114,7 +114,7 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
     if (!fClusterArray) return -1;
     
     int N(0);
-    Int_t maxEvtNo = ioman->CheckMaxEventNo();
+    Int_t maxEvtNo = t->GetEntries();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);

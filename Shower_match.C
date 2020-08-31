@@ -1,5 +1,5 @@
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match( TString dir_name="Gamma_tow_0.3G_n" )
+int Shower_match( TString dir_name="Gamma_tow_1G_nn" )
 {
     int bin1(200),bin2(100);
     float tx(800),ty(600);
@@ -9,7 +9,7 @@ int Shower_match( TString dir_name="Gamma_tow_0.3G_n" )
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(0);
+    gStyle->SetOptStat(1);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");

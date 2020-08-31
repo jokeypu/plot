@@ -1,10 +1,10 @@
 int Exec(TString dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match_1D(int mode)
+int Shower_match_1D(int mode,int min = 3000)
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
-    string out1_name("out1.txt"), out2_name("out2_o.txt"), out3_name("out3.txt");
+    string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
     ifstream out1, out2, out3;
     out1.open(out1_name, ios::in);
     out2.open(out2_name, ios::in);
@@ -50,7 +50,7 @@ int Shower_match_1D(int mode)
     
     string str;
     //int mode(5); //1,2,3,4,5
-    int min(10000);
+    //int min(3105);
     if (mode == 1){
         if( Exec( "Gamma_tow_1G_o", out1_name, 2, true) ) return 1;
     }else if (mode == 2) {

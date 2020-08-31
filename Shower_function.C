@@ -46,10 +46,10 @@ int Shower_function( TString dir_name="Gamma_1G_all" )
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(210,-0.2,-0.1,4);
-    f->SetParLimits(0, 0.1, 300);
+    f->SetParLimits(0, 0.01, 3);
     f->SetParLimits(1, -5, 5);
     f->SetParLimits(2, -5, 5);
-    f->SetParLimits(3, 2, 10);
+    f->SetParLimits(3, 1, 10);
 
     int N(0);
     int num(5);
@@ -77,7 +77,7 @@ int Shower_function( TString dir_name="Gamma_1G_all" )
             TVector3 pos(x, y, z);
             Double_t distance = pos.Mag()*sin(mom.Angle(pos));
             Double_t E = point->GetEnergyLoss();
-            h1D->Fill(distance,E);
+            h1D->Fill(distance,E/681);
         }
     N++;
     }

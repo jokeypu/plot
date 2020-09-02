@@ -1,5 +1,5 @@
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=2);
-int Shower_function_hit_angle( TString dir_name="Gamma_1_1" )
+int Shower_function_hit_angle( TString dir_name="Gamma_1G_all" )
 {
     int bin1(200),bin2(150);
     float tx(800),ty(600);
@@ -103,23 +103,28 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
                 break;
             }
         }
+        if (seedHit == -1) continue;
         
         // computing distance and angle from each hit to track
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcHit* hit0 = (PndEmcHit*)fHitArray->At(seedHit);
             Double_t E_0 = hit0->GetEnergy();
+            Int_t DetID0 = hit0->GetDetectorID();
+            Double_t theta = Gamma_mom[iGamma].Theta();
+            Double_t R = sqrt(2*(emcX[DetID0]*emcX[DetID0] + emcY[DetID0]*emcY[DetID0])/(1-cos(2*theta)));
+            TVector3 pos_in;
+            pos_in.SetPtThetaPhi(R, theta, Gamma_mom[iGamma].Phi());
             for (int i = 0; i < nhits; i++) {
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
                 Int_t DetID = hit->GetDetectorID();
                 TVector3 pos(emcX[DetID], emcY[DetID], emcZ[DetID]);
-                TVector3 distance;
-                distance.SetPtThetaPhi(pos.Mag()*cos(Gamma_mom[iGamma].Angle(pos)), Gamma_mom[iGamma].Theta(), Gamma_mom[iGamma].Phi());
-                distance = pos - distance;
+                TVector3 distance = pos - pos_in;
                 Double_t d = distance.Mag();
                 Double_t angle = distance.Angle(vz);
-                angle *= 57.3;
+                angle *= 57.29578;
                 Double_t E = hit->GetEnergy();
-                h->Fill(d,angle,E/E_0);
+                //h->Fill(E/E_0,angle);
+                h->Fill(d,angle,E);
             }
         }
         N++;

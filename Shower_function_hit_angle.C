@@ -1,9 +1,9 @@
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=2);
-int Shower_function_hit_angle( TString dir_name="Gamma_tow_1G" )
+int Shower_function_hit_angle( TString dir_name="Gamma_1_1" )
 {
-    int bin1(600),bin2(600);
+    int bin1(200),bin2(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(10),ymin(0),ymax(180);
+    double xmin(0),xmax(20),ymin(0),ymax(190);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -22,8 +22,8 @@ int Shower_function_hit_angle( TString dir_name="Gamma_tow_1G" )
     TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h2D1->GetXaxis()->SetTitle("distance");
-    h2D1->GetYaxis()->SetTitle("N_{cluster}");
+    h2D1->GetXaxis()->SetTitle("d(cm)");
+    h2D1->GetYaxis()->SetTitle("angle");
     h2D1->GetXaxis()->CenterTitle();
     h2D1->GetYaxis()->CenterTitle();
     
@@ -51,6 +51,18 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     if (!fMCTrackArray) return -1;
     TClonesArray* fHitArray = (TClonesArray*) ioman->GetObject("EmcHit");
     if (!fHitArray) return -1;
+    TClonesArray* fPointArray = (TClonesArray*) ioman->GetObject("EmcPoint");
+    if (!fPointArray) return -1;
+    
+    PndEmcMapper::Init(1);
+    TFile *parfile = new TFile("../data/"+dir_name+"/evtcomplete_par.root");
+    parfile->Get("FairGeoParSet");
+    PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
+    PndEmcMapper *fMapper = PndEmcMapper::Instance();
+    typedef std::map<Int_t, Float_t> mapper;
+    mapper emcX = fEmcStr->GetEmcX();
+    mapper emcY = fEmcStr->GetEmcY();
+    mapper emcZ = fEmcStr->GetEmcZ();
     
     int N(0);
     const TVector3 vz(0,0,1);
@@ -58,6 +70,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         int nhits = fHitArray->GetEntriesFast();
+        int npoints = fPointArray->GetEntriesFast();
         
         //Get the momentum of each photon
         std::vector<TVector3> Gamma_mom;
@@ -79,34 +92,34 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         if (Exist.size() != NGamma) continue;
         
         //Match hit for each photon
-        std::vector<Int_t> match;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            Double_t min_d(99999);
-            Int_t index(-1);
-            for (int i = 0; i < nhits; i++) {
-                PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-                TVector3 pos = hit->Position();
-                Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
-                if (d < min_d) { min_d = d; index = i; }
+        PndEmcPoint* point_0 = (PndEmcPoint*)fPointArray->At(0);
+        Int_t seedID = point_0->GetDetectorID();
+        Int_t seedHit = -1;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            Int_t DetID = hit->GetDetectorID();
+            if (DetID == seedID) {
+                seedHit = i;
+                break;
             }
-            if ( index == -1 ) return 1;
-            match.push_back(index);
         }
         
         // computing distance and angle from each hit to track
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            PndEmcHit* hit0 = (PndEmcHit*)fHitArray->At(match[iGamma]);
-            E_0 = hit0->GetEnergy();
+            PndEmcHit* hit0 = (PndEmcHit*)fHitArray->At(seedHit);
+            Double_t E_0 = hit0->GetEnergy();
             for (int i = 0; i < nhits; i++) {
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-                TVector3 pos = hit->Position();
+                Int_t DetID = hit->GetDetectorID();
+                TVector3 pos(emcX[DetID], emcY[DetID], emcZ[DetID]);
                 TVector3 distance;
-                distance->SetPtThetaPhi(pos.Mag()*cos(Gamma_mom[iGamma].Angle(pos)), Gamma_mom[iGamma].Theta(), Gamma_mom[iGamma].Phi());
+                distance.SetPtThetaPhi(pos.Mag()*cos(Gamma_mom[iGamma].Angle(pos)), Gamma_mom[iGamma].Theta(), Gamma_mom[iGamma].Phi());
                 distance = pos - distance;
                 Double_t d = distance.Mag();
                 Double_t angle = distance.Angle(vz);
+                angle *= 57.3;
                 Double_t E = hit->GetEnergy();
-                h->Fill(d,angle,E);
+                h->Fill(d,angle,E/E_0);
             }
         }
         N++;

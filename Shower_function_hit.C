@@ -22,16 +22,6 @@ int Shower_function_hit()
     if (!fHitArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
-    PndEmcMapper::Init(1);
-    TFile *parfile = new TFile("../data/"+dir_name+"/evtcomplete_par.root");
-    parfile->Get("FairGeoParSet");
-    PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
-    PndEmcMapper *fMapper = PndEmcMapper::Instance();
-    typedef std::map<Int_t, Float_t> mapper;
-    mapper emcX = fEmcStr->GetEmcX();
-    mapper emcY = fEmcStr->GetEmcY();
-    mapper emcZ = fEmcStr->GetEmcZ();
-    
     TCanvas* c1=new TCanvas("PANDA1","Hit1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","Hit2",tx,ty);
     gStyle->SetOptTitle(0);
@@ -135,9 +125,7 @@ int Shower_function_hit()
         for (int i = 0; i < nhits; i++) {
             // computing distance from each hit to track
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            Int_t DetID = hit->GetDetectorID();
-            TVector3 pos(emcX[DetID], emcY[DetID], emcZ[DetID]);
-            Double_t distance = pos.Mag()*sin(mom.Angle(pos));
+            Double_t distance = hit->Position();
             Double_t E = hit->GetEnergy();
             h1D->Fill(distance,E/E_0);
             //h2D->Fill(distance,-1*log(E/E_0));

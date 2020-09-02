@@ -1,6 +1,7 @@
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=2);
-int Shower_function_hit_angle( TString dir_name="Gamma_1_1" )
+int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 {
+    dir_name="Gamma_one_1G";
     int bin1(200),bin2(150);
     float tx(800),ty(600);
     double xmin(0),xmax(20),ymin(0),ymax(190);
@@ -103,7 +104,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
                 break;
             }
         }
-        
+	if (seedHit == -1) continue;
+
         // computing distance and angle from each hit to track
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcHit* hit0 = (PndEmcHit*)fHitArray->At(seedHit);

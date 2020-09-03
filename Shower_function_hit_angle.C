@@ -1,10 +1,9 @@
-int Exec(TString dir_name, TH2D *h, Int_t NGamma=2);
+int Exec(TString dir_name, TH3D *h, Int_t NGamma=1);
 int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 {
-    dir_name="Gamma_one_1G";
-    int bin1(200),bin2(150);
+    int bin1(150),bin2(150),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(20),ymin(0),ymax(190);
+    double xmin(0),xmax(2),ymin(-2),ymax(92),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -20,14 +19,16 @@ int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax);
+    TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D1->GetXaxis()->SetTitle("d(cm)");
     h2D1->GetYaxis()->SetTitle("angle");
+    h2D1->GetZaxis()->SetTitle("E");
     h2D1->GetXaxis()->CenterTitle();
     h2D1->GetYaxis()->CenterTitle();
-    
+    h2D1->GetZaxis()->CenterTitle();
+
     if( Exec(dir_name, h2D1, 1) ) return 1;
     
     c1->cd();
@@ -36,7 +37,7 @@ int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH2D *h, Int_t NGamma){
+int Exec(TString dir_name, TH3D *h, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -104,23 +105,31 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
                 break;
             }
         }
-	if (seedHit == -1) continue;
-
+        if (seedHit == -1) continue;
+        
         // computing distance and angle from each hit to track
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcHit* hit0 = (PndEmcHit*)fHitArray->At(seedHit);
             Double_t E_0 = hit0->GetEnergy();
+            Int_t DetID0 = hit0->GetDetectorID();
+            Double_t theta = Gamma_mom[iGamma].Theta();
+            Double_t R = sqrt(2*(emcX[DetID0]*emcX[DetID0] + emcY[DetID0]*emcY[DetID0])/(1-cos(2*theta)));
+            TVector3 pos_in;
+            pos_in.SetPtThetaPhi(R, theta, Gamma_mom[iGamma].Phi());
+            TVector3 pos_n(0,1/tan(pos_in.Theta()),pos_in.Phi()); 
             for (int i = 0; i < nhits; i++) {
                 PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
                 Int_t DetID = hit->GetDetectorID();
                 TVector3 pos(emcX[DetID], emcY[DetID], emcZ[DetID]);
-                TVector3 distance;
-                distance.SetPtThetaPhi(pos.Mag()*cos(Gamma_mom[iGamma].Angle(pos)), Gamma_mom[iGamma].Theta(), Gamma_mom[iGamma].Phi());
-                distance = pos - distance;
-                Double_t d = distance.Mag();
-                Double_t angle = distance.Angle(vz);
-                angle *= 57.3;
+                TVector3 cpos(0,1/tan(pos.Theta()),pos.Phi());
+                TVector3 distance = pos - pos_in;
+                Double_t d = (cpos - pos_n).Mag();
+                Double_t angle = (cpos - pos_n).Angle(vz);
+                angle *= 57.29578;
+                if (angle>90) angle = 180 - angle;
                 Double_t E = hit->GetEnergy();
+                //h->Fill(E/E_0,angle);
+                //h->Fill(d*cos(angle),angle,E/E_0);
                 h->Fill(d,angle,E/E_0);
             }
         }

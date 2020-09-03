@@ -1,5 +1,4 @@
 int para(){
-    TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -13,7 +12,23 @@ int para(){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D *h2 = new TH2D("h1","h1",500,20,40,500,0,0.01);
+    TH2D *h0 = new TH2D("h0","h0",500,0.8,2.8,500,0,0.01);
+    h0->SetMarkerStyle(7);
+    h0->SetMarkerColorAlpha(kAzure+3, 0.7);
+    h0->GetXaxis()->SetTitle("d");
+    h0->GetYaxis()->SetTitle("a");
+    h0->GetXaxis()->CenterTitle();
+    h0->GetYaxis()->CenterTitle();
+    
+    TH2D *h1 = new TH2D("h1","h1",500,0.8,2.8,500,20,40);
+    h1->SetMarkerStyle(7);
+    h1->SetMarkerColorAlpha(kAzure+3, 0.7);
+    h1->GetXaxis()->SetTitle("d");
+    h1->GetYaxis()->SetTitle("x0");
+    h1->GetXaxis()->CenterTitle();
+    h1->GetYaxis()->CenterTitle();
+    
+    TH2D *h2 = new TH2D("h2","h2",500,20,40,500,0,0.01);
     h2->SetMarkerStyle(7);
     h2->SetMarkerColorAlpha(kAzure+3, 0.7);
     h2->GetXaxis()->SetTitle("x0");
@@ -2025,7 +2040,19 @@ int para(){
     y.push_back(25.7958);
     x.push_back(0.00142697);
     y.push_back(25.2928);
+    
     for (int i = 0; i < x.size(); i++) h2->Fill(y[i],x[i]);
-    h2->Draw("SCAT");
+    for (int i = 0; i < x.size(); i++) h0->Fill(0.8+i*0.002,x[i]);
+    for (int i = 0; i < x.size(); i++) h1->Fill(0.8+i*0.002,y[i]);
+    
+    TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
+    TCanvas* c2=new TCanvas("PANDA2","c2",800,600);
+    //TCanvas* c3=new TCanvas("PANDA3","c3",800,600);
+    c1->cd();
+    h0->Draw("SCAT");
+    c2->cd();
+    h1->Draw("SCAT");
+    //c3->cd();
+    //h2->Draw("SCAT");
     return 0;
 }

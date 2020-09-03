@@ -4,14 +4,11 @@ const double L0 = 2.5667;
 Double_t myfunc(const Double_t * xx);
 Double_t func(TVector3 distance);
 Double_t ff(Double_t x,Double_t a,Double_t x0,Double_t h);
-int Shower_Integral_n(){
+int Shower_Integral_v(){
     
-    Double_t rangex_min(0.8),rangex_max(2.8), rangey_min(0), rangey_max(90);
-    int nstepx(1000), nstepy(100);
-    
-    ofstream wirtefile;
-    wirtefile.open( "Parameters.txt", ios::out);
-    
+    Double_t rangex_min(0),rangex_max(3), rangey_min(0), rangey_max(90);
+    int nstepx(50), nstepy(200);
+        
     TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -36,34 +33,10 @@ int Shower_Integral_n(){
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
     
-    TF1 *f=new TF1("f","ff(x,[0],[1],[2])",0,45);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(0.006,24.8,0.252748);
-    f->SetParLimits(0, 0, 0.04);
-    f->SetParLimits(1, 0, 45);
-    f->SetParLimits(2, 0, 0.4);
-    
-    TF1 *f1=new TF1("f1","0.249-0.00011*pow(x-45,2)",0,90);
-    f1->SetLineWidth(2);
-    f1->SetLineColor(kBlue);
-    
-    TF1 *f2=new TF1("f2","0.195+0.000035*pow(x,2)",0,90);
-    f2->SetLineWidth(2);
-    f2->SetLineColor(kBlue);
-    
     Double_t stepx = (rangex_max - rangex_min)/nstepx;
     Double_t stepy = (rangey_max - rangey_min)/nstepy;
     Double_t d = rangex_min;
     for (int i = 0;i<nstepx+1;i++){
-        TString nm =to_string(i);
-        TH2D *h2 = new TH2D(nm,nm,5000,rangey_min,rangey_max,5000,0.05,0.4);
-        h2->SetMarkerStyle(7);
-        h2->SetMarkerColorAlpha(kAzure+3, 0.7);
-        h2->GetXaxis()->SetTitle("angle");
-        h2->GetYaxis()->SetTitle("E");
-        h2->GetXaxis()->CenterTitle();
-        h2->GetYaxis()->CenterTitle();
         cout << "complete: " << 100*i/nstepx << "%" << endl;
         Double_t angle = rangey_min;
         for (int j = 0;j<nstepy+1;j++){
@@ -72,15 +45,11 @@ int Shower_Integral_n(){
             TVector3 distance3(0,distance.X(),distance.Y());
             Double_t E = func(distance3);
             h->Fill(d,angle,E);
-            h2->Fill(angle,E);
             angle+=stepy;
         }
         d+=stepx;
-        h2->Fit(f,"R");
-        wirtefile<< "x.push_back(" << f->GetParameter(0) << ");" << endl;
-        wirtefile<< "y.push_back(" << f->GetParameter(1) << ");" << endl;
-        delete h2;
     }
+    h->Draw("SCAT");
     return 0;
 }
 

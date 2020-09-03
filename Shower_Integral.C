@@ -108,7 +108,7 @@ Double_t func(TVector3 distance){
     double L = L0/2;
     TVector3 vz(0.0,0.0,1.0);
     double r = distance.Mag(), alpha = distance.Angle(vz);
-    alpha = abs(fmod(alpha,45.0) - ((int)(alpha/45.0))%2);
+    alpha = abs(fmod(alpha,45.0) - 45*(((int)(alpha/45.0))%2));
     double x0 = r*cos(alpha), y0 = r*sin(alpha);
     //if (((x0-L)*(x0+L)<0) && ((y0-L)*(y0+L)<0)) return 1;
     double a[2] = {x0-L,y0-L};

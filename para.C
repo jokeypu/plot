@@ -2072,7 +2072,7 @@ int para(){
     TF1 *f1=new TF1("f1","[0]*TMath::Poisson([1]*(x-[2]),[3])+[4]",1.39,2.8);
     f1->SetLineWidth(2);
     f1->SetLineColor(kRed);
-    f1->SetParameters(0.020414,4.61912, 0.801998,3.35717,0.00156052);
+    f1->SetParameters(0.00790974, 1.56139, 1.39, 0.428328, 0.00115601);
     f1->SetParLimits(0, 0.0001, 0.1);
     f1->SetParLimits(1, 0.0001, 10);
     f1->SetParLimits(2, 0.0001, 3);
@@ -2082,7 +2082,7 @@ int para(){
     TF1 *f11=new TF1("f11","[0]*TMath::Poisson([1]*(x-[2]),[3])+[4]",0.8,1.39);
     f11->SetLineWidth(2);
     f11->SetLineColor(kRed);
-    f11->SetParameters(0.020414,4.61912, 0.801998,3.35717,0.00156052);
+    f11->SetParameters(0.0227033, 4.97094, 0.772748, 4.0, 0.0018315);
     f11->SetParLimits(0, 0.0001, 0.1);
     f11->SetParLimits(1, 0.0001, 10);
     f11->SetParLimits(2, 0.0001, 3);
@@ -2091,7 +2091,7 @@ int para(){
     
     TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
     TCanvas* c2=new TCanvas("PANDA2","c2",800,600);
-    //TCanvas* c3=new TCanvas("PANDA3","c3",800,600);
+    TCanvas* c3=new TCanvas("PANDA3","c3",800,600);
     c1->cd();
     h1->Draw("SCAT");
     h1->Fit(f0,"R");
@@ -2104,43 +2104,7 @@ int para(){
     f1->Draw("SAME");
     h0->Fit(f11,"R");
     f11->Draw("SAME");
-    //c3->cd();
-    //h2->Draw("SCAT");
+    c3->cd();
+    h2->Draw("SCAT");
     return 0;
 }
-
-
-std::map< TString, vector<Double_t> > parameters;
-parameters["f1"]{8.62369, 5.32678, 12.0, 0.696003, 22.8543};
-parameters["f2"]{83.4757, -0.171518, 1.88588, 0.199225, 23.0441};
-parameters["f3"]{0.227033, 4.97094, 0.772748, 4.0, 0.0018315};
-parameters["f4"]{0.00790974, 1.56139, 1.39, 0.428328, 0.00115601};
-
-Double_t func_x0(Double_t d){
-    if (d < 1.7) return parameters["f1"][0]*Vavilov(d - parameters["f1"][1], parameters["f1"][2], parameters["f1"][3]) + parameters["f1"][4];
-    else return parameters["f2"][0]*Landau(d - parameters["f2"][1], parameters["f2"][2], parameters["f2"][3]) + parameters["f2"][4];
-}
-
-Double_t func_a(Double_t d){
-    if (d < 1.39) return parameters["f3"][0]*Poisson(parameters["f3"][1]*(x-parameters["f3"][2]), parameters["f3"][3])+parameters["f3"][4];
-    else return parameters["f4"][0]*Poisson(parameters["f4"][1]*(x-parameters["f4"][2]), parameters["f4"][3])+parameters["f4"][4];
-}
-
-Double_t func_h(Double_t d){
-    
-}
-
-Double_t ff(Double_t d, Double_t angle){
-    Double_t h = func_h(d);
-    if ((d < 0.8) || (d > 2.8)) return h;
-    else{
-        Double_t a = func_a(d);
-        Double_t x0 = func_x0(d);
-        a *= a;
-        angle = abs(fmod(angle,45.0) - ((int)(angle/45.0))%2);
-        if (angle<x0) return a*angle*angle+h;
-        else return a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)+h;
-    }
-}
-
-

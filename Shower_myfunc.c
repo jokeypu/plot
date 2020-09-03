@@ -6,23 +6,19 @@ struct myfunc {
     std::vector<double> par5 = {-0.0849149, 2.58396, 0.419646};
     std::vector<double> par6 = {10, 0.0124098, 0.0780432, 0.182612};
     std::vector<double> par7 = {0.144939, -0.435278, 0.0642399};
-
     Double_t func_x0(Double_t d){
         if (d < 1.7) return par1[0]*TMath::Vavilov(d - par1[1], par1[2], par1[3]) + par1[4];
         else return par2[0]*TMath::Landau(d - par2[1], par2[2], par2[3]) + par2[4];
     }
-    
     Double_t func_a(Double_t d){
         if (d < 1.39) return par3[0]*TMath::Poisson(par3[1]*(d-par3[2]), par3[3])+par3[4];
         else return par4[0]*TMath::Poisson(par4[1]*(d-par4[2]), par4[3])+par4[4];
     }
-    
     Double_t func_h(Double_t d){
         if (d < 1.4 ) return par5[0]*pow(d,par5[1])+par5[2];
         else if ( d < 3.5) return par6[0]*TMath::Landau(d-par6[1],par6[2],par6[3]);
         else return par7[0]*exp(par7[1]*d+par7[2]);
     }
-    
     Double_t m(Double_t d, Double_t angle){
         Double_t h = func_h(d);
         if ((d < 0.8) || (d > 2.8)) return h;

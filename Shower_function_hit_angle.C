@@ -1,4 +1,4 @@
-int Exec(TString dir_name, TH3D *h, Int_t NGamma=1);
+int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 {
     int bin1(150),bin2(150),bin3(150);
@@ -19,7 +19,8 @@ int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
+    //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
+    TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,0.04, bin2,ymin,ymax);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D1->GetXaxis()->SetTitle("d(cm)");
@@ -37,7 +38,7 @@ int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH3D *h, Int_t NGamma){
+int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -130,7 +131,8 @@ int Exec(TString dir_name, TH3D *h, Int_t NGamma){
                 Double_t E = hit->GetEnergy();
                 //h->Fill(E/E_0,angle);
                 //h->Fill(d*cos(angle),angle,E/E_0);
-                h->Fill(d,angle,E/E_0);
+                if (E == E_0) h->Fill(d,angle,E_0);
+                //if ((d<1.6) && (d >1.4)) h->Fill(d,angle,E);
             }
         }
         N++;

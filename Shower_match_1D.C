@@ -1,5 +1,5 @@
 int Exec(TString dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match_1D(int mode,int min = 3000)
+int Shower_match_1D(int mode = 5,int min = 5000)
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);

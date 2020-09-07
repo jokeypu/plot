@@ -42,7 +42,7 @@ int MC_backup5()
         int nhits = fHitArray->GetEntriesFast();
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
             cout << "hit: " << i << endl;
             double hitE=0;
             double E = hit->GetEnergy();

@@ -2,7 +2,7 @@ int Shower_function_hit()
 {
     int bin1(600),bin2(600);
     float tx(800),ty(600);
-    double xmin(-0.1),xmax(15),ymin(0),ymax(1.1);
+    double xmin(-0.1),xmax(5),ymin(0),ymax(1.1);
     TString dir_name("Gamma_1G_all");
     
     //******************************************//
@@ -22,7 +22,7 @@ int Shower_function_hit()
     if (!fHitArray) return -1;
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     
-    TCanvas* c1=new TCanvas("PANDA1","Hit1",tx,ty);
+    //TCanvas* c1=new TCanvas("PANDA1","Hit1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","Hit2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -46,11 +46,13 @@ int Shower_function_hit()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,ymax);
+    TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,600,0,2.5,bin2,ymin,ymax);
     h2D->GetXaxis()->SetTitle("d (cm)");
-    h2D->GetYaxis()->SetTitle("E/E_{0}");
+    h2D->GetYaxis()->SetTitle("d (cm)");
+    h2D->GetZaxis()->SetTitle("E/E_{0}");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
+    h2D->GetZaxis()->CenterTitle();
     h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     
@@ -121,27 +123,31 @@ int Shower_function_hit()
         if ( npoints == 0 ) continue;
         PndEmcHit* hit_0 = (PndEmcHit*)fHitArray->At(seedHit);
         Double_t E_0 = hit_0->GetEnergy();
+        TVector3 pos_0(hit_0->GetX(),hit_0->GetY(),hit_0->GetZ());
         //if ( E_0 < 0.5 ) continue;
         for (int i = 0; i < nhits; i++) {
             // computing distance from each hit to track
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            Double_t distance = hit->Position();
+            Int_t DetID = hit->GetDetectorID();
+            TVector3 pos(hit->GetX(),hit->GetY(),hit->GetZ());
+            Double_t distance = pos.Mag() * sin(pos.Angle(mom));
+            Double_t distance_0 = pos_0.Mag() * sin(pos_0.Angle(mom));
             Double_t E = hit->GetEnergy();
             h1D->Fill(distance,E/E_0);
             //h2D->Fill(distance,-1*log(E/E_0));
             if (DetID == seedID) continue;
-            h2D->Fill(distance,E/E_0);
+            h2D->Fill(distance,distance_0,E/E_0);
 	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}
         }
     N++;
     }
     //cout << test/cunt << endl;
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
-    c1->cd();
-    h1D->Draw("HIST");
+    //c1->cd();
+    //h1D->Draw("HIST");
     c2->cd();
-    h2D->Fit(f,"R");
+    //h2D->Fit(f,"R");
     h2D->Draw("HIST");
-    f->Draw("SAME");
+    //f->Draw("SAME");
     return 0;
 }

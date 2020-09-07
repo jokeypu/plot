@@ -39,7 +39,7 @@ int MC_backup6()
     
     std::map<Int_t, Double_t>::iterator it;
     
-    int aa=7;
+    int aa=5;
     for (Int_t ievt = aa; ievt < aa+1; ievt++) {
     //for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         t->GetEntry(ievt);
@@ -49,7 +49,7 @@ int MC_backup6()
         //for ( Int_t i = 9; i < 10; i++ ){
         for ( Int_t i = 0; i < nhits; i++ ){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t> ds = hit->GetMcSourceEnergy();
+            std::map<Int_t, Double_t> ds = hit->GetDepositedEnergyMap();
             cout << "hit: " << i << endl;
             double E = hit->GetEnergy();
             double theta = hit->GetTheta();

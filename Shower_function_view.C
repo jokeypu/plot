@@ -36,6 +36,7 @@ int Shower_function_view()
     gStyle->SetOptFit(1111);
     
     TH3D* h3D = new TH3D("h3D","3D",200,5,35,200,-15,15,200,55,80);
+    //TH3D* h3D = new TH3D("h3D","3D",200,-50,50,200,-150,150,200,55,80);
     h3D->SetMarkerStyle(1);
     //h3D->SetMarkerStyle(6);
     h3D->SetMarkerColorAlpha(kAzure+3, 0.7);

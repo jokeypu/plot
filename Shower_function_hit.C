@@ -1,9 +1,9 @@
 int Shower_function_hit()
 {
-    int bin1(600),bin2(600);
+    int bin1(200),bin2(200);
     float tx(800),ty(600);
     double xmin(-0.1),xmax(5),ymin(0),ymax(1.1);
-    TString dir_name("Gamma_1G_all");
+    TString dir_name("Gamma_one_1G");
     
     //******************************************//
     
@@ -46,7 +46,7 @@ int Shower_function_hit()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,600,0,2.5,bin2,ymin,ymax);
+    TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,200,0,2.5,bin2,ymin,ymax);
     h2D->GetXaxis()->SetTitle("d (cm)");
     h2D->GetYaxis()->SetTitle("d (cm)");
     h2D->GetZaxis()->SetTitle("E/E_{0}");
@@ -100,6 +100,7 @@ int Shower_function_hit()
         PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(0);
         TVector3 mom(mcTrack->GetMomentum());
         
+        if (npoints == 0) continue;
         PndEmcPoint* point_0 = (PndEmcPoint*)fPointArray->At(0);
         Int_t seedID = point_0->GetDetectorID();
         Int_t seedHit = -1;
@@ -136,6 +137,7 @@ int Shower_function_hit()
             h1D->Fill(distance,E/E_0);
             //h2D->Fill(distance,-1*log(E/E_0));
             if (DetID == seedID) continue;
+            //if (distance>2.11 && distance < 2.12) 
             h2D->Fill(distance,distance_0,E/E_0);
 	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}
         }

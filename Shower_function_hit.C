@@ -1,3 +1,12 @@
+std::vector<double> par5 = {-0.0849149, 2.58396, 0.419646};
+    std::vector<double> par6 = {10, 0.0124098, 0.0780432, 0.182612};
+    std::vector<double> par7 = {0.144939, -0.435278, 0.0642399};
+Double_t func_h(Double_t d){
+        if (d < 1.4 ) return par5[0]*pow(d,par5[1])+par5[2];
+        else if ( d < 3.5) return par6[0]*TMath::Landau(d-par6[1],par6[2],par6[3]);
+        else return par7[0]*exp(par7[1]*d+par7[2]);
+}
+
 int Shower_function_hit()
 {
     int bin1(200),bin2(200);
@@ -48,7 +57,7 @@ int Shower_function_hit()
     h1D->GetYaxis()->CenterTitle();
     
     //TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,200,0,2.5,bin2,ymin,ymax);
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",50,xmin,xmax,50,0,2.5);
+    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",50,0,5,50,0,1);
     h2D->GetXaxis()->SetTitle("d (cm)");
     h2D->GetYaxis()->SetTitle("d (cm)");
     h2D->GetZaxis()->SetTitle("E/E_{0}");
@@ -76,13 +85,16 @@ int Shower_function_hit()
     */
     
     
-    Double_t fitmin(2);
+    Double_t fitmin(2);/*
     TF1 *f=new TF1("f","exp(-1*[0]*sqrt(x-[1]))",fitmin,14);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(1.25,1.4);
     f->SetParLimits(0, 0, 200);
-    f->SetParLimits(1, 0, fitmin);
+    f->SetParLimits(1, 0, fitmin);*/
+    TF1 *f=new TF1("f","2*func_h(x)",0,5);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
     
     //double test(0.0);
     //int cunt(0);
@@ -133,7 +145,7 @@ int Shower_function_hit()
         angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
         //Double_t distance_0 = (pos_0 - mom_n).Mag();
         Double_t distance_0 = pos_0.Mag() * sin(pos_0.Angle(mom));
-        h2D->Fill(angle,distance_0,E_0);
+        //h2D->Fill(angle,distance_0,E_0);
         //if ( E_0 < 0.5 ) continue;
         for (int i = 0; i < nhits; i++) {
             // computing distance from each hit to track
@@ -145,10 +157,11 @@ int Shower_function_hit()
             Double_t E = hit->GetEnergy();
             //h1D->Fill(distance,E/E_0);
             //h2D->Fill(distance,-1*log(E/E_0));
-            if (DetID == seedID) continue;
+            //if (DetID == seedID) continue;
             //Double_t distance = (pos - mom_n).Mag();
             //if (distance>2.11 && distance < 2.12) 
             //h2D->Fill(distance,distance_0,E/E_0);
+            h2D->Fill(distance,E);
 	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}
         }
     N++;
@@ -159,8 +172,8 @@ int Shower_function_hit()
     //h1D->Draw("HIST");
     c2->cd();
     //h2D->Fit(f,"R");
-    //h2D->Draw("HIST");
-    h2D->Draw("LEGO");
-    //f->Draw("SAME");
+    h2D->Draw("HIST");
+    //h2D->Draw("LEGO");
+    f->Draw("SAME");
     return 0;
 }

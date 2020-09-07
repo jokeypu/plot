@@ -4,6 +4,7 @@ int Shower_function_hit()
     float tx(800),ty(600);
     double xmin(-0.1),xmax(5),ymin(0),ymax(1.1);
     TString dir_name("Gamma_one_1G");
+    TVector3 vz(0, 0, 1);
     
     //******************************************//
     
@@ -119,24 +120,27 @@ int Shower_function_hit()
             if ((hit->GetEnergy()) > maxE) {maxE=(hit->GetEnergy());seedHit=i;seedID = hit->GetDetectorID();}
         }
         
-        
         if ( seedHit == -1 ) continue;
         if ( npoints == 0 ) continue;
         PndEmcHit* hit_0 = (PndEmcHit*)fHitArray->At(seedHit);
         Double_t E_0 = hit_0->GetEnergy();
         TVector3 pos_0(hit_0->GetX(),hit_0->GetY(),hit_0->GetZ());
+        TVector3 mom_n;
+        mom_n.SetPtThetaPhi(pos_0.Mag(),mom.Theta(),mom.Phi());
+        Double_t distance_0 = (pos_0.Cross(vz).Unit().Dot(mom_n));
         //if ( E_0 < 0.5 ) continue;
         for (int i = 0; i < nhits; i++) {
             // computing distance from each hit to track
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Int_t DetID = hit->GetDetectorID();
             TVector3 pos(hit->GetX(),hit->GetY(),hit->GetZ());
-            Double_t distance = pos.Mag() * sin(pos.Angle(mom));
-            Double_t distance_0 = pos_0.Mag() * sin(pos_0.Angle(mom));
+            //Double_t distance = pos.Mag() * sin(pos.Angle(mom));
+            //Double_t distance_0 = pos_0.Mag() * sin(pos_0.Angle(mom));
             Double_t E = hit->GetEnergy();
-            h1D->Fill(distance,E/E_0);
+            //h1D->Fill(distance,E/E_0);
             //h2D->Fill(distance,-1*log(E/E_0));
             if (DetID == seedID) continue;
+            Double_t distance = (pos - mom_n).Mag();
             //if (distance>2.11 && distance < 2.12) 
             h2D->Fill(distance,distance_0,E/E_0);
 	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}

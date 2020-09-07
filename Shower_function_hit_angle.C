@@ -1,9 +1,9 @@
-int Exec(TString dir_name, TH2D *h, Int_t NGamma=2);
-int Shower_function_hit_angle( TString dir_name="Gamma_1G_all" )
+int Exec(TString dir_name, TH3D *h, Int_t NGamma=2);
+int Shower_function_hit_angle( TString dir_name="Gamma_one_1G" )
 {
     int bin1(200),bin2(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(20),ymin(0),ymax(190);
+    double xmin(0),xmax(5),ymin(0),ymax(190);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -19,7 +19,8 @@ int Shower_function_hit_angle( TString dir_name="Gamma_1G_all" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax);
+    //TH2D* h2D1 = new TH2D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax);
+    TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,0,45,bin2,0,1);
     h2D1->SetMarkerStyle(7);
     h2D1->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D1->GetXaxis()->SetTitle("d(cm)");
@@ -35,7 +36,7 @@ int Shower_function_hit_angle( TString dir_name="Gamma_1G_all" )
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH2D *h, Int_t NGamma){
+int Exec(TString dir_name, TH3D *h, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -120,8 +121,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
                 TVector3 pos(emcX[DetID], emcY[DetID], emcZ[DetID]);
                 TVector3 distance = pos - pos_in;
                 Double_t d = distance.Mag();
-                Double_t angle = distance.Angle(vz);
-                angle *= 57.29578;
+                Double_t angle = abs(57.29578*TMath::ATan((pos.Cross(vz).Unit().Dot(pos-pos_in)) / (pos-pos_in).Dot(pos.Unit())));
+                angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
                 Double_t E = hit->GetEnergy();
                 //h->Fill(E/E_0,angle);
                 h->Fill(d,angle,E);

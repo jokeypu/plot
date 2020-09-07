@@ -107,7 +107,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     out2.close();
     out3.close();
     c1->cd();
-    h1D3->Draw();
+    //h1D3->Draw();
     h1D1->Draw("SAME");
     h1D2->Draw("SAME");
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);

@@ -56,11 +56,11 @@ int Shower_function_hit()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    //TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,200,0,2.5,bin2,ymin,ymax);
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",50,0,5,50,0,1);
-    h2D->GetXaxis()->SetTitle("d (cm)");
+    TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,2000,0,5,bin2,ymin,ymax);
+    //TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",50,0,5,50,0,1);
+    h2D->GetXaxis()->SetTitle("angle");
     h2D->GetYaxis()->SetTitle("d (cm)");
-    h2D->GetZaxis()->SetTitle("E/E_{0}");
+    h2D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
     h2D->GetZaxis()->CenterTitle();
@@ -140,7 +140,7 @@ int Shower_function_hit()
         TVector3 pos_0(hit_0->GetX(),hit_0->GetY(),hit_0->GetZ());
         TVector3 mom_n;
         mom_n.SetPtThetaPhi(pos_0.Mag(),mom.Theta(),mom.Phi());
-        Double_t angle = abs(57.29578*TMath::ATan((pos_0.Cross(vz).Unit().Dot(mom_n-pos_0)) / (mom_n-pos_0).Dot(pos_0.Unit())));
+        Double_t angle = abs(57.29578*TMath::ATan((pos_0.Cross(vz).Unit().Dot(mom_n-pos_0)) / (mom_n-pos_0).Dot(pos_0.Cross(pos_0.Cross(vz)).Unit())));
         //cout << angle << endl;
         angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
         //Double_t distance_0 = (pos_0 - mom_n).Mag();
@@ -159,9 +159,9 @@ int Shower_function_hit()
             //h2D->Fill(distance,-1*log(E/E_0));
             //if (DetID == seedID) continue;
             //Double_t distance = (pos - mom_n).Mag();
-            //if (distance>2.11 && distance < 2.12) 
+            if (distance>1.4 && distance < 1.5) 
             //h2D->Fill(distance,distance_0,E/E_0);
-            h2D->Fill(distance,E);
+            h2D->Fill(angle,distance,E);
 	    //if ( distance < 1.7 ) {test+=E/E_0;cunt++;}
         }
     N++;
@@ -174,6 +174,6 @@ int Shower_function_hit()
     //h2D->Fit(f,"R");
     h2D->Draw("HIST");
     //h2D->Draw("LEGO");
-    f->Draw("SAME");
+    //f->Draw("SAME");
     return 0;
 }

@@ -64,21 +64,21 @@ int Shower_hit(){
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     
     /*
-    TF1 *f=new TF1("f","[1]*[0]*x",2,10);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(1.25,1);
-    f->SetParLimits(0, 0.01, 10);
-    f->SetParLimits(1, 1, 1);
+     TF1 *f=new TF1("f","[1]*[0]*x",2,10);
+     f->SetLineWidth(2);
+     f->SetLineColor(kRed);
+     f->SetParameters(1.25,1);
+     f->SetParLimits(0, 0.01, 10);
+     f->SetParLimits(1, 1, 1);
      */
     /*
-    TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(1.25,1);
-    f->SetParLimits(0, 0.01, 10);
-    f->SetParLimits(1, 1.0, 1.0);
-    */
+     TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
+     f->SetLineWidth(2);
+     f->SetLineColor(kRed);
+     f->SetParameters(1.25,1);
+     f->SetParLimits(0, 0.01, 10);
+     f->SetParLimits(1, 1.0, 1.0);
+     */
     
     int N(0);
     int num(5);
@@ -100,24 +100,28 @@ int Shower_hit(){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
             for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++)
-            if (linkIter->GetIndex() == 0) Exist = true;
+                if (linkIter->GetIndex() == 0) Exist = true;
         }
         if (!Exist) continue;
         
         if (nclusters != 1) continue;
-            
+        
         PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(0);
         TVector3 Cent = cluster->where();
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();
             TVector3 DetPos(hit->GetX(), hit->GetY(), hit->GetZ());
-            Double_t angle = abs(57.29578*TMath::ATan((DetPos.Cross(vz).Unit().Dot(Cent-DetPos)) / (Cent-DetPos).Dot(DetPos.Unit())));
-	    angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
-            Double_t distance = (DetPos - Cent).Mag();
+            TVector3 ey = DetPos.Cross(vz).Unit();
+            TVector3 ex = DetPos.Cross(ey).Unit();
+            Double_t dx = abs((Cent-DetPos).Dot(ex));
+            Double_t dy = abs((Cent-DetPos).Dot(ey));
+            Double_t angle = 57.29578*TMath::ATan(dy/dx);
+            angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
+            Double_t distance = sqrt(dx*dx+dy*dy);
             h2D->Fill(distance,angle,E);
         }
-    N++;
+        N++;
     }
     //cout << test/cunt << endl;
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

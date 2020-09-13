@@ -1,7 +1,7 @@
 int Shower_hit(){
-    int bin1(200),bin2(200),bin3(200);
+    int bin1(100),bin2(100),bin3(100);
     float tx(800),ty(600);
-    double xmin(0),xmax(5),ymin(0),ymax(45),zmin(0),zmax(1.1);
+    double xmin(0),xmax(5),ymin(0),ymax(46),zmin(0),zmax(1.1);
     TString dir_name("Gamma_tow_1G_old");
     TVector3 vz(0, 0, 1);
     
@@ -27,16 +27,6 @@ int Shower_hit(){
     TClonesArray* fClusterArray = new TClonesArray("PndEmcCluster");
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
-    
-    PndEmcMapper::Init(1);
-    TFile *parfile = new TFile("../data/"+dir_name+"/evtcomplete_par.root");
-    parfile->Get("FairGeoParSet");
-    PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
-    PndEmcMapper *fMapper = PndEmcMapper::Instance();
-    typedef std::map<Int_t, Float_t> mapper;
-    mapper emcX = fEmcStr->GetEmcX();
-    mapper emcY = fEmcStr->GetEmcY();
-    mapper emcZ = fEmcStr->GetEmcZ();
     
     //TCanvas* c1=new TCanvas("PANDA1","Hit1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","Hit2",tx,ty);
@@ -120,10 +110,10 @@ int Shower_hit(){
         TVector3 Cent = cluster->where();
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            Int_t DetID = hit->GetDetectorID();
             Double_t E = hit->GetEnergy();
-            TVector3 DetPos(emcX[DetID], emcY[DetID], emcZ[DetID]);
+            TVector3 DetPos(hit->GetX(), hit->GetY(), hit->GetZ());
             Double_t angle = abs(57.29578*TMath::ATan((DetPos.Cross(vz).Unit().Dot(Cent-DetPos)) / (Cent-DetPos).Dot(DetPos.Unit())));
+	    angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             Double_t distance = (DetPos - Cent).Mag();
             h2D->Fill(distance,angle,E);
         }

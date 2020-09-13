@@ -4,7 +4,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     int bin1(150),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(20),ymin(0),ymax(0.6);
-    string out1_name("out1_o.txt"), out2_name("out2_o.txt"), out3_name("out3.txt");
+    string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
     ifstream out1, out2, out3;
     out1.open(out1_name, ios::in);
     out2.open(out2_name, ios::in);
@@ -118,11 +118,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     c1->cd();
     h1D3->Draw();
     h1D2->Draw("SAME");
-<<<<<<< HEAD
     h1D1->Draw("SAME");
-=======
-    //h1D2->Fit(f,"R");
->>>>>>> 2eb49a596bb8b7105d706b82cc69f829fd63a829
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1,"Bump Energy old" , "L");
     leg->AddEntry(h1D2,"Bump Energy new", "L");

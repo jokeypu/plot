@@ -27,6 +27,9 @@ int Shower_hit(){
     TClonesArray* fClusterArray = new TClonesArray("PndEmcCluster");
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
+    TClonesArray* fBumpArray = new TClonesArray("PndEmcBump");
+    t->SetBranchAddress("EmcBump",&fBumpArray);
+    if (!fBumpArray) return -1;
     
     //TCanvas* c1=new TCanvas("PANDA1","Hit1",tx,ty);
     TCanvas* c2=new TCanvas("PANDA2","Hit2",tx,ty);
@@ -106,8 +109,8 @@ int Shower_hit(){
         
         if (nclusters != 1) continue;
         
-        PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(0);
-        TVector3 Cent = cluster->where();
+        PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
+        TVector3 Cent = bump->where();
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();

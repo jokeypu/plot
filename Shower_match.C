@@ -1,5 +1,5 @@
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match( TString dir_name="Gamma_tow_1G_nn" )
+int Shower_match( TString dir_name="Gamma_tow_1G_last_o" )
 {
     int bin1(200),bin2(100);
     float tx(800),ty(600);

@@ -115,6 +115,8 @@ int Shower_hit(){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();
             TVector3 DetPos(hit->GetX(), hit->GetY(), hit->GetZ());
+            TVector3 Pos_R(0,0,3.7);
+            DetPos = DetPos - Pos_R;
             TVector3 ey = DetPos.Cross(vz).Unit();
             TVector3 ex = DetPos.Cross(ey).Unit();
             Double_t dx = abs((Cent-DetPos).Dot(ex));

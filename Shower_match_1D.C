@@ -3,7 +3,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
 {
     int bin1(150),bin2(200);
     float tx(1200),ty(900);
-    double xmin(0.7),xmax(1.3);
+    double xmin(0),xmax(1.5);
     //double xmin(0.3),xmax(0.7);
     string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
     

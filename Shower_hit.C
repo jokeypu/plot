@@ -114,7 +114,9 @@ int Shower_hit(){
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();
-            TVector3 DetPos(hit->GetX(), hit->GetY(), hit->GetZ());
+            TVector3 DetPos_o(hit->GetX(), hit->GetY(), (hit->GetZ())-3.7);
+            TVector3 DetPos;
+            DetPos.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()+0.06981317);
             TVector3 ey = DetPos.Cross(vz).Unit();
             TVector3 ex = DetPos.Cross(ey).Unit();
             Double_t dx = abs((Cent-DetPos).Dot(ex));

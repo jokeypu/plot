@@ -3,6 +3,11 @@ Double_t func_h(Double_t d,Double_t p0,Double_t p1,Double_t p2,Double_t p3,Doubl
     else if ( d < 3.5) return p3*TMath::Landau((d-p4),p5,p6);
     else return p7*exp(p8*d+p9);
 }
+Double_t newfunc1(Double_t distance){
+    if (distance < 1.4 ) return -0.19945*pow(distance,2.90303)+0.855836;
+    else if ( distance < 3.5) return 2.14778*TMath::Landau(distance-0.625135,0.690762,0.121077);
+    else return 0.0590966*exp(-0.428928*distance - 0.473589);
+}
 int Shower_hit(){
     int bin1(50),bin2(50),bin3(50);
     float tx(800),ty(600);
@@ -87,6 +92,9 @@ int Shower_hit(){
      f->SetParLimits(8, -3, 0);
      f->SetParLimits(9, 0, 1);*/
     
+    TF1 *f1=new TF1("f","newfunc1(x)",0,5);
+    f1->SetLineWidth(2);
+    f1->SetLineColor(kBlue);
     /*
      TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
      f->SetLineWidth(2);
@@ -127,14 +135,14 @@ int Shower_hit(){
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();
-            TVector3 DetPos_o(hit->GetX(), hit->GetY(), (hit->GetZ())-3.7);
-            TVector3 DetPos_s(hit->GetX(), hit->GetY(), (hit->GetZ()));
-            TVector3 DetPos;
-            DetPos.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
-            TVector3 ey = DetPos.Cross(vz).Unit();
-            TVector3 ex = DetPos.Cross(ey).Unit();
-            Double_t dx = abs((Cent-DetPos_s).Dot(ex));
-            Double_t dy = abs((Cent-DetPos_s).Dot(ey));
+            TVector3 DetPos(hit->GetX(), hit->GetY(), (hit->GetZ()));
+            TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+            TVector3 DetPos_n;
+            DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+            TVector3 ey = DetPos_n.Cross(vz).Unit();
+            TVector3 ex = DetPos_n.Cross(ey).Unit();
+            Double_t dx = abs((Cent-DetPos).Dot(ex));
+            Double_t dy = abs((Cent-DetPos).Dot(ey));
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);
@@ -148,9 +156,9 @@ int Shower_hit(){
     //c1->cd();
     //h1D->Draw("HIST");
     c2->cd();
-    h2D->Fit(f,"R");
+    //h2D->Fit(f,"R");
     h2D->Draw("HIST");
     //h2D->Draw("LEGO");
-    f->Draw("SAME");
+    f1->Draw("SAME");
     return 0;
 }

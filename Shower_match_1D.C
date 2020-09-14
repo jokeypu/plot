@@ -3,12 +3,9 @@ int Shower_match_1D(int mode = 5,int min = 5000)
 {
     int bin1(150),bin2(200);
     float tx(1200),ty(900);
-    double xmin(0),xmax(20),ymin(0),ymax(0.6);
+    double xmin(0.7),xmax(1.3);
+    //double xmin(0.3),xmax(0.7);
     string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
-    ifstream out1, out2, out3;
-    out1.open(out1_name, ios::in);
-    out2.open(out2_name, ios::in);
-    out3.open(out3_name, ios::in);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -24,7 +21,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, 0.7, 1.3);
+    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kBlue);
     h1D1->SetLineWidth(2);
     h1D1->GetXaxis()->SetTitle("Energy");
@@ -32,7 +29,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, 0.7, 1.3);
+    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, xmin, xmax);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
     h1D2->GetXaxis()->SetTitle("Energy");
@@ -40,7 +37,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D2->GetXaxis()->CenterTitle();
     h1D2->GetYaxis()->CenterTitle();
     
-    TH1D* h1D3 = new TH1D("Hist1_3","h1_3", bin1, 0.7, 1.3);
+    TH1D* h1D3 = new TH1D("Hist1_3","h1_3", bin1, xmin, xmax);
     h1D3->SetLineColor(kGreen);
     h1D3->SetLineWidth(2);
     h1D3->GetXaxis()->SetTitle("Energy");
@@ -58,6 +55,10 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     }else if (mode == 3) {
         if( Exec( "Gamma_tow_1G_old", out3_name, 1, true) ) return 1;
     }else if (mode == 4) {
+    	ifstream out1, out2, out3;
+    	out1.open(out1_name, ios::in);
+    	out2.open(out2_name, ios::in);
+    	out3.open(out3_name, ios::in);
         int cunt;
         cunt = 0;
         while (!out1.eof()) {
@@ -82,9 +83,16 @@ int Shower_match_1D(int mode = 5,int min = 5000)
             h1D3->Fill(value);
             cunt++;
         }
+    	out1.close();
+    	out2.close();
+    	out3.close();
         cout << "N3:" << cunt << endl;
         cunt = 0;
     }else if (mode == 5) {
+    	ifstream out1, out2, out3;
+    	out1.open(out1_name, ios::in);
+    	out2.open(out2_name, ios::in);
+   	out3.open(out3_name, ios::in);
         int cunt;
         cunt = 0;
         for (int i= 0;i < min; i++) {
@@ -102,10 +110,10 @@ int Shower_match_1D(int mode = 5,int min = 5000)
             double value= atof(str.c_str());
             h1D3->Fill(value);
         }
+    	out1.close();
+    	out2.close();
+    	out3.close();
     }
-    out1.close();
-    out2.close();
-    out3.close();
     
     TF1 *f=new TF1("f","[2]*TMath::Gaus(x,[0],[1])",0.8,1.2);
     f->SetLineWidth(2);
@@ -116,8 +124,9 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     f->SetParLimits(2, 0, 2000);
     
     c1->cd();
-    h1D3->Draw();
-    h1D2->Draw("SAME");
+    //h1D3->Draw();
+    //h1D2->Draw("SAME");
+    h1D2->Draw();
     h1D1->Draw("SAME");
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1,"Bump Energy old" , "L");
@@ -162,6 +171,7 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    	if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
         int nhits = fHitArray->GetEntriesFast();

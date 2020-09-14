@@ -1,7 +1,7 @@
 int Shower_hit(){
-    int bin1(100),bin2(100),bin3(100);
+    int bin1(20),bin2(20),bin3(20);
     float tx(800),ty(600);
-    double xmin(0),xmax(5),ymin(0),ymax(46),zmin(0),zmax(1.1);
+    double xmin(0),xmax(3),ymin(0),ymax(46),zmin(0),zmax(1.01);
     TString dir_name("Gamma_tow_1G_old");
     TVector3 vz(0, 0, 1);
     
@@ -64,7 +64,7 @@ int Shower_hit(){
     h2D->GetYaxis()->CenterTitle();
     h2D->GetZaxis()->CenterTitle();
     h2D->SetMarkerStyle(7);
-    h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h2D->SetMarkerColorAlpha(kAzure+3, 1);
     
     /*
      TF1 *f=new TF1("f","[1]*[0]*x",2,10);
@@ -122,7 +122,7 @@ int Shower_hit(){
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);
-            h2D->Fill(distance,angle,E);
+	    h2D->Fill(distance,angle,E);
         }
         N++;
     }

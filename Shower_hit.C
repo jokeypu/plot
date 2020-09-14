@@ -1,8 +1,8 @@
 Double_t func_h(Double_t d,Double_t p0,Double_t p1,Double_t p2,Double_t p3,Double_t p4,Double_t p5,Double_t p6,Double_t p7,Double_t p8,Double_t p9 ){
-      if (d < 1.4 ) return p0*pow(d,p1)+p2;
-	        else if ( d < 3.5) return p3*TMath::Landau((d-p4),p5,p6);
-		        else return p7*exp(p8*d+p9);
-			    }
+    if (d < 1.4 ) return p0*pow(d,p1)+p2;
+    else if ( d < 3.5) return p3*TMath::Landau((d-p4),p5,p6);
+    else return p7*exp(p8*d+p9);
+}
 int Shower_hit(){
     int bin1(50),bin2(50),bin3(50);
     float tx(800),ty(600);
@@ -72,11 +72,11 @@ int Shower_hit(){
     h2D->SetMarkerColorAlpha(kAzure+3, 1);
     
     
-     TF1 *f=new TF1("f","func_h(x,[0],[1],[2],[3],[4],[5],[6],[7],[8],[9])",0,5);
-     f->SetLineWidth(2);
-     f->SetLineColor(kRed);
-     f->SetParameters(-0.0849149, 2.58396, 0.419646, 10, 0.0124098, 0.0780432, 0.182612, 0.144939, -0.435278, 0.0642399);
-     /*f->SetParLimits(0, -2, 0);
+    TF1 *f=new TF1("f","func_h(x,[0],[1],[2],[3],[4],[5],[6],[7],[8],[9])",0,5);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(-0.0849149, 2.58396, 0.419646, 10, 0.0124098, 0.0780432, 0.182612, 0.144939, -0.435278, 0.0642399);
+    /*f->SetParLimits(0, -2, 0);
      f->SetParLimits(1, 0, 10);
      f->SetParLimits(2, 0, 1);
      f->SetParLimits(3, 0, 50);
@@ -86,7 +86,7 @@ int Shower_hit(){
      f->SetParLimits(7, 0, 1);
      f->SetParLimits(8, -3, 0);
      f->SetParLimits(9, 0, 1);*/
-     
+    
     /*
      TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
      f->SetLineWidth(2);
@@ -133,18 +133,13 @@ int Shower_hit(){
             DetPos.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
             TVector3 ey = DetPos.Cross(vz).Unit();
             TVector3 ex = DetPos.Cross(ey).Unit();
-<<<<<<< HEAD
-            Double_t dx = abs((Cent-DetPos_o).Dot(ex));
-            Double_t dy = abs((Cent-DetPos_o).Dot(ey));
-=======
             Double_t dx = abs((Cent-DetPos_s).Dot(ex));
             Double_t dy = abs((Cent-DetPos_s).Dot(ey));
->>>>>>> 336fa7e6438c565c4c7eaf9678f72335a0d4e5e9
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);
-	    //h2D->Fill(distance,angle,E);
-	    h2D->Fill(distance,E);
+            //h2D->Fill(distance,angle,E);
+            h2D->Fill(distance,E);
         }
         N++;
     }

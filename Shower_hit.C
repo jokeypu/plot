@@ -119,8 +119,8 @@ int Shower_hit(){
             DetPos.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()+0.06981317);
             TVector3 ey = DetPos.Cross(vz).Unit();
             TVector3 ex = DetPos.Cross(ey).Unit();
-            Double_t dx = abs((Cent-DetPos).Dot(ex));
-            Double_t dy = abs((Cent-DetPos).Dot(ey));
+            Double_t dx = abs((Cent-DetPos_o).Dot(ex));
+            Double_t dy = abs((Cent-DetPos_o).Dot(ey));
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);

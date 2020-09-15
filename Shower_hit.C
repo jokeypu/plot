@@ -136,7 +136,7 @@ int Shower_hit(){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             Double_t E = hit->GetEnergy();
             TVector3 DetPos(hit->GetX(), hit->GetY(), (hit->GetZ()));
-            TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+            TVector3 DetPos_o = (DetPos) - 3.7*vz;
             TVector3 DetPos_n;
             DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
             TVector3 ey = DetPos_n.Cross(vz).Unit();

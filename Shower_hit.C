@@ -16,7 +16,11 @@ int Shower_hit(){
     TVector3 vz(0, 0, 1);
     
     //******************************************//
-    
+    ofstream out;
+    //out.open("doc/Shower_hit.txt",ios::out);
+    out.open("doc/Shower_hit_90.txt",ios::out);
+
+
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../data/"+dir_name+"/evtcomplete_sim.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
@@ -94,7 +98,7 @@ int Shower_hit(){
     
     TF1 *f1=new TF1("f","newfunc1(x)",0,5);
     f1->SetLineWidth(2);
-    f1->SetLineColor(kBlue);
+    f1->SetLineColor(kRed);
     /*
      TF1 *f=new TF1("f","[0]*[1]*sqrt(x-1.2)",1.2,15);
      f->SetLineWidth(2);
@@ -137,6 +141,7 @@ int Shower_hit(){
             Double_t E = hit->GetEnergy();
             TVector3 DetPos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             TVector3 DetPos_o = (DetPos) - 3.7*vz;
+            //TVector3 DetPos_n = DetPos;
             TVector3 DetPos_n;
             DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
             TVector3 ey = DetPos_n.Cross(vz).Unit();
@@ -144,10 +149,15 @@ int Shower_hit(){
             Double_t dx = abs((Cent-DetPos).Dot(ex));
             Double_t dy = abs((Cent-DetPos).Dot(ey));
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
-            angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
+            //angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
+            angle = abs(fmod(angle,90.0) - 90*(((int)(angle/90.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);
+            //if (angle>1 && angle <2)
             //h2D->Fill(distance,angle,E);
             h2D->Fill(distance,E);
+            out << distance << endl;
+	        out << angle << endl;
+            out << E << endl;
         }
         N++;
     }
@@ -159,6 +169,7 @@ int Shower_hit(){
     //h2D->Fit(f,"R");
     h2D->Draw("HIST");
     //h2D->Draw("LEGO");
-    f1->Draw("SAME");
+    //f1->Draw("SAME");
+    out.close();
     return 0;
 }

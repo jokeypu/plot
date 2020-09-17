@@ -34,7 +34,7 @@ struct myfunc {
 }func;
 
 int Shower_myfunc(){
-    Double_t rangex_min(0),rangex_max(3), rangey_min(0), rangey_max(90);
+    Double_t rangex_min(0),rangex_max(5), rangey_min(0), rangey_max(45);
     int nstepx(50), nstepy(200);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
@@ -69,7 +69,7 @@ int Shower_myfunc(){
         Double_t angle = rangey_min;
         for (int j = 0;j<nstepy+1;j++){
             h->Fill(d,angle,func.m(d,angle));
-            cout << func.m(d,angle) << endl;
+            //cout << func.m(d,angle) << endl;
             angle+=stepy;
         }
         d+=stepx;

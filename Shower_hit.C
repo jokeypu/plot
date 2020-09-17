@@ -17,7 +17,7 @@ int Shower_hit(){
     
     //******************************************//
     ofstream out;
-    //out.open("doc/Shower_hit.txt",ios::out);
+    //out.open("doc/Shower_hit_90.txt",ios::out);
     out.open("doc/Shower_hit.txt",ios::out);
 
 

@@ -4,6 +4,7 @@ int Read(){
     double xmin(0),xmax(3),ymin(0),ymax(46),zmin(0),zmax(1.01);
     string file_name("doc/Shower_hit.txt");
     //string file_name("doc/Shower_hit_90.txt");
+    
     ifstream file;
     file.open(file_name, ios::in);
     int cunt(0);

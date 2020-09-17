@@ -40,7 +40,7 @@ while (!file.eof()) {
 	                double distance= atof(str1.c_str());
 	                double angle= atof(str2.c_str());
 	                double E= atof(str3.c_str());
-			//if (angle>0 && angle<1)
+			if (angle>0 && angle<1)
 			            h2D->Fill(distance,E);
 				                cunt++;
 						        }

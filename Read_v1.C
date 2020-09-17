@@ -4,7 +4,7 @@ int Read_v1(){
     double xmin(0),xmax(3),ymin(0),ymax(45),zmin(0),zmax(1.01);
     const int step_distance(100),step_angle(100);
     
-    string file_name("doc/Shower_hit_90.txt");
+    string file_name("doc/Shower_hit.txt");
     ifstream file;
     file.open(file_name, ios::in);
     

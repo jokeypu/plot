@@ -92,7 +92,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     	ifstream out1, out2, out3;
     	out1.open(out1_name, ios::in);
     	out2.open(out2_name, ios::in);
-   	out3.open(out3_name, ios::in);
+   	    out3.open(out3_name, ios::in);
         int cunt;
         cunt = 0;
         for (int i= 0;i < min; i++) {

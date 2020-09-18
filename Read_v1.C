@@ -4,7 +4,7 @@ int Read_v1(){
     double xmin(0),xmax(3),ymin(0),ymax(45),zmin(0),zmax(1.01);
     const int step_distance(100),step_angle(100);
     
-    string file_name("doc/Shower_hit_90.txt");
+    string file_name("doc/Shower_hit.txt");
     ifstream file;
     file.open(file_name, ios::in);
     
@@ -33,6 +33,7 @@ int Read_v1(){
     
     TH3D* h2D = new TH3D("hvx0vy0","vx vs vy",bin1,xmin,xmax,bin2,ymin,2*ymax,bin3,zmin,zmax);
     //TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,5,200,0,1);
+    //TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",85,0,3,85,0,90);
     h2D->GetYaxis()->SetTitle("angle");
     h2D->GetXaxis()->SetTitle("d (cm)");
     h2D->GetZaxis()->SetTitle("E");
@@ -41,16 +42,6 @@ int Read_v1(){
     h2D->GetZaxis()->CenterTitle();
     h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 1);
-    
-    TF2 *f=new TF2("f","[0]+[1]*x+[2]*x*x+[3]*y+[4]*y*y+[5]*y*y*y+[6]*y*y*y*y+[7]*y*y*y*y*y",0,3);
-    //f->SetLineWidth(2);
-    //f->SetLineColor(kRed);
-    f->SetParameters(0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5);
-    //f->SetParLimits(0, -100, 100);
-    //f->SetParLimits(1, -100, 100);
-    //->SetParameters(2,-10,10);
-    //f->SetParameters(3,-10,10);
-    //f->SetParameters(4,-10,10);
     
     double d_distance = (xmax - xmin)/step_distance;
     double d_angle = (ymax - ymin)/step_angle;
@@ -86,9 +77,17 @@ int Read_v1(){
         cunt++;
     }
     
+    Double_t rr(0.9);
     for (int i=0; i < step_distance; i++){
         for (int j=0; j < step_angle; j++){
-            if (count[i][j]<=0||isnan(Energy[i][j]/count[i][j])||abs(Energy[i][j])>100) continue;
+            if (count[i][j]<=0||isnan(Energy[i][j]/count[i][j])||abs(Energy[i][j])>100) {
+                h2D->Fill(dis[i],ang[j],rr);
+                x << dis[i] << endl;
+                y << ang[j] << endl;
+                z << rr << endl;
+                xyz << dis[i] << " " << ang[j] << " " << rr << endl;
+                continue;
+            }
             if (j%2 == 0){
                 h2D->Fill(dis[i],ang[j],Energy[i][j]/count[i][j]);
                 x << dis[i] << endl;
@@ -96,6 +95,7 @@ int Read_v1(){
                 z << Energy[i][j]/count[i][j] << endl;
                 xyz << dis[i] << " " << ang[j] << " " << Energy[i][j]/count[i][j] << endl;
                 //xyz << "(" << dis[i] << "," << ang[j] << "," << Energy[i][j]/count[i][j] << "),";
+                rr = Energy[i][j]/count[i][j];
             }
             else{
                 h2D->Fill(dis[i],90-ang[j],Energy[i][j]/count[i][j]);
@@ -104,6 +104,7 @@ int Read_v1(){
                 z << Energy[i][j]/count[i][j] << endl;
                 xyz << dis[i] << " " << 90-ang[j] << " " << Energy[i][j]/count[i][j] << endl;
                 //xyz << "(" << dis[i] << "," << 90-ang[j] << "," << Energy[i][j]/count[i][j] << "),";
+                rr = Energy[i][j]/count[i][j];
             }
         }
     }
@@ -111,8 +112,6 @@ int Read_v1(){
     cout << "Passed:" << cunt << " / " << cunt0 << endl;
     c1->cd();
     h2D->Draw("SCAT");
-    //h2D->Fit(f,"R");
-    //f->Draw("SAME");
     file.close();
     x.close();
     y.close();

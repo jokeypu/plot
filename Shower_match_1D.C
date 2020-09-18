@@ -5,7 +5,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
-    string out1_name("out1.txt"), out2_name("out2.txt"), out3_name("out3.txt");
+    string out1_name("doc/out1.txt"), out2_name("doc/out2.txt"), out3_name("doc/out3.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);

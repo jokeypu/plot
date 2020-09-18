@@ -205,7 +205,6 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
         }
         delta_E = sqrt(delta_E/NGamma);
         delta_pos = 2.0 * 65.0 * sqrt(delta_pos/NGamma);
-        
         h2D3->Fill(distance, delta_E);
         //h2D4->Fill(distance, delta_pos);
         N++;

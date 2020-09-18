@@ -17,8 +17,8 @@ int Shower_hit(){
     
     //******************************************//
     ofstream out;
-    //out.open("doc/Shower_hit.txt",ios::out);
-    out.open("doc/Shower_hit_90.txt",ios::out);
+    //out.open("doc/Shower_hit_90.txt",ios::out);
+    out.open("doc/Shower_hit.txt",ios::out);
 
 
     FairRunAna *fRun = new FairRunAna();
@@ -149,8 +149,8 @@ int Shower_hit(){
             Double_t dx = abs((Cent-DetPos).Dot(ex));
             Double_t dy = abs((Cent-DetPos).Dot(ey));
             Double_t angle = 57.29578*TMath::ATan(dy/dx);
-            //angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
-            angle = abs(fmod(angle,90.0) - 90*(((int)(angle/90.0))%2));
+            angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
+            //angle = abs(fmod(angle,90.0) - 90*(((int)(angle/90.0))%2));
             Double_t distance = sqrt(dx*dx+dy*dy);
             //if (angle>1 && angle <2)
             //h2D->Fill(distance,angle,E);

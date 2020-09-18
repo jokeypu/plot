@@ -1,0 +1,10 @@
+set timeout -1
+set PANDA_DIR $env(PANDA_DIR)
+set MAX_EVT $env(MAX_EVT)
+spawn bash
+send "cd $PANDA_DIR;. $PANDA_DIR/PandaRoot/build/config.sh\n"
+send "cd $PANDA_DIR/workspace/plot\n"
+send "root -l Read_v3.C\"($MAX_EVT)\"\n"
+send ".q\n"
+send "exit\n"
+interact

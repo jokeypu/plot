@@ -151,10 +151,15 @@ void EEE(){
     frame1->SetYTitle( namey );
     frame1->Draw("SAME");
     
+    //TPaveText *t = new TPaveText(.05,.3,.95,.6);
+    //t->AddText("This line is blue"); ((TText*)t->GetListOfLines()->Last())->SetTextColor(kBlue);
+    //t->AddText("This line is red");  ((TText*)t->GetListOfLines()->Last())->SetTextColor(kRed);
+    //t->Draw("SAME");
     //char cc("After");
     //MakeLegend(h1D2, &cc, &&cc1);
     //MakeLegend(h1D1, "Befor", "Voigtian");
-    /MakeLegend(0,"",h1D1,"Bump Energy Before",h1D2,"Bump Energy After",0.7,0.75,0.88,0.85);
+    MakeLegend(0,"",h1D1,"Bump Energy Before",h1D2,"Bump Energy After",0.7,0.75,0.88,0.85);
+    
     //TLegend *legend=new TLegend(0.7,0.75,0.88,0.85);
     //legend->SetTextFont(72);
     //legend->SetTextSize(0.035);

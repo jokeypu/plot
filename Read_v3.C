@@ -1,3 +1,4 @@
+Double_t myfunc(double distance, double angle);
 const int step_distance(100),step_angle(300);
 void MyLoop(int CUT){
     int bin1(100),bin2(200),bin3(50);
@@ -67,6 +68,10 @@ void MyLoop(int CUT){
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(1.049,2);
+    /*
+    TF1 *f=new TF1("f","myfunc(x,20)",0,3);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);*/
     
     /*TF1 *f=new TF1("f","1 / ((0.23*[0]+0.564)*x*x*x*x*x - [0]*(x*x*x*x - 0.865*x*x*x + 0.349*x*x) + 0.241*x +1.133)",0,3);
     f->SetLineWidth(2);
@@ -106,7 +111,7 @@ void MyLoop(int CUT){
         int N_distance = (int)(distance/d_distance);
         int N_angle = (int)(angle/d_angle);
         if ((N_distance>=step_distance)||(N_angle>=step_angle)) continue;
-        if (E<0||E>16) continue;
+        if ( E<0 || E>16 ) continue;
         count[N_distance][N_angle]++;
         Energy[N_distance][N_angle]+=E;
         cunt++;
@@ -132,10 +137,10 @@ void MyLoop(int CUT){
     c1->cd();
     //h2D->Draw("CONT4Z");
     h2D->Draw("SCAT");
-    h2D->Fit(f,"R");
-    //f->Draw("SAME");
+    //h2D->Fit(f,"R");
+    f->Draw("SAME");
     
-    wirtefile << CUT << "   " << f->GetParameter(0) << "   " << f->GetParameter(1) << endl;
+    //wirtefile << CUT << "   " << f->GetParameter(0) << "   " << f->GetParameter(1) << endl;
     
     file.close();
     wirtefile.close();
@@ -145,4 +150,8 @@ int Read_v3(int j = 0){
         MyLoop(j);
     //}
     return 0;
+}
+Double_t myfunc(double distance, double angle){
+    Double_t value = (1.585 - 0.0237*angle)*pow(distance,5) - (1.371/(angle + 24.672))*(pow(distance,4)+22.845*pow(distance,3) - 3.794*distance*distance) + 0.485*distance + 2.787;
+    return 2.456/value;
 }

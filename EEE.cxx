@@ -125,9 +125,9 @@ void EEE(){
     
     model.fitTo(data,Extended());
     
-    data.plotOn(frame, MarkerStyle(21), MarkerSize(0.5),MarkerColor(kBlue));
+    data.plotOn(frame, MarkerStyle(21), MarkerSize(1),MarkerColor(kBlue));
     
-    model.plotOn(frame,LineColor(kBlue),LineWidth(2));
+    model.plotOn(frame,LineColor(kBlue),LineWidth(3));
     //model.plotOn(frame, Components(sig),LineStyle(kDashed));
     
     frame->GetXaxis()->CenterTitle( kTRUE );
@@ -141,8 +141,8 @@ void EEE(){
     RooPlot* frame1 = x.frame(Title(namet));
     RooDataHist data1("data","dataset with x1",x,h1D2);
     model1.fitTo(data1,Extended());
-    data1.plotOn(frame1, MarkerStyle(7), MarkerSize(0.5),MarkerColor(kRed));
-    model1.plotOn(frame1,LineColor(kRed),LineWidth(2));
+    data1.plotOn(frame1, MarkerStyle(22), MarkerSize(1),MarkerColor(kRed));
+    model1.plotOn(frame1,LineColor(kRed),LineWidth(3));
     frame1->GetXaxis()->CenterTitle( kTRUE );
     frame1->GetYaxis()->CenterTitle( kTRUE );
     frame1->GetXaxis()->SetLabelFont( 42 );

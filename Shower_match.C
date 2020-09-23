@@ -1,5 +1,5 @@
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match( TString dir_name="Gamma_tow_1G_last" )
+int Shower_match( TString dir_name="Gamma_tow_1G_last_o" )
 {
     int bin1(200),bin2(100);
     float tx(800),ty(600);
@@ -118,6 +118,7 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
+	if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();

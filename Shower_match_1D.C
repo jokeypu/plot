@@ -45,6 +45,11 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D3->GetXaxis()->CenterTitle();
     h1D3->GetYaxis()->CenterTitle();
     
+    TF1 *f=new TF1("f","[0]*TMath::Gaus(x,[1],[2])",xmin,xmax);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(2000,1,2);
+
     string str;
     //int mode(5); //1,2,3,4,5
     //int min(3105);
@@ -53,7 +58,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     }else if (mode == 2) {
         if( Exec( "Gamma_tow_1G_last", out2_name, 2, true) ) return 1;
     }else if (mode == 3) {
-        if( Exec( "Gamma_tow_1G_old", out3_name, 1, true) ) return 1;
+        if( Exec( "Gamma_one_1G", out3_name, 1, true) ) return 1;
     }else if (mode == 4) {
     	ifstream out1, out2, out3;
     	out1.open(out1_name, ios::in);
@@ -115,23 +120,17 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     	out3.close();
     }
     
-    TF1 *f=new TF1("f","[2]*TMath::Gaus(x,[0],[1])",0.8,1.2);
-    f->SetLineWidth(2);
-    f->SetLineColor(kRed);
-    f->SetParameters(1.02,1,800);
-    f->SetParLimits(0, 0.8, 1.5);
-    f->SetParLimits(1, 0, 3);
-    f->SetParLimits(2, 0, 2000);
-    
     c1->cd();
     //h1D3->Draw();
     //h1D2->Draw("SAME");
     h1D2->Draw();
     h1D1->Draw("SAME");
+    h1D2->Fit(f,"R");
+   
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1,"Bump Energy old" , "L");
     leg->AddEntry(h1D2,"Bump Energy new", "L");
-    leg->AddEntry(h1D3,"Cluster Energy 1Gamma", "L");
+    //leg->AddEntry(h1D3,"Cluster Energy 1Gamma", "L");
     leg->Draw();
     return 0;
 }

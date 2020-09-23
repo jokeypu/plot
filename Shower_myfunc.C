@@ -31,10 +31,18 @@ struct myfunc {
             else return a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)+h;
         }
     }
+    Double_t m(Double_t distance, Double_t angle, Double_t par){
+        if ( angle > 90 && angle <= 180 ) angle = 180 -angle;
+        if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+        if ( distance < 4 ) {
+            Double_t value = (1.585 - 0.0237*angle)*pow(distance,5) - (1.371/(angle + 24.672))*(pow(distance,4)+22.845*pow(distance,3) - 3.794*distance*distance) + 0.485*distance + 2.787;
+            return 2.456/value;
+        }else return exp(-1* par * distance);
+    }
 }func;
 
 int Shower_myfunc(){
-    Double_t rangex_min(0),rangex_max(5), rangey_min(0), rangey_max(45);
+    Double_t rangex_min(0),rangex_max(5), rangey_min(0), rangey_max(180);
     int nstepx(50), nstepy(200);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",800,600);
@@ -51,7 +59,7 @@ int Shower_myfunc(){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH3D* h = new TH3D("h3D","3D",200,rangex_min,rangex_max,200,rangey_min,rangey_max,200,0,0.5);
+    TH3D* h = new TH3D("h3D","3D",200,rangex_min,rangex_max,200,rangey_min,rangey_max,200,0,1);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.7);
     h->GetXaxis()->SetTitle("distance");
@@ -68,7 +76,7 @@ int Shower_myfunc(){
         cout << "complete: " << 100*i/nstepx << "%" << endl;
         Double_t angle = rangey_min;
         for (int j = 0;j<nstepy+1;j++){
-            h->Fill(d,angle,func.m(d,angle));
+            h->Fill(d,angle,func.m(d,angle,1.25));
             //cout << func.m(d,angle) << endl;
             angle+=stepy;
         }

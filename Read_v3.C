@@ -73,10 +73,10 @@ void MyLoop(int CUT){
     f->SetLineColor(kRed);
     f->SetParameter(0,2);*/
     
-    TF1 *f=new TF1("f","1 / ((1.585-0.0281*y)*x*x*x*x*x - (73.41/(y+24.672))*(x*x*x*x - 0.865*x*x*x + 0.349*x*x) + 0.241*x +1.133)",0,3);
+    /*TF1 *f=new TF1("f","1 / ((1.585-0.0281*y)*x*x*x*x*x - (73.41/(y+24.672))*(x*x*x*x - 0.865*x*x*x + 0.349*x*x) + 0.241*x +1.133)",0,3);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
-    f->SetParameters(1.049,2);
+    f->SetParameters(1.049,2);*/
     
     double d_distance = (xmax - xmin)/step_distance;
     double d_angle = (ymax - ymin)/step_angle;

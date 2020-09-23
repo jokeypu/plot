@@ -150,6 +150,20 @@ void EEE(){
     frame1->SetXTitle( namex );
     frame1->SetYTitle( namey );
     frame1->Draw("SAME");
+    
+    //char cc("After");
+    //MakeLegend(h1D2, &cc, &&cc1);
+    //MakeLegend(h1D1, "Befor", "Voigtian");
+    /MakeLegend(0,"",h1D1,"Bump Energy Before",h1D2,"Bump Energy After",0.7,0.75,0.88,0.85);
+    //TLegend *legend=new TLegend(0.7,0.75,0.88,0.85);
+    //legend->SetTextFont(72);
+    //legend->SetTextSize(0.035);
+    //legend->AddEntry("h_data","Data","lpe");
+    //legend->AddEntry("h_data","Fit","l");
+    //legend->Draw("SAME");
+    //TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
+    //leg->AddEntry(h1D1,"Bump Energy old" , "L");
+    //leg->AddEntry(h1D2,"Bump Energy new", "L");
     //c->Print("Picture/"+tree1+"-"+branch1+"-F.png");
     return;
 }

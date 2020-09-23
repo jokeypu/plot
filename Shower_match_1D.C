@@ -1,4 +1,26 @@
 int Exec(TString dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
+Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail=0.)
+{
+  if (TMath::Abs(tail) < 1.e-7) {
+    return TMath::Exp( -0.5 * TMath::Power( ( (x - peak) / width ), 2 ));
+  }
+
+  Double_t arg = 1.0 - ( x - peak ) * tail / width;
+
+  if (arg < 1.e-7) {
+    //Argument of logarithm negative. Real continuation -> function equals zero
+    return 0.0;
+  }
+
+  Double_t log = TMath::Log(arg);
+  static const Double_t xi = 2.3548200450309494; // 2 Sqrt( Ln(4) )
+
+  Double_t width_zero = ( 2.0 / xi ) * TMath::ASinH( tail * xi * 0.5 );
+  Double_t width_zero2 = width_zero * width_zero;
+  Double_t exponent = ( -0.5 / (width_zero2) * log * log ) - ( width_zero2 * 0.5 );
+
+  return TMath::Exp(exponent);
+}
 int Shower_match_1D(int mode = 5,int min = 5000)
 {
     int bin1(150),bin2(200);
@@ -45,10 +67,14 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D3->GetXaxis()->CenterTitle();
     h1D3->GetYaxis()->CenterTitle();
     
-    TF1 *f=new TF1("f","[0]*TMath::Gaus(x,[1],[2])",xmin,xmax);
+    TF1 *f=new TF1("f","[0]*Novosibirsk(x,[1],[2],[3])",xmin,xmax);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
-    f->SetParameters(2000,1,2);
+    f->SetParameters(1000,1,0.02,0.37);
+    f->SetParLimits(0, 100, 10000);
+    f->SetParLimits(1, 0.5, 1.3);
+    f->SetParLimits(2, 0.005, 0.5);
+    f->SetParLimits(3, 0.001, 1);
 
     string str;
     //int mode(5); //1,2,3,4,5
@@ -125,7 +151,8 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     //h1D2->Draw("SAME");
     h1D2->Draw();
     h1D1->Draw("SAME");
-    h1D2->Fit(f,"R");
+    h1D1->Fit(f,"R");
+    f->Draw("same");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1,"Bump Energy old" , "L");

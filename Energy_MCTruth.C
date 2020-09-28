@@ -1,24 +1,24 @@
 bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
     return a.first < b.first;
 }
-int Energy_MCTruth(int evNo = 1, bool UsedGrid = true)
+int Energy_MCTruth(int evNo = 18, bool UsedGrid = true)
 {
     int bin1(100),bin2(100);
     float tx(800),ty(600);
-    float xsct(74),ysct(0);
-    float Rad(12);
+    float xsct(68),ysct(0);
+    float Rad(8);
     double xmin(xsct-Rad*tx/ty),xmax(xsct+Rad*tx/ty),ymin(ysct-Rad),ymax(ysct+Rad);
     
     //*****************************************************
     
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/Compare_n/evtcomplete_digi.root");
+    TFile* file = new TFile("../data/Gamma_tow_1G/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../data/Compare_n/evtcomplete_sim.root");
+    TFile* f = new TFile("../data/Gamma_tow_1G/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);

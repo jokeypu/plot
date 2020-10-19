@@ -108,6 +108,10 @@ int Shower_hit(){
      f->SetParLimits(1, 1.0, 1.0);
      */
     
+    TF1 *f2=new TF1("f2","[0]*exp(-1*[1]*x)+[2]*exp(-1*[3]*x)",0,15);
+    f2->SetLineWidth(2);
+    f2->SetLineColor(kRed);
+    
     int N(0);
     int num(5);
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
@@ -166,10 +170,10 @@ int Shower_hit(){
     //c1->cd();
     //h1D->Draw("HIST");
     c2->cd();
-    //h2D->Fit(f,"R");
+    h2D->Fit(f2,"R");
     h2D->Draw("HIST");
     //h2D->Draw("LEGO");
-    //f1->Draw("SAME");
+    f2->Draw("SAME");
     out.close();
     return 0;
 }

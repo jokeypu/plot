@@ -3,7 +3,7 @@ int Shower_function_view()
     int bin1(600),bin2(600);
     float tx(800),ty(600);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1G");
+    TString dir_name("Gamma_1G_90d");
     
     //******************************************//
     
@@ -35,7 +35,8 @@ int Shower_function_view()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH3D* h3D = new TH3D("h3D","3D",200,5,35,200,-15,15,200,55,80);
+    //TH3D* h3D = new TH3D("h3D","3D",200,5,35,200,-15,15,200,55,80);
+    TH3D* h3D = new TH3D("h3D","3D",200,-100,100,200,-15,15,200,55,80);
     h3D->SetMarkerStyle(1);
     //h3D->SetMarkerStyle(6);
     h3D->SetMarkerColorAlpha(kAzure+3, 0.7);

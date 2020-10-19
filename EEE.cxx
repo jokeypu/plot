@@ -6,6 +6,7 @@
 #include "RooCBShape.h"
 #include "RooChebychev.h"
 #include "RooDataSet.h"
+#include "RooNovosibirsk.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "RooFitResult.h"
@@ -102,22 +103,25 @@ void EEE(){
     //RooRealVar mean("mean","mean",1.0,0.7,1.3);
     //RooRealVar sigma("sigma","sigma",0.026,0.00,0.1);
     //RooRealVar sigmap("sigmap","sigmap",0.01,0.00,0.18);
-    RooRealVar mean("mean","mean",1.0,0.7,1.3);
-    RooRealVar sigma("sigma","sigma",0.026,0.00,1);
+    RooRealVar mean("mean","mean",1.02574,1.025,1.026);
+    RooRealVar sigma("sigma","sigma",0.02887,0.0200,0.0350);
     RooRealVar sigmap("sigmap","sigmap",0.1,-50,50);
     RooRealVar nn("nn","nn",1,-100,100);
-    RooVoigtian sig("sig","signal p.d.f.",x,mean,sigma,sigmap);
-    RooVoigtian sig1("sig1","signal p.d.f.",x,mean,sigma,sigmap);
+    RooRealVar tail("tail","tail",0.111,0.100,0.200);
+    //RooVoigtian sig("sig","signal p.d.f.",x,mean,sigma,sigmap);
+    //RooVoigtian sig1("sig1","signal p.d.f.",x,mean,sigma,sigmap);
     RooCBShape sig2("sig2","signal p.d.f.2",x,mean,sigma,sigmap,nn);
+    RooNovosibirsk sig("sig", "signal p.d.f", x, mean, sigma, tail);
+    RooNovosibirsk sig1("sig1", "signal p.d.f1", x, mean, sigma, tail);
     
     RooRealVar c0("c0","coefficient #0", 1.0,-1.5,1.5);
     RooRealVar c1("c1","coefficient #1", 0.1,-1.5,1.5);
     RooRealVar c2("c2","coefficient #2",-0.1,-1.5,1.5);
     RooChebychev bkg("bkg","background p.d.f.",x,RooArgList(c0,c1,c2));
     
-    RooRealVar nsig("nsig","signal fraction",2150,0.,40000.);
+    RooRealVar nsig("nsig","signal fraction",3141,1000,5000.);
     RooRealVar nbkg("nbkg","background fraction",700,0.,50000.);
-    RooAddPdf model("model","model",RooArgList(sig),RooArgList(nsig));
+    RooAddPdf model("model","model",sig,nsig);
     RooAddPdf model1("model1","model1",RooArgList(sig),RooArgList(nsig));
     
     RooPlot* frame = x.frame(Title(namet));
@@ -137,7 +141,7 @@ void EEE(){
     frame->SetXTitle( namex );
     frame->SetYTitle( namey );
     frame->Draw();
-    
+    /*
     RooPlot* frame1 = x.frame(Title(namet));
     RooDataHist data1("data","dataset with x1",x,h1D2);
     model1.fitTo(data1,Extended());
@@ -149,7 +153,7 @@ void EEE(){
     frame1->GetYaxis()->SetLabelFont( 42 );
     frame1->SetXTitle( namex );
     frame1->SetYTitle( namey );
-    frame1->Draw("SAME");
+    frame1->Draw("SAME");*/
     
     //TPaveText *t = new TPaveText(.05,.3,.95,.6);
     //t->AddText("This line is blue"); ((TText*)t->GetListOfLines()->Last())->SetTextColor(kBlue);
@@ -158,7 +162,7 @@ void EEE(){
     //char cc("After");
     //MakeLegend(h1D2, &cc, &&cc1);
     //MakeLegend(h1D1, "Befor", "Voigtian");
-    MakeLegend(0,"",h1D1,"Bump Energy Before",h1D2,"Bump Energy After",0.7,0.75,0.88,0.85);
+    //MakeLegend(0,"",h1D1,"Bump Energy Before",h1D2,"Bump Energy After",0.7,0.75,0.88,0.85);
     
     //TLegend *legend=new TLegend(0.7,0.75,0.88,0.85);
     //legend->SetTextFont(72);

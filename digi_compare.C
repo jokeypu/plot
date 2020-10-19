@@ -131,7 +131,7 @@ int Exec(TString dir_name, TH2D* h2D, Int_t NGamma, bool IsSplit){
         std::map<Int_t, Double_t> ww1;
         std::map<Int_t, Double_t> EE0;
         std::map<Int_t, Double_t> EE1;
-        std::vector<Int_t> detid;
+        std::map<Int_t, bool> detid;
         for (int n = 0; n < nbumps ; n++){
             PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(n);
             std::vector<Int_t> list = bump->DigiList();
@@ -139,7 +139,7 @@ int Exec(TString dir_name, TH2D* h2D, Int_t NGamma, bool IsSplit){
                 PndEmcSharedDigi* digi = (PndEmcSharedDigi*)fSharedDigiArray->At(list[i]);
                 if (n == 0) {ww0[digi->GetDetectorId()] = digi->weight(); EE0[digi->GetDetectorId()] = digi->GetEnergy();}
                 if (n == 1) {ww1[digi->GetDetectorId()] = digi->weight(); EE1[digi->GetDetectorId()] = digi->GetEnergy();}
-                detid.push_back(digi->GetDetectorId());
+                detid[digi->GetDetectorId()] = true;
             }
         }
         

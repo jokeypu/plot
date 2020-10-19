@@ -1,6 +1,7 @@
 int Exec(TString dir_name, TH2D* h2D, Int_t NGamma=2, bool IsSplit=1);
 int digi_compare()
 {
+    float tx(800),ty(600);
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);

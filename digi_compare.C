@@ -16,9 +16,9 @@ int digi_compare()
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1.1,200,0,0.1);
+    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1,200,-0.05,0.05);
     h2D->GetXaxis()->SetTitle("#deltaw");
-    h2D->GetYaxis()->SetTitle("#deltaE");
+    h2D->GetYaxis()->SetTitle("#E_{truth}-E_{share}");
     h2D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();

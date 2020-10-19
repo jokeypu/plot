@@ -146,7 +146,7 @@ int Shower_hit(){
         
         PndEmcHit* seedhit = (PndEmcHit*)fHitArray->At(seedid);
         Double_t E0 = seedhit->GetEnergy();
-        //if (E0 < 0.7) continue;
+        if (E0 < 0.7) continue;
         
         PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
         TVector3 Cent = bump->where();
@@ -168,7 +168,7 @@ int Shower_hit(){
             Double_t distance = sqrt(dx*dx+dy*dy);
             //if (angle>1 && angle <2)
             //h2D->Fill(distance,angle,E);
-            h2D->Fill(distance,E);
+            h2D->Fill(distance,E/E0);
             out << distance << endl;
 	        out << angle << endl;
             out << E/E0 << endl;

@@ -163,7 +163,7 @@ int Shower_hit(){
             Double_t distance = sqrt(dx*dx+dy*dy);
             //if (angle>1 && angle <2)
             //h2D->Fill(distance,angle,E);
-            h2D->Fill(distance,E);
+            h2D->Fill(distance,E/E0);
             out << distance << endl;
 	        out << angle << endl;
             out << E/E0 << endl;

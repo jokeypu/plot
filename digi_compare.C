@@ -16,9 +16,9 @@ int digi_compare()
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1,200,0,1.5);
-    h2D->GetYaxis()->SetTitle("#daltaw");
-    h2D->GetXaxis()->SetTitle("#daltaE");
+    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1.1,200,0,0.1);
+    h2D->GetXaxis()->SetTitle("#deltaw");
+    h2D->GetYaxis()->SetTitle("#deltaE");
     h2D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
@@ -152,7 +152,6 @@ int Exec(TString dir_name, TH2D* h2D, Int_t NGamma, bool IsSplit){
             h2D->Fill(abs(ww0[DID] - ww1[DID]), ds[match[1]] - EE1[DID]);
             }
         }
-        
         N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

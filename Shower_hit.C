@@ -12,7 +12,7 @@ int Shower_hit(){
     int bin1(50),bin2(50),bin3(50);
     float tx(800),ty(600);
     double xmin(0),xmax(3),ymin(0),ymax(46),zmin(0),zmax(1.01);
-    TString dir_name("Gamma_one_1G_old");
+    TString dir_name("Gamma_one_1G");
     TVector3 vz(0, 0, 1);
     
     //******************************************//

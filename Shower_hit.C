@@ -12,13 +12,13 @@ int Shower_hit(){
     int bin1(50),bin2(50),bin3(50);
     float tx(800),ty(600);
     double xmin(0),xmax(3),ymin(0),ymax(46),zmin(0),zmax(1.01);
-    TString dir_name("Gamma_tow_1G_old");
+    TString dir_name("Gamma_one_1G");
     TVector3 vz(0, 0, 1);
     
     //******************************************//
     ofstream out;
     //out.open("doc/Shower_hit_90.txt",ios::out);
-    out.open("doc/Shower_hit.txt",ios::out);
+    out.open("doc/Shower_hit_1.txt",ios::out);
 
 
     FairRunAna *fRun = new FairRunAna();
@@ -133,15 +133,20 @@ int Shower_hit(){
         
         //Exclude events generated electron-positron
         bool Exist = false;
+        int seedid(-1);
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
             for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++)
-                if (linkIter->GetIndex() == 0) Exist = true;
+                if (linkIter->GetIndex() == 0) { Exist = true; seedid = i; }
         }
         if (!Exist) continue;
         
         if (nclusters != 1) continue;
+        
+        PndEmcHit* seedhit = (PndEmcHit*)fHitArray->At(seedid);
+        Double_t E0 = seedhit->GetEnergy();
+        if (E0 < 0.7) continue;
         
         PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
         TVector3 Cent = bump->where();
@@ -166,7 +171,7 @@ int Shower_hit(){
             h2D->Fill(distance,E);
             out << distance << endl;
 	        out << angle << endl;
-            out << E << endl;
+            out << E/E0 << endl;
         }
         N++;
     }

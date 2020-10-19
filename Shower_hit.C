@@ -12,7 +12,7 @@ int Shower_hit(){
     int bin1(50),bin2(50),bin3(50);
     float tx(800),ty(600);
     double xmin(0),xmax(3),ymin(0),ymax(46),zmin(0),zmax(1.01);
-    TString dir_name("Gamma_tow_1G_old");
+    TString dir_name("Gamma_one_1G_old");
     TVector3 vz(0, 0, 1);
     
     //******************************************//
@@ -128,15 +128,20 @@ int Shower_hit(){
         
         //Exclude events generated electron-positron
         bool Exist = false;
+        int seedid(-1);
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
             for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++)
-                if (linkIter->GetIndex() == 0) Exist = true;
+                if (linkIter->GetIndex() == 0) { Exist = true; seedid = i; }
         }
         if (!Exist) continue;
         
         if (nclusters != 1) continue;
+        
+        PndEmcHit* seedhit = (PndEmcHit*)fHitArray->At(seedid);
+        Double_t E0 = seedhit->GetEnergy();
+        if (E0 < 0.7) continue;
         
         PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
         TVector3 Cent = bump->where();
@@ -158,10 +163,10 @@ int Shower_hit(){
             Double_t distance = sqrt(dx*dx+dy*dy);
             //if (angle>1 && angle <2)
             //h2D->Fill(distance,angle,E);
-            h2D->Fill(distance,E);
+            h2D->Fill(distance,E/E0);
             out << distance << endl;
 	        out << angle << endl;
-            out << E << endl;
+            out << E/E0 << endl;
         }
         N++;
     }

@@ -38,7 +38,7 @@ int digi_compare()
     if( Exec( "Gamma_tow_non_1G_old", h2D, 2, true) ) return 1;
 
     c1->cd();
-    h2D->Draw();
+    h2D->Draw("CONT4Z");
    
     //TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");

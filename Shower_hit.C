@@ -108,9 +108,14 @@ int Shower_hit(){
      f->SetParLimits(1, 1.0, 1.0);
      */
     
-    TF1 *f2=new TF1("f2","[0]*exp(-1*[1]*x)+[2]*exp(-1*[3]*x)",0,15);
+    TF1 *f2=new TF1("f2","[0]*exp(-1*[1]*x)-[2]*exp(-1*[3]*x)",0,2.5);
     f2->SetLineWidth(2);
     f2->SetLineColor(kRed);
+    f2->SetParameters(1,1.25,1,1.25);
+    f2->SetParLimits(0, 0.01, 50);
+    f2->SetParLimits(1, 0.01, 50);
+    f2->SetParLimits(2, 0.01, 50);
+    f2->SetParLimits(3, 0.01, 50);
     
     int N(0);
     int num(5);

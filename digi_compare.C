@@ -18,7 +18,7 @@ int digi_compare()
     
     TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1,200,-0.05,0.05);
     h2D->GetXaxis()->SetTitle("#deltaw");
-    h2D->GetYaxis()->SetTitle("#E_{truth}-E_{share}");
+    h2D->GetYaxis()->SetTitle("E_{truth}-E_{share}");
     h2D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
@@ -34,7 +34,8 @@ int digi_compare()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    if( Exec( "Gamma_tow_non_1G", h2D, 2, true) ) return 1;
+    //if( Exec( "Gamma_tow_non_1G", h2D, 2, true) ) return 1;
+    if( Exec( "Gamma_tow_non_1G_old", h2D, 2, true) ) return 1;
 
     c1->cd();
     h2D->Draw();

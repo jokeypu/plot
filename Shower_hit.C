@@ -146,7 +146,7 @@ int Shower_hit(){
         
         PndEmcHit* seedhit = (PndEmcHit*)fHitArray->At(seedid);
         Double_t E0 = seedhit->GetEnergy();
-        if (E0 < 0.7) continue;
+        //if (E0 < 0.7) continue;
         
         PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(0);
         TVector3 Cent = bump->where();

@@ -110,7 +110,8 @@ void EEE_v2(){
         int nbump = fBumpArray->GetEntriesFast();
         for (int n = 0; n < nbump ; n++){
             PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(n);
-            Double_t bump_E = Bump->energy();
+            Double_t bump_E = bump->energy();
+            //if (bump_E<1.5)
             h1D1->Fill(bump_E);
             cunt1++;
         }
@@ -129,7 +130,8 @@ void EEE_v2(){
         int nbump = fBumpArray_fix->GetEntriesFast();
         for (int n = 0; n < nbump ; n++){
             PndEmcBump* bump = (PndEmcBump*)fBumpArray_fix->At(n);
-            Double_t bump_E = bump_E->energy();
+            Double_t bump_E = bump->energy();
+            //if (bump_E<1.5)
             h1D2->Fill(bump_E);
             cunt2++;
             //if (cunt2>=cunt1) break;

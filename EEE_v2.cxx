@@ -48,13 +48,14 @@ void EEE_v2(){
     
     TString namet(""), namex("Energy"), namey("Entries");
     
-    int bin1(500),bin2(200);
+    int bin1(50),bin2(200);
     float tx(1200),ty(900);
     double xmin(0.85),xmax(1.2);
     //double xmin(0.3),xmax(0.7);
     //Double_t x1_min(xmin),x1_max(xmax);
     
-    TCanvas* c=new TCanvas("PANDA1","c1",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
+    TCanvas* c2=new TCanvas("PANDA2","c2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -84,13 +85,26 @@ void EEE_v2(){
     h1D2->GetXaxis()->CenterTitle();
     h1D2->GetYaxis()->CenterTitle();
     
-    TF1* f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],[3])",0.85,1.2);
-    f1->SetParameters(3000,1.,.02,.3);
+    TF1* f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],[3])+[4]*TMath::Gaus(x,[1],[5]+[6])",0.85,1.2);
+    f1->SetParameters(3000,1.,.02,.3,0,1,0);
     f1->SetParLimits(0, 0, 10000);
     f1->SetParLimits(1, 0.9, 1.3);
-    f1->SetParLimits(2, 0.001, 0.1);
-    f1->SetParLimits(3, 0, 10);
-    //f1->SetParLimits(4, 0, 1000);
+    f1->SetParLimits(2, 0.02, 0.05);
+    f1->SetParLimits(3, -0.7, 0.7);
+    f1->SetParLimits(4, 0, 10000);
+    f1->SetParLimits(5, 0, 20);
+    f1->SetParLimits(6, 0, 100);
+
+    
+    TF1* f2=new TF1("f2","[0]*Novosibirsk(x,[1],[2],[3])+[4]*TMath::Gaus(x,[1],[5])+[6]",0.85,1.2);
+    f2->SetParameters(3000,1.,.02,.3,0,1,0);
+    f2->SetParLimits(0, 0, 10000);
+    f2->SetParLimits(1, 0.9, 1.3);
+    f2->SetParLimits(2, 0.02, 0.05);
+    f2->SetParLimits(3, -0.7, 0.7);
+    f2->SetParLimits(4, 0, 10000);
+    f2->SetParLimits(5, 0, 20);
+    f2->SetParLimits(6, 0, 100);
     
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../data/Gamma_tow_1G_last_o/evtcomplete_digi.root");
@@ -111,7 +125,7 @@ void EEE_v2(){
         for (int n = 0; n < nbump ; n++){
             PndEmcBump* bump = (PndEmcBump*)fBumpArray->At(n);
             Double_t bump_E = bump->energy();
-            //if (bump_E<1.5)
+            if (bump_E<1.5)
             h1D1->Fill(bump_E);
             cunt1++;
         }
@@ -131,14 +145,20 @@ void EEE_v2(){
         for (int n = 0; n < nbump ; n++){
             PndEmcBump* bump = (PndEmcBump*)fBumpArray_fix->At(n);
             Double_t bump_E = bump->energy();
-            //if (bump_E<1.5)
+            if (bump_E<1.5)
             h1D2->Fill(bump_E);
             cunt2++;
             //if (cunt2>=cunt1) break;
         }
     }
     cout << "cunt1:" << cunt1 << ", cunt2:" << cunt2 << endl;
-    
+    c1->cd();
     h1D1->Fit(f1,"R");
+    h1D2->Fit(f2,"R");
+    c2->cd();
+    h1D1->Draw("same");
+    f1->Draw("same");
+    h1D2->Draw("same");
+    f2->Draw("same");
     return;
 }

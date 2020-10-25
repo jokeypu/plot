@@ -80,9 +80,9 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     //int mode(5); //1,2,3,4,5
     //int min(3105);
     if (mode == 1){
-        if( Exec( "Gamma_tow_1G_last_o", out1_name, 2, true) ) return 1;
+        if( Exec( "Gamma_tow_non_1G_old", out1_name, 2, true) ) return 1;
     }else if (mode == 2) {
-        if( Exec( "Gamma_tow_1G_last", out2_name, 2, true) ) return 1;
+        if( Exec( "Gamma_tow_1G_non_standard", out2_name, 2, true) ) return 1;
     }else if (mode == 3) {
         if( Exec( "Gamma_one_1G", out3_name, 1, true) ) return 1;
     }else if (mode == 4) {

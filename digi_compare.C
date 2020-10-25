@@ -16,7 +16,7 @@ int digi_compare()
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",200,0,1,200,-0.05,0.05);
+    TH2D* h2D = new TH2D("hvx0vy0","vx vs vy",250,0,1,250,-0.05,0.05);
     h2D->GetXaxis()->SetTitle("#deltaw");
     h2D->GetYaxis()->SetTitle("E_{truth}-E_{share}");
     h2D->GetZaxis()->SetTitle("E");
@@ -34,11 +34,11 @@ int digi_compare()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    //if( Exec( "Gamma_tow_non_1G", h2D, 2, true) ) return 1;
-    if( Exec( "Gamma_tow_non_1G_old", h2D, 2, true) ) return 1;
+    if( Exec( "Gamma_tow_non_1G", h2D, 2, true) ) return 1;
+    //if( Exec( "Gamma_tow_non_1G_old", h2D, 2, true) ) return 1;
 
     c1->cd();
-    h2D->Draw("CONT4Z");
+    h2D->Draw();
    
     //TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");

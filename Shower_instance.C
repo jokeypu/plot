@@ -1,7 +1,7 @@
 int Exec(TH1D* hist, Int_t NGamma, bool IsSplit);
 int Shower_instance()
 {
-    int bin1(50),bin2(200);
+    int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);

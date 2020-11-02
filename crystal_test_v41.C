@@ -20,32 +20,47 @@ Double_t newfunc3(const TVector3 *DetPos, const TVector3 *Cent, const Double_t p
     //if (distance<0) distance = 0;
     
     Int_t N_angle = (Int_t) (angle / 0.3);
-    if ( distance < 3.3 ) {
+    if ( distance < -3.3 ) {
         Double_t value = (par1[N_angle]*distance*distance*distance*distance*distance - par2[N_angle]*(distance*distance*distance*distance - 0.865*distance*distance*distance + 0.349*distance*distance) + 0.241*distance +1.133);
         return 1/value;
-    }else return exp(-1* par * distance);
+    }else return exp(-1* par * distance);  //0.2*
 }
 
 Double_t rat(const TVector3 *DetPos_i, const TVector3 *DetPos_0, const TVector3 *Cent, const Double_t par) {
-    Double_t value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
-    //Double_t value = newfunc3(DetPos_i, Cent, par);
+    Double_t distance(0);
+    if (*DetPos_i != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos_i) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos_i).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos_i).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+    }
+    Double_t value;
+    if (distance < -1.5)
+    value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
+    else value = newfunc3(DetPos_i, Cent, par);
     //std::cout << "value:" << value << std::endl;
     //if ( value >= 1.0 ) return 0.99;
     return value;
 }
 
-int Exec(TString dir_name, TH1D *h, Int_t NGamma=1);
-int crystal_test( TString dir_name="Gamma_one_1G" )
+int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
+int crystal_test_v41( TString dir_name="Gamma_one_1G" )
 {
-    int bin1(400),bin2(150),bin3(150);
+    int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(-0.1),xmax(1),ymin(-2),ymax(92),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(1),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(1);
+    gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -56,25 +71,26 @@ int crystal_test( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleOffset(1.0,"xyz");
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
-    TH1D* h1D = new TH1D("Hist1","h1",bin1,xmin,xmax);
-    h1D->SetMarkerStyle(7);
-    h1D->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h1D->GetXaxis()->SetTitle("#deltaE");
-    h1D->GetYaxis()->SetTitle("Enties");
+    TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
+    h2D->SetMarkerStyle(22);
+    h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h2D->GetYaxis()->SetTitle("#deltaE");
+    h2D->GetXaxis()->SetTitle("E_{truth}");
     //h1D->GetZaxis()->SetTitle("E");
-    h1D->GetXaxis()->CenterTitle();
-    h1D->GetYaxis()->CenterTitle();
-    h1D->GetZaxis()->CenterTitle();
+    h2D->GetXaxis()->CenterTitle();
+    h2D->GetYaxis()->CenterTitle();
+    h2D->GetZaxis()->CenterTitle();
     
-    if( Exec(dir_name, h1D, 1) ) return 1;
+    if( Exec(dir_name, h2D, 1) ) return 1;
     
     c1->cd();
-    h1D->Draw();
+    c1->SetGridy();
+    h2D->Draw("SCAT");
     return 0;
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH1D *h, Int_t NGamma){
+int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -178,10 +194,11 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
         std::map<Int_t, Int_t> theMaximaDigis = theCluster->LocalMaxMap();
         
         std::map<Int_t, Int_t>::iterator p;
-        Int_t digi_seed(-1);
+        Int_t digi_seed(-1),digi_seed_id(-1);
         int c(0);
         for (p = theMaximaDigis.begin(); p != theMaximaDigis.end(); p++){
             digi_seed = p->second;
+            digi_seed_id = p->first;
             c++;
         }
         //cout <<  "c:" << c << endl;
@@ -193,6 +210,7 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            //if (hit->GetDetectorID() == digi_seed_id) continue;
             TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             double Truth_Energy = hit->GetEnergy();
             double Digi_Energy = -1;
@@ -202,7 +220,9 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
             }
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
-            h->Fill(Eci - Truth_Energy);
+            //h->Fill(Eci,Eci - Truth_Energy);
+            h->Fill(Truth_Energy,Eci);
+            //h->Fill(Eci,Eci - Truth_Energy);
             if (abs(Eci - Truth_Energy) < 0.03) N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }

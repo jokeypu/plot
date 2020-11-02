@@ -20,32 +20,51 @@ Double_t newfunc3(const TVector3 *DetPos, const TVector3 *Cent, const Double_t p
     //if (distance<0) distance = 0;
     
     Int_t N_angle = (Int_t) (angle / 0.3);
-    if ( distance < 3.3 ) {
+    if ( distance < -3.3 ) {
         Double_t value = (par1[N_angle]*distance*distance*distance*distance*distance - par2[N_angle]*(distance*distance*distance*distance - 0.865*distance*distance*distance + 0.349*distance*distance) + 0.241*distance +1.133);
         return 1/value;
     }else return exp(-1* par * distance);
 }
 
 Double_t rat(const TVector3 *DetPos_i, const TVector3 *DetPos_0, const TVector3 *Cent, const Double_t par) {
-    Double_t value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
-    //Double_t value = newfunc3(DetPos_i, Cent, par);
+    //Double_t value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
+    Double_t value = newfunc3(DetPos_i, Cent, par);
     //std::cout << "value:" << value << std::endl;
     //if ( value >= 1.0 ) return 0.99;
     return value;
 }
 
+Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
+    Double_t distance(0), angle(0);
+    if (*DetPos != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+        angle = 57.2957*TMath::ATan(dy/dx);
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    }
+    return distance;
+}
+
 int Exec(TString dir_name, TH1D *h, Int_t NGamma=1);
-int crystal_test( TString dir_name="Gamma_one_1G" )
+int crystal_test_v3( TString dir_name="Gamma_one_1G" )
 {
-    int bin1(400),bin2(150),bin3(150);
+    int bin1(200),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(-0.1),xmax(1),ymin(-2),ymax(92),zmin(0),zmax(0.1);
+    double xmin(0),xmax(14),ymin(-0.1),ymax(0.1),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(1);
+    gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -57,10 +76,10 @@ int crystal_test( TString dir_name="Gamma_one_1G" )
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
     TH1D* h1D = new TH1D("Hist1","h1",bin1,xmin,xmax);
-    h1D->SetMarkerStyle(7);
+    h1D->SetMarkerStyle(22);
     h1D->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h1D->GetXaxis()->SetTitle("#deltaE");
-    h1D->GetYaxis()->SetTitle("Enties");
+    h1D->GetYaxis()->SetTitle("distance");
+    h1D->GetXaxis()->SetTitle("Entries");
     //h1D->GetZaxis()->SetTitle("E");
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
@@ -69,6 +88,7 @@ int crystal_test( TString dir_name="Gamma_one_1G" )
     if( Exec(dir_name, h1D, 1) ) return 1;
     
     c1->cd();
+    c1->SetGridy();
     h1D->Draw();
     return 0;
 }
@@ -108,7 +128,7 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
-        if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
+        //if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();
@@ -200,13 +220,15 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
                 PndEmcDigi* idigi = (PndEmcDigi*)fDigiArray->At(j);
                 if (idigi->GetDetectorId() == hit->GetDetectorID()) Digi_Energy = idigi->GetEnergy();
             }
-            double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
+            if (Truth_Energy < 0.2){
+            double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
-            h->Fill(Eci - Truth_Energy);
-            if (abs(Eci - Truth_Energy) < 0.03) N++;
+            h->Fill(Distance);
+
+            }
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
-        cout <<  "c:" << c << endl;
+        //cout <<  "c:" << c << endl;
         //N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

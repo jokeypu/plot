@@ -20,32 +20,32 @@ Double_t newfunc3(const TVector3 *DetPos, const TVector3 *Cent, const Double_t p
     //if (distance<0) distance = 0;
     
     Int_t N_angle = (Int_t) (angle / 0.3);
-    if ( distance < 3.3 ) {
+    if ( distance < -3.3 ) {
         Double_t value = (par1[N_angle]*distance*distance*distance*distance*distance - par2[N_angle]*(distance*distance*distance*distance - 0.865*distance*distance*distance + 0.349*distance*distance) + 0.241*distance +1.133);
         return 1/value;
     }else return exp(-1* par * distance);
 }
 
 Double_t rat(const TVector3 *DetPos_i, const TVector3 *DetPos_0, const TVector3 *Cent, const Double_t par) {
-    Double_t value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
-    //Double_t value = newfunc3(DetPos_i, Cent, par);
+    //Double_t value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
+    Double_t value = newfunc3(DetPos_i, Cent, par);
     //std::cout << "value:" << value << std::endl;
     //if ( value >= 1.0 ) return 0.99;
     return value;
 }
 
-int Exec(TString dir_name, TH1D *h, Int_t NGamma=1);
-int crystal_test( TString dir_name="Gamma_one_1G" )
+int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
+int crystal_test_v2( TString dir_name="Gamma_one_1G" )
 {
-    int bin1(400),bin2(150),bin3(150);
+    int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(-0.1),xmax(1),ymin(-2),ymax(92),zmin(0),zmax(0.1);
+    double xmin(0),xmax(1),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(1);
+    gStyle->SetOptStat(0);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -56,25 +56,26 @@ int crystal_test( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleOffset(1.0,"xyz");
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
-    TH1D* h1D = new TH1D("Hist1","h1",bin1,xmin,xmax);
-    h1D->SetMarkerStyle(7);
-    h1D->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h1D->GetXaxis()->SetTitle("#deltaE");
-    h1D->GetYaxis()->SetTitle("Enties");
+    TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
+    h2D->SetMarkerStyle(22);
+    h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h2D->GetYaxis()->SetTitle("#deltaE");
+    h2D->GetXaxis()->SetTitle("E_{truth}");
     //h1D->GetZaxis()->SetTitle("E");
-    h1D->GetXaxis()->CenterTitle();
-    h1D->GetYaxis()->CenterTitle();
-    h1D->GetZaxis()->CenterTitle();
+    h2D->GetXaxis()->CenterTitle();
+    h2D->GetYaxis()->CenterTitle();
+    h2D->GetZaxis()->CenterTitle();
     
-    if( Exec(dir_name, h1D, 1) ) return 1;
+    if( Exec(dir_name, h2D, 1) ) return 1;
     
     c1->cd();
-    h1D->Draw();
+    c1->SetGridy();
+    h2D->Draw("SCAT");
     return 0;
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH1D *h, Int_t NGamma){
+int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -202,7 +203,7 @@ int Exec(TString dir_name, TH1D *h, Int_t NGamma){
             }
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
-            h->Fill(Eci - Truth_Energy);
+            h->Fill(Truth_Energy,Eci - Truth_Energy);
             if (abs(Eci - Truth_Energy) < 0.03) N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }

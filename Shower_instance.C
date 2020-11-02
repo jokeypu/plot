@@ -38,8 +38,8 @@ int Shower_instance()
     h1D2->GetYaxis()->CenterTitle();
 
     int MaxNo = Exec( h1D2, 2, true);
-    if (  MaxNo == -1 || MaxNo > 30000 ) {
-        std::cout << "Error OR MaxNo > 20000 !!!" << std::endl;
+    if (  MaxNo == -1 || MaxNo > 38570 ) {
+        std::cout << "Error OR MaxNo > 38570 !!!" << std::endl;
         return -1;
     }
     

@@ -269,8 +269,8 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
             Double_t bump_E = Bump->energy();
             out << bump_E << endl;
+            N++;
         }
-        N++;
     }
     out.close();
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

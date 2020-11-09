@@ -166,7 +166,6 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         */
         
         if (nclusters != 1 || nbumps != 2) continue;
-        cout << "NGamma: " << NGamma << endl;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);

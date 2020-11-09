@@ -137,7 +137,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         }
         distance /= Ncunt;
         if (distance < 1.0 || distance > 2.5) continue;
-        cout << "distance: " << distance << endl;
+        //cout << "distance: " << distance << endl;
 
         //Match bump for each photon
         std::vector<Int_t> match;
@@ -164,6 +164,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
         
+        cout << "NGamma: " << NGamma << endl;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);

@@ -162,7 +162,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
         
-        if (distance > 6) continue;
+        if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {

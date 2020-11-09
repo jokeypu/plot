@@ -89,8 +89,10 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
-    TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
-    TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
+    //TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
+    //TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
+    TString file_path_sim = "../data/evtcomplete_sim.root";
+    TString file_path_digi = "../data/evtcomplete_digi.root";
     
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile(file_path_sim);

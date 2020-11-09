@@ -136,7 +136,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
             }
         }
         distance /= Ncunt;
-        if (distance < 2.0 || distance > 8) continue;
+        if (distance < 2.0 || distance > 6) {cout << "PASS!" << endl;continue;}
         //cout << "distance: " << distance << endl;
 
         //Match bump for each photon

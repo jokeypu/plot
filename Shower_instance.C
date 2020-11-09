@@ -5,7 +5,7 @@ int Shower_instance()
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
-    string file_name("doc/standard.txt");
+    string file_name("doc/standard_6.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);

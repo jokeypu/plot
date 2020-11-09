@@ -223,6 +223,19 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
         }
         if (Exist.size() != NGamma) continue;
         if (nclusters!=1) continue;
+        
+        //Calculate the average distance between photons
+        Double_t distance(0);
+        Int_t Ncunt(0);
+        for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
+            for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
+                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
+                //Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                distance += TheDistance;
+                Ncunt++;
+            }
+        }
+        distance /= Ncunt;
 
         //Match bump for each photon
         std::vector<Int_t> match;
@@ -249,6 +262,8 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
         
+        if (distance > 6) continue;
+        if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);

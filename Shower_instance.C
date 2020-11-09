@@ -136,8 +136,6 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
             }
         }
         distance /= Ncunt;
-        if (distance < 2.0 || distance > 6) {cout << "PASS!" << endl;continue;}
-        //cout << "distance: " << distance << endl;
 
         //Match bump for each photon
         std::vector<Int_t> match;
@@ -153,7 +151,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
             if ( index == -1 ) return -1;
             match.push_back(index);
         }
-        /*
+
         //Count the number of times that Bump is shared by the MCtrack
         std::map<Int_t, Int_t> Nshare;
         for (int i = 0; i < match.size(); i++) Nshare[match[i]]++;
@@ -163,8 +161,8 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         std::map<Int_t, Int_t>::iterator it;
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
-        */
         
+        if (distance > 6) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {

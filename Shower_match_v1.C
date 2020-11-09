@@ -1,10 +1,13 @@
 int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma=2, bool IsSplit=1);
-int Shower_match_v1( TString dir_name="Gamma_tow_1G_non_standard" )
+int Shower_match_v1()
 {
-    dir_name="Gamma_tow_non_1G_old";
+    TString dir_name = ".";
+    //dir_name="Gamma_tow_1G_non_old";
+    dir_name="Gamma_tow_1G_non_standard";
+    dir_name="Gamma_tow_1G_non_fix1";
     int bin1(200),bin2(100);
     float tx(800),ty(600);
-    double xmin(0),xmax(13),ymin(0.9),ymax(1.1);
+    double xmin(0),xmax(13),ymin(-0.4),ymax(0.4);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -208,7 +211,7 @@ int Exec(TString dir_name, TH2D *h2D1, TH2D *h2D2, TH2D *h2D3, Int_t NGamma, boo
             //TVector3 bump_pos = Bump->position();
             //delta_E += (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]) * (truth_E[iGamma] - bump_E/Nshare[match[iGamma]]);
             //delta_pos += sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0) * sin(Gamma_mom[iGamma].Angle(bump_pos)/2.0);
-            h2D3->Fill(distance, bump_E);
+            h2D3->Fill(distance, bump_E-truth_E[iGamma]);
             N++;
         }
         //delta_E = sqrt(delta_E/NGamma);

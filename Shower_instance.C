@@ -123,6 +123,21 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
         }
         if (Exist.size() != NGamma) continue;
         if (nclusters!=1) continue;
+        
+        //Calculate the average distance between photons
+        Double_t distance(0);
+        Int_t Ncunt(0);
+        for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
+            for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
+                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
+                //Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                distance += TheDistance;
+                Ncunt++;
+            }
+        }
+        distance /= Ncunt;
+        if (distance < 1.0 || distance > 2.5) continue;
+        cout << "distance: " << distance << endl;
 
         //Match bump for each photon
         std::vector<Int_t> match;

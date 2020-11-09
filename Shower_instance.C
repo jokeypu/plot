@@ -96,7 +96,7 @@ int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
     int N(0);
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
-    for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+    for (Int_t ievt = 0; ievt < maxEvtNo/5; ievt++) {
     	if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);

@@ -110,6 +110,24 @@ Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return distance;
 }
 
+Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
+    Double_t distance(0), angle(0);
+    if (*DetPos != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+        angle = 57.2957*TMath::ATan(dy/dx);
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    }
+    return angle;
+}
 
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
@@ -117,6 +135,7 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
     double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","fix2",tx,ty);
@@ -272,6 +291,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             digi_seed_id = p->first;
             c++;
         }
+        if ( c!=1 ) continue;
         //cout <<  "c:" << c << endl;
         
         PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(digi_seed);
@@ -282,7 +302,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            //if (hit->GetDetectorID() == digi_seed_id) continue;
+            if (hit->GetDetectorID() == digi_seed_id) continue;
             //TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             TVector3 Det_Pos;
             double Truth_Energy = hit->GetEnergy();
@@ -295,8 +315,10 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
                 }
             }
             if (Digi_Energy == -1) continue;
+            //if (DD(&Det_Pos, &Cent_pos, 1.25) <  5) continue;
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
+            //double Distance = AA(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
             h->Fill(Distance,Eci - Digi_Energy);
@@ -305,7 +327,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             if (abs(Eci - Truth_Energy) < 0.03) N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
-        cout <<  "c:" << c << endl;
+        //cout <<  "c:" << c << endl;
         //N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

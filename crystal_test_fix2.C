@@ -119,7 +119,7 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
-    TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA1","fix2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -213,7 +213,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         Int_t Ncunt(0);
         for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
             for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
-                Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
                 distance += TheDistance;
                 Ncunt++;
             }
@@ -278,21 +278,28 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         double Seed_Energy = digi->GetEnergy();
         TVector3 Seed_pos = digi->where();
         TVector3 Cent_pos = Bump->where();
+        //TVector3 Cent_pos = (65.0/Gamma_mom[0].Pt())*Gamma_mom[0];
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            if (hit->GetDetectorID() == digi_seed_id) continue;
-            TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
+            //if (hit->GetDetectorID() == digi_seed_id) continue;
+            //TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
+            TVector3 Det_Pos;
             double Truth_Energy = hit->GetEnergy();
             double Digi_Energy = -1;
             for (int j = 0 ; j < ndigis ; j++){
                 PndEmcDigi* idigi = (PndEmcDigi*)fDigiArray->At(j);
-                if (idigi->GetDetectorId() == hit->GetDetectorID()) Digi_Energy = idigi->GetEnergy();
+                if (idigi->GetDetectorId() == hit->GetDetectorID()) {
+                    Digi_Energy = idigi->GetEnergy();
+                    Det_Pos = idigi->where();
+                }
             }
+            if (Digi_Energy == -1) continue;
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
-            h->Fill(Distance,Eci - Truth_Energy);
+            //h->Fill(Distance,Eci - Truth_Energy);
+            h->Fill(Distance,Eci - Digi_Energy);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);
             if (abs(Eci - Truth_Energy) < 0.03) N++;

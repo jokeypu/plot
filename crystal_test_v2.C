@@ -127,7 +127,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         Int_t Ncunt(0);
         for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
             for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
-                Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
                 distance += TheDistance;
                 Ncunt++;
             }
@@ -191,6 +191,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         double Seed_Energy = digi->GetEnergy();
         TVector3 Seed_pos = digi->where();
         TVector3 Cent_pos = Bump->where();
+        //TVector3 Cent_pos = (65.0/Gamma_mom[0].Pt())*Gamma_mom[0];
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

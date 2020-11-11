@@ -210,7 +210,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         Int_t Ncunt(0);
         for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
             for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
-                Double_t TheDistance = 2 * 65.0 * sin(Gamma_mom[iGamma].Angle(Gamma_mom[jGamma])/2.0);
+                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
                 distance += TheDistance;
                 Ncunt++;
             }
@@ -275,6 +275,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         double Seed_Energy = digi->GetEnergy();
         TVector3 Seed_pos = digi->where();
         TVector3 Cent_pos = Bump->where();
+        //TVector3 Cent_pos = (65.0/Gamma_mom[0].Pt())*Gamma_mom[0];
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
@@ -289,8 +290,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
-            //h->Fill(Distance,Eci - Truth_Energy);
-            h->Fill(Truth_Energy,Eci);
+            h->Fill(Distance,Eci - Truth_Energy);
+            //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);
             if (abs(Eci - Truth_Energy) < 0.03) N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

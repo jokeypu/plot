@@ -4,10 +4,13 @@ int Shower_match_v1()
     TString dir_name = ".";
     //dir_name="Gamma_tow_1G_non_old";
     dir_name="Gamma_tow_1G_non_standard";
-    dir_name="Gamma_tow_1G_non_fix1";
+    //dir_name="Gamma_tow_1G_non_fix1";
+    //dir_name="Gamma_tow_1G_non_fix2";
     int bin1(200),bin2(100);
     float tx(800),ty(600);
-    double xmin(0),xmax(13),ymin(-0.4),ymax(0.4);
+    //double xmin(0),xmax(12),ymin(-0.07),ymax(0.07);
+    //double xmin(0),xmax(12),ymin(-0.4),ymax(0.4);
+    double xmin(0),xmax(12),ymin(-0.1),ymax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -55,8 +58,8 @@ int Shower_match_v1()
     h2D2->GetYaxis()->SetNdivisions(503);
     
     TH2D* h2D3 = new TH2D("Hist3","h3",bin1,xmin,xmax, bin2,ymin,ymax);
-    h2D3->SetMarkerStyle(7);
-    h2D3->SetMarkerColorAlpha(kAzure+3, 0.5);
+    //h2D3->SetMarkerStyle(7);
+    //h2D3->SetMarkerColorAlpha(kAzure+3, 0.5);
     h2D3->GetXaxis()->SetTitle("distance");
     h2D3->GetYaxis()->SetTitle("#delta");
     h2D3->GetXaxis()->CenterTitle();

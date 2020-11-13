@@ -221,7 +221,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //c1->SetGridy();
     //h3D->Draw("SCAT");
     //h2D->Draw("SCAT");
-    g2D->Draw();
+    g2D->Draw("p,");
     
     TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2])",0,3.5,0,90);
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
@@ -233,7 +233,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     f2->SetParLimits(3, 0, 30);
     //f2->Draw();
     //h3D->Fit(f2,"R");
-    //g2D->Fit(f2,"R");
+    g2D->Fit(f2,"R");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -393,6 +393,7 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
+            if (Distance > 3.5 || angle<0 || angle>90 ) continue;
             g2D->SetPoint(N,Distance,angle,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

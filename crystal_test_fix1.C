@@ -116,7 +116,8 @@ int crystal_test_fix1( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
     TCanvas* c1=new TCanvas("PANDA1","fix1",tx,ty);
@@ -135,7 +136,8 @@ int crystal_test_fix1( TString dir_name="Gamma_one_1G" )
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
     TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
-    h2D->SetMarkerStyle(22);
+    //h2D->SetMarkerStyle(22);
+    h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
     h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
@@ -192,6 +194,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -272,6 +275,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             digi_seed_id = p->first;
             c++;
         }
+        if ( c!=1 ) continue;
         //cout <<  "c:" << c << endl;
         
         PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(digi_seed);
@@ -282,7 +286,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            //if (hit->GetDetectorID() == digi_seed_id) continue;
+            if (hit->GetDetectorID() == digi_seed_id) continue;
             //TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             TVector3 Det_Pos;
             double Truth_Energy = hit->GetEnergy();
@@ -306,7 +310,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             if (abs(Eci - Truth_Energy) < 0.03) N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
-        cout <<  "c:" << c << endl;
+        //cout <<  "c:" << c << endl;
         //N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

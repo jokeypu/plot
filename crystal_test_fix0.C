@@ -134,7 +134,8 @@ int crystal_test_fix0( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
@@ -154,7 +155,8 @@ int crystal_test_fix0( TString dir_name="Gamma_one_1G" )
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
     TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
-    h2D->SetMarkerStyle(22);
+    //h2D->SetMarkerStyle(22);
+    h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
     h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
@@ -211,6 +213,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);

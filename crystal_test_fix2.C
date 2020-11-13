@@ -25,11 +25,14 @@ struct myfunc {
         else{
             Double_t a = func_a(d);
             Double_t x0 = func_x0(d);
-            a *= a;
+            //a *= a;
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             if (angle<x0) return a*angle*angle+h;
-            else {cout<< "Angle:" << angle << ", " << a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)<<
-                "+" << h << endl;return a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)+h;}
+            else {
+                double xi = a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45);
+                //cout<< "Angle:" << angle << ", " << xi << "+" << h << endl;
+                return xi+h;
+            }
         }
     }
     Double_t m(Double_t distance, Double_t angle, Double_t par){
@@ -64,7 +67,7 @@ Double_t newfunc3(const TVector3 *DetPos, const TVector3 *Cent, const Double_t p
     //if (distance<0) distance = 0;
     
     Int_t N_angle = (Int_t) (angle / 0.3);
-    if ( distance < 3.3 ) {
+    if ( distance < 30000.3 ) {
         Double_t value = (par1[N_angle]*distance*distance*distance*distance*distance - par2[N_angle]*(distance*distance*distance*distance - 0.865*distance*distance*distance + 0.349*distance*distance) + 0.241*distance +1.133);
         return 1/value;
     }else return exp(-1* par * distance);  //0.2*
@@ -134,7 +137,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
@@ -154,7 +158,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     
     //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
     TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
-    h2D->SetMarkerStyle(22);
+    //h2D->SetMarkerStyle(22);
+    h2D->SetMarkerStyle(7);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
     h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
@@ -165,9 +170,16 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     
     if( Exec(dir_name, h2D, 1) ) return 1;
     
+    TF1* f=new TF1("f","0.00001*[0]*TMath::Exp(-1*[1]*pow(x,[2]))",1,3);
+    f->SetParameters(5,-9.728,-0.227971);
+    /*f->SetParLimits(0, 0.01, 20);
+    f->SetParLimits(1, -20, -0.01);
+    f->SetParLimits(2, -2, -0.01);*/
+    
     c1->cd();
     c1->SetGridy();
     h2D->Draw("SCAT");
+    //h2D->Fit(f,"R");
     
     TF1* f1=new TF1("f1","x",0,1);
     //f1->Draw("SAME");
@@ -211,6 +223,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -316,12 +329,21 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             }
             if (Digi_Energy == -1) continue;
             //if (DD(&Det_Pos, &Cent_pos, 1.25) <  5) continue;
-            double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            //double Distance = AA(&Det_Pos, &Cent_pos, 1.25);
+            double Angle = AA(&Det_Pos, &Cent_pos, 1.25);
+            //double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
+            //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25);
+            //double Eci = func.m(Distance,Angle,1.25);
+            //double Eci = func.m(Distance,Angle);
+            //double Eci = func.func_h(Distance);
+            //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25)/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            double Eci = Seed_Energy * func.m(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //Eci -= 0.00001*0.0893206*TMath::Exp(13.8041*pow(Distance,-0.154518));
+            //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
             h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,Eci);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);
             if (abs(Eci - Truth_Energy) < 0.03) N++;

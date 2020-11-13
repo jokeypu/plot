@@ -128,8 +128,31 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
+Double_t c[4];
+void SetPar(Double_t p1, Double_t p2, Double_t p3, Double_t p4){
+        c[0] = p1;
+        c[1] = p2;
+        c[2] = p3;
+        c[3] = p4;
+}
+Double_t f(const Double_t *x){
+       Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
+       return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+}
+Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t Rm = 2){
+    SetPar(p1,p2,p3,Rm);
+    angle *= 0.017453;
+    double L0 = 1.0;
+    double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
+    double b[2] = {distance*cos(angle)+L0,distance*sin(angle)+L0};
+    const double ERRORLIMIT = 1E-0;
+    ROOT::Math::Functor wf(&f,2);
+    ROOT::Math::IntegratorMultiDim ig(ROOT::Math::IntegrationMultiDim::kADAPTIVE);
+    ig.SetFunction(wf);
+    return ig.Integral(a,b);
+}
 
-int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma=1);
+int Exec(TString dir_name, TH2D *h, TGraph2D *g2D, Int_t NGamma=1);
 int crystal_test_test( TString dir_name="Gamma_one_1G" )
 {
     int bin1(100),bin2(100),bin3(100);
@@ -154,7 +177,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     
     TH3D* h3D = new TH3D("Hist2","h2",bin1,xmin,xmax, bin3,zmin,zmax, bin2,ymin,ymax);
     h3D->SetMarkerStyle(7);
-    h3D->SetMarkerColorAlpha(kAzure+3, 1);
+    h3D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
     h3D->GetZaxis()->SetTitle("E_{digi}");h3D->GetXaxis()->SetTitle("distance");h3D->GetYaxis()->SetTitle("angle");
     //h1D->GetZaxis()->SetTitle("E");
@@ -173,15 +196,44 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     h2D->GetYaxis()->CenterTitle();
     h2D->GetZaxis()->CenterTitle();
     
-    if( Exec(dir_name, h2D, h3D, 1) ) return 1;
+    TGraph2D* g2D = new TGraph2D();
+    g2D->SetMarkerStyle(7);
+    g2D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g2D->GetZaxis()->SetTitle("E_{digi}");g2D->GetXaxis()->SetTitle("distance");g2D->GetYaxis()->SetTitle("angle");
+    g2D->GetXaxis()->CenterTitle();
+    g2D->GetYaxis()->CenterTitle();
+    g2D->GetZaxis()->CenterTitle();
+    
+    if( Exec(dir_name, h2D, g2D, 1) ) return 1;
+    /*Double_t x(0), y(0);
+    for (int i = 0; i < 100; i++){
+        y = 0;
+        for (int j = 0; j < 100; j++){
+            h3D->Fill(x,y,mf(x,y,2.24,7.87,6.28)/7);
+            y += 0.9;
+        }
+        x += 0.035;
+    }*/
+    
+    
     
     c1->cd();
     //c1->SetGridy();
-    h3D->Draw("SCAT");
+    //h3D->Draw("SCAT");
     //h2D->Draw("SCAT");
+    g2D->Draw();
     
-    TF1* f1=new TF1("f1","x",0,1);
-    //f1->Draw("SAME");
+    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2])",0,3.5,0,90);
+    //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
+    //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
+    f2->SetParameters(1.24,7.87,6.28);
+    f2->SetParLimits(0, 0, 3);
+    f2->SetParLimits(1, 0, 10);
+    f2->SetParLimits(2, 0, 10);
+    f2->SetParLimits(3, 0, 30);
+    //f2->Draw();
+    //h3D->Fit(f2,"R");
+    //g2D->Fit(f2,"R");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -191,7 +243,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma){
+int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -222,6 +274,7 @@ int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
+    maxEvtNo /= 5;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -302,6 +355,7 @@ int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma){
             digi_seed_id = p->first;
             c++;
         }
+        if ( c!=1 ) continue;
         //cout <<  "c:" << c << endl;
         
         PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(digi_seed);
@@ -312,7 +366,8 @@ int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            if (hit->GetDetectorID() != digi_seed_id) continue;
+            //if (hit->GetDetectorID() == digi_seed_id) continue;
+            //if (hit->GetDetectorID() != digi_seed_id) continue;
             //TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             TVector3 Det_Pos;
             double Truth_Energy = hit->GetEnergy();
@@ -332,15 +387,17 @@ int Exec(TString dir_name, TH2D *h, TH3D* h3D, Int_t NGamma){
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
             //h->Fill(Distance,Eci - Digi_Energy);
-            h->Fill(Distance,Digi_Energy);
+            //h->Fill(Distance,Digi_Energy);
             //h->Fill(Distance,angle,Digi_Energy);
-            h3D->Fill(Distance,angle,Digi_Energy);
+            //h3D->Fill(Distance,angle,Digi_Energy);
+            //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
-            if (abs(Eci - Truth_Energy) < 0.03) N++;
+            g2D->SetPoint(N,Distance,angle,Digi_Energy);
+            N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
-        cout <<  "c:" << c << endl;
+        //cout <<  "c:" << c << endl;
         //N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

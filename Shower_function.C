@@ -44,14 +44,24 @@ int Shower_function()
     h1D->GetXaxis()->CenterTitle();
     h1D->GetYaxis()->CenterTitle();
     
-    TF1 *f=new TF1("f","myfunc(x,[0],[1],[2],[3])",0,9);
+    /*TF1 *f=new TF1("f","myfunc(x,[0],[1],[2],[3])",0,9);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
     f->SetParameters(210,-0.2,-0.1,4);
     f->SetParLimits(0, 100, 300);
     f->SetParLimits(1, -0.5, 0.5);
     f->SetParLimits(2, -0.5, 0.5);
-    f->SetParLimits(3, 0, 8);
+    f->SetParLimits(3, 0, 8);*/
+    
+    TF1 *f=new TF1("f","[0]*exp(-1*[1]*x)+[2]*exp(-1*[3]*x)",0,4);
+    f->SetLineWidth(2);
+    f->SetLineColor(kRed);
+    f->SetParameters(28.5983,0.619019,225.041,3.13661);
+    /*f->SetParameters(29,0.62,225,3.14);
+    f->SetParLimits(0, 0, 1000);
+    f->SetParLimits(1, 0.1, 0.7);
+    f->SetParLimits(2, 0, 2000);
+    f->SetParLimits(3, 0, 5);*/
 
     int N(0);
     int num(5);

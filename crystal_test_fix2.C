@@ -132,6 +132,30 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
+Double_t c[4];
+void SetPar(Double_t p1, Double_t p2, Double_t p3, Double_t p4){
+        c[0] = p1;
+        c[1] = p2;
+        c[2] = p3;
+        c[3] = p4;
+}
+Double_t f(const Double_t *x){
+       Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
+       return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+}
+Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t Rm = 2){
+    SetPar(p1,p2,p3,Rm);
+    angle *= 0.017453;
+    double L0 = 1.0;
+    double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
+    double b[2] = {distance*cos(angle)+L0,distance*sin(angle)+L0};
+    const double ERRORLIMIT = 1E-0;
+    ROOT::Math::Functor wf(&f,2);
+    ROOT::Math::IntegratorMultiDim ig(ROOT::Math::IntegrationMultiDim::kADAPTIVE);
+    ig.SetFunction(wf);
+    return ig.Integral(a,b);
+}
+
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
@@ -181,8 +205,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     h2D->Draw("SCAT");
     //h2D->Fit(f,"R");
     
-    TF1* f1=new TF1("f1","x",0,1);
-    //f1->Draw("SAME");
+    TF1* f1=new TF1("f1","exp(-1.25*x)",0,3.5);
+    f1->Draw("SAME");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -337,12 +361,16 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double Eci = func.m(Distance,Angle);
             //double Eci = func.func_h(Distance);
             //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25)/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
-            double Eci = Seed_Energy * func.m(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //double Eci = Seed_Energy * func.m(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //double Eci = Seed_Energy * mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
+            double Eci = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //Eci -= 0.00001*0.0893206*TMath::Exp(13.8041*pow(Distance,-0.154518));
             //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
-            h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,Eci);
+            h->Fill(Distance,Digi_Energy/Seed_Energy);
             //h->Fill(Distance,Eci);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);

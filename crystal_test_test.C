@@ -139,10 +139,10 @@ Double_t f(const Double_t *x){
        Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
        return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
 }
-Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t Rm = 2){
+Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t L0 = 1, Double_t Rm = 2){
     SetPar(p1,p2,p3,Rm);
     angle *= 0.017453;
-    double L0 = 1.0;
+    //double L0 = 1.0;
     double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
     double b[2] = {distance*cos(angle)+L0,distance*sin(angle)+L0};
     const double ERRORLIMIT = 1E-0;
@@ -161,7 +161,8 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     double xmin(0),xmax(3.5),ymin(0),ymax(1),zmin(0),zmax(90);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
-    TCanvas* c1=new TCanvas("PANDA1","fix0",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA1","test1",tx,ty);
+    //TCanvas* c2=new TCanvas("PANDA2","test2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -205,32 +206,33 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     g2D->GetZaxis()->CenterTitle();
     
     if( Exec(dir_name, h2D, g2D, 1) ) return 1;
-    /*Double_t x(0), y(0);
-    for (int i = 0; i < 100; i++){
+    Double_t x(0), y(0);
+    /*for (int i = 0; i < 100; i++){
         y = 0;
         for (int j = 0; j < 100; j++){
-            h3D->Fill(x,y,mf(x,y,2.24,7.87,6.28)/7);
+            h3D->Fill(x,y,0.292074*mf(x,y,19.524,3.18625,4.1475));
             y += 0.9;
         }
         x += 0.035;
     }*/
-    
-    
-    
+
     c1->cd();
     //c1->SetGridy();
     //h3D->Draw("SCAT");
     //h2D->Draw("SCAT");
+    
+    //c2->cd();
     g2D->Draw("p,");
     
-    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2])",0,3.5,0,90);
+    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2],[4])",0,3.5,0,90);
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
     //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
-    f2->SetParameters(1.24,7.87,6.28);
-    f2->SetParLimits(0, 0, 3);
+    f2->SetParameters(1.24,7.87,6.28,20,1);
+    /*f2->SetParLimits(0, 0, 3);
     f2->SetParLimits(1, 0, 10);
     f2->SetParLimits(2, 0, 10);
-    f2->SetParLimits(3, 0, 30);
+    f2->SetParLimits(3, 0, 30);*/
+    f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
     //h3D->Fit(f2,"R");
     g2D->Fit(f2,"R");

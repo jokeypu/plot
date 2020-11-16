@@ -27,7 +27,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
-    string out1_name("doc/out1.txt"), out2_name("doc/out2.txt"), out3_name("doc/out3.txt");
+    string out1_name("doc/out1.txt"), out2_name("doc/out2.txt"), out3_name("doc/out_new.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -84,7 +84,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     }else if (mode == 2) {
         if( Exec( "Gamma_tow_1G_non_standard", out2_name, 2, true) ) return 1;
     }else if (mode == 3) {
-        if( Exec( "Gamma_one_1G", out3_name, 1, true) ) return 1;
+        if( Exec( "Gamma_tow_1G_non_fix2", out3_name, 2, true) ) return 1;
     }else if (mode == 4) {
     	ifstream out1, out2, out3;
     	out1.open(out1_name, ios::in);

@@ -44,7 +44,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     gStyle->SetTitleOffset(1.0,"xyz");
     
     TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
-    h1D1->SetLineColor(kBlue);
+    h1D1->SetLineColor(kGreen);
     h1D1->SetLineWidth(2);
     h1D1->GetXaxis()->SetTitle("Energy");
     h1D1->GetYaxis()->SetTitle("Entries");
@@ -52,7 +52,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D1->GetYaxis()->CenterTitle();
     
     TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, xmin, xmax);
-    h1D2->SetLineColor(kRed);
+    h1D2->SetLineColor(kBlack);
     h1D2->SetLineWidth(2);
     h1D2->GetXaxis()->SetTitle("Energy");
     h1D2->GetYaxis()->SetTitle("Entries");
@@ -60,7 +60,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     h1D2->GetYaxis()->CenterTitle();
     
     TH1D* h1D3 = new TH1D("Hist1_3","h1_3", bin1, xmin, xmax);
-    h1D3->SetLineColor(kGreen);
+    h1D3->SetLineColor(kRed);
     h1D3->SetLineWidth(2);
     h1D3->GetXaxis()->SetTitle("Energy");
     h1D3->GetYaxis()->SetTitle("Entries");
@@ -147,12 +147,12 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     }
     
     c1->cd();
-    //h1D3->Draw();
+    h1D3->Draw();
     //h1D2->Draw("SAME");
     h1D2->Draw();
     h1D1->Draw("SAME");
-    h1D1->Fit(f,"R");
-    f->Draw("same");
+    //h1D1->Fit(f,"R");
+    //f->Draw("same");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1,"Bump Energy prime" , "L");
@@ -262,7 +262,7 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
         
-        if (distance > 5) continue;
+        //if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {

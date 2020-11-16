@@ -155,9 +155,9 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     f->Draw("same");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
-    leg->AddEntry(h1D1,"Bump Energy old" , "L");
-    leg->AddEntry(h1D2,"Bump Energy new", "L");
-    //leg->AddEntry(h1D3,"Cluster Energy 1Gamma", "L");
+    leg->AddEntry(h1D1,"Bump Energy prime" , "L");
+    leg->AddEntry(h1D2,"Bump Energy modified 1", "L");
+    leg->AddEntry(h1D3,"Bump Energy modified 2", "L");
     leg->Draw();
     return 0;
 }

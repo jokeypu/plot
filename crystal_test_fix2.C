@@ -143,10 +143,11 @@ Double_t f(const Double_t *x){
        Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
        return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
 }
-Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t Rm = 2){
+Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87,
+            Double_t p3 = 6.28, Double_t L0 = 1.0, Double_t Rm = 2){
     SetPar(p1,p2,p3,Rm);
     angle *= 0.017453;
-    double L0 = 1.0;
+    //double L0 = 1.0;
     double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
     double b[2] = {distance*cos(angle)+L0,distance*sin(angle)+L0};
     const double ERRORLIMIT = 1E-0;
@@ -161,8 +162,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    //double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
-    double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
+    double xmin(0),xmax(4),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
@@ -205,8 +206,10 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     h2D->Draw("SCAT");
     //h2D->Fit(f,"R");
     
-    TF1* f1=new TF1("f1","exp(-1.25*x)",0,3.5);
-    f1->Draw("SAME");
+    TF1* f1=new TF1("f1","[0]*exp(-1*[1]*x)-[2]",0,3.5);
+    f1->SetParameters(1,1.25,0.01);
+    //h2D->Fit(f1,"R");
+    //f1->Draw("SAME");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -363,14 +366,24 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25)/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double Eci = Seed_Energy * func.m(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double Eci = Seed_Energy * mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
-            double Eci = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
+            //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25));
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
+            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
+            //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
+            double Eci = Seed_Energy * rat;
+            //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy * exp(-1.25 *  Distance);
+            if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy;
             //Eci -= 0.00001*0.0893206*TMath::Exp(13.8041*pow(Distance,-0.154518));
             //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
-            //h->Fill(Distance,Eci - Digi_Energy);
+            Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
+            if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
+            h->Fill(Distance,Eci - Digi_Energy);
             //h->Fill(Distance,Eci);
-            h->Fill(Distance,Digi_Energy/Seed_Energy);
+            //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));
             //h->Fill(Distance,Eci);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);

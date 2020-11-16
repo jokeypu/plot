@@ -224,15 +224,15 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //c2->cd();
     g2D->Draw("p,");
     
-    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2],[4])",0,3.5,0,90);
+    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2],1.2)",0,3.5,0,90);
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
     //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
-    f2->SetParameters(1.24,7.87,6.28,20,1);
+    f2->SetParameters(1.24,7.87,6.28,20);
     /*f2->SetParLimits(0, 0, 3);
     f2->SetParLimits(1, 0, 10);
     f2->SetParLimits(2, 0, 10);
     f2->SetParLimits(3, 0, 30);*/
-    f2->SetParLimits(4, 0.5, 1.5);
+    //f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
     //h3D->Fit(f2,"R");
     g2D->Fit(f2,"R");

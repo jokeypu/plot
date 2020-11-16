@@ -149,7 +149,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     c1->cd();
     h1D3->Draw();
     //h1D2->Draw("SAME");
-    h1D2->Draw();
+    h1D2->Draw("SAME");
     h1D1->Draw("SAME");
     //h1D1->Fit(f,"R");
     //f->Draw("same");

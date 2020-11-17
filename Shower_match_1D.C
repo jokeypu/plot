@@ -27,7 +27,7 @@ int Shower_match_1D(int mode = 5,int min = 5000)
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
-    string out1_name("doc/out1_range.txt"), out2_name("doc/out2_range.txt"), out3_name("doc/out_new_range.txt");
+    string out1_name("doc/out1.txt"), out2_name("doc/out2.txt"), out3_name("doc/out_new.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -262,7 +262,7 @@ int Exec(TString dir_name, string out_name, Int_t NGamma, bool IsSplit){
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
         if (IsSplit && result) continue;
         
-        if (distance > 5) continue;
+        //if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {

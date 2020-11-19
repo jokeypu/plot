@@ -387,7 +387,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //h->Fill(Distance,Eci - Truth_Energy);
             //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
-            //h->Fill(Distance,Eci - Digi_Energy);
+            h->Fill(Distance,Eci - Digi_Energy);
             //h->Fill(Distance,rat);
             //h->Fill(Distance,Digi_Energy/Seed_Energy);
             //h->Fill(Distance,Eci);

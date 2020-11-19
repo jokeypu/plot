@@ -25,14 +25,11 @@ struct myfunc {
         else{
             Double_t a = func_a(d);
             Double_t x0 = func_x0(d);
-            //a *= a;
+            a *= a;
             angle = abs(fmod(angle,45.0) - 45*(((int)(angle/45.0))%2));
             if (angle<x0) return a*angle*angle+h;
-            else {
-                double xi = a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45);
-                //cout<< "Angle:" << angle << ", " << xi << "+" << h << endl;
-                return xi+h;
-            }
+            else {cout<< "Angle:" << angle << ", " << a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)<<
+                "+" << h << endl;return a*x0*x0+(a/(45/x0-1))*(x0-45)*(x0-45)-(a/(45/x0-1))*(angle-45)*(angle-45)+h;}
         }
     }
     Double_t m(Double_t distance, Double_t angle, Double_t par){
@@ -67,7 +64,7 @@ Double_t newfunc3(const TVector3 *DetPos, const TVector3 *Cent, const Double_t p
     //if (distance<0) distance = 0;
     
     Int_t N_angle = (Int_t) (angle / 0.3);
-    if ( distance < 30000.3 ) {
+    if ( distance < -3.3 ) {
         Double_t value = (par1[N_angle]*distance*distance*distance*distance*distance - par2[N_angle]*(distance*distance*distance*distance - 0.865*distance*distance*distance + 0.349*distance*distance) + 0.241*distance +1.133);
         return 1/value;
     }else return exp(-1* par * distance);  //0.2*
@@ -87,7 +84,7 @@ Double_t rat(const TVector3 *DetPos_i, const TVector3 *DetPos_0, const TVector3 
         distance = sqrt(dx*dx+dy*dy);
     }
     Double_t value;
-    if (distance < 10000.5)
+    if (distance < -1.5)
     value = newfunc3(DetPos_i, Cent, par)/newfunc3(DetPos_0, Cent, par);
     else value = newfunc3(DetPos_i, Cent, par);
     //std::cout << "value:" << value << std::endl;
@@ -112,7 +109,6 @@ Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     }
     return distance;
 }
-
 Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     Double_t distance(0), angle(0);
     if (*DetPos != *Cent) {
@@ -160,17 +156,17 @@ Double_t mf(Double_t distance, Double_t angle, Double_t L0 = 1.064, Double_t p1 
     return ig.Integral(a,b);
 }
 
-int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
-int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
+int Exec(TString dir_name, TH2D *h, TGraph *g2D, Int_t NGamma=1);
+int crystal_test_test_1D( TString dir_name="Gamma_one_1G" )
 {
-    int bin1(400),bin2(400),bin3(150);
+    int bin1(100),bin2(100),bin3(100);
     float tx(800),ty(600);
-    double xmin(0),xmax(4),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
-    //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
-    //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(3.5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(3.5),ymin(0),ymax(1),zmin(0),zmax(90);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
     
-    TCanvas* c1=new TCanvas("PANDA1","fix2",tx,ty);
+    TCanvas* c1=new TCanvas("PANDA1","test1",tx,ty);
+    //TCanvas* c2=new TCanvas("PANDA2","test2",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -184,35 +180,73 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
+    TH3D* h3D = new TH3D("Hist2","h2",bin1,xmin,xmax, bin3,zmin,zmax, bin2,ymin,ymax);
+    h3D->SetMarkerStyle(7);
+    h3D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
+    h3D->GetZaxis()->SetTitle("E_{digi}");h3D->GetXaxis()->SetTitle("distance");h3D->GetYaxis()->SetTitle("angle");
+    //h1D->GetZaxis()->SetTitle("E");
+    h3D->GetXaxis()->CenterTitle();
+    h3D->GetYaxis()->CenterTitle();
+    h3D->GetZaxis()->CenterTitle();
+    
     TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
-    //h2D->SetMarkerStyle(22);
-    h2D->SetMarkerStyle(7);
+    //TH2D* h2D = new TH2D("Hist1","h1",10,xmin,xmax,10,zmin,zmax);
+    h2D->SetMarkerStyle(22);
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
-    h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
+    h2D->GetYaxis()->SetTitle("E_{digi}");h2D->GetXaxis()->SetTitle("distance");
     //h1D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
     h2D->GetZaxis()->CenterTitle();
     
-    if( Exec(dir_name, h2D, 1) ) return 1;
+    TGraph* g2D = new TGraph();
+    g2D->SetMarkerStyle(7);
+    g2D->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g2D->GetYaxis()->SetTitle("E_{digi}");g2D->GetXaxis()->SetTitle("distance");//g2D->GetYaxis()->SetTitle("angle");
+    g2D->GetXaxis()->CenterTitle();
+    g2D->GetYaxis()->CenterTitle();
+    //g2D->GetZaxis()->CenterTitle();
     
-    TF1* f=new TF1("f","0.00001*[0]*TMath::Exp(-1*[1]*pow(x,[2]))",1,3);
-    f->SetParameters(5,-9.728,-0.227971);
-    /*f->SetParLimits(0, 0.01, 20);
-    f->SetParLimits(1, -20, -0.01);
-    f->SetParLimits(2, -2, -0.01);*/
-    
+    if( Exec(dir_name, h2D, g2D, 1) ) return 1;
+    Double_t x(0), y(0);
+    /*for (int i = 0; i < 100; i++){
+        y = 0;
+        for (int j = 0; j < 100; j++){
+            h3D->Fill(x,y,mf(x,y));
+            y += 0.9;
+        }
+        x += 0.035;
+    }*/
+
     c1->cd();
-    c1->SetGridy();
-    h2D->Draw("SCAT");
-    //h2D->Fit(f,"R");
+    //c1->SetGridy();
+    //h3D->Draw("SCAT");
+    //h2D->Draw("SCAT");
     
-    TF1* f1=new TF1("f1","[0]*exp(-1*[1]*x)-[2]",0,3.5);
-    f1->SetParameters(1,1.25,0.01);
-    //h2D->Fit(f1,"R");
-    //f1->Draw("SAME");
+    //c2->cd();
+    g2D->Draw("p,");
+    
+    //TF2* f2=new TF2("f2","mf(x,y,[0],[1],[2],[3],[4],[5],[6])",0,5,0,90);
+    //TF2* f2=new TF2("f2","[1]*mf(x,y,[0],1405,3.2,170,0.89,45,0.35)",0,5,0,90);
+    TF1* f2=new TF1("f2","0.966*mf(x,0,[0],[1],[2],[3],[4],[5],[6])",0,5);
+    //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
+    f2->SetParameters(1.22, 1405,3.2,170,0.89,45,0.35);
+    //f2->SetParLimits(0, 1.0, 2.0);
+    //f2->SetParLimits(1, 0.8,1.1);
+    /*f2->SetParameters(1.064, 1405,  3.2,  170, 0.89, 45.5, 0.354403);
+    f2->SetParLimits(0, 1.0, 2.0);
+    f2->SetParLimits(1, 1000,2000);
+    f2->SetParLimits(2, 2.9, 3.5);
+    f2->SetParLimits(3, 150, 200);
+    f2->SetParLimits(4, 0.7, 1.2);
+    f2->SetParLimits(5, 20, 70);
+    f2->SetParLimits(6, 0.1, 0.5);*/
+    //f2->SetParLimits(4, 0.5, 1.5);
+    //f2->Draw();
+    //h3D->Fit(f2,"R");
+    g2D->Fit(f2,"R");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -222,7 +256,7 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH2D *h, Int_t NGamma){
+int Exec(TString dir_name, TH2D *h, TGraph* g2D, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -345,7 +379,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            if (hit->GetDetectorID() == digi_seed_id) continue;
+            //if (hit->GetDetectorID() == digi_seed_id) continue;
+            //if (hit->GetDetectorID() != digi_seed_id) continue;
             //TVector3 Det_Pos(hit->GetX(), hit->GetY(), (hit->GetZ()));
             TVector3 Det_Pos;
             double Truth_Energy = hit->GetEnergy();
@@ -353,45 +388,27 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             for (int j = 0 ; j < ndigis ; j++){
                 PndEmcDigi* idigi = (PndEmcDigi*)fDigiArray->At(j);
                 if (idigi->GetDetectorId() == hit->GetDetectorID()) {
-                    Digi_Energy = idigi->GetEnergy();
-                    Det_Pos = idigi->where();
+                Digi_Energy = idigi->GetEnergy();
+                Det_Pos = idigi->where();
                 }
             }
             if (Digi_Energy == -1) continue;
-            //if (DD(&Det_Pos, &Cent_pos, 1.25) <  5) continue;
+            double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
+            if (hit->GetDetectorID() == digi_seed_id) Eci = Seed_Energy;
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            double Angle = AA(&Det_Pos, &Cent_pos, 1.25);
-            //double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
-            //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25);
-            //double Eci = func.m(Distance,Angle,1.25);
-            //double Eci = func.m(Distance,Angle);
-            //double Eci = func.func_h(Distance);
-            //double Eci = newfunc3(&Det_Pos, &Cent_pos, 1.25)/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
-            //double Eci = Seed_Energy * func.m(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/func.m(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
-            //double Eci = Seed_Energy * mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
-            //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25));
-            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
-            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
-            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
-            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
-            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
-            //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
-            double Eci = Seed_Energy * rat;
-            //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy * exp(-1.25 *  Distance);
-            if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy;
-            //Eci -= 0.00001*0.0893206*TMath::Exp(13.8041*pow(Distance,-0.154518));
-            //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
+            double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
-            //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
-            //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
-            h->Fill(Distance,Eci - Digi_Energy);
-            //h->Fill(Distance,Eci);
-            //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));
-            //h->Fill(Distance,Eci);
+            //h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,Digi_Energy);
+            //h->Fill(Distance,angle,Digi_Energy);
+            //h3D->Fill(Distance,angle,Digi_Energy);
+            //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
-            //h->Fill(Truth_Energy,Eci - Truth_Energy);
-            if (abs(Eci - Truth_Energy) < 0.03) N++;
+            //h->Fill(Eci,Eci - Truth_Energy);
+            if (Distance > 5 || angle<0 || angle>1 ) continue;
+            g2D->SetPoint(N,Distance,Digi_Energy);
+            N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
         //cout <<  "c:" << c << endl;

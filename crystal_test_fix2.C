@@ -374,8 +374,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
-            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
-            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
+            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
             double Eci = Seed_Energy * rat;

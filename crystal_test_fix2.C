@@ -165,7 +165,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(4),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
@@ -253,7 +254,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
-    maxEvtNo /= 50;
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -373,7 +374,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
-            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
+            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
             double Eci = Seed_Energy * rat;
@@ -385,7 +387,9 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //h->Fill(Distance,Eci - Truth_Energy);
             //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
-            h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,Eci - Digi_Energy);
+            //h->Fill(Distance,rat);
+            //h->Fill(Distance,Digi_Energy/Seed_Energy);
             //h->Fill(Distance,Eci);
             //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));
             //h->Fill(Distance,Eci);

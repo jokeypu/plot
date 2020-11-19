@@ -223,10 +223,10 @@ int crystal_test_test_1D( TString dir_name="Gamma_one_1G" )
     c1->cd();
     //c1->SetGridy();
     //h3D->Draw("SCAT");
-    //h2D->Draw("SCAT");
+    h2D->Draw("SCAT");
     
     //c2->cd();
-    g2D->Draw("p,");
+    //g2D->Draw("p,");
     
     //TF2* f2=new TF2("f2","mf(x,y,[0],[1],[2],[3],[4],[5],[6])",0,5,0,90);
     //TF2* f2=new TF2("f2","[1]*mf(x,y,[0],1405,3.2,170,0.89,45,0.35)",0,5,0,90);
@@ -245,8 +245,8 @@ int crystal_test_test_1D( TString dir_name="Gamma_one_1G" )
     f2->SetParLimits(6, 0.1, 0.5);*/
     //f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
-    //h3D->Fit(f2,"R");
-    g2D->Fit(f2,"R");
+    h2D->Fit(f2,"R");
+    //g2D->Fit(f2,"R");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -287,7 +287,7 @@ int Exec(TString dir_name, TH2D *h, TGraph* g2D, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
-    maxEvtNo /= 50;
+    //maxEvtNo /= 50;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -407,7 +407,7 @@ int Exec(TString dir_name, TH2D *h, TGraph* g2D, Int_t NGamma){
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
             if (Distance > 5 || angle<0 || angle>1 ) continue;
-            g2D->SetPoint(N,Distance,Digi_Energy);
+            h->Fill(Distance,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }

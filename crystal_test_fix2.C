@@ -132,20 +132,23 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
-Double_t c[4];
-void SetPar(Double_t p1, Double_t p2, Double_t p3, Double_t p4){
-        c[0] = p1;
-        c[1] = p2;
-        c[2] = p3;
-        c[3] = p4;
+Double_t p[7];
+void SetPar(Double_t Rm, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5, Double_t p6){
+        p[0] = Rm;
+        p[1] = p1;
+        p[2] = p2;
+        p[3] = p3;
+        p[4] = p4;
+        p[5] = p5;
+        p[6] = p6;
 }
 Double_t f(const Double_t *x){
-       Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
-       return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+    Double_t d = sqrt(x[0]*x[0]+x[1]*x[1])+0.0001;
+       //return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+    return (p[1]*exp(-1*p[2]*d)+p[3]*exp(-1*p[4]*d)+p[5]*exp(-1*p[6]*d))/(3816*0.2*d*TMath::TwoPi());
 }
-Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87,
-            Double_t p3 = 6.28, Double_t L0 = 1.0, Double_t Rm = 2){
-    SetPar(p1,p2,p3,Rm);
+Double_t mf(Double_t distance, Double_t angle, Double_t L0 = 1.064, Double_t p1 = 1404.71, Double_t p2 = 3.15506, Double_t p3 = 169.204, Double_t p4 = 0.887089, Double_t p5 = 45.4251, Double_t p6 = 0.354403){
+    SetPar(2.0,p1,p2,p3,p4,p5,p6);
     angle *= 0.017453;
     //double L0 = 1.0;
     double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
@@ -369,7 +372,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
-            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
+            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
             double Eci = Seed_Energy * rat;
@@ -379,8 +383,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
-            Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
-            if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
+            //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
+            //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
             h->Fill(Distance,Eci - Digi_Energy);
             //h->Fill(Distance,Eci);
             //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));

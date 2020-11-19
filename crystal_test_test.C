@@ -128,19 +128,23 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
-Double_t c[4];
-void SetPar(Double_t p1, Double_t p2, Double_t p3, Double_t p4){
-        c[0] = p1;
-        c[1] = p2;
-        c[2] = p3;
-        c[3] = p4;
+Double_t p[7];
+void SetPar(Double_t Rm, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5, Double_t p6){
+        p[0] = Rm;
+        p[1] = p1;
+        p[2] = p2;
+        p[3] = p3;
+        p[4] = p4;
+        p[5] = p5;
+        p[6] = p6;
 }
 Double_t f(const Double_t *x){
-       Double_t d = sqrt(x[0]*x[0]+x[1]*x[1]);
-       return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+    Double_t d = sqrt(x[0]*x[0]+x[1]*x[1])+0.0001;
+       //return exp(-1*c[0]*d/c[3])+c[1]*exp(-1*c[2]*d/c[3]);
+    return (p[1]*exp(-1*p[2]*d)+p[3]*exp(-1*p[4]*d)+p[5]*exp(-1*p[6]*d))/(3816*0.2*d*TMath::TwoPi());
 }
-Double_t mf(Double_t distance, Double_t angle, Double_t p1 = 1.24, Double_t p2 = 7.87, Double_t p3 = 6.28, Double_t L0 = 1, Double_t Rm = 2){
-    SetPar(p1,p2,p3,Rm);
+Double_t mf(Double_t distance, Double_t angle, Double_t L0 = 1.064, Double_t p1 = 1404.71, Double_t p2 = 3.15506, Double_t p3 = 169.204, Double_t p4 = 0.887089, Double_t p5 = 45.4251, Double_t p6 = 0.354403){
+    SetPar(2.0,p1,p2,p3,p4,p5,p6);
     angle *= 0.017453;
     //double L0 = 1.0;
     double a[2] = {distance*cos(angle)-L0,distance*sin(angle)-L0};
@@ -210,7 +214,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     /*for (int i = 0; i < 100; i++){
         y = 0;
         for (int j = 0; j < 100; j++){
-            h3D->Fill(x,y,0.292074*mf(x,y,19.524,3.18625,4.1475));
+            h3D->Fill(x,y,mf(x,y));
             y += 0.9;
         }
         x += 0.035;
@@ -224,14 +228,21 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //c2->cd();
     g2D->Draw("p,");
     
-    TF2* f2=new TF2("f2","[3]*mf(x,y,[0],[1],[2],1.2)",0,3.5,0,90);
+    //TF2* f2=new TF2("f2","mf(x,y,[0],[1],[2],[3],[4],[5],[6])",0,5,0,90);
+    TF2* f2=new TF2("f2","[1]*mf(x,y,[0],1405,3.2,170,0.89,45,0.35)",0,5,0,90);
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
     //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
-    f2->SetParameters(1.24,7.87,6.28,20);
-    /*f2->SetParLimits(0, 0, 3);
-    f2->SetParLimits(1, 0, 10);
-    f2->SetParLimits(2, 0, 10);
-    f2->SetParLimits(3, 0, 30);*/
+    f2->SetParameters(1.064, 1.0);
+    f2->SetParLimits(0, 1.0, 2.0);
+    f2->SetParLimits(1, 0.8,1.1);
+    /*f2->SetParameters(1.064, 1405,  3.2,  170, 0.89, 45.5, 0.354403);
+    f2->SetParLimits(0, 1.0, 2.0);
+    f2->SetParLimits(1, 1000,2000);
+    f2->SetParLimits(2, 2.9, 3.5);
+    f2->SetParLimits(3, 150, 200);
+    f2->SetParLimits(4, 0.7, 1.2);
+    f2->SetParLimits(5, 20, 70);
+    f2->SetParLimits(6, 0.1, 0.5);*/
     //f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
     //h3D->Fit(f2,"R");
@@ -276,7 +287,7 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
-    maxEvtNo /= 5;
+    maxEvtNo /= 50;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -395,7 +406,7 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
-            if (Distance > 3.5 || angle<0 || angle>90 ) continue;
+            if (Distance > 5 || angle<0 || angle>90 ) continue;
             g2D->SetPoint(N,Distance,angle,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

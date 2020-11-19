@@ -4,7 +4,7 @@ int Shower_function()
     int bin1(600),bin2(600);
     float tx(800),ty(600);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1G_all");
+    TString dir_name("Gamma_one_1G");
     
     //******************************************//
     
@@ -36,7 +36,7 @@ int Shower_function()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH1D* h1D = new TH1D("h1D","h1",50,0,9);
+    TH1D* h1D = new TH1D("h1D","h1",100,0,20);
     h1D->SetLineColor(kBlue);
     h1D->SetLineWidth(2);
     h1D->GetXaxis()->SetTitle("distance");
@@ -53,10 +53,16 @@ int Shower_function()
     f->SetParLimits(2, -0.5, 0.5);
     f->SetParLimits(3, 0, 8);*/
     
-    TF1 *f=new TF1("f","[0]*exp(-1*[1]*x)+[2]*exp(-1*[3]*x)",0,4);
+    TF1 *f=new TF1("f","[0]*exp(-1*[1]*x)+[2]*exp(-1*[3]*x)+[4]*exp(-1*[5]*x)",0,20);
     f->SetLineWidth(2);
     f->SetLineColor(kRed);
-    f->SetParameters(28.5983,0.619019,225.041,3.13661);
+    f->SetParameters(1820,3.27,   228,0.85,     46,0.33);
+    /*f->SetParLimits(0, 500, 600);
+    f->SetParLimits(1, 3, 4);
+    f->SetParLimits(2, 30, 90);
+    f->SetParLimits(3, 0.5, 1);
+    f->SetParLimits(4, 5, 20);
+    f->SetParLimits(5, 0.1, 0.5);*/
     /*f->SetParameters(29,0.62,225,3.14);
     f->SetParLimits(0, 0, 1000);
     f->SetParLimits(1, 0.1, 0.7);
@@ -65,7 +71,9 @@ int Shower_function()
 
     int N(0);
     int num(5);
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
+        if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
         int npoints = fPointArray->GetEntriesFast();
         int ntrack = fMCTrackArray->GetEntriesFast();

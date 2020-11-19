@@ -233,8 +233,8 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
     //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
     f2->SetParameters(1.064, 1.0);
-    f2->SetParLimits(0, 1.0, 2.0);
-    f2->SetParLimits(1, 0.8,1.1);
+    //f2->SetParLimits(0, 1.0, 2.0);
+    //f2->SetParLimits(1, 0.8,1.1);
     /*f2->SetParameters(1.064, 1405,  3.2,  170, 0.89, 45.5, 0.354403);
     f2->SetParLimits(0, 1.0, 2.0);
     f2->SetParLimits(1, 1000,2000);

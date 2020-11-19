@@ -165,8 +165,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    //double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
-    double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
+    double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);

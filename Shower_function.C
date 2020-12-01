@@ -102,10 +102,29 @@ int Shower_function()
     N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
+    
+    TF1 *f1=new TF1("f1","[0]*exp(-1*[1]*x)",0,20);
+    f1->SetLineWidth(2);
+    f1->SetLineColor(kGreen);
+    f1->SetParameters(1404.71,3.155);
+    
+    TF1 *f2=new TF1("f2","[0]*exp(-1*[1]*x)",0,20);
+    f2->SetLineWidth(2);
+    f2->SetLineColor(kCyan);
+    f2->SetParameters(169.204,0.887);
+    
+    TF1 *f3=new TF1("f3","[0]*exp(-1*[1]*x)",0,20);
+    f3->SetLineWidth(2);
+    f3->SetLineColor(kViolet);
+    f3->SetParameters(45.4251,0.3544);
+    
     c1->cd();
     h1D->Draw("HIST");
     h1D->Fit(f,"R");
     f->Draw("SAME");
+    f1->Draw("SAME");
+    f2->Draw("SAME");
+    f3->Draw("SAME");
     return 0;
 }
 Double_t myfunc(Double_t x, Double_t p0, Double_t p1, Double_t p2, Double_t x0) {

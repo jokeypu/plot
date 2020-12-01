@@ -160,6 +160,231 @@ Double_t mf(Double_t distance, Double_t angle, Double_t L0 = 1.064, Double_t p1 
     return ig.Integral(a,b);
 }
 
+Double_t Int(Double_t a,Double_t b,Double_t p){
+    int n = 3;
+    Double_t ka = (a/TMath::PiOver2())-round(a/TMath::PiOver2());
+    Double_t kb = (b/TMath::PiOver2())-round(b/TMath::PiOver2());
+    Double_t sum1(0),sum2(0),x(a);
+    Double_t step = (b-a)/(2*n);
+    for (int i = 1; i < 2*n; i+=2) sum1 += exp(-1*p/sin(x+i*step));
+    for (int i = 2; i < 2*n-1; i+=2) sum2 += exp(-1*p/sin(x+i*step));
+    return ((b-a)/(6*n))*(exp(-1*p/sin(a))+exp(-1*p/sin(b))+4*sum1+2*sum2);
+}
+
+Double_t Func(Double_t d,Double_t a,Double_t fPar,Double_t L0){
+    if ( a > 90 && a <= 180 ) a = 180 - a;
+    if ( a > 45 && a <= 90 ) a = 90 - a;
+    a *= TMath::DegToRad();
+    Double_t x0 = d*cos(a), y0 = d*sin(a);
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    TVector2 point1(xp,ym), point2(xp,yp),  point3(xm,yp), point4(xm,ym);
+    Double_t a1 = point1.Phi(), a2 = point2.Phi(), a3 = point3.Phi(), a4 = point4.Phi();
+    int w3(-1),w4(-1);
+    if (xm>=0 && ym<0) w4 = 1;
+    else if (xm<0 && ym<=0) w3 = w4 = 1;
+    if (fabs(a2 - a1) > TMath::Pi()) a2<a1 ? a1 -= TMath::TwoPi() : a1 += TMath::TwoPi();
+    Double_t result1 = a2 - a1 - Int(a1+TMath::PiOver2(), a2+TMath::PiOver2(), fPar*xp);
+    if (fabs(a3 - a2) > TMath::Pi()) a3<a2 ? a2 -= TMath::TwoPi() : a2 += TMath::TwoPi();
+    Double_t result2 = a3 - a2 - Int(a2, a3, fPar*yp);
+    if (fabs(a4 - a3) > TMath::Pi()) a4<a3 ? a3 -= TMath::TwoPi() : a3 += TMath::TwoPi();
+    Double_t result3;
+    //if (fabs(xm) < 0.15) result3=0.0;
+    //result3 = fabs(xm)*(a3 - a4 - Int(-TMath::ATan(L0/(2*0.15))+TMath::PiOver2(), TMath::ATan(L0/(2*0.15))+TMath::PiOver2(), fPar*0.15))/0.15;
+    if (a4 < a3) result3 = a3 - a4 - Int(a4+TMath::PiOver2(), a3+TMath::PiOver2(), fPar*xm);
+    else result3 = a4 - a3 - Int(a3+TMath::PiOver2(), a4+TMath::PiOver2(), fPar*xm);
+    if (fabs(a1 - a4) > TMath::Pi()) a1<a4 ? a4 -= TMath::TwoPi() : a4 += TMath::TwoPi();
+    Double_t result4;
+    if (a1 < a4 ) result4 = a4 - a1 - Int(a1, a4, fPar*ym);
+    else result4 = a1 - a4 - Int(a4, a1, fPar*ym);
+    return (result1+result2+w3*result3+w4*result4)/fPar;
+}
+
+Double_t result(Double_t distance,Double_t angle){
+    time_t begin,end;
+    begin = clock();
+    //Double_t p[7] = {1.22069, 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012};
+    //Double_t p[7] = {1.22069,858.832,1.35738,240.848,1.35758,85.4124,1.35721};
+    Double_t p[7] = {1.21145,809.017,1.32779,284.814,1.32952,92.9042,1.33583};
+    Double_t value =(p[1]*Func(distance,angle,p[2],p[0])+p[3]*Func(distance,angle,p[4],p[0])+p[5]*Func(distance,angle,p[6],p[0]))/(3816*0.2*TMath::TwoPi());
+    end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return value;
+}
+
+Double_t NFunc(Double_t x,Double_t y,Double_t fPar,Double_t L0){
+    Double_t x0, y0;
+    if (fabs(x)<fabs(y)) {x0 = fabs(y);y0 = fabs(x);}
+    else {x0 = fabs(x);y0 = fabs(y);}
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    Double_t min_distance = xm, max_distance = sqrt(xp*xp+yp*yp);
+    if (xm>0 && ym>0) min_distance = sqrt(xm*xm+ym*ym);
+    else if (xm<0) return 2*L0*L0*(1-exp(-fPar*max_distance))/(max_distance*max_distance*fPar);
+    return 2*L0*L0*(exp(-fPar*min_distance)-exp(-fPar*max_distance))/((max_distance+min_distance)*(max_distance-min_distance)*fPar);
+}
+
+Double_t loop(Double_t distance, Double_t angle, Double_t fPar, Double_t L0){
+    Int_t N = 2;
+    if (distance < 3*L0){
+        if (distance < 1.42*L0) N = 18;
+        else N = 10;
+    }
+    Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    Double_t step = 2*L0/N, step_over2 = L0/N, sum = 0;
+    Double_t xi = xm+step_over2;
+    for (int i = 0; i < N; i++){
+        Double_t yi = ym+step_over2;
+        for (int j = 0; j < N; j++){
+            sum += NFunc(xi,yi,fPar,step_over2);
+            yi += step;
+        }
+        xi += step;
+    }
+    return sum;
+}
+
+Double_t Value(Double_t distance,Double_t angle){
+    //time_t begin,end;
+    //begin = clock();
+    if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+    if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    angle *= TMath::DegToRad();
+    Double_t p[7] = {1.22069, 1405,  3.15,  169, 0.887, 45, 0.354};
+    Double_t value =(p[1]*loop(distance,angle,p[2],p[0])+p[3]*loop(distance,angle,p[4],p[0])+p[5]*loop(distance,angle,p[6],p[0]))/(4795.3270);
+    //end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return value;
+}
+
+Double_t NEWF(Double_t x, Double_t y, Double_t par){
+    Double_t  r = sqrt(x*x+y*y)+0.1;
+    return exp(-par*r)/r;
+}
+Double_t INT(Double_t x0, Double_t L0, Double_t y, Double_t par){
+    //Double_t L0 = (b-a)/2;
+    Double_t a = x0 - L0, b = x0 + L0;
+    if (a*b<0){
+        a *= -1;
+        if (b < a) {Double_t ys = b; b = a; a = ys;}
+        Double_t s = b-a;
+        Double_t result1 = a/18*(NEWF(0,y,par)+NEWF(a,y,par)+4*(NEWF(a/6,y,par)+NEWF(a/2,y,par)+NEWF(5*a/6,y,par))+2*(NEWF(a/3,y,par)+NEWF(2*a/3,y,par)));
+        Double_t result2 = s/18*(NEWF(a,y,par)+NEWF(b,y,par)+4*(NEWF(a+s/6,y,par)+NEWF(a+s/2,y,par)+NEWF(a+5*s/6,y,par))+2*(NEWF(a+s/3,y,par)+NEWF(a+2*s/3,y,par)));
+        return 2*result1+result2;
+    }
+    return L0/9*(NEWF(a,y,par)+NEWF(b,y,par)+4*(NEWF(a+L0/3,y,par)+NEWF(a+L0,y,par)+NEWF(a+5*L0/3,y,par))+2*(NEWF(a+2*L0/3,y,par)+NEWF(a+4*L0/3,y,par)));
+}
+Double_t RES(Double_t distance, Double_t angle, Double_t par, Double_t L0){
+    Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    if (ym*yp<0){
+            ym *= -1;
+            if (yp < ym) {Double_t ys = yp; yp = ym; ym = ys;}
+            Double_t s = yp-ym;
+            Double_t result1 = ym/18*(INT(x0,L0,0,par)+INT(x0,L0,ym,par)+4*(INT(x0,L0,ym/6,par)+INT(x0,L0,ym/2,par)+INT(x0,L0,5*ym/6,par))+2*(INT(x0,L0,ym/3,par)+INT(x0,L0,2*ym/3,par)));
+            Double_t result2 = s/18*(INT(x0,L0,ym,par)+INT(x0,L0,yp,par)+4*(INT(x0,L0,ym+s/6,par)+INT(x0,L0,ym+s/2,par)+INT(x0,L0,ym+5*s/6,par))+2*(INT(x0,L0,ym+s/3,par)+INT(x0,L0,ym+2*s/3,par)));
+            return 2*result1+result2;
+    }
+    return L0/9*(INT(x0,L0,y0-L0,par)+INT(x0,L0,y0+L0,par)+4*(INT(x0,L0,y0-2*L0/3,par)+INT(x0,L0,y0,par)+INT(x0,L0,y0+2*L0/3,par))+2*(INT(x0,L0,y0-L0/3,par)+INT(x0,L0,y0+L0/3,par)));
+}
+Double_t VALUE(Double_t distance,Double_t angle){
+    //time_t begin,end;
+    //begin = clock();
+    if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+    if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    angle *= TMath::DegToRad();
+    //Double_t p[7] = {p0, p1, p2, p3, p4, p5, p6};
+    Double_t p[7] = {1.22069, 1405,  3.15,  169, 0.887, 45, 0.354};
+    Double_t value =(p[1]*RES(distance,angle,p[2],p[0])+p[3]*RES(distance,angle,p[4],p[0])+p[5]*RES(distance,angle,p[6],p[0]))/(3816*0.2*TMath::TwoPi());
+    //end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return value;
+}
+Double_t DIGITAL_ARC(Double_t a, Double_t b, Double_t xm, Double_t ci){
+    Int_t n = 4;
+    Double_t x;
+    Double_t value1(0),value2(0);
+    //0~0.72*sqrt(xm) n=60;
+    Double_t step;
+    if ( xm < 0.1 && b < 2.5 ){
+        Int_t N = 10;
+        Double_t a_cut = 0.72*sqrt(xm);
+        x = a;
+        step = (a_cut-a)/N;
+        for (int i = 1; i < N; i++) value1 += TMath::ACos(xm/(x+i*step))*exp(-ci*(x+i*step));
+        value1 = step*((TMath::ACos(xm/a)*exp(-ci*a)+TMath::ACos(xm/a_cut)*exp(-ci*a_cut))/2+value1);
+        a = a_cut;
+        
+        /*a_cut = 1.35*sqrt(xm);;
+        x = a_cut;
+        step = (b-a_cut)/N;
+        for (int i = 1; i < N; i++) value2 += TMath::ACos(xm/(x+i*step))*exp(-ci*(x+i*step));
+        value2 = step*((TMath::ACos(xm/a_cut)*exp(-ci*a_cut)+TMath::ACos(xm/b)*exp(-ci*b))/2+value2);
+        b = a_cut;*/
+        
+        /*Int_t N = 20;
+        Double_t a_cut = 0.3367*pow(p,0.4);
+        x = a;
+        step = (a_cut-a)/N;
+        for (int i = 1; i < N; i++) value1 += exp(-p/sin(x+i*step));
+        value1 = step*(exp(-p/sin(a))+exp(-p/sin(a_cut))/2+value1);
+        a = a_cut;
+        a_cut = 2.59111*pow(p,0.46);
+        x=a_cut;
+        step = (b-a_cut)/N;
+        for (int i = 1; i < N; i++) value2 += exp(-p/sin(x+i*step));
+        value2 = step*(exp(-p/sin(a_cut))+exp(-p/sin(b))/2+value2);
+        b = a_cut;*/
+    }
+    
+    x = a;
+    Double_t sum1(0),sum2(0);
+    step = (b-a)/(2*n);
+    for (int i = 1; i < 2*n; i+=2) sum1 += TMath::ACos(xm/(x+i*step))*exp(-ci*(x+i*step));
+    for (int i = 2; i < 2*n-1; i+=2) sum2 += TMath::ACos(xm/(x+i*step))*exp(-ci*(x+i*step));
+    //if (fabs(a-xm)<0.01) return ((b-a)/6/n)*(TMath::ACos(xm/b)*exp(-ci*b)+4*sum1+2*sum2);else
+            return value1+value2+((b-a)/6/n)*(TMath::ACos(xm/a)*exp(-ci*a)+TMath::ACos(xm/b)*exp(-ci*b)+4*sum1+2*sum2);
+}
+Double_t SRT(Double_t distance, Double_t angle, Double_t ci, Double_t L0){
+    int N(0);
+    Double_t S[4];
+    int w0(-1),w2(-1);
+    Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+    for (int j = 0; j < 2; j++){
+        Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+        if (j==0) {
+            if (xm>=0 && ym<0) w2 = 1;
+            else if (xm<0 && ym<=0) w0 = w2 = 1;
+        }
+        Double_t x_zd = fabs(xm);
+        for (int i=0; i < 2; i++){
+            Double_t r_min = sqrt(x_zd*x_zd+ym*ym), r_max = sqrt(x_zd*x_zd+yp*yp);
+            Double_t theta_min= TMath::ACos(x_zd/r_min)  ,theta_max= TMath::ACos(x_zd/r_max);
+            //if (r_min < 0.01) theta_min = 0;
+            if (ym*yp<0)
+                S[N] = theta_min/ci*(1-exp(-ci*r_min))+theta_max/ci*(1-exp(-ci*r_max))-2*DIGITAL_ARC(x_zd,r_min,x_zd,ci)-DIGITAL_ARC(r_min,r_max,x_zd,ci);
+            else S[N] = (theta_max-theta_min+theta_min*exp(-ci*r_min)-theta_max*exp(-ci*r_max))/ci-DIGITAL_ARC(r_min,r_max,x_zd,ci);
+            x_zd = xp;
+            N++;
+        }
+        x0 = distance*sin(angle), y0 = distance*cos(angle);
+    }
+    return w0*S[0]+S[1]+w2*S[2]+S[3];
+}
+
+Double_t MYVALUE(Double_t distance,Double_t angle){
+    //time_t begin,end;
+    //begin = clock();
+    if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+    if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    angle *= TMath::DegToRad();
+    //Double_t p[7] = {p0, p1, p2, p3, p4, p5, p6};
+    Double_t p[7] = {1.18049, 966.407,  1.31332,  211.006, 1.31283, 6.70425, -0.264478};
+    Double_t value =(p[1]*SRT(distance,angle,p[2],p[0])+p[3]*SRT(distance,angle,p[4],p[0])+p[5]*SRT(distance,angle,p[6],p[0]))/(3816*0.2*TMath::TwoPi());
+    //end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return value;
+}
+
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
@@ -374,7 +599,10 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475,1.064);
-            double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
+            //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22069, 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22069, 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012);
+            //double rat = Value(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/Value(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            double rat = MYVALUE(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MYVALUE(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;

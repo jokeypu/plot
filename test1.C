@@ -615,12 +615,12 @@ struct INTEGRAL {
     Double_t func_Int(Double_t a, Double_t b){
         float value(0);
         if (y < 0.1){
-            Int_t N = 3+200*(b-a);
+            Int_t N = 3+100*(b-a);
             float step = (b-a)/N, k = a+step, m = b-step/2;
             for (float i = k; i < m; i+=step) value += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
             return step*((y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y))/2+value);
         }else{
-            Int_t n = 5;
+            Int_t n = 4;
             float step = (b-a)/(2*n), Twostep = 2*step, StepOver2 = step/2;
             float sum1(0), sum2(0), k1 = a + step, k2 = k1 + step, m1 = b - StepOver2, m2 = m1 - step;
             for (float i = k1; i < m1; i += Twostep) sum1 += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
@@ -840,7 +840,7 @@ int test1(){
             y += 0.09;
             N++;
         }
-        x += 0.035;
+        x += 0.03;
     }
     cout << "TIME:" << t/CLK_TCK << endl;
     

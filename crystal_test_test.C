@@ -405,12 +405,12 @@ struct INTEGRAL {
     Double_t func_Int(Double_t a, Double_t b){
         float value(0);
         if (y < 0.1){
-            Int_t N = 3+200*(b-a);
+            Int_t N = 3+100*(b-a);
             float step = (b-a)/N, k = a+step, m = b-step/2;
             for (float i = k; i < m; i+=step) value += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
             return step*((y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y))/2+value);
         }else{
-            Int_t n = 5;
+            Int_t n = 4;
             float step = (b-a)/(2*n), Twostep = 2*step, StepOver2 = step/2;
             float sum1(0), sum2(0), k1 = a + step, k2 = k1 + step, m1 = b - StepOver2, m2 = m1 - step;
             for (float i = k1; i < m1; i += Twostep) sum1 += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
@@ -515,14 +515,21 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //c2->cd();
     g2D->Draw("p.");
     
-    TF2* f2=new TF2("f2","[6]*Shower_Function.shower_Digi(x,y,[0],[1],[2],[3],[4],[5])",0,14,0,90);
-    //TF2* f2=new TF2("f2","[1]*mf(x,y,[0],1405,3.2,170,0.89,45,0.35)",0,5,0,90);
+    TF2* f2=new TF2("f2","[2]*Shower_Function.shower_Digi(x,y,[0],[1],1,0.88,1,0.35)",0,8,0,90);
+    f2->SetParameters( 1.22069, 3.2, 1);
+    //f2->SetParLimits(0, 1.0, 2.0);
+    //f2->SetParLimits(1, 2,5);
+    //f2->SetParLimits(2, 0.5, 1.5);
+    
+    
+    //TF2* f2=new TF2("f2","[6]*Shower_Function.shower_Digi(x,y,[0],[1],[2],[3],[4],[5])",0,14,0,90);
+    //TF2* f2=new TF2("f2","[1]*mf(x,y,[0],1405,3.2,170,0.89,45,0.35)",0,3,0,90);
     //TF1* f2=new TF1("f2","mf(x,0,[0],[1],[2],[3])",0,3.5);
     //TF1* f2=new TF1("f2","mf(1.3,x,[0],[1],[2],[3])",0,90);
     //f2->SetParameters(1.064, 1.0);
     //f2->SetParLimits(0, 1.0, 2.0);
     //f2->SetParLimits(1, 0.8,1.1);
-    f2->SetParameters( 1.22069, 3.2,  0.12, 0.89, 0.032, 0.354403, 1);
+    //f2->SetParameters( 1.22069, 3.2,  0.12, 0.89, 0.032, 0.354403, 1);
     //f2->SetParameters( 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012);
     //f2->SetParLimits(0, 1.0, 2.0);
     //f2->SetParLimits(1, 1000,2000);
@@ -695,7 +702,7 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
-            if (Distance > 14 || angle<0 || angle>90 ) continue;
+            if (Distance > 8 || angle<0 || angle>90 ) continue;
             g2D->SetPoint(N,Distance,angle,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

@@ -62,7 +62,7 @@ int Shower_function_fix()
     int bin1(600),bin2(600);
     float tx(800),ty(800);
     double xmin(0),xmax(6),ymin(0),ymax(180);
-    TString dir_name("Gamma_1GGG");
+    TString dir_name("Gamma_1G");
     
     //******************************************//
     
@@ -102,8 +102,8 @@ int Shower_function_fix()
     gStyle->SetTitleOffset(1.0,"xyz");
     gStyle->SetOptFit(1111);
     
-    TH2D* h2D = new TH2D("h1D","h1",100,0-3.5,3.5,100,-3.5,3.5);
-    //TH2D* h2D = new TH2D("h1D","h1",50,0-3.5,3.5,50,-3.5,3.5);
+    //TH2D* h2D = new TH2D("h1D","h1",100,-3.5,3.5,100,-3.5,3.5);
+    TH2D* h2D = new TH2D("h1D","h1",80,71,74,80,-1.5,1.5);
     h2D->SetLineColor(kBlue);
     h2D->SetLineWidth(2);
     h2D->GetXaxis()->SetTitle("x");
@@ -177,7 +177,9 @@ int Shower_function_fix()
             Double_t distance = pos.Mag()*sin(mom.Angle(pos));
             Double_t E = point->GetEnergyLoss();
             TVector2 Pos2D = Pos2(&pos,&cent);
-            h2D->Fill(Pos2D.X(),Pos2D.Y(),E);
+            //h2D->Fill(Pos2D.X(),Pos2D.Y(),E);
+            h2D->Fill(point->GetTheta(),point->GetPhi(),E);
+            //cout << point->GetTheta() << ", " << point->GetPhi() << endl;
         }
     N++;
     }

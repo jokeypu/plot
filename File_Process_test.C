@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 using namespace std;
-int File_Process(){
+int File_Process_test(){
     std::string in_name("doc/DigiEnergy.txt");
-    std::string out_name("doc/DigiEnergy_R.txt");
+    std::string out_name("doc/DigiEnergy_R_test.txt");
     
     std::ifstream File_in;
     File_in.open(in_name, std::ios::in);
@@ -19,7 +19,7 @@ int File_Process(){
     std::string str;
     //std::getline(File_in, str);
     
-    float distance_max(14), angle_max(45);
+    float distance_max(14), angle_max(90);
     const int bin_x(140), bin_y(90);
     int bin_table[bin_x][bin_y] = {0};
     float Energy_table[bin_x][bin_y] = {0};
@@ -40,9 +40,10 @@ int File_Process(){
     
     for (int i = 0; i < bin_x; i++){
         for (int j = 0; j < bin_y; j++){
-            if (bin_table[i][j] < 10) continue;
+            if (bin_table[i][j] < 5) continue;
             float d = step_x/2 + i*step_x, a = step_y/2 + j*step_y, E = Energy_table[i][j]/bin_table[i][j];
-            File_out << d << " " << a << " " << E << endl;
+            if (i==15)
+            File_out << a << " " << E << endl;
         }
     }
     File_out.close();
@@ -72,19 +73,17 @@ int File_Process(){
     g1->GetYaxis()->CenterTitle();
     g1->GetZaxis()->CenterTitle();*/
     
-    TGraph2D *g2 = new TGraph2D("doc/DigiEnergy_R.txt","%lg %lg %lg");
+    TGraph *g2 = new TGraph("doc/DigiEnergy_R_test.txt","%lg %lg");
     g2->SetMarkerStyle(7);
     g2->SetMarkerColorAlpha(kAzure+3, 0.5);
-    g2->GetZaxis()->SetTitle("E_{digi}");
-    g2->GetXaxis()->SetTitle("distance");
-    g2->GetYaxis()->SetTitle("angle");
+    g2->GetYaxis()->SetTitle("E_{digi}");
+    g2->GetXaxis()->SetTitle("angle");
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
-    g2->GetZaxis()->CenterTitle();
     
     //c1->cd();
     //g1->Draw("p.");
     c2->cd();
-    g2->Draw("p.");
+    g2->Draw("Ap.");
     return 0;
 }

@@ -541,7 +541,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
     //h3D->Fit(f2,"R");
-    g2D->Fit(f2,"R");
+    //g2D->Fit(f2,"R");
     //f2->Draw();
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
@@ -691,8 +691,8 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             if (Digi_Energy == -1) continue;
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             if (hit->GetDetectorID() == digi_seed_id) Eci = Seed_Energy;
-            double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            double angle = AA(&Det_Pos, &Cent_pos, 1.25);
+            //double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
+            //double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
             //h->Fill(Distance,Eci - Digi_Energy);
@@ -702,7 +702,18 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
-            if (Distance > 8 || angle<0 || angle>90 ) continue;
+            double dtheta = Det_Pos.Theta();
+            double dphi = Det_Pos.Phi();
+            double ctheta = Cent_pos.Theta();
+            double cphi = Cent_pos.Phi();
+            dtheta *= TMath::RadToDeg();
+            dphi *= TMath::RadToDeg();
+            ctheta *= TMath::RadToDeg();
+            cphi *= TMath::RadToDeg();
+            double Distance = sqrt((dtheta-ctheta)*(dtheta-ctheta)+(dphi-cphi)*(dphi-cphi));
+            cout << dtheta << endl;
+            double angle = TMath::ATan(fabs((dphi-cphi)/(dtheta-ctheta)));
+            if (Distance > 3 || angle<0 || angle>90 ) continue;
             g2D->SetPoint(N,Distance,angle,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

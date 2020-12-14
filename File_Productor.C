@@ -179,7 +179,7 @@ int File_Productor(){
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
-            if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+            //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 20) continue;
             N++;
             File_out << Distance << " " << angle << " " << Digi_Energy << endl;

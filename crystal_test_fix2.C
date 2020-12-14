@@ -385,6 +385,75 @@ Double_t MYVALUE(Double_t distance,Double_t angle){
     return value;
 }
 
+Double_t par[8] = {1.18772, 2.58453, 0.138447, 1.01062, 0.0261287, 0.845129, 0.389123, 0.688391};
+
+Double_t FFF(const Double_t *x){
+    Double_t r = sqrt(x[0]*x[0]+x[1]*x[1]);
+    return (exp(-par[1]*r)+par[2]*exp(-par[3]*r)+par[4]*exp(-par[5]*r))/pow(r,par[7]);
+    //return exp(-1/cos(x[0]))+0*x[1];
+}
+Double_t MMM(Double_t distance, Double_t angle){
+    //time_t begin,end;
+    //begin = clock();
+    if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+    else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    angle *= TMath::DegToRad();
+    Double_t L0 = par[0];
+    Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    double a[2] = {xm,ym};
+    double b[2] = {xp,yp};
+    //const double ERRORLIMIT = 1E+2;
+    ROOT::Math::Functor wf(&FFF,2);
+    ROOT::Math::IntegratorMultiDim ig(ROOT::Math::IntegrationMultiDim::kADAPTIVE,0.0001,0.0001,1000);
+    ig.SetFunction(wf);
+    Double_t value = ig.Integral(a,b);
+    //end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return par[6]*value;
+}
+
+struct CZ{
+    std::vector<pair<Double_t, Double_t>> pars;
+    const Double_t distance_step = 0.1;
+    CZ(){
+        std::string in_name1 = "doc/p1.txt";
+        std::ifstream p1;
+        p1.open(in_name1,std::ios::in);
+        std::string in_name2 = "doc/p2.txt";
+        std::ifstream p2;
+        p2.open(in_name2,std::ios::in);
+        std::string str1,str2;
+        while (std::getline(p1, str1)&&std::getline(p2, str2)) {
+            std::stringstream strStream1(str1);
+            std::stringstream strStream2(str2);
+            float par1, par2, nl;
+            strStream1 >> nl >> par1;
+            strStream2 >> nl >> par2;
+            //cout << par1 << ", " << par2 << endl;
+            pars.push_back(make_pair(par1,par2));
+        }
+        p1.close();
+        p2.close();
+    }
+    Double_t newfunc(Double_t distance, Double_t angle){
+        Double_t value1, value2;
+        if (distance < 0.5*distance_step){
+            Double_t a = (0.5*distance_step - distance)/distance_step;
+            value1 = pars[0].first;//-a*(pars[1].first-pars[0].first);
+            value2 = pars[0].second;//-a*(pars[1].second-pars[0].second);
+        }else if (distance >= 0.5*distance_step && distance < 3.5){
+            int index = (int)((distance-0.5*distance_step)/distance_step);
+            Double_t a = ((distance-0.5*distance_step) - index*distance_step)/distance_step;
+            value1 = pars[index].first+a*(pars[index+1].first-pars[index].first);
+            value2 = pars[index].second+a*(pars[index+1].second-pars[index].second);
+        }else {
+            return exp(-1.25*distance);
+        }
+        return value2*angle+value1;
+    }
+}method;
+
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
@@ -602,7 +671,9 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.22069, 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.22069, 37147,  168.255,  -15302.4, 44.5161, 1489.1, 1.74012);
             //double rat = Value(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/Value(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
-            double rat = MYVALUE(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MYVALUE(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //double rat = MYVALUE(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MYVALUE(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //double rat = method.newfunc(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/method.newfunc(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            double rat = MMM(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MMM(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;

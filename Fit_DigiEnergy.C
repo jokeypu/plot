@@ -74,11 +74,17 @@ int Fit_DigiEnergy(){
     for (int i = 0; i < g->GetN(); i++) if (x[i] > distance_cut) g->RemovePoint(i);
     
     
-    TF2* f=new TF2("f2","[2]*Shower_Function.shower_Digi(x,y,[0],[1],1,0.88,1,0.35)",0,distance_cut,0,45);
-    f->SetParameters( 1.22069, 3.2, 1);
+    //TF2* f=new TF2("f2","[4]*Shower_Function.shower_Digi(x,y,1.22,3.2,0,[3],0,0.35)",0,distance_cut,0,45);
+    TF2* f=new TF2("f2","[6]*Shower_Function.shower_Digi(x,y,[0], [1],  [2],[3],  [4],[5])",0,distance_cut,0,90);
+    f->SetParameters( 1.22, 3.2,   0.1,0.887,    0.025,0.354,  1);
+    //f->SetParLimits(0, 1.0, 2.0);
+    //f->SetParLimits(1, 0.01,0.5);
+    //f->SetParLimits(2, 0.001, 0.05);
+    //f->SetParLimits(3, 0, 10);
     
+    g->GetXaxis()->SetRangeUser(0,distance_cut);
     g->Draw("p.");
     g->Fit(f,"R");
-    g->FitPanel();
+    cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << endl;
     return 0;
 }

@@ -615,7 +615,7 @@ struct INTEGRAL {
     Double_t func_Int(Double_t a, Double_t b){
         float value(0);
         if (y < 0.1){
-            Int_t N = 3+100*(b-a);
+            Int_t N = 3+200*(b-a);
             float step = (b-a)/N, k = a+step, m = b-step/2;
             for (float i = k; i < m; i+=step) value += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
             return step*((y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y))/2+value);
@@ -757,9 +757,12 @@ struct INTEGRAL {
         if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
         else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
         angle *= TMath::DegToRad();
-        Double_t p[7] = {1.22069, 1405,  3.15,  169, 0.887, 45, 0.354};
+        //Double_t p[7] = {1.22069, 1405,  3.15,  169, 0.887, 45, 0.354};
+        //Double_t p[7] = {1.22,  3.15,  169.0/1405.0, 0.887, 45.0/1405.0, 0.354 ,0.357472};
+        Double_t p[7] = {0.22, 396.258, 3.35543, 47.0842, 0.703498, 0.112794, -0.326313};
         SetPar(1,p[0]);
-        Double_t value =(p[1]*block_Int(distance,angle,p[2])/p[2]+p[3]*block_Int(distance,angle,p[4])/p[4]+p[5]*block_Int(distance,angle,p[6])/p[6])/4800;//(3816*0.2*TMath::TwoPi());
+        //Double_t value =p[6]*(block_Int(distance,angle,p[1])/p[1]+p[2]*block_Int(distance,angle,p[3])/p[3]+p[4]*block_Int(distance,angle,p[5])/p[5])/3;//(3816*0.2*TMath::TwoPi());
+        Double_t value =(p[1]*block_Int(distance,angle,p[2])/p[2]+p[3]*block_Int(distance,angle,p[4])/p[4]+p[5]*block_Int(distance,angle,p[6])/p[6])/(3816*0.2*TMath::TwoPi());
         //end = clock();
         //cout << "TIME:" << end - begin << endl;
         return value;
@@ -834,7 +837,7 @@ int test1(){
             //Double_t value = result_test(x);
             end = clock();
             h1D->Fill(end-begin);
-            if ( value>1 || value<0 ) cout << "ERROR!!" << endl;
+            //if ( value>1 || value<0 ) cout << "ERROR!!" << endl;
             t += (end - begin);
             g->SetPoint(N,x,y,value);
             y += 0.09;

@@ -6,7 +6,7 @@ int Shower_instance(string file_name, string dir_name = ".")
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
     //string file_name("doc/standard_5.txt");
-    string file_name = "doc/" + file_name;
+    file_name = "doc/" + file_name;
     //string file_name("doc/old.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);

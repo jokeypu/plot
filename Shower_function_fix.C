@@ -103,7 +103,7 @@ int Shower_function_fix()
     gStyle->SetOptFit(1111);
     
     //TH2D* h2D = new TH2D("h1D","h1",100,-3.5,3.5,100,-3.5,3.5);
-    TH2D* h2D = new TH2D("h1D","h1",80,71,74,80,-1.5,1.5);
+    TH2D* h2D = new TH2D("h1D","h1",80,0.5,2.5,80,0,0.8);
     h2D->SetLineColor(kBlue);
     h2D->SetLineWidth(2);
     h2D->GetXaxis()->SetTitle("x");
@@ -111,6 +111,14 @@ int Shower_function_fix()
     h2D->GetZaxis()->SetTitle("Energy");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
+    
+    TH1D* h1D = new TH1D("h1D","h1",100,0,20);
+    h1D->SetLineColor(kBlue);
+    h1D->SetLineWidth(2);
+    h1D->GetXaxis()->SetTitle("distance");
+    h1D->GetYaxis()->SetTitle("Energy");
+    h1D->GetXaxis()->CenterTitle();
+    h1D->GetYaxis()->CenterTitle();
     
     /*TF1 *f=new TF1("f","myfunc(x,[0],[1],[2],[3])",0,9);
     f->SetLineWidth(2);
@@ -178,15 +186,21 @@ int Shower_function_fix()
             Double_t E = point->GetEnergyLoss();
             TVector2 Pos2D = Pos2(&pos,&cent);
             //h2D->Fill(Pos2D.X(),Pos2D.Y(),E);
-            h2D->Fill(point->GetTheta(),point->GetPhi(),E);
+            Double_t seed1 = 1.0/TMath::Tan(mom.Theta());
+            Double_t seed2 = mom.Phi();
+            Double_t cood1 = 1.0/TMath::Tan(point->GetTheta());
+            Double_t cood2 = point->GetPhi();
+            h1D->Fill(sqrt((cood1-seed1)*(cood1-seed1)+(cood2-seed2)*(cood2-seed2)),E);
+            //h2D->Fill(1/TMath::Tan(point->GetTheta()),point->GetPhi(),E);
             //cout << point->GetTheta() << ", " << point->GetPhi() << endl;
         }
     N++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     c1->cd();
+    h1D->Draw("HIST");
     //h2D->Draw("LEGO");
-    h2D->Draw("CONT");
+    //h2D->Draw("cont");
     //h1D->Fit(f,"R");
     //f->Draw("SAME");
     return 0;

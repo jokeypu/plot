@@ -1,18 +1,13 @@
-Double_t par[8] = {1.22,  3.15,  169.0/1405.0, 0.887, 45.0/1405.0, 0.354 ,0.386687, 0.774358};
+Double_t par[8] = {1.18772, 2.58453, 0.138447, 1.01062, 0.0261287, 0.845129, 0.389123, 0.688391};
 
-void SetPar(Double_t p1, Double_t p2){
-    par[6] = p1;
-    par[7] = p2;
-}
 Double_t FFF(const Double_t *x){
     Double_t r = sqrt(x[0]*x[0]+x[1]*x[1]+0.00001);
     return (exp(-par[1]*r)+par[2]*exp(-par[3]*r)+par[4]*exp(-par[5]*r))/pow(r,par[7]);
     //return exp(-1/cos(x[0]))+0*x[1];
 }
-Double_t MMM(Double_t distance, Double_t angle, Double_t p1 = 0.4, Double_t p2 = 0.8){
+Double_t MMM(Double_t distance, Double_t angle){
     //time_t begin,end;
     //begin = clock();
-    SetPar(p1,p2);
     if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
     else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
     angle *= TMath::DegToRad();
@@ -136,7 +131,8 @@ int test2(){
             //Double_t value = MYVALUE(x,y);
             //Double_t value = result(x,y);
             //Double_t value = SHOWER_DIGI(x,y);
-            ///Double_t value = Shower_Function.shower_Digi(x,y);
+            //Double_t value = Shower_Function.shower_Digi(x,y);
+            //Double_t value = MMM(x,y);
             Double_t value = method.newfunc(x,y);
             //Double_t value = result_test(x);
             end = clock();

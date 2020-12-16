@@ -103,24 +103,29 @@ int Shower_function()
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     
+    c1->cd();
+    c1->SetLogy();
+    h1D->Draw("HIST");
+    h1D->Fit(f,"R");
+    
     TF1 *f1=new TF1("f1","[0]*exp(-1*[1]*x)",0,20);
     f1->SetLineWidth(2);
     f1->SetLineColor(kGreen);
-    f1->SetParameters(1404.71,3.155);
+    f1->SetLineStyle(2);
+    f1->SetParameters(f->GetParameter(0),f->GetParameter(1));
     
     TF1 *f2=new TF1("f2","[0]*exp(-1*[1]*x)",0,20);
     f2->SetLineWidth(2);
+    f2->SetLineStyle(2);
     f2->SetLineColor(kCyan);
-    f2->SetParameters(169.204,0.887);
+    f2->SetParameters(f->GetParameter(2),f->GetParameter(3));
     
     TF1 *f3=new TF1("f3","[0]*exp(-1*[1]*x)",0,20);
     f3->SetLineWidth(2);
+    f3->SetLineStyle(2);
     f3->SetLineColor(kViolet);
-    f3->SetParameters(45.4251,0.3544);
+    f3->SetParameters(f->GetParameter(4),f->GetParameter(5));
     
-    c1->cd();
-    h1D->Draw("HIST");
-    h1D->Fit(f,"R");
     f->Draw("SAME");
     f1->Draw("SAME");
     f2->Draw("SAME");

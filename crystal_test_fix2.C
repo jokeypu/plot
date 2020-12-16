@@ -454,6 +454,59 @@ struct CZ{
     }
 }method;
 
+struct INTEGRAL {
+    Double_t y, ci, L0;
+    void SetPar(Int_t index, Double_t par){
+        if (index == 1) L0 = par;
+        else if (index == 2) ci = par;
+        else if (index == 3) y = par;
+        else std::cout << "Parameter error!!" << std::endl;
+    }
+    Double_t func_Int(Double_t a, Double_t b){
+        float value(0);
+        if (y < 0.1){
+            Int_t N = 3+100*(b-a);
+            float step = (b-a)/N, k = a+step, m = b-step/2;
+            for (float i = k; i < m; i+=step) value += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
+            return step*((y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y))/2+value);
+        }else{
+            Int_t n = 4;
+            float step = (b-a)/(2*n), Twostep = 2*step, StepOver2 = step/2;
+            float sum1(0), sum2(0), k1 = a + step, k2 = k1 + step, m1 = b - StepOver2, m2 = m1 - step;
+            for (float i = k1; i < m1; i += Twostep) sum1 += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
+            for (float i = k2; i < m2; i += Twostep) sum2 += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
+            return step/3*(y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y)+4*sum1+2*sum2);
+        }
+    }
+    Double_t line_Int(Double_t x_n, Double_t y_n){
+        SetPar(3,y_n);
+        if ( x_n-L0 > 0) return func_Int(x_n-L0,x_n+L0);
+        else return 2*func_Int(0,L0-x_n)+func_Int(L0-x_n,x_n+L0);
+    }
+    Double_t block_Int(Double_t distance, Double_t angle, Double_t ci){
+        Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+        Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+        SetPar(2,ci);
+        Int_t w1(1),w3(1);
+        if (xm>0) { w1 = -1; if (ym>0) w3 = -1; }
+        return w1*line_Int(y0,fabs(xm))+line_Int(y0,xp)+w3*line_Int(x0,fabs(ym))+line_Int(x0,yp);
+    }
+    Double_t shower_Digi(Double_t distance,Double_t angle){
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+        angle *= TMath::DegToRad();
+        //Double_t p[9] = {L_1, L_2, L_3, p0, p1, p2, p3, p4, p5};
+        Double_t p[9] = {1.57344, 0.943614, 1.20918, 0.139749, 4.94142, 1.18306, 0.494592, 3.37466, 1.89294};
+        SetPar(1,p[0]);
+        Double_t T1 = block_Int(distance,angle,p[4])/p[4];
+        SetPar(1,p[1]);
+        Double_t T2 = p[5]*block_Int(distance,angle,p[6])/p[6];
+        SetPar(1,p[2]);
+        Double_t T3 = p[7]*block_Int(distance,angle,p[8])/p[8];
+        return p[3]*(T1+T2+T3)/3;
+    }
+}Shower_Function;
+
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
 int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
@@ -673,7 +726,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = Value(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/Value(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = MYVALUE(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MYVALUE(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = method.newfunc(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/method.newfunc(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
-            double rat = MMM(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MMM(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            //double rat = MMM(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/MMM(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
+            double rat = Shower_Function.shower_Digi(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25))/Shower_Function.shower_Digi(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;

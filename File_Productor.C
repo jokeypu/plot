@@ -26,11 +26,12 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
         DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
         TVector3 ey = DetPos_n.Cross(vz).Unit();
         TVector3 ex = DetPos_n.Cross(ey).Unit();
-        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
-        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        Double_t dx = (*DetPos-*Cent).Dot(ex);
+        Double_t dy = (*DetPos-*Cent).Dot(ey);
+        TVector2 vv(dx,dy);
         distance = sqrt(dx*dx+dy*dy);
-        angle = 57.2957*TMath::ATan(dy/dx);
-        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        angle = fabs(TMath::RadToDeg()*vv.Phi_mpi_pi(vv.Phi()));
+        //if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
         //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
     }
     return angle;
@@ -178,7 +179,7 @@ int File_Productor(){
             if (Digi_Energy == -1) continue;
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             double angle = AA(&Det_Pos, &Cent_pos, 1.25);
-            if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+            //if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
             //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 20) continue;
             N++;

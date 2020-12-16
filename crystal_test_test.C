@@ -431,13 +431,18 @@ struct INTEGRAL {
         if (xm>0) { w1 = -1; if (ym>0) w3 = -1; }
         return w1*line_Int(y0,fabs(xm))+line_Int(y0,xp)+w3*line_Int(x0,fabs(ym))+line_Int(x0,yp);
     }
-    Double_t shower_Digi(Double_t distance,Double_t angle, Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5){
+    Double_t shower_Digi(Double_t distance,Double_t angle, Double_t L_1,Double_t L_2, Double_t L_3, Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5){
         if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
         else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
         angle *= TMath::DegToRad();
         Double_t p[6] = {p0, p1, p2, p3, p4, p5};
-        SetPar(1,p[0]);
-        return (block_Int(distance,angle,p[1])/p[1]+p[2]*block_Int(distance,angle,p[3])/p[3]+p[4]*block_Int(distance,angle,p[5])/p[5])/3;
+        SetPar(1,L_1);
+        Double_t T1 = block_Int(distance,angle,p[1])/p[1];
+        SetPar(1,L_2);
+        Double_t T2 = p[2]*block_Int(distance,angle,p[3])/p[3];
+        SetPar(1,L_3);
+        Double_t T3 = p[4]*block_Int(distance,angle,p[5])/p[5];
+        return p[0]*(T1+T2+T3)/3;
     }
 }Shower_Function;
 
@@ -515,8 +520,8 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //c2->cd();
     g2D->Draw("p.");
     
-    TF2* f2=new TF2("f2","[2]*Shower_Function.shower_Digi(x,y,[0],[1],1,0.88,1,0.35)",0,8,0,90);
-    f2->SetParameters( 1.22069, 3.2, 1);
+    TF2* f2=new TF2("f2","Shower_Function.shower_Digi(x,y,[0],[1],[2],  [3],  [4], [5],[6], [7],[8])",0,8,0,90);
+    f2->SetParameters( 1.22, 1.22, 1.22,   0.3,   3.15,  0.12,0.887,   0.032,0.354);
     //f2->SetParLimits(0, 1.0, 2.0);
     //f2->SetParLimits(1, 2,5);
     //f2->SetParLimits(2, 0.5, 1.5);
@@ -541,7 +546,7 @@ int crystal_test_test( TString dir_name="Gamma_one_1G" )
     //f2->SetParLimits(4, 0.5, 1.5);
     //f2->Draw();
     //h3D->Fit(f2,"R");
-    //g2D->Fit(f2,"R");
+    g2D->Fit(f2,"R");
     //f2->Draw();
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
@@ -691,8 +696,8 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             if (Digi_Energy == -1) continue;
             double Eci = Seed_Energy * rat(&Det_Pos, &Seed_pos, &Cent_pos, 1.25);
             if (hit->GetDetectorID() == digi_seed_id) Eci = Seed_Energy;
-            //double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            //double angle = AA(&Det_Pos, &Cent_pos, 1.25);
+            double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
+            double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             //if ((Eci - Truth_Energy) < 0.02) continue;
             //h->Fill(Distance,Eci - Truth_Energy);
             //h->Fill(Distance,Eci - Digi_Energy);
@@ -702,9 +707,9 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             //h3D->Fill(Distance,angle,mf(Distance,angle)/7);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Eci,Eci - Truth_Energy);
-            double dtheta = Det_Pos.Theta();
+            /*double dtheta = Det_Pos.Theta();
             double dphi = Det_Pos.Phi();
-            double ctheta = Cent_pos.Theta();
+            double ctheta = Cent_po s.Theta();
             double cphi = Cent_pos.Phi();
             dtheta *= TMath::RadToDeg();
             dphi *= TMath::RadToDeg();
@@ -712,8 +717,8 @@ int Exec(TString dir_name, TH2D *h, TGraph2D* g2D, Int_t NGamma){
             cphi *= TMath::RadToDeg();
             double Distance = sqrt((dtheta-ctheta)*(dtheta-ctheta)+(dphi-cphi)*(dphi-cphi));
             cout << dtheta << endl;
-            double angle = TMath::ATan(fabs((dphi-cphi)/(dtheta-ctheta)));
-            if (Distance > 3 || angle<0 || angle>90 ) continue;
+            double angle = TMath::ATan(fabs((dphi-cphi)/(dtheta-ctheta)));*/
+            if (Distance > 8 || angle<0 || angle>90 ) continue;
             g2D->SetPoint(N,Distance,angle,Digi_Energy);
             N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);

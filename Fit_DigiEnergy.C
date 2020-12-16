@@ -35,15 +35,29 @@ struct INTEGRAL {
         if (xm>0) { w1 = -1; if (ym>0) w3 = -1; }
         return w1*line_Int(y0,fabs(xm))+line_Int(y0,xp)+w3*line_Int(x0,fabs(ym))+line_Int(x0,yp);
     }
-    Double_t shower_Digi(Double_t distance,Double_t angle, Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5){
+    /*Double_t shower_Digi(Double_t distance,Double_t angle, Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5){
         if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
         else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
         angle *= TMath::DegToRad();
         Double_t p[6] = {p0, p1, p2, p3, p4, p5};
         SetPar(1,p[0]);
         return (block_Int(distance,angle,p[1])/p[1]+p[2]*block_Int(distance,angle,p[3])/p[3]+p[4]*block_Int(distance,angle,p[5])/p[5])/3;
+    }*/
+    Double_t shower_Digi(Double_t distance,Double_t angle, Double_t L_1,Double_t L_2, Double_t L_3, Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4, Double_t p5){
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+        angle *= TMath::DegToRad();
+        Double_t p[6] = {p0, p1, p2, p3, p4, p5};
+        SetPar(1,L_1);
+        Double_t T1 = block_Int(distance,angle,p[1])/p[1];
+        SetPar(1,L_2);
+        Double_t T2 = p[2]*block_Int(distance,angle,p[3])/p[3];
+        SetPar(1,L_3);
+        Double_t T3 = p[4]*block_Int(distance,angle,p[5])/p[5];
+        return p[0]*(T1+T2+T3)/3;
     }
 }Shower_Function;
+
 int Fit_DigiEnergy(){
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     gStyle->SetOptTitle(0);
@@ -69,14 +83,20 @@ int Fit_DigiEnergy(){
     g->GetYaxis()->CenterTitle();
     g->GetZaxis()->CenterTitle();
     
-    Double_t distance_cut = 8;
+    Double_t distance_cut = 14;
     Double_t *x = g->GetX();
     for (int i = 0; i < g->GetN(); i++) if (x[i] > distance_cut) g->RemovePoint(i);
     
     
     //TF2* f=new TF2("f2","[4]*Shower_Function.shower_Digi(x,y,1.22,3.2,0,[3],0,0.35)",0,distance_cut,0,45);
-    TF2* f=new TF2("f2","[6]*Shower_Function.shower_Digi(x,y,[0], [1],  [2],[3],  [4],[5])",0,distance_cut,0,90);
-    f->SetParameters( 1.22, 3.2,   0.1,0.887,    0.025,0.354,  1);
+    //TF2* f=new TF2("f2","[6]*Shower_Function.shower_Digi(x,y,[0], [1],  [2],[3],  [4],[5])",0,distance_cut,0,90);
+    TF2* f=new TF2("f2","Shower_Function.shower_Digi(x,y,[0],[1],[2],  [3],  [4], [5],[6], [7],[8])",0,distance_cut,0,90);
+    f->SetParameters( 1.22, 1.22, 1.22,   0.3,   3.15,  0.12,0.887,   0.032,0.354);
+    //f->SetParLimits(4, 2.5, 3.5);
+    //f->SetParLimits(6, 0.5,1);
+    //f->SetParLimits(8, 0.1, 0.5);
+    
+    //f->SetParameters( 1.22, 3.2,   0.1,0.887,    0.025,0.354,  1);
     //f->SetParLimits(0, 1.0, 2.0);
     //f->SetParLimits(1, 0.01,0.5);
     //f->SetParLimits(2, 0.001, 0.05);
@@ -85,6 +105,6 @@ int Fit_DigiEnergy(){
     g->GetXaxis()->SetRangeUser(0,distance_cut);
     g->Draw("p.");
     g->Fit(f,"R");
-    cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << endl;
+    cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << ", " << f->GetParameter(7) << ", " << f->GetParameter(8) << endl;
     return 0;
 }

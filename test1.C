@@ -597,8 +597,14 @@ Double_t SHOWER_DIGI(Double_t distance,Double_t angle){
     return value;
 }
 
+Double_t y, ci, L0;
+Double_t funcc(Double_t x){
+    Double_t xi = x*x+y*y;
+    return y*(1-exp(-ci*sqrt(xi)))/xi;
+}
+
 struct INTEGRAL {
-    Double_t y, ci, L0;
+    
     
     void SetPar(Int_t index, Double_t par){
         if (index == 1) L0 = par;
@@ -607,20 +613,28 @@ struct INTEGRAL {
         else std::cout << "Parameter error!!" << std::endl;
     }
     
-    /*Double_t func(Double_t x){
-        Double_t xi = x*x+y*y;
-        return y*(1-exp(-ci*sqrt(xi)))/xi;
+    
+    
+    /*Double_t func_Int(Double_t a, Double_t b){
+        //ROOT::Math::IntegratorOneDimOptions::SetDefaultAbsTolerance(1.E-1);
+        //ROOT::Math::IntegratorOneDimOptions::SetDefaultRelTolerance(1.E-1);
+        ROOT::Math::Functor1D wf(&funcc);
+        //ROOT::Math::Integrator ig(ROOT::Math::IntegrationOneDim::kADAPTIVESINGULAR,0.1,0.1,5);
+        ROOT::Math::Integrator ig(ROOT::Math::IntegrationOneDim::kLEGENDRE,10,10,2);
+        ig.SetFunction(wf);
+        Double_t value = ig.Integral(a,b);
+        return value;
     }*/
     
     Double_t func_Int(Double_t a, Double_t b){
         float value(0);
         if (y < 0.1){
-            Int_t N = 3+200*(b-a);
+            Int_t N = 3+100*(b-a);
             float step = (b-a)/N, k = a+step, m = b-step/2;
             for (float i = k; i < m; i+=step) value += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
             return step*((y*(1-exp(-ci*sqrt(a*a+y*y)))/(a*a+y*y)+y*(1-exp(-ci*sqrt(b*b+y*y)))/(b*b+y*y))/2+value);
         }else{
-            Int_t n = 4;
+            Int_t n = 3;
             float step = (b-a)/(2*n), Twostep = 2*step, StepOver2 = step/2;
             float sum1(0), sum2(0), k1 = a + step, k2 = k1 + step, m1 = b - StepOver2, m2 = m1 - step;
             for (float i = k1; i < m1; i += Twostep) sum1 += y*(1-exp(-ci*sqrt(i*i+y*y)))/(i*i+y*y);
@@ -751,7 +765,7 @@ struct INTEGRAL {
         
     }*/
     
-    Double_t shower_Digi(Double_t distance,Double_t angle){
+    /*Double_t shower_Digi(Double_t distance,Double_t angle){
         //time_t begin,end;
         //begin = clock();
         if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
@@ -766,6 +780,21 @@ struct INTEGRAL {
         //end = clock();
         //cout << "TIME:" << end - begin << endl;
         return value;
+    }*/
+    
+    Double_t shower_Digi(Double_t distance,Double_t angle){
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+        angle *= TMath::DegToRad();
+        //Double_t p[9] = {L_1, L_2, L_3, p0, p1, p2, p3, p4, p5};
+        Double_t p[9] = {1.04872, 1.20508, 1.34806, 0.321212, 0.871008, 0.228812, 2.03909, 0.875544, 2.18369};
+        SetPar(1,p[0]);
+        Double_t T1 = block_Int(distance,angle,p[4])/p[4];
+        SetPar(1,p[1]);
+        Double_t T2 = p[5]*block_Int(distance,angle,p[6])/p[6];
+        SetPar(1,p[2]);
+        Double_t T3 = p[7]*block_Int(distance,angle,p[8])/p[8];
+        return p[3]*(T1+T2+T3)/3;
     }
     
 }Shower_Function;

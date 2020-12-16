@@ -1,7 +1,7 @@
 int Exec(string dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
-int Shower_iFile(string dir_name , string out_name = "doc/iFile.txt")
+int Shower_iFile(string dir_name , string out_name = "iFile.txt")
 {
-    if( Exec( dir_name, out_name, 2, true) ) return 1;
+    if( Exec( dir_name, "doc/"+out_name, 2, true) ) return 1;
     return 0;
 }
 

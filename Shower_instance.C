@@ -1,12 +1,12 @@
-int Exec(TH1D* hist, Int_t NGamma, bool IsSplit);
-int Shower_instance()
+int Exec(TH1D* hist,string dir_name, Int_t NGamma, bool IsSplit);
+int Shower_instance(string file_name, string dir_name = ".")
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0.7),xmax(1.3);
     //double xmin(0.3),xmax(0.7);
     //string file_name("doc/standard_5.txt");
-    string file_name("doc/standard.txt");
+    string file_name = "doc/" + file_name;
     //string file_name("doc/old.txt");
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
@@ -39,7 +39,7 @@ int Shower_instance()
     h1D2->GetXaxis()->CenterTitle();
     h1D2->GetYaxis()->CenterTitle();
 
-    int MaxNo = Exec( h1D2, 2, true);
+    int MaxNo = Exec( h1D2, dir_name, 2, true);
     if (  MaxNo == -1 || MaxNo > 38570 ) {
         std::cout << "Error OR MaxNo > 38570 !!!" << std::endl;
         return -1;
@@ -67,12 +67,12 @@ int Shower_instance()
 }
 
 //*****************************************************************************************//
-int Exec(TH1D* hist, Int_t NGamma, bool IsSplit){
+int Exec(TH1D* hist, string dir_name, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
-    TString file_path_sim = "../data/evtcomplete_sim.root";
-    TString file_path_digi = "../data/evtcomplete_digi.root";
+    TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
+    TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
     
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile(file_path_sim);

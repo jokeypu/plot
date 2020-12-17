@@ -1,4 +1,4 @@
-int Shower_instance_plus(string old_file, string new_file)
+int Shower_instance_plus(const char old_file[20], const char new_file[20])
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
@@ -6,8 +6,10 @@ int Shower_instance_plus(string old_file, string new_file)
     cout << "-INFO  Old File : " << old_file << endl;
     cout << "-INFO  New File : " << new_file << endl;
     
-    string file_name1 = "doc/" + old_file + ".txt";
-    string file_name2 = "doc/" + new_file + ".txt";
+    string file1(old_file), file2(new_file);
+    
+    string file_name1 = "doc/" + file1 + ".txt";
+    string file_name2 = "doc/" + file2 + ".txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -70,8 +72,8 @@ int Shower_instance_plus(string old_file, string new_file)
     h1D1->Draw("SAME");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
-    leg->AddEntry(h1D1, (TString)old_file, "L");
-    leg->AddEntry(h1D2, (TString)new_file, "L");
+    leg->AddEntry(h1D1, old_file, "L");
+    leg->AddEntry(h1D2, new_file, "L");
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();

@@ -1,5 +1,5 @@
 int Exec(TH1D* hist,string dir_name, Int_t NGamma, bool IsSplit);
-int Shower_instance(string file_name, string dir_name = ".")
+int zo_Shower_instance(string file_name, string dir_name = ".")
 {
     int bin1(100),bin2(200);
     float tx(1200),ty(900);
@@ -52,6 +52,7 @@ int Shower_instance(string file_name, string dir_name = ".")
     Int_t num;
     while (getline(file,str)) num++;
     cout << num << endl;
+    file.close();
     file.seekg(0, ios::beg);
     
     for (int i = 0; i < MaxNo; i++) {

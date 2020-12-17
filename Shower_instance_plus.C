@@ -48,6 +48,7 @@ int Shower_instance_plus(const char old_file[20], const char new_file[20])
     Int_t num1(0);
     while (getline(file1,str1)) num1++;
     cout << num1 << endl;
+    file1.clear();
     file1.seekg(0, ios::beg);
     
     ifstream file2;
@@ -55,6 +56,7 @@ int Shower_instance_plus(const char old_file[20], const char new_file[20])
     Int_t num2(0);
     while (getline(file2,str2)) num2++;
     cout << num2 << endl;
+    file2.clear();
     file2.seekg(0, ios::beg);
     
     Int_t MaxNo = num1 < num2 ? num1 : num2;
@@ -69,6 +71,8 @@ int Shower_instance_plus(const char old_file[20], const char new_file[20])
         h1D2->Fill(value2);
         N++;
     }
+    file1.clear();
+    file2.clear();
     cout << "Entries : " << N << endl;
     
     c1->cd();

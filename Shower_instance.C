@@ -48,6 +48,12 @@ int Shower_instance(string file_name, string dir_name = ".")
     string str;
     ifstream file;
     file.open(file_name, ios::in);
+    
+    Int_t num;
+    while (getline(file,str)) num++;
+    cout << num << endl;
+    file.seekg(0, ios::beg);
+    
     for (int i = 0; i < MaxNo; i++) {
         if (!getline(file,str)) return 1;
         double value= atof(str.c_str());

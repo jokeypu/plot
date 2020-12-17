@@ -60,10 +60,11 @@ int Shower_instance_plus(const char old_file[20], const char new_file[20])
     Int_t MaxNo = num1 < num2 ? num1 : num2;
     Int_t N = 0;
     for (int i = 0; i < MaxNo; i++) {
-        if (!getline(file1,str1)) continue;
-        if (!getline(file2,str2)) continue;
+        if (!getline(file1,str1)) cout << "XX" << endl;
+        if (!getline(file2,str2)) cout << "XX" << endl;
         double value1= atof(str1.c_str());
         double value2= atof(str2.c_str());
+        cout << value1 << ", " << value2 << endl;
         h1D1->Fill(value1);
         h1D2->Fill(value2);
         N++;

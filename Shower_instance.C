@@ -49,7 +49,7 @@ int Shower_instance(string file_name, string dir_name = ".")
     ifstream file;
     file.open(file_name, ios::in);
     for (int i = 0; i < MaxNo; i++) {
-        getline(file,str);
+        if (!getline(file,str)) return 1;
         double value= atof(str.c_str());
         h1D1->Fill(value);
     }

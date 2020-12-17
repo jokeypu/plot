@@ -6,10 +6,10 @@ int Shower_instance_plus(const char old_file[20], const char new_file[20])
     cout << "-INFO  Old File : " << old_file << endl;
     cout << "-INFO  New File : " << new_file << endl;
     
-    string file1(old_file), file2(new_file);
+    string file_str1(old_file), file_str2(new_file);
     
-    string file_name1 = "doc/" + file1 + ".txt";
-    string file_name2 = "doc/" + file2 + ".txt";
+    string file_name1 = "doc/" + file_str1 + ".txt";
+    string file_name2 = "doc/" + file_str2 + ".txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);

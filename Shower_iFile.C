@@ -2,7 +2,7 @@ int Exec(string dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
 int Shower_iFile(string dir_name)
 {
     string out_name = "doc/" + dir_name + ".txt";
-    if( Exec( dir_name, iout_name, 2, true) ) return 1;
+    if( Exec( dir_name, out_name, 2, true) ) return 1;
     return 0;
 }
 

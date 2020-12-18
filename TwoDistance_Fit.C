@@ -507,12 +507,12 @@ struct INTEGRAL {
     }
 }Shower_Function;
 
-int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
-int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
+int Exec(TString dir_name, TGraph2D *g, Int_t NGamma=1);
+int TwoDistance_Fit( TString dir_name="Find_Range_OR" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(2),ymin(0),ymax(5),zmin(0),zmax(1);
     //double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
@@ -532,45 +532,42 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    //TH3D* h2D1 = new TH3D("Hist1","h1",bin1,xmin,xmax, bin2,ymin,ymax, bin3,zmin,zmax);
-    TH2D* h2D = new TH2D("Hist1","h1",bin1,xmin,xmax,bin2,ymin,ymax);
-    //h2D->SetMarkerStyle(22);
-    h2D->SetMarkerStyle(7);
-    h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
-    //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
-    h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
-    //h1D->GetZaxis()->SetTitle("E");
-    h2D->GetXaxis()->CenterTitle();
-    h2D->GetYaxis()->CenterTitle();
-    h2D->GetZaxis()->CenterTitle();
+    TGraph2D *g1 = new TGraph2D();
+    g1->SetMarkerStyle(7);
+    g1->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g1->GetZaxis()->SetTitle("E_{digi}");
+    g1->GetXaxis()->SetTitle("d_seed");
+    g1->GetYaxis()->SetTitle("d_digi");
+    g1->GetXaxis()->CenterTitle();
+    g1->GetYaxis()->CenterTitle();
+    g1->GetZaxis()->CenterTitle();
     
-    if( Exec(dir_name, h2D, 1) ) return 1;
     
-    TF1* f=new TF1("f","0.00001*[0]*TMath::Exp(-1*[1]*pow(x,[2]))",1,3);
-    f->SetParameters(5,-9.728,-0.227971);
+    if( Exec(dir_name, g1, 1) ) return 1;
+    
+    TF2* f=new TF2("f","exp(-[0]*y)/exp(-[1]*x)",0,2,0,8);
+    //f->SetParameters(5,-9.728,-0.227971);
     /*f->SetParLimits(0, 0.01, 20);
     f->SetParLimits(1, -20, -0.01);
     f->SetParLimits(2, -2, -0.01);*/
     
     c1->cd();
-    c1->SetGridy();
-    h2D->Draw("SCAT");
-    //h2D->Fit(f,"R");
-    
-    TF1* f1=new TF1("f1","[0]*exp(-1*[1]*x)-[2]",0,3.5);
-    f1->SetParameters(1,1.25,0.01);
-    //h2D->Fit(f1,"R");
-    //f1->Draw("SAME");
+    //c1->SetGridy();
+    //g1->Draw("p.");
+    g1->GetXaxis()->SetRangeUser(0,2);
+    g1->GetYaxis()->SetRangeUser(0,5);
+    g1->Draw("tri2");
+    g1->Fit(f,"R");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
-    leg1->AddEntry(h2D, "Crystal calculated", "P");
+    leg1->AddEntry(g1, "Crystal calculated", "P");
     leg1->Draw("SAME");
     
     return 0;
 }
 
 //*******************************************************************************************************//
-int Exec(TString dir_name, TH2D *h, Int_t NGamma){
+int Exec(TString dir_name, TGraph2D *g, Int_t NGamma){
     //NGamma: Number of photons produced
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
@@ -601,7 +598,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
-    maxEvtNo /= 10;
+    maxEvtNo /= 1;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -720,7 +717,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = exp(-1.25*Distance)/(1.3*Distance*Distance*exp(-Distance)*(1+2*exp(-2*(Distance-3)*(Distance-3)))*(1-0.1*exp(-4*(Distance-1.2)*(Distance-1.2))));
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/newfunc3(&Seed_pos, &Cent_pos, 1.25);
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-0.8*DD(&Seed_pos, &Cent_pos, 1.25))/(Distance);
-            double rat = exp(-1.41945*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-0.930422*DD(&Seed_pos, &Cent_pos, 1.25));
+            double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-1.25*DD(&Seed_pos, &Cent_pos, 1.25));
             //double rat = (Shower_Function.shower_Digi(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25)))/(Shower_Function.shower_Digi(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25)));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
@@ -745,7 +742,18 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //h->Fill(Distance,Eci - Truth_Energy);
             //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
-            h->Fill(Distance,Eci - Digi_Energy);
+            
+            //if (DD(&Det_Pos, &Cent_pos, 1.25)>5) continue;
+            //if (DD(&Seed_pos, &Cent_pos, 1.25)>2) continue;
+            //if (Digi_Energy/Seed_Energy>10) continue;
+            g->SetPoint(N,DD(&Seed_pos, &Cent_pos, 1.25),DD(&Det_Pos, &Cent_pos, 1.25),Digi_Energy/Seed_Energy);
+            
+            /*
+            double dx = 2*(rand()/(RAND_MAX+1.));
+            double dy = 5*(rand()/(RAND_MAX+1.));
+            //if (exp(-1.25*dy)/exp(-1.25*dx)>1) continue;
+            g->SetPoint(N,dx,dy,exp(-1.25*dy)/exp(-1.25*dx));*/
+            
             //h->Fill(Distance,rat);
             //h->Fill(Distance,Digi_Energy/Seed_Energy);
             //h->Fill(Distance,Eci);
@@ -753,7 +761,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //h->Fill(Distance,Eci);
             //h->Fill(Truth_Energy,Eci);
             //h->Fill(Truth_Energy,Eci - Truth_Energy);
-            if (abs(Eci - Truth_Energy) < 0.03) N++;
+            N++;
             //if (Digi_Energy >= 0) h->Fill(Eci - Digi_Energy);
         }
         //cout <<  "c:" << c << endl;

@@ -512,8 +512,8 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
-    double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
-    //double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
+    //double xmin(0),xmax(5),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
+    double xmin(0),xmax(5),ymin(0),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(3.5),ymin(-1),ymax(1),zmin(0),zmax(0.1);
     //double xmin(0),xmax(90),ymin(-0.6),ymax(0.6),zmin(0),zmax(0.1);
     //double xmin(0),xmax(1),ymin(0),ymax(1),zmin(0),zmax(0.1);
@@ -720,7 +720,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = exp(-1.25*Distance)/(1.3*Distance*Distance*exp(-Distance)*(1+2*exp(-2*(Distance-3)*(Distance-3)))*(1-0.1*exp(-4*(Distance-1.2)*(Distance-1.2))));
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/newfunc3(&Seed_pos, &Cent_pos, 1.25);
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-0.8*DD(&Seed_pos, &Cent_pos, 1.25))/(Distance);
-            double rat = exp(-1.41945*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-0.930422*DD(&Seed_pos, &Cent_pos, 1.25));
+            //double rat = exp(-1*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-1.*DD(&Seed_pos, &Cent_pos, 1.25))/Distance;
+            double rat = (exp(-1*DD(&Det_Pos, &Cent_pos, 1.25))+exp(-1*DD(&Det_Pos, &Cent_pos, 1.25)))/(exp(-1*DD(&Seed_pos, &Cent_pos, 1.25))+exp(-1*DD(&Seed_pos, &Cent_pos, 1.25)));
             //double rat = (Shower_Function.shower_Digi(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25)))/(Shower_Function.shower_Digi(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25)));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
@@ -745,8 +746,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //h->Fill(Distance,Eci - Truth_Energy);
             //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
-            h->Fill(Distance,Eci - Digi_Energy);
-            //h->Fill(Distance,rat);
+            //h->Fill(Distance,Eci - Digi_Energy);
+            h->Fill(Distance,rat);
             //h->Fill(Distance,Digi_Energy/Seed_Energy);
             //h->Fill(Distance,Eci);
             //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));

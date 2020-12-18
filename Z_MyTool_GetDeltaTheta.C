@@ -1,4 +1,4 @@
-int Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
+string Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
     double Phi_cent = 0;
     Phi_Range = fabs(Phi_Range);
     if (Theta_cent < 0 || fabs(Theta_cent)>180.001){
@@ -6,7 +6,7 @@ int Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
         cin >> Theta_cent;
         cout << "Input Phi range:(DEG)   default: 9 DEG" << endl;
         cin >> Phi_Range;
-        if (Theta_cent <= 0) {cout << "-E  ERROR!!" << endl;return 1;}
+        if (Theta_cent <= 0) {cout << "-E  ERROR!!" << endl;return "XXXXXXXXX";}
         if (Phi_Range <= 0) Phi_Range = 9;
     }
     cout << "-INFO  Theta Center:  " << Theta_cent << " DEG" << endl;
@@ -26,5 +26,6 @@ int Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
     cout << "tht(" << Theta_cent_save-DeltaTheta << ", " << Theta_cent_save+DeltaTheta << ")" << ":"
          << "phi(" << Phi_cent-Phi_Range_save/2 << ", " << Phi_cent+Phi_Range_save/2 << ")" << endl << endl;
     cout << "******************" << endl;
-    return 0;
+    return "tht(" + Theta_cent_save-DeltaTheta + ", " + Theta_cent_save+DeltaTheta + ")" + ":"
+    + "phi(" + Phi_cent-Phi_Range_save/2 + ", " + Phi_cent+Phi_Range_save/2 + ")" ;
 }

@@ -508,7 +508,7 @@ struct INTEGRAL {
 }Shower_Function;
 
 int Exec(TString dir_name, TGraph2D *g, Int_t NGamma=1);
-int TwoDistance_Fit( TString dir_name="Find_Range_OR" )
+int TwoDistance_Fit( TString dir_name="Gamma_one_1G" )
 {
     int bin1(400),bin2(400),bin3(150);
     float tx(800),ty(600);
@@ -545,7 +545,7 @@ int TwoDistance_Fit( TString dir_name="Find_Range_OR" )
     
     if( Exec(dir_name, g1, 1) ) return 1;
     
-    TF2* f=new TF2("f","exp(-[0]*y)/exp(-[1]*x)",0,2,0,8);
+    TF2* f=new TF2("f","(exp(-[0]*y)+[2]*exp(-[1]*y))/(exp(-[0]*x)+[2]*exp(-[1]*x))",0,2,0,8);
     //f->SetParameters(5,-9.728,-0.227971);
     /*f->SetParLimits(0, 0.01, 20);
     f->SetParLimits(1, -20, -0.01);
@@ -555,7 +555,7 @@ int TwoDistance_Fit( TString dir_name="Find_Range_OR" )
     //c1->SetGridy();
     //g1->Draw("p.");
     g1->GetXaxis()->SetRangeUser(0,2);
-    g1->GetYaxis()->SetRangeUser(0,5);
+    g1->GetYaxis()->SetRangeUser(0,8);
     g1->Draw("tri2");
     g1->Fit(f,"R");
     
@@ -598,7 +598,7 @@ int Exec(TString dir_name, TGraph2D *g, Int_t NGamma){
     
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
-    maxEvtNo /= 1;
+    maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
@@ -743,9 +743,9 @@ int Exec(TString dir_name, TGraph2D *g, Int_t NGamma){
             //Eci -= (0.828*exp(-1.26 *  Distance)-0.019);
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
             
-            //if (DD(&Det_Pos, &Cent_pos, 1.25)>5) continue;
-            //if (DD(&Seed_pos, &Cent_pos, 1.25)>2) continue;
-            //if (Digi_Energy/Seed_Energy>10) continue;
+            if (DD(&Det_Pos, &Cent_pos, 1.25)>8) continue;
+            if (DD(&Seed_pos, &Cent_pos, 1.25)>2) continue;
+            if (Digi_Energy/Seed_Energy>1) continue;
             g->SetPoint(N,DD(&Seed_pos, &Cent_pos, 1.25),DD(&Det_Pos, &Cent_pos, 1.25),Digi_Energy/Seed_Energy);
             
             /*

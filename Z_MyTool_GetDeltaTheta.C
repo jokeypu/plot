@@ -26,6 +26,14 @@ string Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
     cout << "tht(" << Theta_cent_save-DeltaTheta << ", " << Theta_cent_save+DeltaTheta << ")" << ":"
          << "phi(" << Phi_cent-Phi_Range_save/2 << ", " << Phi_cent+Phi_Range_save/2 << ")" << endl << endl;
     cout << "******************" << endl;
-    return "tht(" + Theta_cent_save-DeltaTheta + ", " + Theta_cent_save+DeltaTheta + ")" + ":"
-    + "phi(" + Phi_cent-Phi_Range_save/2 + ", " + Phi_cent+Phi_Range_save/2 + ")" ;
+    double theta_m = Theta_cent_save-DeltaTheta, theta_p = Theta_cent_save+DeltaTheta;
+    double phi_m = Phi_cent-Phi_Range_save/2, phi_p = Phi_cent+Phi_Range_save/2;
+    ostringstream out1,out2,out3,out4;
+    out1<<theta_m;
+    out2<<theta_p;
+    out3<<phi_m;
+    out4<<phi_p;
+    string str_theta_m = out1.str(), str_theta_p = out2.str(), str_phi_m = out3.str(), str_phi_p = out4.str();
+    return "tht(" + str_theta_m + ", " + str_theta_p + ")" + ":"
+    + "phi(" + str_phi_m + ", " + str_phi_p + ")" ;
 }

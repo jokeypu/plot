@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
 using namespace std;
-int File_Process(){
-    std::string in_name("doc/DigiEnergy.txt");
-    std::string out_name("doc/DigiEnergy_R.txt");
+int File_Process(std::string dir_name){
+    std::string in_name = "doc/"+ dir_name +".txt";
+    std::string out_name = "doc/"+ dir_name +"_R.txt";
     
     std::ifstream File_in;
     File_in.open(in_name, std::ios::in);

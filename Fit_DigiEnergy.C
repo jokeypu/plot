@@ -58,7 +58,15 @@ struct INTEGRAL {
     }
 }Shower_Function;
 
-int Fit_DigiEnergy(){
+int Fit_DigiEnergy(std::string dir_name, Int_t NO_Angle, Double_t Energy){
+    ostringstream out1,out2;
+    out1 << NO_Angle;
+    out2 << fixed << setprecision(1) << Energy;
+    string str_NO_Angle = out1.str(), str_Energy = out2.str();
+    std::string out_name = "doc/A"+str_NO_Angle+"_par.txt";
+    std::ofstream par_file;
+    par_file.open(out_name,std::ios::app);
+    
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -73,7 +81,7 @@ int Fit_DigiEnergy(){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TGraph2D *g = new TGraph2D("doc/DigiEnergy_R.txt","%lg %lg %lg");
+    TGraph2D *g = new TGraph2D("doc/"+ dir_name +"_R.txt","%lg %lg %lg");
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);
     g->GetZaxis()->SetTitle("E_{digi}");
@@ -105,6 +113,8 @@ int Fit_DigiEnergy(){
     g->GetXaxis()->SetRangeUser(0,distance_cut);
     g->Draw("p.");
     g->Fit(f,"R");
-    cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << ", " << f->GetParameter(7) << ", " << f->GetParameter(8) << endl;
+    par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(5) << " " << f->GetParameter(6) << " " << f->GetParameter(7) << " " << f->GetParameter(8) << endl;
+    //cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << ", " << f->GetParameter(7) << ", " << f->GetParameter(8) << endl;
+    par_file.close();
     return 0;
 }

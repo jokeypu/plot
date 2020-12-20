@@ -37,9 +37,9 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
-int File_Productor(){
-    TString dir_name="Gamma_one_1G";
-    std::string out_name("doc/DigiEnergy.txt");
+int File_Productor(std::string dir_name){
+    //std::string dir_name="Gamma_one_1G";
+    std::string out_name = "doc/"+ dir_name +".txt";
     
     std::ofstream File_out;
     File_out.open(out_name,std::ios::out);

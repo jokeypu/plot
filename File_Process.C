@@ -72,7 +72,7 @@ int File_Process(std::string dir_name){
     g1->GetYaxis()->CenterTitle();
     g1->GetZaxis()->CenterTitle();*/
     
-    TGraph2D *g2 = new TGraph2D("doc/DigiEnergy_R.txt","%lg %lg %lg");
+    TGraph2D *g2 = new TGraph2D(out_name,"%lg %lg %lg");
     g2->SetMarkerStyle(7);
     g2->SetMarkerColorAlpha(kAzure+3, 0.5);
     g2->GetZaxis()->SetTitle("E_{digi}");

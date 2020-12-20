@@ -48,7 +48,7 @@ int File_Process(std::string dir_name){
     File_out.close();
     
     //TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
-    TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
+    /*TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -60,7 +60,7 @@ int File_Process(std::string dir_name){
     gStyle->SetTitleFont(42,"xyz");
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
-    gStyle->SetTitleOffset(1.0,"xyz");
+    gStyle->SetTitleOffset(1.0,"xyz");*/
     
     /*TGraph2D *g1 = new TGraph2D("doc/DigiEnergy.txt","%lg %lg %lg");
     g1->SetMarkerStyle(7);
@@ -72,7 +72,7 @@ int File_Process(std::string dir_name){
     g1->GetYaxis()->CenterTitle();
     g1->GetZaxis()->CenterTitle();*/
     
-    TGraph2D *g2 = new TGraph2D(out_name,"%lg %lg %lg");
+    /*TGraph2D *g2 = new TGraph2D(out_name,"%lg %lg %lg");
     g2->SetMarkerStyle(7);
     g2->SetMarkerColorAlpha(kAzure+3, 0.5);
     g2->GetZaxis()->SetTitle("E_{digi}");
@@ -85,6 +85,6 @@ int File_Process(std::string dir_name){
     //c1->cd();
     //g1->Draw("p.");
     c2->cd();
-    g2->Draw("tri2 p0");
+    g2->Draw("tri2 p0");*/
     return 0;
 }

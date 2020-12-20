@@ -58,7 +58,8 @@ struct INTEGRAL {
     }
 }Shower_Function;
 
-int Fit_DigiEnergy(std::string dir_name, Int_t NO_Angle, Double_t Energy){
+int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, Double_t Energy){
+    //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
@@ -81,7 +82,7 @@ int Fit_DigiEnergy(std::string dir_name, Int_t NO_Angle, Double_t Energy){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TGraph2D *g = new TGraph2D("doc/"+ dir_name +"_R.txt","%lg %lg %lg");
+    TGraph2D *g = new TGraph2D(title,"%lg %lg %lg");
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);
     g->GetZaxis()->SetTitle("E_{digi}");

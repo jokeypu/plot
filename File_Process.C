@@ -19,8 +19,8 @@ int File_Process(std::string dir_name){
     std::string str;
     //std::getline(File_in, str);
     
-    float distance_max(3), angle_max(180);
-    const int bin_x(15), bin_y(40);
+    float distance_max(8), angle_max(45);
+    const int bin_x(80), bin_y(90);
     int bin_table[bin_x][bin_y] = {0};
     float Energy_table[bin_x][bin_y] = {0};
     float step_x = distance_max/bin_x, step_y = angle_max/bin_y;
@@ -29,7 +29,7 @@ int File_Process(std::string dir_name){
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if ( distance >= distance_max ) continue;
-        //if ( (angle_max-45)<0.01 && angle > 45 && angle <= 90 ) angle = 90 - angle;
+        if ( (angle_max-45)<0.01 && angle > 45 && angle <= 90 ) angle = 90 - angle;
         int ibinx = (int) (distance/step_x);
         int ibiny = (int) (angle/step_y);
         Energy_table[ibinx][ibiny] += energy;
@@ -40,7 +40,7 @@ int File_Process(std::string dir_name){
     
     for (int i = 0; i < bin_x; i++){
         for (int j = 0; j < bin_y; j++){
-            if (bin_table[i][j] < 7) continue;
+            if (bin_table[i][j] < 3) continue;
             float d = step_x/2 + i*step_x, a = step_y/2 + j*step_y, E = Energy_table[i][j]/bin_table[i][j];
             File_out << d << " " << a << " " << E << endl;
         }

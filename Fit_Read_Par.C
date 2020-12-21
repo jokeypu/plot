@@ -7,7 +7,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
     
-    TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
+    TCanvas* c1=new TCanvas("PANDA1","test1",1000,700);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -49,7 +49,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     g4->SetMarkerStyle(34);
     g4->SetMarkerColorAlpha(kBlue+1, 0.5);
     g4->GetXaxis()->SetTitle("Energy");
-    g4->GetYaxis()->SetTitle("p1");
+    g4->GetYaxis()->SetTitle("p4");
     g4->GetXaxis()->CenterTitle();
     g4->GetYaxis()->CenterTitle();
     

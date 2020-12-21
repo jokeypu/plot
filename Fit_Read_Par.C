@@ -7,7 +7,8 @@ int Fit_Read_Par(Int_t NO_Angle){
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
     
-    TCanvas* c1=new TCanvas("PANDA1","test1",1000,700);
+    TString ts = "Angle "+str_NO_Angle+"0 deg";
+    TCanvas* c1=new TCanvas("PANDA1",ts,1000,700);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -55,6 +56,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     
     string str;
     Int_t N = 0;
+    Double_t Max_Energy(0);
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
         float energy, p1, p2, p3, p4;
@@ -63,17 +65,36 @@ int Fit_Read_Par(Int_t NO_Angle){
         g2->SetPoint(N,energy,p2);
         g3->SetPoint(N,energy,p3);
         g4->SetPoint(N,energy,p4);
+        Max_Energy = energy;
         N++;
     }
 
+    TF1* f1=new TF1("f1","[0]*TMath::Log(x)",0,Max_Energy);
+    //f1->SetParameters();
+    TF1* f2=new TF1("f2","[0]*x",0,Max_Energy);
+    //f2->SetParameters();
+    TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
+    //f3->SetParameters();
+    TF1* f4=new TF1("f4","[0}*x",0,Max_Energy);
+    //f4->SetParameters();
+    
+    g1->Fit(f1,"R");
+    //g2->Fit(f2,"R");
+    //g3->Fit(f3,"R");
+    //g4->Fit(f4,"R");
+    
     c1->Divide(2, 2);
     c1->cd(1);
+    //c1->cd(1)->SetGridx();
     g1->Draw("AP.");
     c1->cd(2);
+    //c1->cd(2)->SetGridx();
     g2->Draw("AP.");
     c1->cd(3);
+    //c1->cd(3)->SetGridx();
     g3->Draw("AP.");
     c1->cd(4);
+    //c1->cd(4)->SetGridx();
     g4->Draw("AP.");
     
     par_file.close();

@@ -118,6 +118,7 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
     TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
     f->SetParameters(0.119652, 0.78, 1.8, 0.0198265, 0.088);
+    g->Draw("AP.");
     g->Fit(f,"R");
     
     if (f->GetParameter(2)>f->GetParameter(4))

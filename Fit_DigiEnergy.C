@@ -124,6 +124,7 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(2) << " " << (f->GetParameter(3))/(f->GetParameter(1)) << " " << f->GetParameter(4) << endl;
     else par_file << str_Energy << " " <<f->GetParameter(0) << " " << f->GetParameter(4) << ", " << (f->GetParameter(1))/(f->GetParameter(3)) << " " << f->GetParameter(2) << endl;
     
+    sleep(5);
     /*TGraph2D *g = new TGraph2D(title,"%lg %lg %lg");
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);

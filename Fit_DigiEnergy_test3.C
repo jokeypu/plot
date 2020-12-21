@@ -58,21 +58,68 @@ struct INTEGRAL {
     }*/
 }Shower_Function;
 
+Double_t par[3] = {1.18772, 2.58453, 0.688391};
+
+void SetPar(Double_t p0, Double_t p1, Double_t p2){
+    par[0] = p0;
+    par[1] = p1;
+    par[2] = p2;
+}
+
+Double_t FFF(const Double_t *x){
+    Double_t r = sqrt(x[0]*x[0]+x[1]*x[1]);
+    //return (exp(-par[1]*r)+par[2]*exp(-par[3]*r)+par[4]*exp(-par[5]*r))/pow(r,par[7]);
+    return exp(-par[1]*r)/pow(r,par[2]);
+    //return exp(-1/cos(x[0]))+0*x[1];
+}
+Double_t MMM(Double_t distance, Double_t angle, Double_t p0, Double_t p1, Double_t p2){
+    //time_t begin,end;
+    //begin = clock();
+    SetPar(p0,p1,p2);
+    if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+    else if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    angle *= TMath::DegToRad();
+    Double_t L0 = par[0];
+    Double_t x0 = distance*cos(angle), y0 = distance*sin(angle);
+    Double_t xp = x0+L0 , xm = x0-L0, yp = y0+L0, ym = y0-L0;
+    double a[2] = {xm,ym};
+    double b[2] = {xp,yp};
+    //const double ERRORLIMIT = 1E+2;
+    ROOT::Math::Functor wf(&FFF,2);
+    ROOT::Math::IntegratorMultiDim ig(ROOT::Math::IntegrationMultiDim::kADAPTIVE,0.0001,0.0001,1000);
+    ig.SetFunction(wf);
+    Double_t value = ig.Integral(a,b);
+    //end = clock();
+    //cout << "TIME:" << end - begin << endl;
+    return value;
+}
+
+Double_t fff(Double_t x,Double_t A,Double_t b, Double_t xp, Double_t yp, Double_t k1, Double_t k2){
+    //k1 *= (1-exp(-A*pow(x,b)));
+    //k2 *= (1-exp(-A*pow(x,b)));
+     
+    return (TMath::Log10(yp)+k1*xp*TMath::LogE())*exp(-k1*x)+(TMath::Log10(yp)+k2*xp*TMath::LogE())*exp(-k2*x);
+}
+
 Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Double_t c2){
     p2 *= (1-exp(-A*pow(x,3)));
     c2 *= (1-exp(-A*pow(x,3)));
     return p1*exp(-p2*x)+c1*exp(-c2*x);
 }
 
-int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, Double_t Energy){
+int Fit_DigiEnergy_test3(){
+    std::string dir_name = "WorkData_1Gamma_A7_E1.0_OR";
+    std::string file_name= "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";
+    Int_t NO_Angle = 7;
+    Double_t Energy = 1.0;
     //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_par.txt";
-    std::ofstream par_file;
-    par_file.open(out_name,std::ios::app);
+    
+    std::ifstream in_file;
+    in_file.open(file_name,std::ios::in);
     
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     gStyle->SetOptTitle(0);
@@ -87,11 +134,6 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
-    
-    std::string file_name(title);
-    //std::string file_name = "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";
-    std::ifstream in_file;
-    in_file.open(file_name,std::ios::in);
     
     TGraph *g = new TGraph();
     g->SetMarkerStyle(7);
@@ -114,56 +156,54 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
         //g->SetPoint(N,distance,energy);
         N++;
     }
+    g->Draw("AP.");
     
+    //TF1* f=new TF1("f1","[0]*exp(-[1]*x)+[2]*exp(-[3]*x)",1.2,distance_cut);
     TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
     f->SetParameters(0.119652, 0.78, 1.8, 0.0198265, 0.088);
+    //f->SetParameters( 4, 2, 2, 2,1, 0.2674);
+    //f->SetParLimits(4, 2, 3);
+    //f->SetParLimits(5, 0.1, 0.5);
+    //f->SetParameters( 9.88,2.63, 0.031,0.2674);
+    //f->SetParLimits(0, 2, 8);
+    //f->SetParLimits(1, 0.1, 3);
+    //f->SetParLimits(3, 0.001, 0.1);
+    //f->SetParLimits(4, 0.1, 1);
+    //f->SetParLimits(5, 0.00001, 0.01);
+    //f->SetParLimits(6, 0.0001, 0.1);
+    //f->SetParameters();
+    //f->SetParLimits(0, 0.8, 1.5);
     g->Fit(f,"R");
-    
+    //f->SetParLimits(0, 5, 50);
+    //f->SetParLimits(1, 1, 5);
+    //f->SetParLimits(2, 0, 1);
+    //f->SetParLimits(3, 0.001, 1);
+    f->Draw("SAME");
     if (f->GetParameter(2)>f->GetParameter(4))
-    par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(2) << " " << (f->GetParameter(3))/(f->GetParameter(1)) << " " << f->GetParameter(4) << endl;
-    else par_file << str_Energy << " " <<f->GetParameter(0) << " " << f->GetParameter(4) << ", " << (f->GetParameter(1))/(f->GetParameter(3)) << " " << f->GetParameter(2) << endl;
+    cout << f->GetParameter(0) << ", " << f->GetParameter(2) << ", " << (f->GetParameter(3))/(f->GetParameter(1)) << ", " << f->GetParameter(4) << "         ," << f->GetParameter(1) << endl;
+    else cout << f->GetParameter(0) << ", " << f->GetParameter(4) << ", " << (f->GetParameter(1))/(f->GetParameter(3)) << ", " << f->GetParameter(2) << "         ," << f->GetParameter(1) << endl;
     
-    /*TGraph2D *g = new TGraph2D(title,"%lg %lg %lg");
-    g->SetMarkerStyle(7);
-    g->SetMarkerColorAlpha(kAzure+3, 0.5);
-    g->GetZaxis()->SetTitle("E_{digi}");
-    g->GetXaxis()->SetTitle("distance");
-    g->GetYaxis()->SetTitle("angle");
-    g->GetXaxis()->CenterTitle();
-    g->GetYaxis()->CenterTitle();
-    g->GetZaxis()->CenterTitle();
+    TF1 *f1=new TF1("f1","[0]*exp(-[1]*x)",0,8);
+    f1->SetLineWidth(2);
+    f1->SetLineColor(kGreen);
+    f1->SetLineStyle(2);
+    f1->SetParameters(f->GetParameter(1),f->GetParameter(2));
+    f1->SetParLimits(0, 5, 50);
+    f1->SetParLimits(1, 1, 5);
     
-    Double_t distance_cut = 10;
-    Double_t *x = g->GetX();
-    for (int i = 0; i < g->GetN(); i++) if (x[i] > distance_cut) g->RemovePoint(i);*/
+    TF1 *f2=new TF1("f2","[0]*exp(-[1]*x)",0,8);
+    f2->SetLineWidth(2);
+    f2->SetLineStyle(2);
+    f2->SetLineColor(kCyan);
+    f2->SetParameters(f->GetParameter(3),f->GetParameter(4));
+    f2->SetParLimits(0, 0, 1);
+    f2->SetParLimits(1, 0.001, 1);
     
-    //TF2* f=new TF2("f2","[4]*Shower_Function.shower_Digi(x,y,1.22,3.2,0,[3],0,0.35)",0,distance_cut,0,45);
-    /*TF2* f=new TF2("f2","[6]*Shower_Function.shower_Digi(x,0,[0], [1],  [2],[3],  [4],[5])",0,distance_cut,0,45);
-    f->SetParameters( 1.22,  3.15,  0.12,0.887, 0.032,0.035, 100);
-    f->SetParLimits(0, 0.8, 1.5);
-    f->SetParLimits(1, 1, 10);
-    f->SetParLimits(3, 0.1, 1);
-    f->SetParLimits(5, 0.01, 0.1);
-    //TF2* f=new TF2("f2","[1]*exp(-[0]*x)+0*y",0,distance_cut,0,45);
-    //f->SetParameters( 1.25,  100);
-    //TF2* f=new TF2("f2","Shower_Function.shower_Digi(x,y,[0],[1],[2],  [3],  [4], [5],[6], [7],[8])",0,distance_cut,0,90);
-    //f->SetParameters( 1.22, 1.22, 1.22,   0.3,   3.15,  0.12,0.887,   0.032,0.354);
-    //f->SetParLimits(4, 2.5, 3.5);
-    //f->SetParLimits(6, 0.5,1);
-    //f->SetParLimits(8, 0.1, 0.5);
-    
-    //f->SetParameters( 1.22, 3.2,   0.1,0.887,    0.025,0.354,  1);
-    //f->SetParLimits(0, 1.0, 2.0);
-    //f->SetParLimits(1, 0.01,0.5);
-    //f->SetParLimits(2, 0.001, 0.05);
-    //f->SetParLimits(3, 0, 10);
-    
-    g->GetXaxis()->SetRangeUser(0,distance_cut);
-    g->Draw("p.");
-    g->Fit(f,"R");
-    par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(5) << " " << f->GetParameter(6) << " " << f->GetParameter(7) << " " << f->GetParameter(8) << endl;
-    //cout << f->GetParameter(0) << ", " << f->GetParameter(1) << ", " << f->GetParameter(2) << ", " << f->GetParameter(3) << ", " << f->GetParameter(4) << ", " << f->GetParameter(5) << ", " << f->GetParameter(6) << ", " << f->GetParameter(7) << ", " << f->GetParameter(8) << endl;*/
-    par_file.close();
+    //c1->SetLogy();
+    f1->Draw("SAME");
+    f2->Draw("SAME");
+
+    in_file.close();
     return 0;
 }

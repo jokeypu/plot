@@ -52,10 +52,10 @@ struct INTEGRAL {
 }Shower_Function;
 
 Double_t FABC(Double_t x, Double_t ShowerEnergy){
-    Double_t A = 0.04585*TMath::Log(ShowerEnergy)+0.1983;
-    Double_t p2 = 0.2675*exp(-0.4915*ShowerEnergy)+1.426;
-    Double_t c1 = 0.04491*exp(-1.465*ShowerEnergy)+0.004277;
-    Double_t c2 = 0.01389*ShowerEnergy+0.02699;
+    Double_t A = 0.0466804*TMath::Log(ShowerEnergy)+0.199612;
+    Double_t p2 = 0.280941*exp(-0.56037*ShowerEnergy)+1.42325;
+    Double_t c1 = 0.0477413*exp(-1.89313*ShowerEnergy)+0.00457459;
+    Double_t c2 = 0.0162451*ShowerEnergy+0.0483701;
     p2 *= (1-exp(-A*pow(x,3)));
     c2 *= 4*(1-exp(-A*pow(x,3)));
     return exp(-p2*x)+c1*exp(-c2*x);

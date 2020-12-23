@@ -21,10 +21,11 @@ int Fit_Read_Par(Int_t NO_Angle){
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
+    gStyle->SetOptFit(1111);
     
     TGraph *g1 = new TGraph();
     g1->SetMarkerStyle(20);
-    g1->SetMarkerColorAlpha(kRed-3, 0.5);
+    g1->SetMarkerColorAlpha(kRed-3, 1);
     g1->GetXaxis()->SetTitle("Energy");
     g1->GetYaxis()->SetTitle("p1");
     g1->GetXaxis()->CenterTitle();
@@ -32,7 +33,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     
     TGraph *g2 = new TGraph();
     g2->SetMarkerStyle(22);
-    g2->SetMarkerColorAlpha(kGreen+1, 0.5);
+    g2->SetMarkerColorAlpha(kGreen+1, 1);
     g2->GetXaxis()->SetTitle("Energy");
     g2->GetYaxis()->SetTitle("p2");
     g2->GetXaxis()->CenterTitle();
@@ -40,7 +41,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     
     TGraph *g3 = new TGraph();
     g3->SetMarkerStyle(33);
-    g3->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g3->SetMarkerColorAlpha(kAzure+3, 1);
     g3->GetXaxis()->SetTitle("Energy");
     g3->GetYaxis()->SetTitle("p3");
     g3->GetXaxis()->CenterTitle();
@@ -48,7 +49,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     
     TGraph *g4 = new TGraph();
     g4->SetMarkerStyle(34);
-    g4->SetMarkerColorAlpha(kBlue+1, 0.5);
+    g4->SetMarkerColorAlpha(kBlue+1, 1);
     g4->GetXaxis()->SetTitle("Energy");
     g4->GetYaxis()->SetTitle("p4");
     g4->GetXaxis()->CenterTitle();
@@ -69,19 +70,23 @@ int Fit_Read_Par(Int_t NO_Angle){
         N++;
     }
 
-    TF1* f1=new TF1("f1","[0]*TMath::Log(x)",0,Max_Energy);
+    TF1* f1=new TF1("f1","[0]*TMath::Log(x)+[1]",0,Max_Energy);
+    f1->SetLineColor(kRed-7);
     //f1->SetParameters();
-    TF1* f2=new TF1("f2","[0]*x",0,Max_Energy);
+    TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    f2->SetLineColor(kRed-7);
     //f2->SetParameters();
-    TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
+    TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    f3->SetLineColor(kRed-7);
     //f3->SetParameters();
-    TF1* f4=new TF1("f4","[0}*x",0,Max_Energy);
+    TF1* f4=new TF1("f4","[0]*x+[1]",0,Max_Energy);
+    f4->SetLineColor(kRed-7);
     //f4->SetParameters();
     
     g1->Fit(f1,"R");
-    //g2->Fit(f2,"R");
-    //g3->Fit(f3,"R");
-    //g4->Fit(f4,"R");
+    g2->Fit(f2,"R");
+    g3->Fit(f3,"R");
+    g4->Fit(f4,"R");
     
     c1->Divide(2, 2);
     c1->cd(1);

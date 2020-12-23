@@ -1,6 +1,37 @@
-int Shower_instance(const char old_file[20], const char new_file[20], double E = 1.0)
+Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail=0.)
 {
-    int bin1 = 100*(15.0/(0.6*E)),bin2(200);
+  if (TMath::Abs(tail) < 1.e-7) {
+    return TMath::Exp( -0.5 * TMath::Power( ( (x - peak) / width ), 2 ));
+  }
+
+  Double_t arg = 1.0 - ( x - peak ) * tail / width;
+
+  if (arg < 1.e-7) {
+    //Argument of logarithm negative. Real continuation -> function equals zero
+    return 0.0;
+  }
+
+  Double_t log = TMath::Log(arg);
+  static const Double_t xi = 2.3548200450309494; // 2 Sqrt( Ln(4) )
+
+  Double_t width_zero = ( 2.0 / xi ) * TMath::ASinH( tail * xi * 0.5 );
+  Double_t width_zero2 = width_zero * width_zero;
+  Double_t exponent = ( -0.5 / (width_zero2) * log * log ) - ( width_zero2 * 0.5 );
+
+  return TMath::Exp(exponent);
+}
+
+int Shower_instance(const char old_file[20], const char new_file[20], double Energy = 1.0 , int NO_Angle = 7)
+{
+    ostringstream out1,out2;
+    out1 << NO_Angle;
+    out2 << fixed << setprecision(1) << Energy;
+    string str_NO_Angle = out1.str(), str_Energy = out2.str();
+    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::ofstream par_file;
+    par_file.open(out_name,std::ios::app);
+    
+    int bin1 = 100*(15.0/(0.6*Energy)),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(15);
     //double xmin(0),xmax(2.0);
@@ -80,6 +111,19 @@ int Shower_instance(const char old_file[20], const char new_file[20], double E =
                                             
     h1D2->SetAxisRange(NewRange_min, NewRange_max);
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
+    
+    
+    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min, NewRange_max);
+    f1->SetLineColor(kBlack);
+    f1->SetParameters(200,1,0.2);
+    
+    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min, NewRange_max);
+    f2->SetParameters(200,1,0.2);
+    f2->SetLineColor(kRed);
+    
+    h1D1->Fit(f1,"R");
+    h1D2->Fit(f2,"R");
+    
     c1->cd();
     h1D2->Draw();
     h1D1->Draw("SAME");
@@ -90,5 +134,13 @@ int Shower_instance(const char old_file[20], const char new_file[20], double E =
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
+    
+    par_file << str_Energy << " " << f1->GetParameter(2)/(f1->GetParameter(1)) << " " << f2->GetParameter(2)/(f2->GetParameter(1)) << endl;
+    
+    TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    c1->Print(picture_name);
+    
+    par_file.close();
+    
     return 0;
 }

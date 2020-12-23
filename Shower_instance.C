@@ -1,8 +1,8 @@
 int Shower_instance(const char old_file[20], const char new_file[20])
 {
-    int bin1(100),bin2(200);
+    int bin1(2000),bin2(200);
     float tx(1200),ty(900);
-    double xmin(0.7),xmax(1.3);
+    double xmin(0),xmax(15);
     //double xmin(0),xmax(2.0);
     cout << "-INFO  Old File : " << old_file << endl;
     cout << "-INFO  New File : " << new_file << endl;
@@ -75,6 +75,7 @@ int Shower_instance(const char old_file[20], const char new_file[20])
     file2.clear();
     cout << "Entries : " << N << endl;
     
+    h1D2->SetAxisRange(h1D2->GetMean()-5*(h1D2->GetStdDev()), h1D2->GetMean()+5*(h1D2->GetStdDev()));
     c1->cd();
     h1D2->Draw();
     h1D1->Draw("SAME");

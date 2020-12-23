@@ -80,8 +80,8 @@ int Shower_instance(const char old_file[20], const char new_file[20])
                                             
     h1D2->SetAxisRange(NewRange_min, NewRange_max);
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
-    //h1D2->SetBins(bin2, NewRange_min, NewRange_max);
-    //h1D1->SetBins(bin2, NewRange_min, NewRange_max);
+    h1D2->RebinAxis(bin2);
+    h1D1->RebinAxis(bin2);
     c1->cd();
     h1D2->Draw();
     h1D1->Draw("SAME");

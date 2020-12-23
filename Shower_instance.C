@@ -121,8 +121,8 @@ int Shower_instance(const char old_file[20], const char new_file[20], double Ene
     f2->SetParameters(200,1,0.2);
     f2->SetLineColor(kRed);
     
-    h1D1->Fit(f1,"R");
-    h1D2->Fit(f2,"R");
+    //h1D1->Fit(f1,"R");
+    //h1D2->Fit(f2,"R");
     
     c1->cd();
     h1D2->Draw();

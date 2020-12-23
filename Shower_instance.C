@@ -1,4 +1,4 @@
-int Shower_instance(const char old_file[20], const char new_file[20], double E)
+int Shower_instance(const char old_file[20], const char new_file[20], double E = 1.0)
 {
     int bin1 = 100*(15.0/(0.6*E)),bin2(200);
     float tx(1200),ty(900);

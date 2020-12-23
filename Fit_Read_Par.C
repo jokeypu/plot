@@ -6,6 +6,8 @@ int Fit_Read_Par(Int_t NO_Angle){
     std::string out_name = "doc/A"+str_NO_Angle+"_par.txt";
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
+    std::ofstream AllPar_file;
+    AllPar_file.open("AllPar.txt",std::ios::app);
     
     TString ts = "Angle "+str_NO_Angle+"0 deg";
     TCanvas* c1=new TCanvas("PANDA1",ts,1000,700);
@@ -102,6 +104,11 @@ int Fit_Read_Par(Int_t NO_Angle){
     //c1->cd(4)->SetGridx();
     g4->Draw("AP.");
     
+    AllPar_file << str_NO_Angle << " " << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " << f3->GetParameter(0) << " " << f3->GetParameter(1) << " " << f3->GetParameter(2) << " " << f4->GetParameter(0) << " " << f4->GetParameter(1) << endl;
+    AllPar_file.close();
     par_file.close();
+    
+    TString picture_name= "doc/AllPar_FitPicture/A"+str_NO_Angle+"_FitPar.png";
+    c1->Print(picture_name);
     return 0;
 }

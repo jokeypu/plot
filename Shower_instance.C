@@ -78,8 +78,8 @@ int Shower_instance(const char old_file[20], const char new_file[20])
     double NewRange_min = h1D2->GetMean()-5*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+5*(h1D2->GetStdDev());
                                             
-    //h1D2->SetAxisRange(NewRange_min, NewRange_max);
-    //h1D1->SetAxisRange(NewRange_min, NewRange_max);
+    h1D2->SetAxisRange(NewRange_min, NewRange_max);
+    h1D1->SetAxisRange(NewRange_min, NewRange_max);
     h1D2->SetBins(bin2, NewRange_min, NewRange_max);
     h1D1->SetBins(bin2, NewRange_min, NewRange_max);
     c1->cd();

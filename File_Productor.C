@@ -183,7 +183,7 @@ int File_Productor(std::string dir_name){
             if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 14) continue;
             N++;
-            File_out << Distance << " " << angle << " " << Digi_Energy << endl;
+            File_out << Distance << " " << angle << " " << Truth_Energy << endl;
         }
     }
     File_out.close();

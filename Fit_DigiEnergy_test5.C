@@ -57,7 +57,7 @@ Double_t FABC(Double_t x, Double_t ShowerEnergy){
     Double_t c1 = 0.0477413*exp(-1.89313*ShowerEnergy)+0.00457459;
     Double_t c2 = 0.0162451*ShowerEnergy+0.0483701;
     p2 *= (1-exp(-A*pow(x,3)));
-    c2 *= 4*(1-exp(-A*pow(x,3)));
+    c2 *= (1-exp(-A*pow(x,3)));
     return exp(-p2*x)+c1*exp(-c2*x);
 }
 

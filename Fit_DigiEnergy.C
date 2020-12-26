@@ -110,12 +110,12 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
         strStream >> distance >> angle >> energy;
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
-        g->SetPoint(N,distance,TMath::Log10(energy,0.25));
+        g->SetPoint(N,distance,TMath::Log10(energy));
         //g->SetPoint(N,distance,energy);
         N++;
     }
     
-    TF1* f=new TF1("f1","TMath::Log10(FABC(x,[0],[1],[2],[3],[4],[5]),0.25)",0,distance_cut);
+    TF1* f=new TF1("f1","TMath::Log10(FABC(x,[0],[1],[2],[3],[4],[5]))",0,distance_cut);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
     f->SetParameters(0.18, 0.8, 1.6, 0.0087, 0.055, 3);
     g->Draw("AP.");

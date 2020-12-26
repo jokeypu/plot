@@ -58,9 +58,9 @@ struct INTEGRAL {
     }*/
 }Shower_Function;
 
-Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Double_t c2,Double_t k){
-    p2 *= (1-exp(-A*pow(x,k)));
-    c2 *= (1-exp(-A*pow(x,k)));
+Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Double_t c2){
+    p2 *= (1-exp(-A*pow(x,3.5)));
+    c2 *= (1-exp(-A*pow(x,3.5)));
     return p1*exp(-p2*x)+c1*exp(-c2*x);
 }
 
@@ -115,9 +115,9 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
         N++;
     }
     
-    TF1* f=new TF1("f1","TMath::Log10(FABC(x,[0],[1],[2],[3],[4],[5]))",0,distance_cut);
+    TF1* f=new TF1("f1","TMath::Log10(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
-    f->SetParameters(0.18, 0.8, 1.6, 0.0087, 0.055,3);
+    f->SetParameters(0.18, 0.8, 1.6, 0.0087, 0.055);
     g->Draw("AP.");
     g->Fit(f,"R");
     

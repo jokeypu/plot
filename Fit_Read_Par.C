@@ -23,7 +23,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
-    gStyle->SetOptFit(1111);
+    //gStyle->SetOptFit(1111);
     
     TGraph *g1 = new TGraph();
     g1->SetMarkerStyle(20);

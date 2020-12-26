@@ -72,18 +72,21 @@ int Fit_Read_Par(Int_t NO_Angle){
         N++;
     }
 
-    TF1* f1=new TF1("f1","[0]*TMath::Log(x)+[1]",0,Max_Energy);
+    TF1* f1=new TF1("f1","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
-    //f1->SetParameters();
+    f1->SetParameters(-0.16,0.24,0.28);
+    
     TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
-    //f2->SetParameters();
+    f2->SetParameters(0.3,0.6,1.4);
+    
     TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    //f3->SetParameters();
+    f3->SetParameters(0.04,1.5,0.004);
+    
     TF1* f4=new TF1("f4","[0]*x+[1]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
-    //f4->SetParameters();
+    f4->SetParameters(0.015,0.051);
     
     g1->Fit(f1,"R");
     g2->Fit(f2,"R");
@@ -104,7 +107,11 @@ int Fit_Read_Par(Int_t NO_Angle){
     //c1->cd(4)->SetGridx();
     g4->Draw("AP.");
     
-    AllPar_file << str_NO_Angle << " " << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " << f3->GetParameter(0) << " " << f3->GetParameter(1) << " " << f3->GetParameter(2) << " " << f4->GetParameter(0) << " " << f4->GetParameter(1) << endl;
+    AllPar_file << str_NO_Angle << " " 
+    << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " " 
+    << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " 
+    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " " << f3->GetParameter(2) << " " 
+    << f4->GetParameter(0) << " " << f4->GetParameter(1) << endl;
     AllPar_file.close();
     par_file.close();
     

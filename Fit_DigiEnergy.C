@@ -59,8 +59,8 @@ struct INTEGRAL {
 }Shower_Function;
 
 Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Double_t c2){
-    p2 *= (1-exp(-A*pow(x,3.5)));
-    c2 *= (1-exp(-A*pow(x,3.5)));
+    p2 *= (1-exp(-A*pow(x,3)));
+    c2 *= (1-exp(-A*pow(x,3)));
     return p1*exp(-p2*x)+c1*exp(-c2*x);
 }
 

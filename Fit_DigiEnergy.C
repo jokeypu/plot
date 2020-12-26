@@ -110,14 +110,14 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
         strStream >> distance >> angle >> energy;
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
-        g->SetPoint(N,distance,TMath::Log(energy));
+        g->SetPoint(N,distance,sqrt(energy));
         //g->SetPoint(N,distance,energy);
         N++;
     }
     
-    TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
+    TF1* f=new TF1("f1","sqrt(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
-    f->SetParameters(0.119652, 0.78, 1.8, 0.0198265, 0.088);
+    f->SetParameters(0.18, 0.8, 1.6, 0.0087, 0.055);
     g->Draw("AP.");
     g->Fit(f,"R");
     
@@ -125,6 +125,11 @@ int Fit_DigiEnergy(std::string dir_name, const char title[20], Int_t NO_Angle, D
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(2) << " " << (f->GetParameter(3))/(f->GetParameter(1)) << " " << f->GetParameter(4) << endl;
     else par_file << str_Energy << " " <<f->GetParameter(0) << " " << f->GetParameter(4) << ", " << (f->GetParameter(1))/(f->GetParameter(3)) << " " << f->GetParameter(2) << endl;
 
+    //TF1* ff=new TF1("ff","FABC(x,[0],[1],[2],[3],[4])",0,distance_cut);
+    //ff->SetParameters(f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4));
+    //g->Draw("AP.");
+    //ff->Draw("SAME");
+    c1->SetLogy();
     TString picture_name= "doc/A"+str_NO_Angle+"_FitPicture/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar.png";
     c1->Print(picture_name);
     /*TGraph2D *g = new TGraph2D(title,"%lg %lg %lg");

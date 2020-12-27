@@ -3,10 +3,10 @@ int Fit_All_Angle_Par(){
     std::ifstream par_file;
     par_file.open(in_name,std::ios::in);
     
-    TCanvas* c1=new TCanvas("PANDA1","All Angle p1",1000,700);
-    TCanvas* c2=new TCanvas("PANDA2","All Angle p2",1000,700);
-    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",1000,700);
-    TCanvas* c4=new TCanvas("PANDA4","All Angle p4",1000,700);
+    TCanvas* c1=new TCanvas("PANDA1","All Angle p1",500,1000);
+    TCanvas* c2=new TCanvas("PANDA2","All Angle p2",500,1000);
+    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",500,1000);
+    TCanvas* c4=new TCanvas("PANDA4","All Angle p4",500,833);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);

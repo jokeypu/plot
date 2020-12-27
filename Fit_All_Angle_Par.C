@@ -150,9 +150,10 @@ int Fit_All_Angle_Par(){
     TF1* f22=new TF1("f22","[0]",30,130);
     f22->SetLineColor(kRed-7);
     
+    //TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
     TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
     f23->SetLineColor(kRed-7);
-    f23->SetParameters(0.04,80,0.004);
+    //f23->SetParameters(0.04,80,0.004);
     
     TF1* f31=new TF1("f31","[0]",30,130);
     f31->SetLineColor(kRed-7);
@@ -223,10 +224,13 @@ int Fit_All_Angle_Par(){
     //c1->cd(2)->SetGridx();
     g42->Draw("AP.");
     
-    /*cout << f11->GetParameter(0) << ", " << f11->GetParameter(1) << ", " << f11->GetParameter(2) << ", "
-         << f12->GetParameter(0) << ", " << f12->GetParameter(1) << ", " << f12->GetParameter(2) << ", "
-         << f13->GetParameter(0) << ", " << f13->GetParameter(1) << ", " << f13->GetParameter(2) << endl;
-    */
+    cout << "Double_t mp1[3] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << ", "
+         << f13->GetParameter(0) << "*(ShowerAngle-" << f13->GetParameter(1) << ")" << "*(ShowerAngle-" << f13->GetParameter(1) << ")+" << f13->GetParameter(2) << "};" << endl;
+    cout << "Double_t mp2[3] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", "
+    << f23->GetParameter(0) << "*(ShowerAngle-" << f23->GetParameter(1) << ")" << "*(ShowerAngle-" << f23->GetParameter(1) << ")+" << f23->GetParameter(2) << "};" << endl;
+    cout << "Double_t mp3[3] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << ", "
+    << f33->GetParameter(0) << "*(ShowerAngle-" << f33->GetParameter(1) << ")" << "*(ShowerAngle-" << f33->GetParameter(1) << ")+" << f33->GetParameter(2) << "};" << endl;
+    cout << "Double_t mp4[2] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << "};" << endl;
     
     /*c1->Print("doc/All_Angle_FitPar_p1.png");
     c2->Print("doc/All_Angle_FitPar_p2.png");

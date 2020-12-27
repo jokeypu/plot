@@ -61,6 +61,20 @@ Double_t FABC(Double_t x, Double_t ShowerEnergy){
     return exp(-p2*x)+c1*exp(-c2*x);
 }
 
+Double_t FABC(Double_t x, Double_t ShowerEnergy, Double_t ShowerAngle){
+    Double_t mp1[3] = {-0.161942, 0.645289, 2.05711e-05*(ShowerAngle-88.6388)*(ShowerAngle-88.6388)+0.271883};
+    Double_t mp2[3] = {0.278724, 0.562847, -1.8687e-07*(ShowerAngle+486.946)*(ShowerAngle+486.946)+1.50129};
+    Double_t mp3[3] = {0.0372539, 1.57813, -1.73777e-07*(ShowerAngle-80)*(ShowerAngle-80)+0.00454649};
+    Double_t mp4[2] = {0.0167034, 0.0479168};
+    Double_t A = mp1[0]*exp(-mp1[1]*ShowerEnergy)+mp1[2];
+    Double_t p2 = mp2[0]*exp(-mp2[1]*ShowerEnergy)+mp2[2];
+    Double_t c1 = mp3[0]*exp(-mp3[1]*ShowerEnergy)+mp3[2];
+    Double_t c2 = mp4[0]*ShowerEnergy+mp4[1];
+    p2 *= (1-exp(-A*pow(x,3)));
+    c2 *= (1-exp(-A*pow(x,3)));
+    return exp(-p2*x)+c1*exp(-c2*x);
+}
+
 int Fit_DigiEnergy_test5(std::string dir_name, Int_t NO_Angle, Double_t Energy){
     string title = "doc/"+ dir_name +"_R.txt";
     ostringstream out1,out2;
@@ -112,12 +126,13 @@ int Fit_DigiEnergy_test5(std::string dir_name, Int_t NO_Angle, Double_t Energy){
         N++;
     }
     
-    TF1* f1=new TF1("f1","0.8*FABC(x,1.0)",0,distance_cut);
+    TF1* f1=new TF1("f1","[0]*FABC(x,1.0,70)",0,distance_cut);
     f1->SetLineColor(kGreen);
     TF1* f2=new TF1("f1","Shower_Function.shower_Digi(x,20)",0,distance_cut);
     f2->SetLineColor(kBlack);
     //TF1* f=new TF1("f1","[2]*FABC(x,[0],[1],1,[3],[4],[5])",0,distance_cut);
     g->Draw("AP.");
+    g->Fit(f1,"R");
     f1->Draw("SAME");
     f2->Draw("SAME");
     //g->Fit(f,"R");

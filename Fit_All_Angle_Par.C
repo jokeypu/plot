@@ -115,34 +115,34 @@ int Fit_All_Angle_Par(){
         std::stringstream strStream(str);
         float angle, p11, p12, p13, p21, p22, p23, p31, p32, p33, p41, p42;
         strStream >> angle >> p11 >> p12 >> p13 >> p21 >> p22 >> p23 >> p31 >> p32 >> p33 >> p41 >> p42;
-        g11->SetPoint(N,angle,p11);
-        g12->SetPoint(N,angle,p12);
-        g13->SetPoint(N,angle,p13);
+        g11->SetPoint(N,10*angle,p11);
+        g12->SetPoint(N,10*angle,p12);
+        g13->SetPoint(N,10*angle,p13);
         
-        g21->SetPoint(N,angle,p21);
-        g22->SetPoint(N,angle,p22);
-        g23->SetPoint(N,angle,p23);
+        g21->SetPoint(N,10*angle,p21);
+        g22->SetPoint(N,10*angle,p22);
+        g23->SetPoint(N,10*angle,p23);
         
-        g31->SetPoint(N,angle,p31);
-        g32->SetPoint(N,angle,p32);
-        g33->SetPoint(N,angle,p33);
+        g31->SetPoint(N,10*angle,p31);
+        g32->SetPoint(N,10*angle,p32);
+        g33->SetPoint(N,10*angle,p33);
         
-        g41->SetPoint(N,angle,p41);
-        g42->SetPoint(N,angle,p42);
+        g41->SetPoint(N,10*angle,p41);
+        g42->SetPoint(N,10*angle,p42);
         
         N++;
     }
     par_file.close();
 
-    TF1* f11=new TF1("f11","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    TF1* f11=new TF1("f11","[0]*exp(-[1]*x)+[2]",30,130);
     f11->SetLineColor(kRed-7);
     f11->SetParameters(-0.16,0.24,0.28);
     
-    TF1* f12=new TF1("f12","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    TF1* f12=new TF1("f12","[0]*exp(-[1]*x)+[2]",30,130);
     f12->SetLineColor(kRed-7);
     f12->SetParameters(0.3,0.6,1.4);
     
-    TF1* f13=new TF1("f13","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    TF1* f13=new TF1("f13","[0]*exp(-[1]*x)+[2]",30,130);
     f13->SetLineColor(kRed-7);
     f13->SetParameters(0.04,1.5,0.004);
     

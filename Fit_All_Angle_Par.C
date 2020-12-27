@@ -146,9 +146,9 @@ int Fit_All_Angle_Par(){
     f13->SetLineColor(kRed-7);
     f13->SetParameters(0.04,1.5,0.004);
     
-    g11->Fit(f11,"R");
-    g12->Fit(f12,"R");
-    g13->Fit(f13,"R");
+    //g11->Fit(f11,"R");
+    //g12->Fit(f12,"R");
+    //g13->Fit(f13,"R");
     
     c1->Divide(1, 3);
     c1->cd(1);

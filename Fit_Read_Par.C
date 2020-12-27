@@ -7,7 +7,7 @@ int Fit_Read_Par(Int_t NO_Angle){
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
     std::ofstream AllPar_file;
-    AllPar_file.open("AllPar.txt",std::ios::app);
+    AllPar_file.open("doc/AllPar.txt",std::ios::app);
     
     TString ts = "Angle "+str_NO_Angle+"0 deg";
     TCanvas* c1=new TCanvas("PANDA1",ts,1000,700);

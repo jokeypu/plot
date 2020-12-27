@@ -135,16 +135,16 @@ int Fit_All_Angle_Par(){
     par_file.close();
 
     TF1* f11=new TF1("f11","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
-    f1->SetLineColor(kRed-7);
-    f1->SetParameters(-0.16,0.24,0.28);
+    f11->SetLineColor(kRed-7);
+    f11->SetParameters(-0.16,0.24,0.28);
     
     TF1* f12=new TF1("f12","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
-    f2->SetLineColor(kRed-7);
-    f2->SetParameters(0.3,0.6,1.4);
+    f12->SetLineColor(kRed-7);
+    f12->SetParameters(0.3,0.6,1.4);
     
     TF1* f13=new TF1("f13","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
-    f3->SetLineColor(kRed-7);
-    f3->SetParameters(0.04,1.5,0.004);
+    f13->SetLineColor(kRed-7);
+    f13->SetParameters(0.04,1.5,0.004);
     
     g11->Fit(f11,"R");
     g12->Fit(f12,"R");

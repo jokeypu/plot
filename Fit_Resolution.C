@@ -39,19 +39,44 @@ int Fit_Resolution(Int_t NO_Angle){
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
+    double R1_x[12], R1_y[12], R1_Ex[12], R1_Ey[12];
+    double R2_x[12], R2_y[12], R2_Ex[12], R2_Ey[12];
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
         float energy, R1, ER1, R2, ER2;
         strStream >> energy >> R1 >> ER1 >> R2 >> ER2;
-        g1->SetPoint(N,energy,R1);
-        g2->SetPoint(N,energy,R2);
+        R1_x[N] = energy;
+        R1_y[N] = R1;
+        R1_Ex[N] = 0.0;
+        R1_Ey[N] = ER1;
+        R2_x[N] = energy;
+        R2_y[N] = R2;
+        R2_Ex[N] = 0.0;
+        R2_Ey[N] = ER2;
         N++;
     }
     
-    g2->Draw("AP.");
-    g1->Draw("same");
+    TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
+    gr1->SetMarkerStyle(20);
+    gr1->SetMarkerColorAlpha(kRed-3, 1);
+    gr1->GetXaxis()->SetTitle("Energy");
+    gr1->GetYaxis()->SetTitle("Resolution");
+    gr1->GetXaxis()->CenterTitle();
+    gr1->GetYaxis()->CenterTitle();
+    
+    TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
+    gr2->SetMarkerStyle(22);
+    gr2->SetMarkerColorAlpha(kGreen+1, 1);
+    gr2->GetXaxis()->SetTitle("Energy");
+    gr2->GetYaxis()->SetTitle("Resolution");
+    gr2->GetXaxis()->CenterTitle();
+    gr2->GetYaxis()->CenterTitle();
+    
+    gr2->Draw();
+    gr1->Draw("same");
+    
     
     return 0;
 }

@@ -77,6 +77,10 @@ int Fit_Resolution(Int_t NO_Angle){
     gr2->Draw("AP");
     gr1->Draw("same");
     
+    TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
+    leg1->AddEntry(gr1, "Old algorithm", "P");
+    leg1->AddEntry(gr2, "New algorithm", "P");
+    leg1->Draw("SAME");
     
     return 0;
 }

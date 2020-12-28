@@ -59,7 +59,7 @@ int Fit_Resolution(Int_t NO_Angle){
     }
     
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
-    gr1->SetMarkerStyle(20);
+    gr1->SetMarkerStyle(21);
     gr1->SetMarkerColorAlpha(kRed-3, 1);
     gr1->GetXaxis()->SetTitle("Energy");
     gr1->GetYaxis()->SetTitle("Resolution");
@@ -67,14 +67,14 @@ int Fit_Resolution(Int_t NO_Angle){
     gr1->GetYaxis()->CenterTitle();
     
     TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
-    gr2->SetMarkerStyle(22);
+    gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kGreen+1, 1);
     gr2->GetXaxis()->SetTitle("Energy");
     gr2->GetYaxis()->SetTitle("Resolution");
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr2->Draw();
+    gr2->Draw("AP");
     gr1->Draw("same");
     
     

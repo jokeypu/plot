@@ -113,16 +113,18 @@ int Shower_instance(const char old_file[20], const char new_file[20], double Ene
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
     
-    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min, NewRange_max);
+    Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0, set_p03 = set_p00/10.0, set_p04 =  h1D1->GetStdDev(); 
+    TF1 *f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.1*Energy, NewRange_max-0.1*Energy);
     f1->SetLineColor(kBlack);
-    f1->SetParameters(200,1,0.2);
+    f1->SetParameters(set_p00,set_p01,set_p02,set_p03,set_p04,0);
     
-    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min, NewRange_max);
-    f2->SetParameters(200,1,0.2);
+    Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0, set_p13 = set_p10/10.0, set_p14 =  h1D2->GetStdDev(); 
+    TF1 *f2=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.1*Energy, NewRange_max-0.1*Energy);
     f2->SetLineColor(kRed);
+    f2->SetParameters(set_p10,set_p11,set_p12,set_p13,set_p14,0);
     
-    //h1D1->Fit(f1,"R");
-    //h1D2->Fit(f2,"R");
+    h1D1->Fit(f1,"R");
+    h1D2->Fit(f2,"R");
     
     c1->cd();
     h1D2->Draw();
@@ -135,7 +137,22 @@ int Shower_instance(const char old_file[20], const char new_file[20], double Ene
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
     
-    par_file << str_Energy << " " << f1->GetParameter(2)/(f1->GetParameter(1)) << " " << f2->GetParameter(2)/(f2->GetParameter(1)) << endl;
+    Double_t delta_OR = sqrt(  (f1->GetParameter(0))*(f1->GetParameter(0))* (f1->GetParameter(2))*(f1->GetParameter(2))  + (f1->GetParameter(3))*(f1->GetParameter(3))* (f1->GetParameter(4))*(f1->GetParameter(4)) );
+    Double_t delta_fix = sqrt(  (f2->GetParameter(0))*(f2->GetParameter(0))* (f2->GetParameter(2))*(f2->GetParameter(2))  + (f2->GetParameter(3))*(f2->GetParameter(3))* (f2->GetParameter(4))*(f2->GetParameter(4)) );
+    Double_t D_delta_OR = sqrt(  pow(f1->GetParameter(0),4)*pow(f1->GetParameter(2),2)*pow(f1->GetParError(2),2) +  pow(f1->GetParameter(3),4)*pow(f1->GetParameter(4),2)*pow(f1->GetParError(4),2) )/delta_OR;
+    Double_t D_delta_fix = sqrt(  pow(f2->GetParameter(0),4)*pow(f2->GetParameter(2),2)*pow(f2->GetParError(2),2) +  pow(f2->GetParameter(3),4)*pow(f2->GetParameter(4),2)*pow(f2->GetParError(4),2) )/delta_fix;
+    Double_t mean_OR = f1->GetParameter(1);
+    Double_t mean_fix = f2->GetParameter(1);
+    Double_t D_mean_OR = f1->GetParError(1);
+    Double_t D_mean_fix = f2->GetParError(1);
+
+    Double_t Reslution_OR = delta_OR/mean_OR;
+    Double_t Reslution_fix = delta_fix/mean_fix;
+    Double_t D_Reslution_OR = sqrt(  pow(D_delta_OR,2) + pow(delta_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
+    Double_t D_Reslution_fix = sqrt(  pow(D_delta_fix,2) + pow(delta_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
+
+    par_file << str_Energy << " " << Reslution_OR << " " << D_Reslution_OR << " " << Reslution_fix << " " << D_Reslution_fix << endl;
+    //par_file << str_Energy << " " << mean_OR << " " << D_mean_OR << " " << mean_fix << " " << D_mean_fix << endl;
     
     TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);

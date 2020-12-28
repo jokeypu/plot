@@ -50,8 +50,8 @@ int Fit_Resolution(Int_t NO_Angle){
         N++;
     }
     
-    g1->Draw("AP.");
-    g2->Draw("AP.same");
+    g2->Draw("AP.");
+    g1->Draw("same");
     
     return 0;
 }

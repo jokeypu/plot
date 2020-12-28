@@ -137,21 +137,28 @@ int Shower_instance(const char old_file[20], const char new_file[20], double Ene
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
     
-    Double_t delta_OR = sqrt(  (f1->GetParameter(0))*(f1->GetParameter(0))* (f1->GetParameter(2))*(f1->GetParameter(2))  + (f1->GetParameter(3))*(f1->GetParameter(3))* (f1->GetParameter(4))*(f1->GetParameter(4)) );
-    Double_t delta_fix = sqrt(  (f2->GetParameter(0))*(f2->GetParameter(0))* (f2->GetParameter(2))*(f2->GetParameter(2))  + (f2->GetParameter(3))*(f2->GetParameter(3))* (f2->GetParameter(4))*(f2->GetParameter(4)) );
-    Double_t D_delta_OR = sqrt(  pow(f1->GetParameter(0),4)*pow(f1->GetParameter(2),2)*pow(f1->GetParError(2),2) +  pow(f1->GetParameter(3),4)*pow(f1->GetParameter(4),2)*pow(f1->GetParError(4),2) )/delta_OR;
-    Double_t D_delta_fix = sqrt(  pow(f2->GetParameter(0),4)*pow(f2->GetParameter(2),2)*pow(f2->GetParError(2),2) +  pow(f2->GetParameter(3),4)*pow(f2->GetParameter(4),2)*pow(f2->GetParError(4),2) )/delta_fix;
+    //Double_t delta_OR = sqrt(  (f1->GetParameter(0))*(f1->GetParameter(0))* (f1->GetParameter(2))*(f1->GetParameter(2))  + (f1->GetParameter(3))*(f1->GetParameter(3))* (f1->GetParameter(4))*(f1->GetParameter(4)) );
+    //Double_t delta_fix = sqrt(  (f2->GetParameter(0))*(f2->GetParameter(0))* (f2->GetParameter(2))*(f2->GetParameter(2))  + (f2->GetParameter(3))*(f2->GetParameter(3))* (f2->GetParameter(4))*(f2->GetParameter(4)) );
+    //Double_t D_delta_OR = sqrt(  pow(f1->GetParameter(0),4)*pow(f1->GetParameter(2),2)*pow(f1->GetParError(2),2) +  pow(f1->GetParameter(3),4)*pow(f1->GetParameter(4),2)*pow(f1->GetParError(4),2) )/delta_OR;
+    //Double_t D_delta_fix = sqrt(  pow(f2->GetParameter(0),4)*pow(f2->GetParameter(2),2)*pow(f2->GetParError(2),2) +  pow(f2->GetParameter(3),4)*pow(f2->GetParameter(4),2)*pow(f2->GetParError(4),2) )/delta_fix;
+    Double_t delta_OR = f1->GetParameter(2);
+    Double_t delta_fix = f2->GetParameter(2);
+    Double_t D_delta_OR = f1->GetParError(2);
+    Double_t D_delta_fix = f2->GetParError(2);
+
+
     Double_t mean_OR = f1->GetParameter(1);
     Double_t mean_fix = f2->GetParameter(1);
     Double_t D_mean_OR = f1->GetParError(1);
     Double_t D_mean_fix = f2->GetParError(1);
 
-    Double_t Reslution_OR = delta_OR/mean_OR;
-    Double_t Reslution_fix = delta_fix/mean_fix;
-    Double_t D_Reslution_OR = sqrt(  pow(D_delta_OR,2) + pow(delta_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
-    Double_t D_Reslution_fix = sqrt(  pow(D_delta_fix,2) + pow(delta_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
+    Double_t Resolution_OR = delta_OR/mean_OR;
+    Double_t Resolution_fix = delta_fix/mean_fix;
+    Double_t D_Resolution_OR = sqrt(  pow(D_delta_OR,2) + pow(delta_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
+    Double_t D_Resolution_fix = sqrt(  pow(D_delta_fix,2) + pow(delta_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    par_file << str_Energy << " " << Reslution_OR << " " << D_Reslution_OR << " " << Reslution_fix << " " << D_Reslution_fix << endl;
+    cout << delta_OR << endl;
+    par_file << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     //par_file << str_Energy << " " << mean_OR << " " << D_mean_OR << " " << mean_fix << " " << D_mean_fix << endl;
     
     TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";

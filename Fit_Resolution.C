@@ -1,4 +1,4 @@
-int Fit_resolution(Int_t NO_Angle){
+int Fit_Resolution(Int_t NO_Angle){
     //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1;
     out1 << NO_Angle;

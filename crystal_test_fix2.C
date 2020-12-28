@@ -549,6 +549,7 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     h2D->SetMarkerColorAlpha(kAzure+3, 0.5);
     //h2D->GetYaxis()->SetTitle("E_{ci}");h2D->GetXaxis()->SetTitle("E_{truth}");
     h2D->GetYaxis()->SetTitle("E_{ci}-E_{truth}");h2D->GetXaxis()->SetTitle("distance");
+    //h2D->GetYaxis()->SetTitle("E/E_{seed}");h2D->GetXaxis()->SetTitle("r");
     //h1D->GetZaxis()->SetTitle("E");
     h2D->GetXaxis()->CenterTitle();
     h2D->GetYaxis()->CenterTitle();
@@ -567,10 +568,10 @@ int crystal_test_fix2( TString dir_name="Gamma_one_1G" )
     h2D->Draw("SCAT");
     //h2D->Fit(f,"R");
     
-    TF1* f1=new TF1("f1","[0]*exp(-1*[1]*x)-[2]",0,3.5);
-    f1->SetParameters(1,1.25,0.01);
+    TF1* f1=new TF1("f1","[0]*exp(-1*[1]*x)-[2]",0,5);
+    f1->SetParameters(1,1.25,0);
     //h2D->Fit(f1,"R");
-    //f1->Draw("SAME");
+   // f1->Draw("SAME");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(h2D, "Crystal calculated", "P");
@@ -751,7 +752,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             double Eci = Seed_Energy * rat;
             //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy;
-            if (rat>1) Eci = Seed_Energy;
+            //if (rat>1) Eci = Seed_Energy;
             //Eci -= 0.00001*0.0893206*TMath::Exp(13.8041*pow(Distance,-0.154518));
             //if (Distance>0) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Eci - Truth_Energy) < 0.02) continue;
@@ -760,7 +761,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //if (Distance<3.5 && Eci < 0) Eci += (0.828*exp(-1.26 *  Distance)-0.019) ;
             h->Fill(Distance,Eci - Digi_Energy);
             //h->Fill(Distance,rat);
-            //h->Fill(Distance,Digi_Energy/Seed_Energy);
+            //h->Fill(Distance,0.8*FABC(DD(&Det_Pos, &Cent_pos, 1.25))-Digi_Energy);
             //h->Fill(Distance,Eci);
             //h->Fill(Distance,(Seed_Energy*rat-Digi_Energy));
             //h->Fill(Distance,Eci);

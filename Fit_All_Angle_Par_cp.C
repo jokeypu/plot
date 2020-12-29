@@ -151,8 +151,9 @@ int Fit_All_Angle_Par_cp(){
     TF1* f02=new TF1("f02","[0]",30,130);
     f02->SetLineColor(kRed-7);
     
-    TF1* f03=new TF1("f03","[0]",30,130);
+    TF1* f03=new TF1("f03","[0]*(x-[1])*(x-[1])+[2]",30,130);
     f03->SetLineColor(kRed-7);
+    f03->SetParameters(0.04,80,0.004);
     
     TF1* f11=new TF1("f11","[0]",30,130);
     f11->SetLineColor(kRed-7);
@@ -169,7 +170,7 @@ int Fit_All_Angle_Par_cp(){
     //TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
     TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
     f23->SetLineColor(kRed-7);
-    //f23->SetParameters(0.04,80,0.004);
+    f23->SetParameters(0.04,80,0.004);
     
     TF1* f31=new TF1("f31","[0]",30,130);
     f31->SetLineColor(kRed-7);

@@ -93,7 +93,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     f2->SetLineColor(kRed-7);
     f2->SetParameters(0.3,0.6,1.4);
     
-    TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
     f3->SetParameters(0.004,-1.5,0.004);
     
@@ -127,7 +127,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     << f0->GetParameter(0) << " " << f0->GetParameter(1) << " " << f0->GetParameter(2) << " "
     << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " " 
     << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " 
-    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " " << f3->GetParameter(2) << " " 
+    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "  
     << f4->GetParameter(0) << " " << f4->GetParameter(1) << endl;
     AllPar_file.close();
     par_file.close();

@@ -168,7 +168,7 @@ int Fit_All_Angle_Par_cp(){
     f22->SetLineColor(kRed-7);
     
     //TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
-    TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]+[3]*TMath::Gaus(x,[4],[5])",60,100);
+    TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]+[3]*TMath::Gaus(x,[4],[5])",30,130);
     f23->SetLineColor(kRed-7);
     f23->SetParameters(0.04,90,0.004,6.3,80,41);
     

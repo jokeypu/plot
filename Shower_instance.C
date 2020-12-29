@@ -157,7 +157,6 @@ int Shower_instance(const char old_file[20], const char new_file[20], double Ene
     Double_t D_Resolution_OR = sqrt(  pow(D_delta_OR,2) + pow(delta_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
     Double_t D_Resolution_fix = sqrt(  pow(D_delta_fix,2) + pow(delta_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    cout << delta_OR << endl;
     par_file << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     //par_file << str_Energy << " " << mean_OR << " " << D_mean_OR << " " << mean_fix << " " << D_mean_fix << endl;
     

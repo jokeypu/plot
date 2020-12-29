@@ -60,7 +60,7 @@ int Fit_Resolution(Int_t NO_Angle){
     
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(21);
-    gr1->SetMarkerColorAlpha(kRed-3, 1);
+    gr1->SetMarkerColorAlpha(kGreen+1, 1);
     gr1->GetXaxis()->SetTitle("Energy");
     gr1->GetYaxis()->SetTitle("Resolution");
     gr1->GetXaxis()->CenterTitle();
@@ -68,14 +68,14 @@ int Fit_Resolution(Int_t NO_Angle){
     
     TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
-    gr2->SetMarkerColorAlpha(kGreen+1, 1);
+    gr2->SetMarkerColorAlpha(kRed-3, 1);
     gr2->GetXaxis()->SetTitle("Energy");
     gr2->GetYaxis()->SetTitle("Resolution");
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr2->Draw("AP");
-    gr1->Draw("same");
+    gr2->Draw("LAP");
+    gr1->Draw("LPsame");
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(gr1, "Old algorithm", "P");

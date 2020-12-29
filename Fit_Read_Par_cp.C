@@ -95,7 +95,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     
     TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    f3->SetParameters(0.04,1.5,0.004);
+    f3->SetParameters(0.004,-1.5,0.004);
     
     TF1* f4=new TF1("f4","[0]*x+[1]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
@@ -110,15 +110,17 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     c1->Divide(2, 3);
     c1->cd(1);
     //c1->cd(1)->SetGridx();
-    g1->Draw("AP.");
+    g0->Draw("AP.");
     c1->cd(2);
     //c1->cd(2)->SetGridx();
-    g2->Draw("AP.");
+    g1->Draw("AP.");
     c1->cd(3);
     //c1->cd(3)->SetGridx();
-    g3->Draw("AP.");
+    g2->Draw("AP.");
     c1->cd(4);
     //c1->cd(4)->SetGridx();
+    g3->Draw("AP.");
+    c1->cd(5);
     g4->Draw("AP.");
     
     AllPar_file << str_NO_Angle << " "

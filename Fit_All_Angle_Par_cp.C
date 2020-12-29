@@ -145,8 +145,9 @@ int Fit_All_Angle_Par_cp(){
     }
     par_file.close();
 
-    TF1* f01=new TF1("f01","[0]",30,130);
+    TF1* f01=new TF1("f01","[0]*(x-[1])*(x-[1])+[2]",30,130);
     f01->SetLineColor(kRed-7);
+    f01->SetParameters(-0.04,80,0.004);
     
     TF1* f02=new TF1("f02","[0]",30,130);
     f02->SetLineColor(kRed-7);

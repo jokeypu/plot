@@ -233,14 +233,15 @@ int Fit_All_Angle_Par_cp(){
     c4->cd(2);
     g42->Draw("AP.");
     
-   /* cout << "Double_t mp1[3] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << ", "
-         << f13->GetParameter(0) << "*(ShowerAngle-" << f13->GetParameter(1) << ")" << "*(ShowerAngle-" << f13->GetParameter(1) << ")+" << f13->GetParameter(2) << "};" << endl;
+    f13->GetParameter(0) << "*pow(ShowerAngle-" << f13->GetParameter(1) << ",2)+" << f13->GetParameter(2)
+    
+    cout << "Double_t mp0[3] = {" << f01->GetParameter(0) << "*pow(ShowerAngle-" << f01->GetParameter(1) << ",2)+" << f01->GetParameter(2) << ", " << f02->GetParameter(0) << ", "
+    << f03->GetParameter(0) << "*pow(ShowerAngle-" << f03->GetParameter(1) << ",2)+" << f03->GetParameter(2) << "};" << endl;
+    cout << "Double_t mp1[3] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << "};" << endl;
     cout << "Double_t mp2[3] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", "
-    << f23->GetParameter(0) << "*(ShowerAngle-" << f23->GetParameter(1) << ")" << "*(ShowerAngle-" << f23->GetParameter(1) << ")+" << f23->GetParameter(2) << "};" << endl;
-    cout << "Double_t mp3[3] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << ", "
-    << f33->GetParameter(0) << "*(ShowerAngle-" << f33->GetParameter(1) << ")" << "*(ShowerAngle-" << f33->GetParameter(1) << ")+" << f33->GetParameter(2) << "};" << endl;
+    << f23->GetParameter(0) << "*pow(ShowerAngle-" << f23->GetParameter(1) << ",2)+" << f23->GetParameter(2) << "};" << endl;
+    cout << "Double_t mp3[3] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << "};" << endl;
     cout << "Double_t mp4[2] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << "};" << endl;
-    */
     
     /*c1->Print("doc/All_Angle_FitPar_p1.png");
     c2->Print("doc/All_Angle_FitPar_p2.png");

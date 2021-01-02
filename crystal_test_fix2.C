@@ -512,9 +512,30 @@ Double_t FABC(Double_t x, Double_t ShowerEnergy = 1.0){
     Double_t p2 = 0.2675*exp(-0.4915*ShowerEnergy)+1.426;
     Double_t c1 = 0.04491*exp(-1.465*ShowerEnergy)+0.004277;
     Double_t c2 = 0.01389*ShowerEnergy+0.02699;
+    //Double_t A = 0.195817;
+    //Double_t p1 = 0.805355;
+    //Double_t p2 = 1.57312;
+    //Double_t c1 = 0.00853084;
+    //Double_t c2 = 0.0547758;
     p2 *= (1-exp(-A*pow(x,3)));
     c2 *= (1-exp(-A*pow(x,3)));
     return exp(-p2*x)+c1*exp(-c2*x);
+}
+
+Double_t FABD(Double_t x, Double_t ShowerEnergy=1.0, Double_t ShowerAngle=70.0){
+    Double_t mp0[3] = {-1.04003e-05*pow(ShowerAngle-90.5032,2)-0.15039, 0.645289, 2.05711e-05*pow(ShowerAngle-88.6388,2)+0.271883};
+    Double_t mp1[2] = {0.847721, -0.022563};
+    Double_t mp2[3] = {0.278724, 0.562847, 2.14275e-05*pow(ShowerAngle-85.4529,2)+1.41524+0.0221243*TMath::Gaus(ShowerAngle,82.1193,-7.27024)};
+    Double_t mp3[2] = {0.00232187, 0.00623754};
+    Double_t mp4[2] = {0.0167034, 0.0479168};
+    Double_t A = mp0[0]*exp(-mp0[1]*ShowerEnergy)+mp0[2];
+    Double_t p1 = mp1[0]*ShowerEnergy+mp1[1];
+    Double_t p2 = mp2[0]*exp(-mp2[1]*ShowerEnergy)+mp2[2];
+    Double_t c1 = mp3[0]*ShowerEnergy+mp3[1];
+    Double_t c2 = mp4[0]*ShowerEnergy+mp4[1];
+    p2 *= (1-exp(-A*pow(x,3)));
+    c2 *= (1-exp(-A*pow(x,3)));
+    return p1*exp(-p2*x)+c1*exp(-c2*x);
 }
 
 int Exec(TString dir_name, TH2D *h, Int_t NGamma=1);
@@ -734,7 +755,8 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = exp(-1*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-1.*DD(&Seed_pos, &Cent_pos, 1.25))/Distance;
             //double rat = (exp(-1*DD(&Det_Pos, &Cent_pos, 1.25))+exp(-1*DD(&Det_Pos, &Cent_pos, 1.25)))/(exp(-1*DD(&Seed_pos, &Cent_pos, 1.25))+exp(-1*DD(&Seed_pos, &Cent_pos, 1.25)));
             //double rat = exp(-1.25*DD(&Det_Pos, &Cent_pos, 1.25))/exp(-1.25*DD(&Seed_pos, &Cent_pos, 1.25));
-            double rat = FABC(DD(&Det_Pos, &Cent_pos, 1.25))/FABC(DD(&Seed_pos, &Cent_pos, 1.25));
+            //double rat = FABC(DD(&Det_Pos, &Cent_pos, 1.25))/FABC(DD(&Seed_pos, &Cent_pos, 1.25));
+            double rat = FABD(DD(&Det_Pos, &Cent_pos, 1.25));
             //double rat = (Shower_Function.shower_Digi(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25)))/(Shower_Function.shower_Digi(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25)));
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),19.524,3.18625,4.1475)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),19.524,3.18625,4.1475);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.24, 7.87, 6.28, 1);
@@ -749,7 +771,7 @@ int Exec(TString dir_name, TH2D *h, Int_t NGamma){
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),1.20616,788.138,1.47761,224.894,1.47759,90.3881,1.47772);
             //double rat = mf(DD(&Det_Pos, &Cent_pos, 1.25),AA(&Det_Pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357)/mf(DD(&Seed_pos, &Cent_pos, 1.25),AA(&Seed_pos, &Cent_pos, 1.25),6.81502,-0.996259,6.81756,1.20357);
             //if (DD(&Det_Pos, &Cent_pos, 1.25)<DD(&Seed_pos, &Cent_pos, 1.25)) cout << "XXXX" << endl;
-            double Eci = Seed_Energy * rat;
+            double Eci = rat;
             //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy * exp(-1.25 *  Distance);
             //if ((Det_Pos-Cent_pos).Mag()<(Seed_pos-Cent_pos).Mag()) Eci = Seed_Energy;
             //if (rat>1) Eci = Seed_Energy;

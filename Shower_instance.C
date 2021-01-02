@@ -21,7 +21,7 @@ Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail
   return TMath::Exp(exponent);
 }
 
-int Shower_instance(const char old_file[20], const char new_file[20], double Energy = 1.0 , int NO_Angle = 7)
+int Shower_instance(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
 {
     ostringstream out1,out2;
     out1 << NO_Angle;

@@ -43,7 +43,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 10;
+    Double_t distance_cut = 5;
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
         float distance, angle, energy;

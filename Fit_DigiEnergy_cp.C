@@ -4,8 +4,8 @@ Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Doub
     return p1*exp(-p2*x)+c1*exp(-c2*x);
 }
 
-int Fit_DigiEnergy_cp(std::string dir_name, char title[30], Int_t NO_Angle, Double_t Energy){
-    title[30] = "doc/"+ dir_name +".txt"
+int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
+    //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;

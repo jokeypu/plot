@@ -163,22 +163,25 @@ int Fit_All_Angle_Par_cp(){
     }
     par_file.close();
 
-    TF1* f01=new TF1("f01","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    TF1* f01=new TF1("f01","[0]",30,130);
     f01->SetLineColor(kRed-7);
-    f01->SetParameters(-0.04,80,0.004);
     
     TF1* f02=new TF1("f02","[0]",30,130);
     f02->SetLineColor(kRed-7);
     
-    TF1* f03=new TF1("f03","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    TF1* f03=new TF1("f03","[0]",30,130);
     f03->SetLineColor(kRed-7);
-    f03->SetParameters(0.04,80,0.004);
+    //f03->SetParameters(0.04,80,0.004);
     
     TF1* f11=new TF1("f11","[0]",30,130);
     f11->SetLineColor(kRed-7);
     
     TF1* f12=new TF1("f12","[0]",30,130);
     f12->SetLineColor(kRed-7);
+    
+    TF1* f13=new TF1("f13","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    f13->SetLineColor(kRed-7);
+    f13->SetParameters(0.04,80,0.004);
     
     TF1* f21=new TF1("f21","[0]",30,130);
     f21->SetLineColor(kRed-7);
@@ -187,9 +190,9 @@ int Fit_All_Angle_Par_cp(){
     f22->SetLineColor(kRed-7);
     
     //TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
-    TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]+[3]*TMath::Gaus(x,[4],[5])",30,130);
+    TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",30,130);
     f23->SetLineColor(kRed-7);
-    f23->SetParameters(1.796e-5,82.8,1.42,0.0015,81,5);
+    f23->SetParameters(0.04,80,0.004);
     
     TF1* f31=new TF1("f31","[0]",30,130);
     f31->SetLineColor(kRed-7);
@@ -203,11 +206,16 @@ int Fit_All_Angle_Par_cp(){
     TF1* f42=new TF1("f42","[0]",30,130);
     f42->SetLineColor(kRed-7);
     
+    TF1* f43=new TF1("f43","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    f43->SetLineColor(kRed-7);
+    f43->SetParameters(0.04,80,0.004);
+    
     g01->Fit(f01,"R");
     g02->Fit(f02,"R");
     g03->Fit(f03,"R");
     g11->Fit(f11,"R");
     g12->Fit(f12,"R");
+    g13->Fit(f13,"R");
     g21->Fit(f21,"R");
     g22->Fit(f22,"R");
     g23->Fit(f23,"R");
@@ -215,6 +223,7 @@ int Fit_All_Angle_Par_cp(){
     g32->Fit(f32,"R");
     g41->Fit(f41,"R");
     g42->Fit(f42,"R");
+    g43->Fit(f43,"R");
     
     c0->Divide(1, 3);
     c0->cd(1);
@@ -255,13 +264,19 @@ int Fit_All_Angle_Par_cp(){
     c4->cd(3);
     g43->Draw("AP.");
     
-    cout << "Double_t mp0[3] = {" << f01->GetParameter(0) << "*pow(ShowerAngle-" << f01->GetParameter(1) << ",2)+" << f01->GetParameter(2) << ", " << f02->GetParameter(0) << ", "
-    << f03->GetParameter(0) << "*pow(ShowerAngle-" << f03->GetParameter(1) << ",2)+" << f03->GetParameter(2) << "};" << endl;
-    cout << "Double_t mp1[2] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << "};" << endl;
-    cout << "Double_t mp2[3] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", "
-    << f23->GetParameter(0) << "*pow(ShowerAngle-" << f23->GetParameter(1) << ",2)+" << f23->GetParameter(2) << "+" << f23->GetParameter(3) << "*TMath::Gaus(ShowerAngle," << f23->GetParameter(4) << "," << f23->GetParameter(5) << ")" << "};" << endl;
+    cout << "Double_t mp0[3] = {" << f01->GetParameter(0) << ", " << f02->GetParameter(0) << ", " << f03->GetParameter(0) "};" << endl;
+    cout << "Double_t mp1[3] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << ", " << f13->GetParameter(0) << "*pow(ShowerAngle-" << f13->GetParameter(1) << ",2)+" << f13->GetParameter(2) "};" << endl;
+    cout << "Double_t mp2[3] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", " << f23->GetParameter(0) << "*pow(ShowerAngle-" << f23->GetParameter(1) << ",2)+" << f23->GetParameter(2) "};" << endl;
     cout << "Double_t mp3[2] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << "};" << endl;
-    cout << "Double_t mp4[2] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << "};" << endl;
+    cout << "Double_t mp4[3] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << ", " << f43->GetParameter(0) << "*pow(ShowerAngle-" << f43->GetParameter(1) << ",2)+" << f43->GetParameter(2) "};" << endl;
+    
+    //cout << "Double_t mp0[3] = {" << f01->GetParameter(0) << "*pow(ShowerAngle-" << f01->GetParameter(1) << ",2)+" << f01->GetParameter(2) << ", " << f02->GetParameter(0) << ", "
+    //<< f03->GetParameter(0) << "*pow(ShowerAngle-" << f03->GetParameter(1) << ",2)+" << f03->GetParameter(2) << "};" << endl;
+    //cout << "Double_t mp1[2] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << "};" << endl;
+    //cout << "Double_t mp2[3] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", "
+    //<< f23->GetParameter(0) << "*pow(ShowerAngle-" << f23->GetParameter(1) << ",2)+" << f23->GetParameter(2) << "+" << f23->GetParameter(3) << "*TMath::Gaus(ShowerAngle," << f23->GetParameter(4) << "," << f23->GetParameter(5) << ")" << "};" << endl;
+    //cout << "Double_t mp3[2] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << "};" << endl;
+    //cout << "Double_t mp4[2] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << "};" << endl;
     
     /*c1->Print("doc/All_Angle_FitPar_p1.png");
     c2->Print("doc/All_Angle_FitPar_p2.png");

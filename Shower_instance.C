@@ -137,14 +137,23 @@ int Shower_instance(const char old_file[30], const char new_file[30], double Ene
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
     
+    Double_t a_OR = (f1->GetParameter(0))/((f1->GetParameter(0))+(f1->GetParameter(3)));
+    Double_t b_OR = (f1->GetParameter(3))/((f1->GetParameter(0))+(f1->GetParameter(3)));
+    Double_t a_fix = (f2->GetParameter(0))/((f2->GetParameter(0))+(f2->GetParameter(3)));
+    Double_t b_fix = (f2->GetParameter(3))/((f2->GetParameter(0))+(f2->GetParameter(3)));
+    Double_t delta_OR = sqrt(  pow(a_OR,2)* pow(f1->GetParameter(2),2) + pow(b_OR,2)*pow(f1->GetParameter(4),2) );
+    Double_t delta_fix = sqrt(  pow(a_fix,2)* pow(f2->GetParameter(2),2) + pow(b_fix,2)*pow(f2->GetParameter(4),2) );
+    Double_t D_delta_OR = sqrt(  pow(a_OR,4)*pow(f1->GetParameter(2),2)*pow(f1->GetParError(2),2) +  pow(b_OR,4)*pow(f1->GetParameter(4),2)*pow(f1->GetParError(4),2) )/delta_OR;
+    Double_t D_delta_fix = sqrt(  pow(a_fix,4)*pow(f2->GetParameter(2),2)*pow(f2->GetParError(2),2) +  pow(b_fix,4)*pow(f2->GetParameter(4),2)*pow(f2->GetParError(4),2) )/delta_fix;
     //Double_t delta_OR = sqrt(  (f1->GetParameter(0))*(f1->GetParameter(0))* (f1->GetParameter(2))*(f1->GetParameter(2))  + (f1->GetParameter(3))*(f1->GetParameter(3))* (f1->GetParameter(4))*(f1->GetParameter(4)) );
     //Double_t delta_fix = sqrt(  (f2->GetParameter(0))*(f2->GetParameter(0))* (f2->GetParameter(2))*(f2->GetParameter(2))  + (f2->GetParameter(3))*(f2->GetParameter(3))* (f2->GetParameter(4))*(f2->GetParameter(4)) );
     //Double_t D_delta_OR = sqrt(  pow(f1->GetParameter(0),4)*pow(f1->GetParameter(2),2)*pow(f1->GetParError(2),2) +  pow(f1->GetParameter(3),4)*pow(f1->GetParameter(4),2)*pow(f1->GetParError(4),2) )/delta_OR;
     //Double_t D_delta_fix = sqrt(  pow(f2->GetParameter(0),4)*pow(f2->GetParameter(2),2)*pow(f2->GetParError(2),2) +  pow(f2->GetParameter(3),4)*pow(f2->GetParameter(4),2)*pow(f2->GetParError(4),2) )/delta_fix;
-    Double_t delta_OR = f1->GetParameter(2);
+    
+    /*Double_t delta_OR = f1->GetParameter(2);
     Double_t delta_fix = f2->GetParameter(2);
     Double_t D_delta_OR = f1->GetParError(2);
-    Double_t D_delta_fix = f2->GetParError(2);
+    Double_t D_delta_fix = f2->GetParError(2);*/
 
 
     Double_t mean_OR = f1->GetParameter(1);

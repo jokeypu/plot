@@ -73,7 +73,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
         float energy, p0, p1, p2, p3, p4;
         strStream >> energy >> p0 >> p1 >> p2 >> p3 >> p4;
         g0->SetPoint(N,energy,p0);
-        g1->SetPoint(N,energy,p1+p2);
+        g1->SetPoint(N,energy,45.8*p1+p2);
         g2->SetPoint(N,energy,p2);
         g3->SetPoint(N,energy,p3);
         g4->SetPoint(N,energy,p4);

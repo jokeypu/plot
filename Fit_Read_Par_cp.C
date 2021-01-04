@@ -125,10 +125,11 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     
     AllPar_file << str_NO_Angle << " "
     << f0->GetParameter(0) << " " << f0->GetParameter(1) << " " << f0->GetParameter(2) << " "
-    << f1->GetParameter(0) << " " << f1->GetParameter(1) << " "  
+    << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " "
     << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " 
     << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "  
-    << f4->GetParameter(0) << " " << f4->GetParameter(1) << endl;
+    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
+    << endl;
     AllPar_file.close();
     par_file.close();
     

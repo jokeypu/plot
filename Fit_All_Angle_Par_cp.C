@@ -62,6 +62,14 @@ int Fit_All_Angle_Par_cp(){
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
     
+    TGraph *g13 = new TGraph();
+    g13->SetMarkerStyle(22);
+    g13->SetMarkerColorAlpha(kGreen+1, 1);
+    g13->GetXaxis()->SetTitle("Energy");
+    g13->GetYaxis()->SetTitle("p3");
+    g13->GetXaxis()->CenterTitle();
+    g13->GetYaxis()->CenterTitle();
+    
     TGraph *g21 = new TGraph();
     g21->SetMarkerStyle(20);
     g21->SetMarkerColorAlpha(kRed-3, 1);
@@ -118,18 +126,27 @@ int Fit_All_Angle_Par_cp(){
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
     
+    TGraph *g43 = new TGraph();
+    g43->SetMarkerStyle(22);
+    g43->SetMarkerColorAlpha(kGreen+1, 1);
+    g43->GetXaxis()->SetTitle("Energy");
+    g43->GetYaxis()->SetTitle("p3");
+    g43->GetXaxis()->CenterTitle();
+    g43->GetYaxis()->CenterTitle();
+    
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float angle, p01, p02, p03 ,p11, p12, p21, p22, p23, p31, p32, p41, p42;
-        strStream >> angle >> p01 >> p02 >> p03 >> p11 >> p12 >> p21 >> p22 >> p23 >> p31 >> p32 >> p41 >> p42;
+        float angle, p01, p02, p03 ,p11, p12, p13, p21, p22, p23, p31, p32, p41, p42, p43;
+        strStream >> angle >> p01 >> p02 >> p03 >> p11 >> p12 >> p13 >> p21 >> p22 >> p23 >> p31 >> p32 >> p41 >> p42 >> p43;
         g01->SetPoint(N,10*angle,p01);
         g02->SetPoint(N,10*angle,p02);
         g03->SetPoint(N,10*angle,p03);
         
         g11->SetPoint(N,10*angle,p11);
         g12->SetPoint(N,10*angle,p12);
+        g13->SetPoint(N,10*angle,p13);
         
         g21->SetPoint(N,10*angle,p21);
         g22->SetPoint(N,10*angle,p22);
@@ -140,6 +157,7 @@ int Fit_All_Angle_Par_cp(){
         
         g41->SetPoint(N,10*angle,p41);
         g42->SetPoint(N,10*angle,p42);
+        g43->SetPoint(N,10*angle,p43);
         
         N++;
     }

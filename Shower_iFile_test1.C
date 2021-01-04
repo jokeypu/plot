@@ -1,8 +1,26 @@
+Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
+    Double_t distance(0), angle(0);
+    if (*DetPos != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+        angle = 57.2957*TMath::ATan(dy/dx);
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    }
+    return distance;
+}
 int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma=2, bool IsSplit=1);
-int Shower_iFile_test(string dir_name)
+int Shower_iFile_test1(string dir_name)
 {
-    string out_name_min = "doc/" + dir_name + "_test_min.txt";
-    string out_name_max = "doc/" + dir_name + "_test_max.txt";
+    string out_name_min = "doc/" + dir_name + "_test_cent.txt";
+    string out_name_max = "doc/" + dir_name + "_test_band.txt";
     if( Exec( dir_name, out_name_min, out_name_max, 2, true) ) return 1;
     return 0;
 }
@@ -36,6 +54,9 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
     TClonesArray* fBumpArray = new TClonesArray("PndEmcBump");
     t->SetBranchAddress("EmcBump",&fBumpArray);
     if (!fBumpArray) return -1;
+    TClonesArray* fDigiArray = new TClonesArray("PndEmcDigi");
+    t->SetBranchAddress("EmcDigi",&fDigiArray);
+    if (!fDigiArray) return -1;
     TClonesArray* fClusterArray = new TClonesArray("PndEmcCluster");
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
@@ -50,6 +71,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();
+        int ndigis = fDigiArray->GetEntriesFast();
         
         //Get the momentum of each photon
         std::vector<TVector3> Gamma_mom;
@@ -112,18 +134,36 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         //if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
-        vector<double> v;
-        v.clear();
-        Double_t bump_E = 0.0;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
-            //bump_E += Bump->energy();
-            v.push_back(Bump->energy());
-            N++;
+        PndEmcCluster* cluster = (PndEmcCluster*)fClusterArray->At(0);
+        std::map<Int_t, Int_t> localmax = cluster->LocalMaxMap();
+        std::map<Int_t, Int_t>::iterator thelocal;
+        
+        std::vector<Int_t> v_macth;
+        for (thelocal = localmax.begin(); thelocal != localmax.end(); ++thelocal) {
+            PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(thelocal->second);
+            TVector3 Seed_pos = digi->where();
+            PndEmcBump* Bump0 = (PndEmcBump*)fBumpArray->At(0);
+            PndEmcBump* Bump1 = (PndEmcBump*)fBumpArray->At(1);
+            TVector3 Cent_pos0 = Bump0->where();
+            TVector3 Cent_pos1 = Bump1->where();
+            if ((Cent_pos0-Seed_pos).Mag() < (Cent_pos1-Seed_pos).Mag()) v_macth.push_back(0);
+            else v_macth.push_back(1);
         }
-        sort(v.begin(),v.end());
-        out_min << v[0] << endl;
-        out_max << v[1] << endl;
+        if (v_macth[0] == v_macth[1]) {cout << "XXX" <<endl;continue;}
+        
+        Int_t NN = 0;
+        for (thelocal = localmax.begin(); thelocal != localmax.end(); ++thelocal) {
+            PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(thelocal->second);
+            double Seed_Energy = digi->GetEnergy();
+            TVector3 Seed_pos = digi->where();
+            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(v_macth[NN]);
+            TVector3 Cent_pos = Bump->where();
+            Double_t bump_E = Bump->energy();
+            Double_t d = DD(&Seed_pos, &Cent_pos, 1.25);
+            if (d < 1.2) out_min << bump_E << endl;
+            else out_max << bump_E << endl;
+            NN++;
+        }
     }
     out_min.close();
     out_max.close();

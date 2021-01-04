@@ -1,27 +1,4 @@
-Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail=0.)
-{
-  if (TMath::Abs(tail) < 1.e-7) {
-    return TMath::Exp( -0.5 * TMath::Power( ( (x - peak) / width ), 2 ));
-  }
-
-  Double_t arg = 1.0 - ( x - peak ) * tail / width;
-
-  if (arg < 1.e-7) {
-    //Argument of logarithm negative. Real continuation -> function equals zero
-    return 0.0;
-  }
-
-  Double_t log = TMath::Log(arg);
-  static const Double_t xi = 2.3548200450309494; // 2 Sqrt( Ln(4) )
-
-  Double_t width_zero = ( 2.0 / xi ) * TMath::ASinH( tail * xi * 0.5 );
-  Double_t width_zero2 = width_zero * width_zero;
-  Double_t exponent = ( -0.5 / (width_zero2) * log * log ) - ( width_zero2 * 0.5 );
-
-  return TMath::Exp(exponent);
-}
-
-int Shower_instance_test(const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
+int Shower_instance_test1(const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
 {
     ostringstream out1,out2;
     out1 << NO_Angle;
@@ -38,8 +15,8 @@ int Shower_instance_test(const char new_file[30], double Energy = 1.0 , int NO_A
     string file_str(new_file);
     
     string file_name = "doc/" + file_str + ".txt";
-    string file_name_min = "doc/" + file_str + "_test_min.txt";
-    string file_name_max = "doc/" + file_str + "_test_max.txt";
+    string file_name_min = "doc/" + file_str + "_test_cent.txt";
+    string file_name_max = "doc/" + file_str + "_test_band.txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -79,42 +56,32 @@ int Shower_instance_test(const char new_file[30], double Energy = 1.0 , int NO_A
     h1D3->GetXaxis()->CenterTitle();
     h1D3->GetYaxis()->CenterTitle();
 
-    string str1, str10, str11, str2, str3;
+    string str;
 
     ifstream file1;
     file1.open(file_name, ios::in);
-    Int_t MaxNo(0);
-    while (getline(file1,str1)) MaxNo++;
-    cout << MaxNo << endl;
-    file1.clear();
-    file1.seekg(0, ios::beg);
+    while (getline(file1,str)) {
+        double value= atof(str.c_str());
+        h1D1->Fill(value);
+    }
     
     ifstream file2;
     file2.open(file_name_min, ios::in);
+    while (getline(file2,str)) {
+        double value= atof(str.c_str());
+        h1D2->Fill(value);
+    }
     
     ifstream file3;
     file3.open(file_name_max, ios::in);
-    
-    Int_t N = 0;
-    for (int i = 0; i < MaxNo/2; i++) {
-        if (!getline(file1,str10)) continue;
-        if (!getline(file1,str11)) continue;
-        if (!getline(file2,str2)) continue;
-        if (!getline(file3,str3)) continue;
-        double value10= atof(str10.c_str());
-        double value11= atof(str11.c_str());
-        double value2= atof(str2.c_str());
-        double value3= atof(str3.c_str());
-        h1D1->Fill(value10);
-        h1D1->Fill(value11);
-        h1D2->Fill(value2);
-        h1D3->Fill(value3);
-        N++;
+    while (getline(file3,str)) {
+        double value= atof(str.c_str());
+        h1D3->Fill(value);
     }
+    
     file1.close();
     file2.close();
     file3.close();
-    cout << "Entries : " << N << endl;
     
     double NewRange_min = h1D1->GetMean()-(4.4 - 0.4*(Energy))*(h1D1->GetStdDev());
     double NewRange_max = h1D1->GetMean()+(4.4 - 0.4*(Energy))*(h1D1->GetStdDev());
@@ -130,8 +97,8 @@ int Shower_instance_test(const char new_file[30], double Energy = 1.0 , int NO_A
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1, "Bump Energy", "L");
-    leg->AddEntry(h1D2, "Bump Energy min", "L");
-    leg->AddEntry(h1D3, "Bump Energy max", "L");
+    leg->AddEntry(h1D2, "Bump Energy cent", "L");
+    leg->AddEntry(h1D3, "Bump Energy boundary", "L");
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw("SAME");

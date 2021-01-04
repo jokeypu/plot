@@ -225,11 +225,13 @@ int Fit_All_Angle_Par_cp(){
     g03->Draw("AP.");
     
     
-    c1->Divide(1, 2);
+    c1->Divide(1, 3);
     c1->cd(1);
     g11->Draw("AP.");
     c1->cd(2);
     g12->Draw("AP.");
+    c1->cd(3);
+    g13->Draw("AP.");
     
     c2->Divide(1, 3);
     c2->cd(1);
@@ -250,6 +252,8 @@ int Fit_All_Angle_Par_cp(){
     g41->Draw("AP.");
     c4->cd(2);
     g42->Draw("AP.");
+    c4->cd(3);
+    g43->Draw("AP.");
     
     cout << "Double_t mp0[3] = {" << f01->GetParameter(0) << "*pow(ShowerAngle-" << f01->GetParameter(1) << ",2)+" << f01->GetParameter(2) << ", " << f02->GetParameter(0) << ", "
     << f03->GetParameter(0) << "*pow(ShowerAngle-" << f03->GetParameter(1) << ",2)+" << f03->GetParameter(2) << "};" << endl;

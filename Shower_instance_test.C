@@ -21,13 +21,14 @@ Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail
   return TMath::Exp(exponent);
 }
 
-int Shower_instance(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
+int Shower_instance_test(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
 {
+    Energy *= 2;
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par_test.txt";
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
@@ -40,8 +41,8 @@ int Shower_instance(const char old_file[30], const char new_file[30], double Ene
     
     string file_str1(old_file), file_str2(new_file);
     
-    string file_name1 = "doc/" + file_str1 + ".txt";
-    string file_name2 = "doc/" + file_str2 + ".txt";
+    string file_name1 = "doc/" + file_str1 + "_test.txt";
+    string file_name2 = "doc/" + file_str2 + "_test.txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -114,12 +115,12 @@ int Shower_instance(const char old_file[30], const char new_file[30], double Ene
     
     
     Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0, set_p03 = set_p00/10.0, set_p04 =  h1D1->GetStdDev(); 
-    TF1 *f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    TF1 *f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.1*Energy, NewRange_max-0.1*Energy);
     f1->SetLineColor(kBlack);
     f1->SetParameters(set_p00,set_p01,set_p02,set_p03,set_p04,0);
     
     Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0, set_p13 = set_p10/10.0, set_p14 =  h1D2->GetStdDev(); 
-    TF1 *f2=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    TF1 *f2=new TF1("f1","[0]*Novosibirsk(x,[1],[2],0)+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.1*Energy, NewRange_max-0.1*Energy);
     f2->SetLineColor(kRed);
     f2->SetParameters(set_p10,set_p11,set_p12,set_p13,set_p14,0);
     
@@ -160,7 +161,7 @@ int Shower_instance(const char old_file[30], const char new_file[30], double Ene
     par_file << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     //par_file << str_Energy << " " << mean_OR << " " << D_mean_OR << " " << mean_fix << " " << D_mean_fix << endl;
     
-    TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture_test/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture_test.png";
     c1->Print(picture_name);
     
     par_file.close();

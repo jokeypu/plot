@@ -93,6 +93,8 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
+Double_t Getfunc(Double_t angle);
+
 int digiVsfunc(std::string dir_name){
     //std::string dir_name="Gamma_one_1G";
     //File_out << "Index " << "Distance " << "Angle " << "Energy" << endl;
@@ -127,11 +129,11 @@ int digiVsfunc(std::string dir_name){
     
     TH1D *h1 = new TH1D("h1","hist1",100,0,0.7);
     h1->SetLineColor(kRed);
-
+    
     TH1D *h2 = new TH1D("h2","hist2",100,0,0.7);
     h2->SetLineColor(kBlue);
-
-
+    
+    
     int N(0);
     Int_t maxEvtNo = t->GetEntries();
     //maxEvtNo /= 10;
@@ -242,10 +244,11 @@ int digiVsfunc(std::string dir_name){
             if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 14) continue;
             N++;
-	    if (Distance >1.4 && Distance<1.6) {
-	    h1->Fill(Digi_Energy);
-	    h2->Fill(Shower_Function.shower_Digi(Distance,angle));
-	    }
+            if (Distance >1.45 && Distance<1.55) {
+                h1->Fill(Digi_Energy);
+                //h2->Fill(Shower_Function.shower_Digi(Distance,angle));
+                h2->Fill(Getfunc(angle));
+            }
         }
     }
     h2->Draw();
@@ -253,3 +256,50 @@ int digiVsfunc(std::string dir_name){
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     return 0;
 }
+
+Double_t Getfunc(Double_t angle){
+    Double_t a1 =  1.125, b1 = 0.183206,
+    a2 = 3.375, b2 =  0.201581,
+    a3 =5.625, b3 =  0.189013,
+    a4 =7.875, b4 =  0.218617,
+    a5 =10.125, b5 =  0.204281,
+    a6 =12.375, b6 =  0.215612,
+    a7 =14.625, b7 =  0.232127,
+    a8 =16.875, b8 =  0.228904,
+    a9 =19.125, b9 =  0.249902,
+    a10 =21.375, b10 = 0.263043,
+    a11 =23.625, b11 =  0.240984,
+    a12 =25.875, b12 =  0.267332,
+    a13 =28.125, b13 =  0.311402,
+    a14 =30.375, b14 =  0.314986,
+    a15 =32.625, b15 =  0.313625,
+    a16 =34.875, b16 =  0.32179,
+    a17 =37.125, b17 =  0.324177,
+    a18 =39.375, b18 =  0.38823,
+    a19 =41.625, b19 =  0.37198,
+    a20 =43.875, b20 =  0.351777;
+    
+    if (angle >=0 && angle < a1) return b1;
+    else if ( angle >=a1 && angle < a2 ) return b1+(b2-b1)*((angle-a1)/(a2-a1));
+    else if ( angle >=a2 && angle < a3 ) return b2+(b3-b2)*((angle-a2)/(a3-a2));
+    else if ( angle >=a3 && angle < a4 ) return b3+(b4-b3)*((angle-a3)/(a4-a3));
+    else if ( angle >=a4 && angle < a5 ) return b4+(b5-b4)*((angle-a4)/(a5-a4));
+    else if ( angle >=a5 && angle < a6 ) return b5+(b6-b5)*((angle-a5)/(a6-a5));
+    else if ( angle >=a6 && angle < a7 ) return b6+(b7-b6)*((angle-a6)/(a7-a6));
+    else if ( angle >=a7 && angle < a8 ) return b7+(b8-b7)*((angle-a7)/(a8-a7));
+    else if ( angle >=a8 && angle < a9 ) return b8+(b9-b8)*((angle-a8)/(a9-a8));
+    else if ( angle >=a9 && angle < a10 ) return b9+(b10-b9)*((angle-a9)/(a10-a9));
+    else if ( angle >=a10 && angle < a11 ) return b10+(b11-b10)*((angle-a10)/(a11-a10));
+    else if ( angle >=a11 && angle < a12 ) return b11+(b12-b11)*((angle-a11)/(a12-a11));
+    else if ( angle >=a12 && angle < a13 ) return b12+(b13-b12)*((angle-a12)/(a13-a12));
+    else if ( angle >=a13 && angle < a14 ) return b13+(b14-b13)*((angle-a13)/(a14-a13));
+    else if ( angle >=a14 && angle < a15 ) return b14+(b15-b14)*((angle-a14)/(a15-a14));
+    else if ( angle >=a15 && angle < a16 ) return b15+(b16-b15)*((angle-a15)/(a16-a15));
+    else if ( angle >=a16 && angle < a17 ) return b16+(b17-b16)*((angle-a16)/(a17-a16));
+    else if ( angle >=a17 && angle < a18 ) return b17+(b18-b17)*((angle-a17)/(a18-a17));
+    else if ( angle >=a18 && angle < a19 ) return b18+(b19-b18)*((angle-a18)/(a19-a18));
+    else if ( angle >=a19 && angle < a20 ) return b19+(b20-b19)*((angle-a19)/(a20-a19));
+    else return b20;
+    
+}
+

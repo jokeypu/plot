@@ -1,5 +1,5 @@
 Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
-    p2 *= (1-A*exp(-B*pow(x,C)));
+    p2 *= (1.0-(1.0-A)*exp(-pow(x/B,C)));
     //c2 *= 4*(1-exp(-A*pow(x,3)));
     return p1*exp(-p2*x);
 }
@@ -43,21 +43,26 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 3.5;
+    Double_t distance_cut = 3;
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
-        //g->SetPoint(N,distance,TMath::Log(energy));
-        g->SetPoint(N,distance,energy);
+        g->SetPoint(N,distance,sqrt(energy));
+        //g->SetPoint(N,distance,energy);
         N++;
     }
     
     //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
-    TF1* f=new TF1("f1","FABC(x,[0],[1],[2],[3],[4])",0,distance_cut);
-    f->SetParameters(1, 0.26, 3, 3.37, 1.45);
+    TF1* f=new TF1("f1","sqrt(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
+    f->SetParameters(0.1, 1.5, 3, 3.37, 1.45);
+    f->SetParLimits(0, 0, 0.5);
+    f->SetParLimits(1, 1, 3);
+    //f->SetParLimits(2, 1.01, 25);
+
+    //f->SetParameters(1, 0.6, 5, 3.37, 1.45);
     g->Draw("AP.");
     g->Fit(f,"R");
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;

@@ -73,7 +73,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
         float energy, p0, p1, p2, p3, p4;
         strStream >> energy >> p0 >> p1 >> p2 >> p3 >> p4;
         g0->SetPoint(N,energy,p0);
-        g1->SetPoint(N,energy,45*p2+p1);
+        g1->SetPoint(N,energy,p1);
         g2->SetPoint(N,energy,p2);
         g3->SetPoint(N,energy,p3);
         g4->SetPoint(N,energy,p4);
@@ -83,23 +83,23 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
 
     TF1* f0=new TF1("f0","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f0->SetLineColor(kRed-7);
-    f0->SetParameters(-0.16,0.24,0.28);
+    f0->SetParameters(2,7,0.04);
     
-    TF1* f1=new TF1("f1","[0]*x+[1]",0,Max_Energy);
+    TF1* f1=new TF1("f1","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
-    //f1->SetParameters(-0.16,0.24,0.28);
+    f1->SetParameters(2,0.5,1.55);
     
     TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
-    f2->SetParameters(0.3,0.6,1.4);
+    f2->SetParameters(-2.14,0.88,4.27);
     
     TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    f3->SetParameters(0.004,-1.5,0.004);
+    f3->SetParameters(-0.004,1.5,1.38);
     
-    TF1* f4=new TF1("f4","[0]*x+[1]",0,Max_Energy);
+    TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
-    f4->SetParameters(0.015,0.051);
+    f4->SetParameters(-2,0.5,1.42);
     
     g0->Fit(f0,"R");
     g1->Fit(f1,"R");

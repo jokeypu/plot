@@ -1,7 +1,7 @@
-Double_t FABC(Double_t x,Double_t A, Double_t p1, Double_t p2, Double_t c1, Double_t c2){
-    p2 *= (1-exp(-A*pow(x,3)));
-    c2 *= 4*(1-exp(-A*pow(x,3)));
-    return p1*exp(-p2*x)+c1*exp(-c2*x);
+Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
+    p2 *= (1-A*exp(-B*pow(x,C)));
+    //c2 *= 4*(1-exp(-A*pow(x,3)));
+    return p1*exp(-p2*x);
 }
 
 int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
@@ -43,7 +43,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 10;
+    Double_t distance_cut = 5;
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
         float distance, angle, energy;
@@ -57,13 +57,13 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","FABC(x,[0],[1],[2],[3],[4])",0,distance_cut);
-    f->SetParameters(0.26, 3.37, 1.45, 0.016, 0.03);
+    f->SetParameters(1, 0.26, 3, 3.37, 1.45);
     g->Draw("AP.");
     g->Fit(f,"R");
-    
-    if (f->GetParameter(2)>f->GetParameter(4))
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
-    else par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << endl;
+    //if (f->GetParameter(2)>f->GetParameter(4))
+    //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
+    //else par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << endl;
 
     //c1->SetLogy();
     TString picture_name= "doc/A"+str_NO_Angle+"_FitPicture_cp/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";

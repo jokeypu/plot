@@ -247,7 +247,7 @@ int Fit_All_Angle_Par_cp(){
     c3->cd(2);
     g32->Draw("AP.");
     
-    c4->Divide(1, 2);
+    c4->Divide(1, 3);
     c4->cd(1);
     g41->Draw("AP.");
     c4->cd(2);

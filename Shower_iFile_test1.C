@@ -160,7 +160,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             TVector3 Cent_pos = Bump->where();
             Double_t bump_E = Bump->energy();
             Double_t d = DD(&Seed_pos, &Cent_pos, 1.25);
-            if (d < 1.5) out_min << bump_E << endl;
+            if (d < 1) out_min << bump_E << endl;
             else out_max << bump_E << endl;
             NN++;
         }

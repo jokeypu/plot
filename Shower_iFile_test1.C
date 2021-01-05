@@ -179,7 +179,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             Double_t bump_E = Bump->energy();
             Double_t d = DD(&Seed_pos, &Cent_pos, 1.25);
             Double_t A = AA(&Seed_pos, &Cent_pos, 1.25);
-            if (d < 1.5 && fabs(A - 45)<10 ) out_min << bump_E << endl;
+            if (d < 1.3 && fabs(A - 45)<10 ) out_min << bump_E << endl;
             else out_max << bump_E << endl;
             NN++;
         }

@@ -16,6 +16,24 @@ Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     }
     return distance;
 }
+Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
+    Double_t distance(0), angle(0);
+    if (*DetPos != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+        angle = 57.2957*TMath::ATan(dy/dx);
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    }
+    return angle;
+}
 int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma=2, bool IsSplit=1);
 int Shower_iFile_test1(string dir_name)
 {
@@ -160,7 +178,8 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             TVector3 Cent_pos = Bump->where();
             Double_t bump_E = Bump->energy();
             Double_t d = DD(&Seed_pos, &Cent_pos, 1.25);
-            if (d < 1.5) out_min << bump_E << endl;
+            Double_t A = AA(&Seed_pos, &Cent_pos, 1.25);
+            if (d < 1.5 && fabs(A - 45)<10 ) out_min << bump_E << endl;
             else out_max << bump_E << endl;
             NN++;
         }

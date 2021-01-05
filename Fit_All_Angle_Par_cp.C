@@ -25,7 +25,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g01 = new TGraph();
     g01->SetMarkerStyle(33);
     g01->SetMarkerColorAlpha(kAzure+3, 1);
-    g01->GetXaxis()->SetTitle("Energy");
+    g01->GetXaxis()->SetTitle("Angle");
     g01->GetYaxis()->SetTitle("p1");
     g01->GetXaxis()->CenterTitle();
     g01->GetYaxis()->CenterTitle();
@@ -33,7 +33,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g02 = new TGraph();
     g02->SetMarkerStyle(33);
     g02->SetMarkerColorAlpha(kAzure+3, 1);
-    g02->GetXaxis()->SetTitle("Energy");
+    g02->GetXaxis()->SetTitle("Angle");
     g02->GetYaxis()->SetTitle("p2");
     g02->GetXaxis()->CenterTitle();
     g02->GetYaxis()->CenterTitle();
@@ -41,7 +41,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g03 = new TGraph();
     g03->SetMarkerStyle(33);
     g03->SetMarkerColorAlpha(kAzure+3, 1);
-    g03->GetXaxis()->SetTitle("Energy");
+    g03->GetXaxis()->SetTitle("Angle");
     g03->GetYaxis()->SetTitle("p3");
     g03->GetXaxis()->CenterTitle();
     g03->GetYaxis()->CenterTitle();
@@ -49,7 +49,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g11 = new TGraph();
     g11->SetMarkerStyle(20);
     g11->SetMarkerColorAlpha(kRed-3, 1);
-    g11->GetXaxis()->SetTitle("Energy");
+    g11->GetXaxis()->SetTitle("Angle");
     g11->GetYaxis()->SetTitle("p1");
     g11->GetXaxis()->CenterTitle();
     g11->GetYaxis()->CenterTitle();
@@ -57,7 +57,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g12 = new TGraph();
     g12->SetMarkerStyle(22);
     g12->SetMarkerColorAlpha(kGreen+1, 1);
-    g12->GetXaxis()->SetTitle("Energy");
+    g12->GetXaxis()->SetTitle("Angle");
     g12->GetYaxis()->SetTitle("p2");
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
@@ -65,7 +65,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g13 = new TGraph();
     g13->SetMarkerStyle(22);
     g13->SetMarkerColorAlpha(kGreen+1, 1);
-    g13->GetXaxis()->SetTitle("Energy");
+    g13->GetXaxis()->SetTitle("Angle");
     g13->GetYaxis()->SetTitle("p3");
     g13->GetXaxis()->CenterTitle();
     g13->GetYaxis()->CenterTitle();
@@ -73,7 +73,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g21 = new TGraph();
     g21->SetMarkerStyle(20);
     g21->SetMarkerColorAlpha(kRed-3, 1);
-    g21->GetXaxis()->SetTitle("Energy");
+    g21->GetXaxis()->SetTitle("Angle");
     g21->GetYaxis()->SetTitle("p1");
     g21->GetXaxis()->CenterTitle();
     g21->GetYaxis()->CenterTitle();
@@ -81,7 +81,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g22 = new TGraph();
     g22->SetMarkerStyle(22);
     g22->SetMarkerColorAlpha(kGreen+1, 1);
-    g22->GetXaxis()->SetTitle("Energy");
+    g22->GetXaxis()->SetTitle("Angle");
     g22->GetYaxis()->SetTitle("p2");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
@@ -89,7 +89,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g23 = new TGraph();
     g23->SetMarkerStyle(33);
     g23->SetMarkerColorAlpha(kAzure+3, 1);
-    g23->GetXaxis()->SetTitle("Energy");
+    g23->GetXaxis()->SetTitle("Angle");
     g23->GetYaxis()->SetTitle("p3");
     g23->GetXaxis()->CenterTitle();
     g23->GetYaxis()->CenterTitle();
@@ -97,7 +97,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g31 = new TGraph();
     g31->SetMarkerStyle(20);
     g31->SetMarkerColorAlpha(kRed-3, 1);
-    g31->GetXaxis()->SetTitle("Energy");
+    g31->GetXaxis()->SetTitle("Angle");
     g31->GetYaxis()->SetTitle("p1");
     g31->GetXaxis()->CenterTitle();
     g31->GetYaxis()->CenterTitle();
@@ -105,7 +105,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g32 = new TGraph();
     g32->SetMarkerStyle(22);
     g32->SetMarkerColorAlpha(kGreen+1, 1);
-    g32->GetXaxis()->SetTitle("Energy");
+    g32->GetXaxis()->SetTitle("Angle");
     g32->GetYaxis()->SetTitle("p2");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
@@ -113,7 +113,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g41 = new TGraph();
     g41->SetMarkerStyle(20);
     g41->SetMarkerColorAlpha(kRed-3, 1);
-    g41->GetXaxis()->SetTitle("Energy");
+    g41->GetXaxis()->SetTitle("Angle");
     g41->GetYaxis()->SetTitle("p1");
     g41->GetXaxis()->CenterTitle();
     g41->GetYaxis()->CenterTitle();
@@ -121,7 +121,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g42 = new TGraph();
     g42->SetMarkerStyle(22);
     g42->SetMarkerColorAlpha(kGreen+1, 1);
-    g42->GetXaxis()->SetTitle("Energy");
+    g42->GetXaxis()->SetTitle("Angle");
     g42->GetYaxis()->SetTitle("p2");
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
@@ -129,7 +129,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g43 = new TGraph();
     g43->SetMarkerStyle(22);
     g43->SetMarkerColorAlpha(kGreen+1, 1);
-    g43->GetXaxis()->SetTitle("Energy");
+    g43->GetXaxis()->SetTitle("Angle");
     g43->GetYaxis()->SetTitle("p3");
     g43->GetXaxis()->CenterTitle();
     g43->GetYaxis()->CenterTitle();

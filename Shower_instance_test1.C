@@ -1,3 +1,25 @@
+Double_t Novosibirsk(Double_t x,Double_t peak=0.,Double_t width=0.,Double_t tail=0.)
+{
+  if (TMath::Abs(tail) < 1.e-7) {
+    return TMath::Exp( -0.5 * TMath::Power( ( (x - peak) / width ), 2 ));
+  }
+
+  Double_t arg = 1.0 - ( x - peak ) * tail / width;
+
+  if (arg < 1.e-7) {
+    //Argument of logarithm negative. Real continuation -> function equals zero
+    return 0.0;
+  }
+
+  Double_t log = TMath::Log(arg);
+  static const Double_t xi = 2.3548200450309494; // 2 Sqrt( Ln(4) )
+
+  Double_t width_zero = ( 2.0 / xi ) * TMath::ASinH( tail * xi * 0.5 );
+  Double_t width_zero2 = width_zero * width_zero;
+  Double_t exponent = ( -0.5 / (width_zero2) * log * log ) - ( width_zero2 * 0.5 );
+
+  return TMath::Exp(exponent);
+}
 int Shower_instance_test1(const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
 {
     ostringstream out1,out2;
@@ -90,7 +112,7 @@ int Shower_instance_test1(const char new_file[30], double Energy = 1.0 , int NO_
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     h1D3->SetAxisRange(NewRange_min, NewRange_max);
     
-    TF1 *f = new TF1("f","[0]*TMath::Gaus(x,[1],[2])",0.6,1.3);
+    TF1 *f = new TF1("f","[0]*Novosibirsk(x,[1],[2])",0.6,1.3);
     f->SetParameters(200,0.98,0.023);
 
     c1->cd();

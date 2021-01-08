@@ -112,7 +112,7 @@ int Shower_instance_test1(const char new_file[30], double Energy = 1.0 , int NO_
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     h1D3->SetAxisRange(NewRange_min, NewRange_max);
     
-    TF1 *f = new TF1("f","[0]*Novosibirsk(x,[1],[2])",0.6,1.3);
+    TF1 *f = new TF1("f","[0]*Novosibirsk(x,[1],[2],[3])",0.6,1.3);
     f->SetParameters(200,0.98,0.023);
 
     c1->cd();

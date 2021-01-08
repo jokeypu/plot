@@ -30,7 +30,7 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
         distance = sqrt(dx*dx+dy*dy);
         angle = 57.2957*TMath::ATan(dy/dx);
         if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
-        //if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+        if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
     }
     return angle;
 }
@@ -179,7 +179,10 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             Double_t bump_E = Bump->energy();
             Double_t d = DD(&Seed_pos, &Cent_pos, 1.25);
             Double_t A = AA(&Seed_pos, &Cent_pos, 1.25);
-            if (d < 1.1 && fabs(A - 45)<10 ) out_min << bump_E << endl;
+            //if (d < 1.1 && fabs(A - 45)<10 ) out_min << bump_E << endl;
+            //if (Seed_Energy>0.7) out_min << bump_E << endl;
+            //if ((Seed_pos-Cent_pos).Mag()<0.7) out_min << bump_E << endl;
+            if (distance < 5 ) out_min << bump_E << endl;
             else out_max << bump_E << endl;
             NN++;
         }

@@ -90,10 +90,14 @@ int Shower_instance_test1(const char new_file[30], double Energy = 1.0 , int NO_
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     h1D3->SetAxisRange(NewRange_min, NewRange_max);
     
+    TF1 *f = new TF1("f","[0]*TMath::Gaus(x,[1],[2])",0.6,1.3);
+    f->SetParameters(200,0.98,0.023);
+
     c1->cd();
     h1D1->Draw();
     h1D2->Draw("SAME");
     h1D3->Draw("SAME");
+    h1D3->Fit(f,"R");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1, "Bump Energy", "L");

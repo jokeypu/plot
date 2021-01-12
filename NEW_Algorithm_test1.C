@@ -2,7 +2,7 @@ const Int_t Mode = 2;
 int Exec(string dir_name, TH1D *h, vector<Int_t> NBin, Int_t NGamma=2, bool IsSplit=1);
 int NEW_Algorithm_test1(string dir_name)
 {
-    int bin1(100);
+    int bin1(50);
     float tx(800),ty(600);
     //double xmin(0.7),xmax(1.3);
     double xmin(0),xmax(8);

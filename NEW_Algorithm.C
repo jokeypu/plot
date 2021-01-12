@@ -7,7 +7,7 @@ int NEW_Algorithm( string dir_name ,Int_t opt = 0)
     double xmin(-0.2),xmax(0.2);
     string out_name = "doc/" + dir_name + "_com.txt";
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
+    TH1D* h1D1 = new TH1D("raw","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kGray+3);
     h1D1->SetLineWidth(2);
     h1D1->GetXaxis()->SetTitle("E_{bump}-E_{truth}");
@@ -15,7 +15,7 @@ int NEW_Algorithm( string dir_name ,Int_t opt = 0)
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, xmin, xmax);
+    TH1D* h1D2 = new TH1D("new","h1_2", bin1, xmin, xmax);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
     h1D2->GetXaxis()->SetTitle("E_{bump}-E_{truth}");

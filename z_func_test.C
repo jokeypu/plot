@@ -1,20 +1,20 @@
-Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
-    //p2 *= (1.0-(1.0-A)*exp(-pow(x/B,C)));
-    p2 *= (1.0-A*exp(-pow(x/B,C)));
-    //c2 *= 4*(1-exp(-A*pow(x,3)));
-    return p1*exp(-p2*x);
+int nn(){
+    TF1 *f = new TF1("f","(1-[0]*exp(-pow(x/[1],2)))*x",0,5);
+    f->SetParameters(0.2,2,2);
+    f->SetParLimits(0,0,1);
+    f->Draw();
+    return 0;
 }
 
-int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
-    //title[20] = "doc/"+ dir_name +"_R.txt"
-    ostringstream out1,out2;
-    out1 << NO_Angle;
-    out2 << fixed << setprecision(1) << Energy;
-    string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_par_cp.txt";
-    std::ofstream par_file;
-    par_file.open(out_name,std::ios::app);
-    
+Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
+    //return p1*exp(-p2*(1.0-A*exp(-pow(x/B,C)))*x);
+    return p1*exp(-p2*(1.0-A*exp(-pow(x/B,C)))*x);
+    //return p1*exp(-p2*x)*exp(p2*A*exp(-pow(x/B,C))*x);
+    //return p1*exp(-p2*x)*exp(A*exp(-pow(x/B,C))*x);
+    //return p1*exp(-p2*pow(x/B,C));
+}
+
+int z_func_test(){
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     gStyle->SetOptTitle(0);
@@ -30,8 +30,9 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    std::string file_name(title);
-    //std::string file_name = "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";
+    //std::string file_name("doc/WorkData_1Gamma_A3_E6.0_OR_R.txt");
+    //std::string file_name("doc/WorkData_1Gamma_A3_E6.0_OR.txt");
+    std::string file_name("doc/WorkData_1Gamma_A7_E1.0_OR.txt");
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);
     
@@ -53,30 +54,20 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
         g->SetPoint(N,distance,(energy));
-        //g->SetPoint(N,distance,energy);
         N++;
     }
     
-    //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     f->SetParameters(0.9, 1.5, 3, 3.37, 1.45);
     f->SetParLimits(0, 0.5, 1);
     f->SetParLimits(1, 1, 3);
-    //f->SetParLimits(2, 1.01, 25);
-
-    //f->SetParameters(1, 0.6, 5, 3.37, 1.45);
+    
     c1->cd();
     g->Draw("AP.");
     g->Fit(f,"R");
-    par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
-    //if (f->GetParameter(2)>f->GetParameter(4))
-    //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
-    //else par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << endl;
-
-    //c1->SetLogy();
-    TString picture_name= "doc/A"+str_NO_Angle+"_FitPicture_cp/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
-    c1->Print(picture_name);
     
+    in_file.clear();
+    in_file.seekg(0, ios::beg);
     TGraph *g_Error = new TGraph();
     g_Error->SetMarkerStyle(7);
     g_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
@@ -84,8 +75,6 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     g_Error->GetXaxis()->SetTitle("distance");
     g_Error->GetXaxis()->CenterTitle();
     g_Error->GetYaxis()->CenterTitle();
-    in_file.clear();
-    in_file.seekg(0, ios::beg);
     N = 0;
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
@@ -97,10 +86,9 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     }
     c2->cd();
     g_Error->Draw("AP.");
-    TString picture_name_error= "doc/A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
-    c2->Print(picture_name_error);
+    
+    //nn();
     
     in_file.close();
-    par_file.close();
     return 0;
 }

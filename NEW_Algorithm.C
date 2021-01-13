@@ -193,7 +193,7 @@ int Exec(TString dir_name, string out_name, Int_t NGamma){
         }
         if (!(nclusters==1 && nbumps==2)) continue;
         
-        if (distance>5) continue;
+        if (distance<5) continue;
         PndEmcBump* Bump0 = (PndEmcBump*)fBumpArray->At(match[0]);
         PndEmcBump* Bump1 = (PndEmcBump*)fBumpArray->At(match[1]);
         Double_t E_bump0 = Bump0->energy();

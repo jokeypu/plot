@@ -107,6 +107,12 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->Fit(f3,"R");
     g4->Fit(f4,"R");
     
+    g0->GetYaxis()->SetRangeUser(0.8,1);
+    g1->GetYaxis()->SetRangeUser(1.2,1.7);
+    g2->GetYaxis()->SetRangeUser(2,7);
+    g3->GetYaxis()->SetRangeUser(0,6.5);
+    g4->GetYaxis()->SetRangeUser(1,1.8);
+    
     c1->Divide(2, 3);
     c1->cd(1);
     //c1->cd(1)->SetGridx();

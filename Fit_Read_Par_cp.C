@@ -29,7 +29,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g0->SetMarkerStyle(20);
     g0->SetMarkerColorAlpha(kGray-1, 1);
     g0->GetXaxis()->SetTitle("Energy");
-    g0->GetYaxis()->SetTitle("p0");
+    g0->GetYaxis()->SetTitle("p3");
     g0->GetXaxis()->CenterTitle();
     g0->GetYaxis()->CenterTitle();
     
@@ -37,7 +37,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g1->SetMarkerStyle(21);
     g1->SetMarkerColorAlpha(kRed-3, 1);
     g1->GetXaxis()->SetTitle("Energy");
-    g1->GetYaxis()->SetTitle("p1");
+    g1->GetYaxis()->SetTitle("p4");
     g1->GetXaxis()->CenterTitle();
     g1->GetYaxis()->CenterTitle();
     
@@ -45,7 +45,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g2->SetMarkerStyle(22);
     g2->SetMarkerColorAlpha(kGreen+1, 1);
     g2->GetXaxis()->SetTitle("Energy");
-    g2->GetYaxis()->SetTitle("p2");
+    g2->GetYaxis()->SetTitle("p5");
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
@@ -53,7 +53,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->SetMarkerStyle(33);
     g3->SetMarkerColorAlpha(kAzure+3, 1);
     g3->GetXaxis()->SetTitle("Energy");
-    g3->GetYaxis()->SetTitle("p3");
+    g3->GetYaxis()->SetTitle("p1");
     g3->GetXaxis()->CenterTitle();
     g3->GetYaxis()->CenterTitle();
     
@@ -61,7 +61,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g4->SetMarkerStyle(34);
     g4->SetMarkerColorAlpha(kBlue+1, 1);
     g4->GetXaxis()->SetTitle("Energy");
-    g4->GetYaxis()->SetTitle("p4");
+    g4->GetYaxis()->SetTitle("p2");
     g4->GetXaxis()->CenterTitle();
     g4->GetYaxis()->CenterTitle();
     

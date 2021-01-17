@@ -97,7 +97,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     f3->SetLineColor(kRed-7);
     f3->SetParameters(-0.004,1.5,1.38);
     
-    TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    TF1* f4=new TF1("f4","[0]*exp(-x/[1])+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
     f4->SetParameters(-2,0.5,1.42);
     
@@ -107,26 +107,26 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->Fit(f3,"R");
     g4->Fit(f4,"R");
     
-    g0->GetYaxis()->SetRangeUser(0.8,1.2);
+    /*g0->GetYaxis()->SetRangeUser(0.8,1.2);
     g1->GetYaxis()->SetRangeUser(1.4,1.7);
     g2->GetYaxis()->SetRangeUser(2,6);
     g3->GetYaxis()->SetRangeUser(0,6.5);
-    g4->GetYaxis()->SetRangeUser(1,1.5);
+    g4->GetYaxis()->SetRangeUser(1,1.5);*/
     
     c1->Divide(2, 3);
-    c1->cd(3);
+    c1->cd(2);
     //c1->cd(1)->SetGridx();
     g0->Draw("AP.");
-    c1->cd(4);
+    c1->cd(3);
     //c1->cd(2)->SetGridx();
     g1->Draw("AP.");
-    c1->cd(5);
+    c1->cd(4);
     //c1->cd(3)->SetGridx();
     g2->Draw("AP.");
-    c1->cd(1);
+    //c1->cd(1);
     //c1->cd(4)->SetGridx();
-    g3->Draw("AP.");
-    c1->cd(2);
+    //g3->Draw("AP.");
+    c1->cd(1);
     g4->Draw("AP.");
     
     AllPar_file << str_NO_Angle << " "

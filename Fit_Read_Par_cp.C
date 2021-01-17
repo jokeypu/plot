@@ -97,7 +97,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     f3->SetLineColor(kRed-7);
     f3->SetParameters(-0.004,1.5,1.38);
     
-    TF1* f4=new TF1("f4","[0]*exp(-x/[1])+[2]",0,Max_Energy);
+    TF1* f4=new TF1("f4","([0]-[2])*exp(-x/[1])+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
     f4->SetParameters(-2,0.5,1.42);
     

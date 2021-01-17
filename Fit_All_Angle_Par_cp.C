@@ -138,7 +138,8 @@ int Fit_All_Angle_Par_cp(){
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float angle, p01, p02, p03 ,p11, p12, p13, p21, p22, p23, p31, p32, p41, p42, p43;
+        //float angle, p01, p02, p03 ,p11, p12, p13, p21, p22, p23, p31, p32, p41, p42, p43;
+        float angle, p11, p12, p03 ,p11, p12, p13, p21, p22, p23, p31, p32, p41, p42, p43;
         strStream >> angle >> p01 >> p02 >> p03 >> p11 >> p12 >> p13 >> p21 >> p22 >> p23 >> p31 >> p32 >> p41 >> p42 >> p43;
         g01->SetPoint(N,10*angle,p01);
         g02->SetPoint(N,10*angle,p02);

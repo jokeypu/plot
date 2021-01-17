@@ -130,11 +130,11 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g4->Draw("AP.");
     
     AllPar_file << str_NO_Angle << " "
+    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
     << f0->GetParameter(0) << " " << f0->GetParameter(1) << " "
     << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " 
     << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " 
-    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "  
-    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
+    //<< f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
     << endl;
     AllPar_file.close();
     par_file.close();

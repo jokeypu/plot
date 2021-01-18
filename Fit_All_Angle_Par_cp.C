@@ -105,8 +105,36 @@ int Fit_All_Angle_Par_cp(){
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float angle, p11, p12, p13, p21, p22, p31, p32, p41, p42, p43;
-        strStream >> angle >> p11 >> p12 >> p13 >> p21 >> p22 >> p31 >> p32 >> p41 >> p42 >> p43;
+        int NO_Angle(-1);
+        float p11, p12, p13, p21, p22, p31, p32, p41, p42, p43;
+        strStream >> NO_Angle >> p11 >> p12 >> p13 >> p21 >> p22 >> p31 >> p32 >> p41 >> p42 >> p43;
+        
+        Double_t t_min, t_max;
+        if (NO_Angle == 1) {t_min = 23.8514; t_max = 24.6978;}
+        if (NO_Angle == 2) {t_min = 26.4557; t_max = 27.3781;}
+        if (NO_Angle == 3) {t_min = 29.4579; t_max = 30.4916;}
+        if (NO_Angle == 4) {t_min = 32.6536; t_max = 33.7759;}
+        if (NO_Angle == 5) {t_min = 36.1172; t_max = 37.3507;}
+        if (NO_Angle == 6) {t_min = 39.9051; t_max = 41.2390;}
+        if (NO_Angle == 7) {t_min = 44.2385; t_max = 45.7355;}
+        if (NO_Angle == 8) {t_min = 48.8451; t_max = 50.4459;}
+        if (NO_Angle == 9) {t_min = 53.7548; t_max = 55.4790;}
+        if (NO_Angle == 10) {t_min = 59.0059; t_max = 60.8229;}
+        if (NO_Angle == 11) {t_min = 64.7855; t_max = 66.7591;}
+        if (NO_Angle == 12) {t_min = 70.8088; t_max = 72.8652;}
+        if (NO_Angle == 13) {t_min = 77.0506; t_max = 79.1942;}
+        if (NO_Angle == 14) {t_min = 83.4997; t_max = 85.6749;}
+        if (NO_Angle == 15) {t_min = 90.2068; t_max = 92.4062;}
+        if (NO_Angle == 16) {t_min = 96.8200; t_max = 99.0099;}
+        if (NO_Angle == 17) {t_min = 103.361; t_max = 105.534;}
+        if (NO_Angle == 18) {t_min = 109.793; t_max = 111.893;}
+        if (NO_Angle == 19) {t_min = 116.067; t_max = 118.019;}
+        if (NO_Angle == 20) {t_min = 121.838; t_max = 123.686;}
+        if (NO_Angle == 21) {t_min = 127.273; t_max = 129.033;}
+        if (NO_Angle == 22) {t_min = 132.400; t_max = 134.031;}
+        if (NO_Angle == 23) {t_min = 137.230; t_max = 138.679;}
+        Double_t angle = (t_max+t_min)/20.0;
+        if (NO_Angle = -1 || angle<18 || angle > 145) return 1;
         
         g11->SetPoint(N,10*angle,p11);
         g12->SetPoint(N,10*angle,p12);

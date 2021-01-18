@@ -9,7 +9,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     std::ofstream AllPar_file;
     AllPar_file.open("doc/AllPar_cp.txt",std::ios::app);
     
-    TString ts = "Angle "+str_NO_Angle+"0 deg";
+    TString ts = "Angle "+str_NO_Angle;
     TCanvas* c1=new TCanvas("PANDA1",ts,1000,700);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -113,7 +113,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->GetYaxis()->SetRangeUser(0,6.5);
     g4->GetYaxis()->SetRangeUser(1,1.5);*/
     
-    c1->Divide(2, 3);
+    c1->Divide(2, 2);
     c1->cd(2);
     //c1->cd(1)->SetGridx();
     g0->Draw("AP.");

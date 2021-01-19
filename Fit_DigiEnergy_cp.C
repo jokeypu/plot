@@ -1,8 +1,14 @@
-Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
+/*Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
     //p2 *= (1.0-(1.0-A)*exp(-pow(x/B,C)));
     p2 *= (1.0-A*exp(-pow(x/B,C)));
     //c2 *= 4*(1-exp(-A*pow(x,3)));
     return p1*exp(-p2*x);
+}*/
+const Double_t X0 = 0.89;
+const Double_t RM = 2.00;
+Double_t FABC(Double_t t,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4){
+    Double_t xi = t - p2*t*exp(-pow(X0*t/p3/RM,p4));
+    return p0*exp(-p1*xi*X0/RM);
 }
 
 int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
@@ -59,9 +65,9 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
-    f->SetParameters(0.9, 1.5, 3, 3.37, 1.45);
-    f->SetParLimits(0, 0.5, 1);
-    f->SetParLimits(1, 1, 3);
+    f->SetParameters(Energy, 2.5, 0.9, 0.7, 3);
+    //f->SetParLimits(0, 0.5, 1);
+    f->SetParLimits(2, 0.2, 1);
     //f->SetParLimits(2, 1.01, 25);
 
     //f->SetParameters(1, 0.6, 5, 3.37, 1.45);

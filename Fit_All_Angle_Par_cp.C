@@ -22,82 +22,82 @@ int Fit_All_Angle_Par_cp(){
     //gStyle->SetOptFit(1111);
     
     TGraph *g11 = new TGraph();
-    g11->SetMarkerStyle(20);
-    g11->SetMarkerColorAlpha(kRed-3, 1);
-    g11->GetXaxis()->SetTitle("Angle");
-    g11->GetYaxis()->SetTitle("p1");
+    g11->SetMarkerStyle(22);
+    g11->SetMarkerColorAlpha(kGreen+1, 1);
+    g11->GetXaxis()->SetTitle("Angle(deg)");
+    g11->GetYaxis()->SetTitle("p11");
     g11->GetXaxis()->CenterTitle();
     g11->GetYaxis()->CenterTitle();
     
     TGraph *g12 = new TGraph();
     g12->SetMarkerStyle(22);
     g12->SetMarkerColorAlpha(kGreen+1, 1);
-    g12->GetXaxis()->SetTitle("Angle");
-    g12->GetYaxis()->SetTitle("p2");
+    g12->GetXaxis()->SetTitle("Angle(deg)");
+    g12->GetYaxis()->SetTitle("p12");
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
     
     TGraph *g13 = new TGraph();
     g13->SetMarkerStyle(22);
-    g13->SetMarkerColorAlpha(kGreen+1, 1);
-    g13->GetXaxis()->SetTitle("Angle");
-    g13->GetYaxis()->SetTitle("p3");
+    g13->SetMarkerColorAlpha(kRed, 1);
+    g13->GetXaxis()->SetTitle("Angle(deg)");
+    g13->GetYaxis()->SetTitle("p13");
     g13->GetXaxis()->CenterTitle();
     g13->GetYaxis()->CenterTitle();
     
     TGraph *g21 = new TGraph();
-    g21->SetMarkerStyle(20);
-    g21->SetMarkerColorAlpha(kRed-3, 1);
-    g21->GetXaxis()->SetTitle("Angle");
-    g21->GetYaxis()->SetTitle("p1");
+    g21->SetMarkerStyle(22);
+    g21->SetMarkerColorAlpha(kGreen+1, 1);
+    g21->GetXaxis()->SetTitle("Angle(deg)");
+    g21->GetYaxis()->SetTitle("p21");
     g21->GetXaxis()->CenterTitle();
     g21->GetYaxis()->CenterTitle();
     
     TGraph *g22 = new TGraph();
     g22->SetMarkerStyle(22);
-    g22->SetMarkerColorAlpha(kGreen+1, 1);
-    g22->GetXaxis()->SetTitle("Angle");
-    g22->GetYaxis()->SetTitle("p2");
+    g22->SetMarkerColorAlpha(kRed, 1);
+    g22->GetXaxis()->SetTitle("Angle(deg)");
+    g22->GetYaxis()->SetTitle("p22");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
     
     TGraph *g31 = new TGraph();
-    g31->SetMarkerStyle(20);
-    g31->SetMarkerColorAlpha(kRed-3, 1);
-    g31->GetXaxis()->SetTitle("Angle");
-    g31->GetYaxis()->SetTitle("p1");
+    g31->SetMarkerStyle(22);
+    g31->SetMarkerColorAlpha(kGreen+1, 1);
+    g31->GetXaxis()->SetTitle("Angle(deg)");
+    g31->GetYaxis()->SetTitle("p31");
     g31->GetXaxis()->CenterTitle();
     g31->GetYaxis()->CenterTitle();
     
     TGraph *g32 = new TGraph();
     g32->SetMarkerStyle(22);
-    g32->SetMarkerColorAlpha(kGreen+1, 1);
-    g32->GetXaxis()->SetTitle("Angle");
-    g32->GetYaxis()->SetTitle("p2");
+    g32->SetMarkerColorAlpha(kRed, 1);
+    g32->GetXaxis()->SetTitle("Angle(deg)");
+    g32->GetYaxis()->SetTitle("p32");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
     
     TGraph *g41 = new TGraph();
-    g41->SetMarkerStyle(20);
-    g41->SetMarkerColorAlpha(kRed-3, 1);
-    g41->GetXaxis()->SetTitle("Angle");
-    g41->GetYaxis()->SetTitle("p1");
+    g41->SetMarkerStyle(22);
+    g41->SetMarkerColorAlpha(kGreen+1, 1);
+    g41->GetXaxis()->SetTitle("Angle(deg)");
+    g41->GetYaxis()->SetTitle("p41");
     g41->GetXaxis()->CenterTitle();
     g41->GetYaxis()->CenterTitle();
     
     TGraph *g42 = new TGraph();
     g42->SetMarkerStyle(22);
     g42->SetMarkerColorAlpha(kGreen+1, 1);
-    g42->GetXaxis()->SetTitle("Angle");
-    g42->GetYaxis()->SetTitle("p2");
+    g42->GetXaxis()->SetTitle("Angle(deg)");
+    g42->GetYaxis()->SetTitle("p42");
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
     
     TGraph *g43 = new TGraph();
     g43->SetMarkerStyle(22);
-    g43->SetMarkerColorAlpha(kGreen+1, 1);
-    g43->GetXaxis()->SetTitle("Angle");
-    g43->GetYaxis()->SetTitle("p3");
+    g43->SetMarkerColorAlpha(kRed, 1);
+    g43->GetXaxis()->SetTitle("Angle(deg)");
+    g43->GetYaxis()->SetTitle("p43");
     g43->GetXaxis()->CenterTitle();
     g43->GetYaxis()->CenterTitle();
     
@@ -154,35 +154,36 @@ int Fit_All_Angle_Par_cp(){
     }
     par_file.close();
 
-    TF1* f11=new TF1("f11","[0]",30,130);
+    TF1* f11=new TF1("f11","[0]",20,140);
     f11->SetLineColor(kRed-7);
     
-    TF1* f12=new TF1("f12","[0]",30,130);
+    TF1* f12=new TF1("f12","[0]",20,140);
     f12->SetLineColor(kRed-7);
     
-    TF1* f13=new TF1("f13","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    TF1* f13=new TF1("f13","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f13->SetLineColor(kRed-7);
     f13->SetParameters(0.04,80,0.004);
     
-    TF1* f21=new TF1("f21","[0]",30,130);
+    TF1* f21=new TF1("f21","[0]",20,140);
     f21->SetLineColor(kRed-7);
     
-    TF1* f22=new TF1("f22","[0]",30,130);
+    TF1* f22=new TF1("f22","[0]",20,140);
     f22->SetLineColor(kRed-7);
     
-    TF1* f31=new TF1("f31","[0]",30,130);
+    TF1* f31=new TF1("f31","[0]",20,140);
     f31->SetLineColor(kRed-7);
     
-    TF1* f32=new TF1("f32","[0]",30,130);
+    TF1* f32=new TF1("f32","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f32->SetLineColor(kRed-7);
+    f32->SetParameters(-0.04,80,0.004);
     
-    TF1* f41=new TF1("f41","[0]",30,130);
+    TF1* f41=new TF1("f41","[0]",20,140);
     f41->SetLineColor(kRed-7);
     
-    TF1* f42=new TF1("f42","[0]",30,130);
+    TF1* f42=new TF1("f42","[0]",20,140);
     f42->SetLineColor(kRed-7);
     
-    TF1* f43=new TF1("f43","[0]*(x-[1])*(x-[1])+[2]",30,130);
+    TF1* f43=new TF1("f43","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f43->SetLineColor(kRed-7);
     f43->SetParameters(0.04,80,0.004);
     
@@ -196,6 +197,17 @@ int Fit_All_Angle_Par_cp(){
     g41->Fit(f41,"R");
     g42->Fit(f42,"R");
     g43->Fit(f43,"R");
+    
+    g11->GetYaxis()->SetRangeUser(-4,3);
+    g12->GetYaxis()->SetRangeUser(0,10);
+    g13->GetYaxis()->SetRangeUser(2,4);
+    g21->GetYaxis()->SetRangeUser(-1,1);
+    g22->GetYaxis()->SetRangeUser(0.5,1.5);
+    g31->GetYaxis()->SetRangeUser(-0.1,0.1);
+    g32->GetYaxis()->SetRangeUser(-0.1,0.1);
+    g41->GetYaxis()->SetRangeUser(-4.5,0);
+    g42->GetYaxis()->SetRangeUser(0,2.5);
+    g43->GetYaxis()->SetRangeUser(4,6);
     
     c1->Divide(1, 3);
     c1->cd(1);

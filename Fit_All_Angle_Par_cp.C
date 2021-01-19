@@ -2,11 +2,13 @@ int Fit_All_Angle_Par_cp(){
     std::string in_name = "doc/AllPar_cp.txt";
     std::ifstream par_file;
     par_file.open(in_name,std::ios::in);
-    
-    TCanvas* c1=new TCanvas("PANDA0","All Angle p1",500,1000);
-    TCanvas* c2=new TCanvas("PANDA1","All Angle p2",500,833);
-    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",500,833);
-    TCanvas* c4=new TCanvas("PANDA2","All Angle p4",500,1000);
+    double ty0 = 1200, tx0 = 500;
+    double ty1 = 833, tx1 = 500;
+
+    TCanvas* c1=new TCanvas("PANDA0","All Angle p1",tx0,ty0);
+    TCanvas* c2=new TCanvas("PANDA1","All Angle p2",tx1,ty1);
+    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",tx1,ty1);
+    TCanvas* c4=new TCanvas("PANDA2","All Angle p4",tx0,ty0);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -198,17 +200,18 @@ int Fit_All_Angle_Par_cp(){
     g42->Fit(f42,"R");
     g43->Fit(f43,"R");
     
-    g11->GetYaxis()->SetRangeUser(-4,3);
-    g12->GetYaxis()->SetRangeUser(0,10);
-    g13->GetYaxis()->SetRangeUser(2,4);
-    g21->GetYaxis()->SetRangeUser(-1,1);
-    g22->GetYaxis()->SetRangeUser(0.5,1.5);
-    g31->GetYaxis()->SetRangeUser(-0.1,0.1);
-    g32->GetYaxis()->SetRangeUser(-0.1,0.1);
-    g41->GetYaxis()->SetRangeUser(-4.5,0);
-    g42->GetYaxis()->SetRangeUser(0,2.5);
-    g43->GetYaxis()->SetRangeUser(4,6);
+    g11->GetYaxis()->SetRangeUser(-6.5,2.5);
+    g12->GetYaxis()->SetRangeUser(-4,14);
+    g13->GetYaxis()->SetRangeUser(3,3.35);
+    g21->GetYaxis()->SetRangeUser(-0.1,0.1);
+    g22->GetYaxis()->SetRangeUser(0.6,1.3);
+    g31->GetYaxis()->SetRangeUser(-0.01,0.01);
+    g32->GetYaxis()->SetRangeUser(0.6,0.75);
+    g41->GetYaxis()->SetRangeUser(-6,0);
+    g42->GetYaxis()->SetRangeUser(0,5);
+    g43->GetYaxis()->SetRangeUser(4.2,6);
     
+    //c1->Divide(3, 1);
     c1->Divide(1, 3);
     c1->cd(1);
     g11->Draw("AP.");
@@ -217,18 +220,21 @@ int Fit_All_Angle_Par_cp(){
     c1->cd(3);
     g13->Draw("AP.");
     
+    //c2->Divide(2, 1);
     c2->Divide(1, 2);
     c2->cd(1);
     g21->Draw("AP.");
     c2->cd(2);
     g22->Draw("AP.");
     
+    //c3->Divide(2, 1);
     c3->Divide(1, 2);
     c3->cd(1);
     g31->Draw("AP.");
     c3->cd(2);
     g32->Draw("AP.");
     
+    //c4->Divide(3, 1);
     c4->Divide(1, 3);
     c4->cd(1);
     g41->Draw("AP.");

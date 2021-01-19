@@ -78,7 +78,7 @@ int test(int aa=1)
             theta *= TMath::RadToDeg();
             if (theta >140 || theta <20) continue;
             if (position.Pt()>70) continue;
-            //g->SetPoint(N,theta,position.Pt());
+            g->SetPoint(N,theta,position.Pt());
             v.push_back(theta);
             N++;
         }
@@ -104,7 +104,7 @@ int test(int aa=1)
     N=0;
     for (std::map<int, double>::iterator it = mm.begin(); it != mm.end(); it++) {
         if (it->second >142) continue;
-        g->SetPoint(N,it->second,60);
+        //g->SetPoint(N,it->second,60);
         cout << N+1 << " " << it->second << endl;
         N++;
     }

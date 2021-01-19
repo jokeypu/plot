@@ -67,7 +67,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     f->SetParameters(Energy, 2.5, 0.9, 0.7, 3);
     //f->SetParLimits(0, 0.5, 1);
-    f->SetParLimits(2, 0.2, 1);
+    f->SetParLimits(2, 0, 1);
     //f->SetParLimits(2, 1.01, 25);
 
     //f->SetParameters(1, 0.6, 5, 3.37, 1.45);

@@ -134,7 +134,7 @@ int Fit_All_Angle_Par_cp(){
         if (NO_Angle == 22) {t_min = 132.400; t_max = 134.031;}
         if (NO_Angle == 23) {t_min = 137.230; t_max = 138.679;}
         Double_t angle = (t_max+t_min)/20.0;
-        if (NO_Angle == -1 || angle<18 || angle > 145) return 1;
+        if (NO_Angle == -1 || 10*angle<18 || 10*angle > 145) return 1;
         
         g11->SetPoint(N,10*angle,p11);
         g12->SetPoint(N,10*angle,p12);

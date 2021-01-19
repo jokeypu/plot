@@ -81,11 +81,11 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
         N++;
     }
 
-    TF1* f0=new TF1("f0","0*[0]*x+[1]",0,Max_Energy);
+    TF1* f0=new TF1("f0","[0]*x+[1]",0,Max_Energy);
     f0->SetLineColor(kRed-7);
     //f0->SetParameters(2,7,0.04);
     
-    TF1* f1=new TF1("f1","0*[0]*x+[1]",0,Max_Energy);
+    TF1* f1=new TF1("f1","[0]*x+[1]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
     //f1->SetParameters(2,0.5,1.55);
     
@@ -97,7 +97,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     f3->SetLineColor(kRed-7);
     f3->SetParameters(-0.004,1.5,1.38);
     
-    TF1* f4=new TF1("f4","([0]-[2])*exp(-x/[1])+[2]",0,Max_Energy);
+    TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
     f4->SetParameters(-2,0.5,1.42);
     

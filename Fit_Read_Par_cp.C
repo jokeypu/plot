@@ -29,7 +29,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g0->SetMarkerStyle(20);
     g0->SetMarkerColorAlpha(kGray-1, 1);
     g0->GetXaxis()->SetTitle("Energy");
-    g0->GetYaxis()->SetTitle("p3");
+    g0->GetYaxis()->SetTitle("p0");
     g0->GetXaxis()->CenterTitle();
     g0->GetYaxis()->CenterTitle();
     
@@ -37,7 +37,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g1->SetMarkerStyle(21);
     g1->SetMarkerColorAlpha(kRed-3, 1);
     g1->GetXaxis()->SetTitle("Energy");
-    g1->GetYaxis()->SetTitle("p4");
+    g1->GetYaxis()->SetTitle("p1");
     g1->GetXaxis()->CenterTitle();
     g1->GetYaxis()->CenterTitle();
     
@@ -45,7 +45,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g2->SetMarkerStyle(22);
     g2->SetMarkerColorAlpha(kGreen+1, 1);
     g2->GetXaxis()->SetTitle("Energy");
-    g2->GetYaxis()->SetTitle("p5");
+    g2->GetYaxis()->SetTitle("p2");
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
@@ -53,7 +53,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->SetMarkerStyle(33);
     g3->SetMarkerColorAlpha(kAzure+3, 1);
     g3->GetXaxis()->SetTitle("Energy");
-    g3->GetYaxis()->SetTitle("p1");
+    g3->GetYaxis()->SetTitle("p3");
     g3->GetXaxis()->CenterTitle();
     g3->GetYaxis()->CenterTitle();
     
@@ -61,7 +61,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g4->SetMarkerStyle(34);
     g4->SetMarkerColorAlpha(kBlue+1, 1);
     g4->GetXaxis()->SetTitle("Energy");
-    g4->GetYaxis()->SetTitle("p2");
+    g4->GetYaxis()->SetTitle("p4");
     g4->GetXaxis()->CenterTitle();
     g4->GetYaxis()->CenterTitle();
     
@@ -80,26 +80,27 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
         Max_Energy = energy;
         N++;
     }
-
+    
     TF1* f0=new TF1("f0","[0]*x+[1]",0,Max_Energy);
     f0->SetLineColor(kRed-7);
-    //f0->SetParameters(2,7,0.04);
+    f0->SetParameters(-0.004,1.5,1.38);
     
-    TF1* f1=new TF1("f1","[0]*x+[1]",0,Max_Energy);
+    TF1* f1=new TF1("f1","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
-    //f1->SetParameters(2,0.5,1.55);
-    
-    TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
+    f1->SetParameters(-2,0.5,1.42);
+
+    TF1* f2=new TF1("f2","[0]*x+[1]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
-    f2->SetParameters(-2.14,0.88,4.27);
+    //f0->SetParameters(2,7,0.04);
     
     TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    f3->SetParameters(-0.004,1.5,1.38);
+    //f1->SetParameters(2,0.5,1.55);
     
     TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
-    f4->SetParameters(-2,0.5,1.42);
+    f4->SetParameters(-2.14,0.88,4.27);
+    
     
     g0->Fit(f0,"R");
     g1->Fit(f1,"R");
@@ -107,33 +108,33 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->Fit(f3,"R");
     g4->Fit(f4,"R");
     
-    g0->GetYaxis()->SetRangeUser(0.8,1.2);
-    g1->GetYaxis()->SetRangeUser(1.4,1.7);
-    g2->GetYaxis()->SetRangeUser(2,6);
-    g3->GetYaxis()->SetRangeUser(0,6.5);
-    g4->GetYaxis()->SetRangeUser(1,1.5);
+    g0->GetYaxis()->SetRangeUser(0,6.5);
+    g1->GetYaxis()->SetRangeUser(0,3);
+    g2->GetYaxis()->SetRangeUser(0.7,0.95);
+    g3->GetYaxis()->SetRangeUser(0.5,0.9);
+    g4->GetYaxis()->SetRangeUser(1,5);
     
     c1->Divide(2, 2);
-    c1->cd(2);
+    c1->cd(1);
     //c1->cd(1)->SetGridx();
-    g0->Draw("AP.");
-    c1->cd(3);
-    //c1->cd(2)->SetGridx();
     g1->Draw("AP.");
-    c1->cd(4);
-    //c1->cd(3)->SetGridx();
+    c1->cd(2);
+    //c1->cd(2)->SetGridx();
     g2->Draw("AP.");
+    c1->cd(3);
+    //c1->cd(3)->SetGridx();
+    g3->Draw("AP.");
     //c1->cd(1);
     //c1->cd(4)->SetGridx();
     //g3->Draw("AP.");
-    c1->cd(1);
+    c1->cd(4);
     g4->Draw("AP.");
     
     AllPar_file << str_NO_Angle << " "
-    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
-    << f0->GetParameter(0) << " " << f0->GetParameter(1) << " "
-    << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " 
-    << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " " 
+    << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " "
+    << f2->GetParameter(0) << " " << f2->GetParameter(1) << " "
+    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
+    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " " 
     //<< f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
     << endl;
     AllPar_file.close();

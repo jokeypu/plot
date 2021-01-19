@@ -108,11 +108,11 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     g3->Fit(f3,"R");
     g4->Fit(f4,"R");
     
-    g0->GetYaxis()->SetRangeUser(0,6.5);
-    g1->GetYaxis()->SetRangeUser(0,3);
-    g2->GetYaxis()->SetRangeUser(0.7,0.95);
-    g3->GetYaxis()->SetRangeUser(0.5,0.9);
-    g4->GetYaxis()->SetRangeUser(1,5);
+    //g0->GetYaxis()->SetRangeUser(0,6.5);
+    //g1->GetYaxis()->SetRangeUser(0,3);
+    //g2->GetYaxis()->SetRangeUser(0.7,0.95);
+    //g3->GetYaxis()->SetRangeUser(0.5,0.9);
+    //g4->GetYaxis()->SetRangeUser(1,5);
     
     c1->Divide(2, 2);
     c1->cd(1);
@@ -134,7 +134,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " "
     << f2->GetParameter(0) << " " << f2->GetParameter(1) << " "
     << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
-    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " " 
+    << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
     //<< f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
     << endl;
     AllPar_file.close();

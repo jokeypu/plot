@@ -2,8 +2,10 @@ int Fit_All_Angle_Par_cp(){
     std::string in_name = "doc/AllPar_cp.txt";
     std::ifstream par_file;
     par_file.open(in_name,std::ios::in);
-    double ty0 = 1200, tx0 = 500;
-    double ty1 = 833, tx1 = 500;
+    double ty0 = 1200, tx0 = 800;
+    double ty1 = 833, tx1 = 800;
+	
+    //tx0 *= 2;ty0 *= 2;tx1 *= 2;ty1 *= 2;
 
     TCanvas* c1=new TCanvas("PANDA0","All Angle p1",tx0,ty0);
     TCanvas* c2=new TCanvas("PANDA1","All Angle p2",tx1,ty1);
@@ -26,7 +28,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g11 = new TGraph();
     g11->SetMarkerStyle(22);
     g11->SetMarkerColorAlpha(kGreen+1, 1);
-    g11->GetXaxis()->SetTitle("Angle(deg)");
+    g11->GetXaxis()->SetTitle("#theta(deg)");
     g11->GetYaxis()->SetTitle("p11");
     g11->GetXaxis()->CenterTitle();
     g11->GetYaxis()->CenterTitle();
@@ -34,7 +36,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g12 = new TGraph();
     g12->SetMarkerStyle(22);
     g12->SetMarkerColorAlpha(kGreen+1, 1);
-    g12->GetXaxis()->SetTitle("Angle(deg)");
+    g12->GetXaxis()->SetTitle("#theta(deg)");
     g12->GetYaxis()->SetTitle("p12");
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
@@ -42,7 +44,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g13 = new TGraph();
     g13->SetMarkerStyle(22);
     g13->SetMarkerColorAlpha(kRed, 1);
-    g13->GetXaxis()->SetTitle("Angle(deg)");
+    g13->GetXaxis()->SetTitle("#theta(deg)");
     g13->GetYaxis()->SetTitle("p13");
     g13->GetXaxis()->CenterTitle();
     g13->GetYaxis()->CenterTitle();
@@ -50,7 +52,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g21 = new TGraph();
     g21->SetMarkerStyle(22);
     g21->SetMarkerColorAlpha(kGreen+1, 1);
-    g21->GetXaxis()->SetTitle("Angle(deg)");
+    g21->GetXaxis()->SetTitle("#theta(deg)");
     g21->GetYaxis()->SetTitle("p21");
     g21->GetXaxis()->CenterTitle();
     g21->GetYaxis()->CenterTitle();
@@ -58,7 +60,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g22 = new TGraph();
     g22->SetMarkerStyle(22);
     g22->SetMarkerColorAlpha(kRed, 1);
-    g22->GetXaxis()->SetTitle("Angle(deg)");
+    g22->GetXaxis()->SetTitle("#theta(deg)");
     g22->GetYaxis()->SetTitle("p22");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
@@ -66,7 +68,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g31 = new TGraph();
     g31->SetMarkerStyle(22);
     g31->SetMarkerColorAlpha(kGreen+1, 1);
-    g31->GetXaxis()->SetTitle("Angle(deg)");
+    g31->GetXaxis()->SetTitle("#theta(deg)");
     g31->GetYaxis()->SetTitle("p31");
     g31->GetXaxis()->CenterTitle();
     g31->GetYaxis()->CenterTitle();
@@ -74,7 +76,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g32 = new TGraph();
     g32->SetMarkerStyle(22);
     g32->SetMarkerColorAlpha(kRed, 1);
-    g32->GetXaxis()->SetTitle("Angle(deg)");
+    g32->GetXaxis()->SetTitle("#theta(deg)");
     g32->GetYaxis()->SetTitle("p32");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
@@ -82,7 +84,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g41 = new TGraph();
     g41->SetMarkerStyle(22);
     g41->SetMarkerColorAlpha(kGreen+1, 1);
-    g41->GetXaxis()->SetTitle("Angle(deg)");
+    g41->GetXaxis()->SetTitle("#theta(deg)");
     g41->GetYaxis()->SetTitle("p41");
     g41->GetXaxis()->CenterTitle();
     g41->GetYaxis()->CenterTitle();
@@ -90,7 +92,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g42 = new TGraph();
     g42->SetMarkerStyle(22);
     g42->SetMarkerColorAlpha(kGreen+1, 1);
-    g42->GetXaxis()->SetTitle("Angle(deg)");
+    g42->GetXaxis()->SetTitle("#theta(deg)");
     g42->GetYaxis()->SetTitle("p42");
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
@@ -98,7 +100,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g43 = new TGraph();
     g43->SetMarkerStyle(22);
     g43->SetMarkerColorAlpha(kRed, 1);
-    g43->GetXaxis()->SetTitle("Angle(deg)");
+    g43->GetXaxis()->SetTitle("#theta(deg)");
     g43->GetYaxis()->SetTitle("p43");
     g43->GetXaxis()->CenterTitle();
     g43->GetYaxis()->CenterTitle();

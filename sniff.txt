@@ -1,0 +1,1622 @@
+Reading packets, please wait...
+Opening /tmp/airportSniffFUCSM0.cap
+[0KRead 24698 packets.
+
+   #  BSSID              ESSID                     Encryption
+
+   1  00:00:00:00:00:00  ?CN ??¿                   WEP (0 IVs)
+   2  00:00:00:00:00:3C  HUAWèzû£#L9EG             Unknown
+   3  00:00:00:00:00:9E                            Unknown
+   4  00:00:00:00:00:CF                            Unknown
+   5  00:00:00:49:39:41                            Unknown
+   6  00:00:00:78:2E:F0  602                       Unknown
+   7  00:00:00:9E:0B:EA  ¸                         Unknown
+   8  00:00:90:94:13:84                            Unknown
+   9  00:00:CC:06:00:00                            Unknown
+  10  00:06:62:64:66:20  ‰?                        Unknown
+  11  00:1F:64:F8:73:08  201                       WPA (0 handshake)
+  12  00:4A:19:C8:A5:A0                            Unknown
+  13  00:5A:13:68:4D:24  Â∞èÁé©ÊÑèÂÑø              Unknown
+  14  00:5A:13:68:79:19  Â∞èÁé©ÊÑèÂÑø              Unknown
+  15  00:5A:13:68:87:17  Â∞èÁé©ÊÑèÂÑø              Unknown
+  16  00:5A:13:68:E1:14  Â∞èÁé©ÊÑèÂÑø              Unknown
+  17  00:5A:1C:FF:FF:FF                            Unknown
+  18  00:5A:20:CF:E4:FF                           Unknown
+  19  00:5A:93:01:00:00  Â∞èÁé©ÊÑèÂÑø              Unknown
+  20  00:5A:B3:AA:EC:8C  Â∞èÁé©ÊÑè%Ëø              Unknown
+  21  00:60:36:00:30:1B                            Unknown
+  22  00:9E:0B:BC:9D:C0                            Unknown
+  23  00:BA:31:00:A0:E4                            Unknown
+  24  00:BB:1C:81:DB:98  HUAWEI-h10                WPA (0 handshake)
+  25  00:BB:1C:81:DB:99                            Unknown
+  26  00:BB:1C:81:DB:9D                            Unknown
+  27  00:C2:1E:68:E1:14  Â∞èÁé©ÊÑèÂÑø              Unknown
+  28  00:E4:0E:EE:24:8F                            Unknown
+  29  00:FC:FF:FF:FF:FF                            Unknown
+  30  01:00:00:91:D1:F5                            Unknown
+  31  01:00:10:19:6D:32  203                       Unknown
+  32  01:00:44:B8:FF:FA                            WPA (0 handshake)
+  33  01:00:5C:4E:07:11                            Unknown
+  34  01:00:5E:7F:FF:CA                            WEP (0 IVs)
+  35  01:00:5E:7F:FF:FA                            WPA (0 handshake)
+  36  01:00:7E:06:20:A6                            Unknown
+  37  01:19:C0:49:E5:0E                            Unknown
+  38  01:34:57:E7:8B:71                            Unknown
+  39  01:46:25:DA:70:DD                            Unknown
+  40  01:7D:68:7E:FF:FA                            WEP (0 IVs)
+  41  01:80:16:7F:3F:96                            Unknown
+  42  01:98:AE:70:60:99                            Unknown
+  43  01:A8:16:60:76:D1                            WPA (0 handshake)
+  44  01:B2:79:33:39:76                            Unknown
+  45  01:BB:DC:9D:D2:35                            WPA (0 handshake)
+  46  02:09:41:3F:7F:F9                            Unknown
+  47  02:09:9D:5D:B9:58                            Unknown
+  48  02:6F:8F:E6:CB:FD                            Unknown
+  49  02:7C:2E:3E:45:46                            WPA (0 handshake)
+  50  02:A7:CB:CB:3A:11                            Unknown
+  51  02:AA:A3:74:E1:E0                            Unknown
+  52  02:EE:BC:99:B9:AC                            Unknown
+  53  02:FF:FF:FF:FF:FF                            Unknown
+  54  03:00:22:A3:4D:A6                            Unknown
+  55  03:3B:7B:1D:F0:3F                            Unknown
+  56  03:40:64:84:4A:19                            Unknown
+  57  03:75:1F:1A:88:C0                            WEP (0 IVs)
+  58  04:00:00:F8:FF:FF                            Unknown
+  59  04:00:30:A5:FF:FF                            Unknown
+  60  04:00:50:A1:FF:19                            Unknown
+  61  04:00:D0:6E:FF:FF                            Unknown
+  62  04:00:E0:06:FF:FF                            Unknown
+  63  04:00:F0:4F:7F:EC                            Unknown
+  64  04:40:E0:BB:84:D0                            Unknown
+  65  04:47:AA:7E:87:88                            Unknown
+  66  04:60:30:9B:90:65                            Unknown
+  67  04:7D:2E:3E:45:46                            WEP (0 IVs)
+  68  04:B7:A0:02:A8:8F                            Unknown
+  69  04:D7:A5:5F:81:95                            Unknown
+  70  04:D7:A5:5F:81:97  xiangyu214                Unknown
+  71  04:D7:A5:5F:81:D7                            Unknown
+  72  04:D7:A5:DF:71:FF                            Unknown
+  73  04:D7:C4:FF:C0:FF                            Unknown
+  74  04:F4:D3:F3:FB:7F                            WPA (0 handshake)
+  75  05:00:40:94:02:C9                            Unknown
+  76  05:C6:0D:79:87:F7                            Unknown
+  77  06:04:29:04:8F:0A                            Unknown
+  78  06:7C:7F:70:EE:12                            WEP (0 IVs)
+  79  06:F9:AB:3E:45:E7                            WPA (0 handshake)
+  80  07:00:44:46:03:41  %¿@Ü                      Unknown
+  81  07:1B:EF:BF:BF:85                            WPA (0 handshake)
+  82  07:21:B7:5D:25:15                            WPA (0 handshake)
+  83  07:9D:57:00:C0:35                            Unknown
+  84  07:9D:57:20:80:58                            Unknown
+  85  07:9D:57:20:80:75                            Unknown
+  86  07:FC:80:96:4F:42                            Unknown
+  87  08:5D:71:A7:E1:78                            WPA (0 handshake)
+  88  08:6C:17:00:00:00  Ÿ                         Unknown
+  89  09:5B:54:0E:80:9A                            Unknown
+  90  09:99:47:DD:26:E4                            Unknown
+  91  09:C7:C0:C0:97:6C                            Unknown
+  92  09:F4:2E:32:84:AC                            Unknown
+  93  0A:3F:25:FC:74:40  TP-LINK_0E5F              Unknown
+  94  0A:58:A5:CB:68:53                            Unknown
+  95  0A:BC:68:0F:98:DC                            Unknown
+  96  0B:02:3A:7A:A0:6C                            WEP (0 IVs)
+  97  0B:57:39:D9:7B:BF                            Unknown
+  98  0B:7C:2E:42:10:46                            WPA (0 handshake)
+  99  0B:8E:87:AF:50:46                            Unknown
+ 100  0C:00:00:00:00:E0  602                       Unknown
+ 101  0C:31:EA:DF:8B:FB                            Unknown
+ 102  0C:4B:54:BA:05:74                            Unknown
+ 103  0C:4B:54:BA:88:43  ZXN                       WPA (0 handshake)
+ 104  0C:70:AB:94:13:0C                            Unknown
+ 105  0C:70:DB:E3:4A:23                            Unknown
+ 106  0C:72:BD:11:A1:87                            Unknown
+ 107  0C:74:60:25:FD:A5                            Unknown
+ 108  0C:7E:0D:92:6E:AF                            Unknown
+ 109  0C:92:B3:65:A9:4D                            Unknown
+ 110  0C:B8:DD:94:E2:CA                            Unknown
+ 111  0C:FD:2D:25:54:8A                            Unknown
+ 112  0D:54:A3:32:21:86                            Unknown
+ 113  0D:9E:91:07:48:74                            WPA (0 handshake)
+ 114  0E:74:62:05:53:BB                            WEP (0 IVs)
+ 115  0E:CC:8E:8C:36:2A                            Unknown
+ 116  0F:33:00:00:00:00                            Unknown
+ 117  0F:3A:AF:40:00:D5                            Unknown
+ 118  0F:3A:AF:40:80:81                            Unknown
+ 119  0F:58:53:C6:BD:4F                            Unknown
+ 120  0F:8C:6D:1B:3A:91                            Unknown
+ 121  0F:9E:2F:3E:45:44                            WPA (0 handshake)
+ 122  10:09:24:06:EE:2F                            Unknown
+ 123  10:19:0D:04:C5:68                            Unknown
+ 124  10:C8:F3:FF:FF:FF  Ø¥x∏?ÇÑãñ???$?????        Unknown
+ 125  10:D9:66:28:FF:FA                            WEP (0 IVs)
+ 126  10:F9:A0:D0:2C:18                            Unknown
+ 127  10:FF:FF:FF:FF:FF  ›?                        Unknown
+ 128  11:24:2F:84:0F:1D                            WEP (0 IVs)
+ 129  11:32:B6:1D:A3:01                            Unknown
+ 130  11:6C:26:52:6F:2A                            Unknown
+ 131  11:F3:E8:D7:AF:1F  ????                      Unknown
+ 132  12:26:BF:1E:EF:E4                            Unknown
+ 133  12:2E:CB:BD:C6:C3                            Unknown
+ 134  12:5D:9B:A2:CF:28                            Unknown
+ 135  12:C7:13:F5:36:9E                            WEP (0 IVs)
+ 136  13:0C:A4:0A:65:61                            Unknown
+ 137  13:24:4F:24:5A:53                            Unknown
+ 138  13:56:3F:A6:27:B5                            Unknown
+ 139  13:93:F7:EE:40:A2                            Unknown
+ 140  13:9F:94:7E:ED:C2                            Unknown
+ 141  14:56:23:9C:F1:8C                            Unknown
+ 142  14:AB:91:42:77:26                            Unknown
+ 143  14:C6:97:AA:E2:33                            Unknown
+ 144  15:08:A0:0D:38:F2                            Unknown
+ 145  15:98:5C:30:5A:25                            WPA (0 handshake)
+ 146  15:A8:01:00:00:00  ??¨??                     Unknown
+ 147  15:C1:28:F6:57:FB                            Unknown
+ 148  16:00:5E:D5:D8:51                            WEP (0 IVs)
+ 149  16:0B:2F:3E:45:89                            WPA (0 handshake)
+ 150  16:64:23:14:66:F6                            Unknown
+ 151  16:7F:2D:F1:36:22  TP-LINK_0E5F              Unknown
+ 152  16:D1:93:12:F5:E5                            Unknown
+ 153  17:07:17:EE:B5:5F                            Unknown
+ 154  17:25:E5:A2:14:83  ?                         Unknown
+ 155  17:82:2A:35:38:BB                            Unknown
+ 156  18:00:00:00:00:00  duhﬂ                      Unknown
+ 157  18:00:96:FC:50:1F                            Unknown
+ 158  18:02:2D:14:DC:70                            Unknown
+ 159  18:02:2D:A7:DD:70  CU_k8bR                   Unknown
+ 160  18:05:E8:C2:58:83                            Unknown
+ 161  18:19:EF:5A:30:64  ?                         Unknown
+ 162  18:1B:56:A6:FA:87                            Unknown
+ 163  18:6A:16:16:D1:A8  203                       Unknown
+ 164  18:91:8F:1B:D1:A8                            Unknown
+ 165  18:AA:D2:B6:E5:2C                            Unknown
+ 166  18:BF:8C:1B:11:C5                            Unknown
+ 167  18:BF:8C:7B:92:D1  ????                      Unknown
+ 168  18:D9:0F:F8:FF:FF                            Unknown
+ 169  18:D9:17:16:D1:A9  @≤E‚Ü≥)9TBÊlZ·8?üm       Unknown
+ 170  18:D9:83:91:BD:B3                            Unknown
+ 171  18:D9:8F:1B:31:E9  ∂˘1[¡=?°??gÁ*É4           Unknown
+ 172  18:D9:8F:1B:60:C5                            Unknown
+ 173  18:D9:8F:1B:81:FC                            Unknown
+ 174  18:D9:8F:1B:89:4A                            Unknown
+ 175  18:D9:8F:1B:D1:30  203                       Unknown
+ 176  18:D9:8F:1B:D1:65                            Unknown
+ 177  18:D9:8F:1B:D1:A8  203                       WPA (0 handshake)
+ 178  18:D9:8F:1B:D1:A9  ?                         Unknown
+ 179  18:D9:8F:1B:D1:AD  F?A1ZD¬¸X›X?3DÜîÃ???W÷ÄüfûÿÛH5?˛  Unknown
+ 180  18:D9:8F:23:FF:FF                            Unknown
+ 181  18:D9:8F:9B:5D:F0  203                       Unknown
+ 182  18:D9:8F:9B:E2:FF                            Unknown
+ 183  18:DB:B7:8F:0A:23                            Unknown
+ 184  19:05:0B:09:AE:E9                            WEP (0 IVs)
+ 185  19:0D:62:C6:68:89                            Unknown
+ 186  19:33:2F:3E:45:46                            WPA (0 handshake)
+ 187  19:F5:52:D1:83:EC                            Unknown
+ 188  1A:52:29:32:46:3B                            WEP (0 IVs)
+ 189  1A:5D:1F:46:60:4E                            Unknown
+ 190  1A:FB:78:42:89:39                            Unknown
+ 191  1B:00:5E:7F:FF:FA                            WPA (0 handshake)
+ 192  1B:D4:E6:5B:9B:F0                            Unknown
+ 193  1B:D5:BC:21:82:AD                            Unknown
+ 194  1C:2A:CA:81:92:8C                            Unknown
+ 195  1C:76:B6:A7:BD:45  Ziroom601                 Unknown
+ 196  1C:88:95:6C:E0:EE                            WPA (0 handshake)
+ 197  1C:F3:11:E2:96:62                            Unknown
+ 198  1D:C6:C0:A0:A1:6C                            WPA (0 handshake)
+ 199  1D:E7:83:0A:1F:58                            Unknown
+ 200  1E:2E:3B:F0:F1:77                            Unknown
+ 201  1E:6B:62:94:32:AD                            Unknown
+ 202  1E:AE:0E:8A:B7:11                            Unknown
+ 203  1F:00:A0:4A:DB:57                            Unknown
+ 204  1F:42:E9:38:D4:2E                            Unknown
+ 205  1F:79:DC:EE:19:7F                            WEP (0 IVs)
+ 206  1F:AB:12:E4:88:43                            Unknown
+ 207  1F:BB:21:56:EC:2D                            Unknown
+ 208  20:67:F2:72:FC:34                            Unknown
+ 209  20:7B:D4:52:F5:98                            Unknown
+ 210  20:7D:48:F3:FF:FF                            Unknown
+ 211  20:BC:86:A2:42:0B                            Unknown
+ 212  21:0E:22:3D:07:87                            Unknown
+ 213  21:36:6A:BF:93:9B                            WEP (0 IVs)
+ 214  21:42:74:31:9D:C2                            Unknown
+ 215  21:6F:BE:7B:EA:F9                            Unknown
+ 216  21:AF:3D:9F:B7:6C                            WEP (0 IVs)
+ 217  21:B1:1A:EB:7E:AC                            Unknown
+ 218  22:3D:69:07:B2:5D                            Unknown
+ 219  22:58:90:BD:5A:EF                            Unknown
+ 220  22:6F:16:3F:2B:29                            WPA (0 handshake)
+ 221  22:91:48:24:12:89                            Unknown
+ 222  23:28:6A:89:32:C6                            Unknown
+ 223  23:37:2B:E0:BD:1F                            Unknown
+ 224  23:40:00:00:80:FF                            Unknown
+ 225  23:7C:2E:A7:2B:47                            WPA (0 handshake)
+ 226  23:7D:2E:3E:45:DF                            WEP (0 IVs)
+ 227  23:D1:1A:8F:64:E2                            Unknown
+ 228  23:F2:2E:D4:34:23                            Unknown
+ 229  24:69:A0:70:B3:E9                            Unknown
+ 230  24:7D:2E:3E:45:46                            WEP (0 IVs)
+ 231  24:89:28:98:D8:DA                            Unknown
+ 232  24:B2:84:53:84:8C  kongdetian00              Unknown
+ 233  24:BF:16:D8:B2:6F                            WEP (0 IVs)
+ 234  24:E0:3D:A9:4F:7A                            Unknown
+ 235  24:E2:8E:F3:E9:DA                            Unknown
+ 236  24:FC:C0:A0:A1:6C                            Unknown
+ 237  24:FD:FF:FF:FF:FF  ¨?                        Unknown
+ 238  25:0D:8D:1E:DC:D9                            WEP (0 IVs)
+ 239  25:6C:DE:DB:D2:D7                            Unknown
+ 240  25:F2:C2:11:D4:B8                            Unknown
+ 241  25:FE:FF:FF:FF:FF                            Unknown
+ 242  26:3D:9E:3F:5B:E0                            Unknown
+ 243  26:4B:FD:CC:41:86                            WPA (0 handshake)
+ 244  26:53:BC:8D:48:90                            Unknown
+ 245  26:B3:76:48:D7:F0                            Unknown
+ 246  26:BC:FF:02:02:00                            Unknown
+ 247  26:C0:1A:EC:7D:C5                            Unknown
+ 248  26:D0:D0:C8:98:0A                            Unknown
+ 249  26:EC:89:38:E2:DB                            Unknown
+ 250  27:78:83:F0:BD:85                            Unknown
+ 251  28:D1:21:9F:C9:FF                            Unknown
+ 252  28:D1:27:57:4F:10  ¨??                       WPA (0 handshake)
+ 253  29:79:75:A8:65:4A                            WEP (0 IVs)
+ 254  2A:01:7B:13:23:CA                            Unknown
+ 255  2A:74:26:94:3C:37                            Unknown
+ 256  2A:89:BC:57:1B:81  CU_k8bR                   Unknown
+ 257  2A:9F:7B:F2:66:75                            Unknown
+ 258  2A:AE:BA:28:D4:A2                            Unknown
+ 259  2A:C8:FF:FF:FF:FF                            Unknown
+ 260  2A:D3:33:B3:8B:6F                            Unknown
+ 261  2A:ED:01:4E:D6:26                            WPA (0 handshake)
+ 262  2A:F5:F4:1A:55:5F                            Unknown
+ 263  2B:0B:87:52:6B:50                            Unknown
+ 264  2B:13:5C:6F:CC:D7                            Unknown
+ 265  2B:6D:5D:10:48:25                            WEP (0 IVs)
+ 266  2C:AF:C5:67:87:46                            Unknown
+ 267  2C:F6:87:E1:B2:8E                            Unknown
+ 268  2D:1B:67:5B:19:29                            Unknown
+ 269  2D:40:9C:8F:29:87                            Unknown
+ 270  2D:4B:99:D5:4F:F3                            WEP (0 IVs)
+ 271  2D:ED:B8:C1:FB:14                            Unknown
+ 272  2D:FF:EA:49:81:E0                            Unknown
+ 273  2E:1D:AE:94:04:03                            Unknown
+ 274  2E:78:BF:B8:01:3C                            Unknown
+ 275  2E:C1:F6:EE:2B:90                            Unknown
+ 276  2F:33:1C:86:DA:39                            Unknown
+ 277  2F:61:3E:FD:F4:CA                            Unknown
+ 278  2F:9D:DB:53:24:C8                            Unknown
+ 279  30:B9:F3:A4:95:C4                            Unknown
+ 280  30:FC:68:DA:5F:75  TP-103                    Unknown
+ 281  31:5F:31:73:73:77                            Unknown
+ 282  31:65:7B:0E:52:EF                            WEP (0 IVs)
+ 283  31:7C:2E:3E:45:46                            WEP (0 IVs)
+ 284  32:32:F3:C6:EF:2C                            Unknown
+ 285  32:6E:2E:3E:45:46                            WEP (0 IVs)
+ 286  32:C5:DB:10:09:59                            Unknown
+ 287  32:DA:A8:8C:B7:11                            Unknown
+ 288  33:4B:E2:B6:2C:49  <?                        Unknown
+ 289  33:58:35:CF:BB:E4                            Unknown
+ 290  33:74:4E:46:45:46                            WPA (0 handshake)
+ 291  33:81:7A:DC:FB:69                            Unknown
+ 292  33:E5:93:72:B6:47                            Unknown
+ 293  34:47:FD:39:40:E8                            Unknown
+ 294  34:4B:18:81:C6:C0                            Unknown
+ 295  34:56:F0:FF:FF:FF                            Unknown
+ 296  34:76:E2:FF:FF:FF                            Unknown
+ 297  34:76:FA:FF:FF:FF                            Unknown
+ 298  34:95:72:53:15:37                            Unknown
+ 299  34:96:72:22:13:F6                            Unknown
+ 300  34:96:72:22:5C:C9                            Unknown
+ 301  34:96:72:22:88:FF                            Unknown
+ 302  34:96:72:22:C3:F3                            Unknown
+ 303  34:96:72:22:DF:62                            WPA (0 handshake)
+ 304  34:96:72:22:DF:F0  AAAAA                     WPA (0 handshake)
+ 305  34:96:72:6E:42:FE                            Unknown
+ 306  34:96:72:D1:FF:FF                            Unknown
+ 307  34:96:72:E2:28:6E                            Unknown
+ 308  34:96:72:F8:FF:FF                            Unknown
+ 309  34:96:74:5B:A1:E0                            Unknown
+ 310  34:96:B6:01:00:00  AAAAA                     Unknown
+ 311  34:96:F3:71:B7:FF                            Unknown
+ 312  35:1B:AB:88:9F:37                            Unknown
+ 313  36:00:00:40:64:34                            Unknown
+ 314  36:5A:93:B1:47:7B                            Unknown
+ 315  36:7C:C4:9F:34:55                            Unknown
+ 316  36:7D:74:6E:44:46                            Unknown
+ 317  36:EC:92:19:0E:71                            Unknown
+ 318  37:03:5D:12:2A:6F  ?~!˛Gs*|_ùUåæƒÃ3±?        Unknown
+ 319  37:2C:D6:1E:B4:E6                            Unknown
+ 320  37:33:16:CF:BB:A8                            Unknown
+ 321  37:50:0A:C6:CE:47                            WEP (0 IVs)
+ 322  37:7F:E7:4C:CE:B1                            Unknown
+ 323  37:8B:AF:23:65:97                            Unknown
+ 324  38:00:44:46:1B:95                            Unknown
+ 325  38:29:62:69:C1:3E  ?                         Unknown
+ 326  38:31:3C:29:54:8A                            Unknown
+ 327  38:32:AC:A6:29:97                            Unknown
+ 328  38:47:0C:D1:01:00  yiyidwl                   Unknown
+ 329  38:47:40:00:00:00  ¨??                       Unknown
+ 330  38:47:4C:58:3E:90  yiyidwl                   Unknown
+ 331  38:47:BC:E3:10:FD                            Unknown
+ 332  38:47:BC:E3:38:51                            Unknown
+ 333  38:47:BC:E3:38:61                            Unknown
+ 334  38:47:BC:E3:38:90  ?                         Unknown
+ 335  38:47:BC:E3:38:91  ??                        Unknown
+ 336  38:47:BC:E3:38:95  ¨??                       Unknown
+ 337  38:47:BC:E3:58:18                            Unknown
+ 338  38:47:DC:19:F1:FF                            Unknown
+ 339  38:BF:2E:55:18:F8                            WPA (0 handshake)
+ 340  38:CB:8F:9A:F1:94                            WEP (0 IVs)
+ 341  39:51:CA:D8:9C:DC                            Unknown
+ 342  39:93:CB:D1:02:89                            Unknown
+ 343  3A:1C:2A:35:56:C6                            Unknown
+ 344  3A:9A:8B:EA:93:81                            Unknown
+ 345  3A:BB:62:1A:3B:57                            Unknown
+ 346  3B:51:82:73:94:FF                            Unknown
+ 347  3B:6E:2E:3E:45:46                            WPA (0 handshake)
+ 348  3B:B0:17:E8:39:D7                            Unknown
+ 349  3B:B2:A1:53:51:94                            Unknown
+ 350  3B:B7:74:F8:5C:D6                            Unknown
+ 351  3C:31:6B:A3:DB:97                            Unknown
+ 352  3C:65:A2:A2:A1:6C                            Unknown
+ 353  3C:68:E0:B4:50:25                            Unknown
+ 354  3C:6C:02:28:38:41                            Unknown
+ 355  3C:6E:76:EE:46:ED                            Unknown
+ 356  3C:AA:F4:CB:BD:F7                            WPA (0 handshake)
+ 357  3C:CD:92:71:A7:49                            WEP (0 IVs)
+ 358  3C:E5:94:76:5A:CE                            Unknown
+ 359  3D:CF:FF:FF:FF:FF                            Unknown
+ 360  3E:83:3C:1A:24:5D                            Unknown
+ 361  3F:03:0F:14:42:81                            Unknown
+ 362  3F:A3:7D:64:74:B8                            Unknown
+ 363  3F:D5:5A:7F:69:70                            WPA (0 handshake)
+ 364  3F:E8:BC:02:01:28                            Unknown
+ 365  40:00:07:50:3D:4B                            Unknown
+ 366  40:00:22:4E:A4:0F                            WPA (0 handshake)
+ 367  40:1B:70:E4:01:02                            WEP (0 IVs)
+ 368  40:29:DC:CA:26:92                            Unknown
+ 369  40:31:3C:19:BA:A3                            WPA (0 handshake)
+ 370  40:31:3C:29:54:4A                            Unknown
+ 371  40:31:3C:29:54:8A  Xiaomi _301               WPA (0 handshake)
+ 372  40:31:3C:29:54:EC  @                         Unknown
+ 373  40:31:3C:29:A0:FD                            Unknown
+ 374  40:31:3C:65:54:8A                            Unknown
+ 375  40:64:22:A5:F0:12  TP-LINK_0E5F              Unknown
+ 376  40:64:C6:12:76:9F                            Unknown
+ 377  40:64:C7:A4:14:DC                            Unknown
+ 378  40:66:94:99:C5:4A                            Unknown
+ 379  40:A4:C1:A0:A1:BC                            WPA (0 handshake)
+ 380  40:B0:76:48:D7:F0  xp                        WPA (0 handshake)
+ 381  40:B1:FD:FF:FF:FF                            Unknown
+ 382  40:B2:43:5A:A0:30                            WEP (0 IVs)
+ 383  40:F1:E8:B5:1E:35                            Unknown
+ 384  41:7D:21:66:88:62                            WEP (0 IVs)
+ 385  41:AA:71:AF:FC:FF                            Unknown
+ 386  41:CB:06:D3:96:05                            WPA (0 handshake)
+ 387  42:6C:27:E5:9E:F3                            Unknown
+ 388  42:6C:D8:47:F9:DB                            Unknown
+ 389  42:74:09:57:09:D2                            Unknown
+ 390  42:A0:ED:9C:95:26                            Unknown
+ 391  42:D7:02:39:D8:E9                            Unknown
+ 392  42:F9:FF:FF:FF:FF  ˇˇˇˇˇ?Bª?âÌ?Bª?âÌ?Ä›EËr?-  Unknown
+ 393  43:20:E8:33:D6:47                            Unknown
+ 394  43:80:A1:BD:5C:31                            Unknown
+ 395  43:B2:7B:15:EC:95                            Unknown
+ 396  43:BB:D0:19:95:80                            Unknown
+ 397  43:DB:5C:F9:F3:C6                            Unknown
+ 398  43:F0:DE:3E:E8:3D                            Unknown
+ 399  44:61:A4:0F:11:2B                            WPA (0 handshake)
+ 400  44:B6:B3:3C:12:65                            WPA (0 handshake)
+ 401  44:BA:FE:09:AD:1B                            Unknown
+ 402  44:F6:28:18:E3:3A                            Unknown
+ 403  45:05:7C:02:F0:F0                            Unknown
+ 404  45:57:49:29:F2:34                            Unknown
+ 405  45:7D:2E:3E:45:46  TP-LINK_4546              Unknown
+ 406  46:88:6E:6B:18:D4                            Unknown
+ 407  46:B2:26:1D:5F:1D                            Unknown
+ 408  47:20:C1:5A:70:EA                            Unknown
+ 409  47:44:B2:DA:F6:3F                            WPA (0 handshake)
+ 410  47:82:B9:76:36:3E                            Unknown
+ 411  47:D7:B7:F9:D6:DA                            Unknown
+ 412  47:E3:C1:2B:01:06                            WEP (0 IVs)
+ 413  47:E5:A3:F4:28:3D  ??                        Unknown
+ 414  48:00:8B:15:71:47                            WEP (0 IVs)
+ 415  48:0C:2D:2A:45:46                            WPA (0 handshake)
+ 416  48:0C:B2:53:45:46                            WPA (0 handshake)
+ 417  48:2C:5B:2B:2F:65                            WPA (0 handshake)
+ 418  48:30:7F:63:FD:65  ?Å                        Unknown
+ 419  48:36:CE:26:44:46                            WPA (0 handshake)
+ 420  48:3A:54:51:44:E7                            WPA (0 handshake)
+ 421  48:3F:E9:9E:E6:71                            Unknown
+ 422  48:44:1A:16:78:47                            WPA (0 handshake)
+ 423  48:46:CD:83:B0:95                            Unknown
+ 424  48:54:A0:3E:45:46                            Unknown
+ 425  48:5D:3C:3E:45:46                            WEP (0 IVs)
+ 426  48:5D:F9:17:74:83                            Unknown
+ 427  48:64:08:3F:45:46                            WPA (0 handshake)
+ 428  48:6C:EB:78:F7:F3                            Unknown
+ 429  48:6F:16:3F:45:46                            WPA (0 handshake)
+ 430  48:7D:00:C4:45:46                            WPA (0 handshake)
+ 431  48:7D:02:B9:C8:89                            WEP (0 IVs)
+ 432  48:7D:0E:2C:45:46                            WPA (0 handshake)
+ 433  48:7D:12:4F:45:46                            WPA (0 handshake)
+ 434  48:7D:1E:25:45:46  ?                         Unknown
+ 435  48:7D:1F:46:44:46                            WPA (0 handshake)
+ 436  48:7D:2C:0F:44:46                            WPA (0 handshake)
+ 437  48:7D:2E:1E:57:46                            WPA (0 handshake)
+ 438  48:7D:2E:3E:28:79                            WPA (0 handshake)
+ 439  48:7D:2E:3E:2B:E7                            WEP (0 IVs)
+ 440  48:7D:2E:3E:34:1A                            WPA (0 handshake)
+ 441  48:7D:2E:3E:45:44                            WPA (0 handshake)
+ 442  48:7D:2E:3E:45:46  TP-LINK_4546              WPA (0 handshake)
+ 443  48:7D:2E:3E:45:4E                            Unknown
+ 444  48:7D:2E:3E:45:57                            WPA (0 handshake)
+ 445  48:7D:2E:3E:45:66                            WPA (0 handshake)
+ 446  48:7D:2E:3E:45:A4                            WPA (0 handshake)
+ 447  48:7D:2E:3E:45:C6                            WEP (0 IVs)
+ 448  48:7D:2E:3E:45:E7                            WPA (0 handshake)
+ 449  48:7D:2E:3E:45:E9                            WPA (0 handshake)
+ 450  48:7D:2E:3E:45:EC                            WEP (0 IVs)
+ 451  48:7D:2E:3E:47:77                            WPA (0 handshake)
+ 452  48:7D:2E:3E:49:64                            WEP (0 IVs)
+ 453  48:7D:2E:3E:57:7E                            WEP (0 IVs)
+ 454  48:7D:2E:3E:63:F0                            WPA (0 handshake)
+ 455  48:7D:2E:3E:75:EE                            Unknown
+ 456  48:7D:2E:3E:9D:CD  TP-LINK_4546              Unknown
+ 457  48:7D:2E:3E:A9:52                            WPA (0 handshake)
+ 458  48:7D:2E:3E:AC:DB                            WEP (0 IVs)
+ 459  48:7D:2E:3E:AD:74                            WEP (0 IVs)
+ 460  48:7D:2E:3E:CD:42                            WPA (0 handshake)
+ 461  48:7D:2E:3E:DF:7A                            WEP (0 IVs)
+ 462  48:7D:2E:3E:E4:CC                            WPA (0 handshake)
+ 463  48:7D:2E:3E:EF:61                            WPA (0 handshake)
+ 464  48:7D:2E:3E:F5:15                            WPA (0 handshake)
+ 465  48:7D:2E:46:36:46                            WPA (0 handshake)
+ 466  48:7D:2E:48:6D:56                            WPA (0 handshake)
+ 467  48:7D:2E:63:D2:46                            WPA (0 handshake)
+ 468  48:7D:2E:6E:D4:1B                            Unknown
+ 469  48:7D:2E:6F:C9:A9                            WPA (0 handshake)
+ 470  48:7D:2E:6F:CB:1B                            WPA (0 handshake)
+ 471  48:7D:2E:7E:1C:FF                            Unknown
+ 472  48:7D:2E:86:5A:46                            WEP (0 IVs)
+ 473  48:7D:2E:88:B2:46                            WPA (0 handshake)
+ 474  48:7D:2E:94:FF:28                            WPA (0 handshake)
+ 475  48:7D:2E:97:30:47                            WPA (0 handshake)
+ 476  48:7D:2E:BE:0D:46                            WPA (0 handshake)
+ 477  48:7D:2E:DE:3B:46                            WEP (0 IVs)
+ 478  48:7D:2E:FE:29:46                            WPA (0 handshake)
+ 479  48:7D:84:19:44:46                            WPA (0 handshake)
+ 480  48:7D:8F:1E:62:47                            WEP (0 IVs)
+ 481  48:7D:AE:E4:FF:FF                            Unknown
+ 482  48:7D:CC:71:44:50                            WPA (0 handshake)
+ 483  48:7D:E0:89:0C:46                            WPA (0 handshake)
+ 484  48:7D:F6:17:45:46                            WPA (0 handshake)
+ 485  48:7D:FC:6A:44:46                            WEP (0 IVs)
+ 486  48:8D:59:3E:45:46                            WPA (0 handshake)
+ 487  48:A3:10:58:3E:72                            WPA (0 handshake)
+ 488  48:BA:E2:CE:44:15                            WPA (0 handshake)
+ 489  48:CC:1E:3F:45:46                            WPA (0 handshake)
+ 490  48:CC:3E:CF:80:D0                            WEP (0 IVs)
+ 491  48:CC:5F:4F:02:11                            Unknown
+ 492  48:D7:85:FF:D3:7E                            Unknown
+ 493  48:D7:8F:56:4F:10                            Unknown
+ 494  48:DF:45:3F:45:46                            WPA (0 handshake)
+ 495  48:E0:66:3F:45:46                            WPA (0 handshake)
+ 496  48:F6:CB:3F:DC:9B                            WPA (0 handshake)
+ 497  48:FD:A6:71:96:44                            WPA (0 handshake)
+ 498  49:1E:AA:86:03:E4                            Unknown
+ 499  49:20:0A:82:51:D4                            Unknown
+ 500  49:35:B6:49:45:46                            WPA (0 handshake)
+ 501  49:4E:40:EE:6C:CA                            WEP (0 IVs)
+ 502  49:7D:00:75:54:36                            WPA (0 handshake)
+ 503  49:7D:0E:2C:45:46                            WEP (0 IVs)
+ 504  49:7D:2E:3E:45:46                            WPA (0 handshake)
+ 505  49:98:1B:D1:1D:D8                            Unknown
+ 506  49:A5:5D:F0:36:D9                            WEP (0 IVs)
+ 507  4A:97:A1:2D:94:53                            WPA (0 handshake)
+ 508  4A:FF:2E:3E:45:46                            WEP (0 IVs)
+ 509  4B:24:40:24:64:11  602                       Unknown
+ 510  4B:24:C8:52:8C:D2  *®?¶$ß                    Unknown
+ 511  4B:31:5C:B7:F6:47                            Unknown
+ 512  4B:46:77:5E:91:F7                            Unknown
+ 513  4B:CD:34:92:A3:70  401??ÇÑãñ???$?????        Unknown
+ 514  4B:ED:08:1B:12:BD                            Unknown
+ 515  4C:15:FF:FF:FF:FF                            Unknown
+ 516  4C:18:7B:A6:A1:6C                            WEP (0 IVs)
+ 517  4C:25:FF:FF:FF:FF  ˇˇˇˇˇü–ÓFb;É–ÓFb;?.u¶\ F?  Unknown
+ 518  4C:2B:CF:FF:FF:FF                            Unknown
+ 519  4C:6F:16:26:63:47                            WPA (0 handshake)
+ 520  4C:AB:34:FE:FF:FF                            Unknown
+ 521  4C:AB:3C:86:FF:FF                            Unknown
+ 522  4C:AB:6C:F3:FF:FF                            Unknown
+ 523  4C:AB:7C:71:BF:36                            Unknown
+ 524  4C:AB:7C:E9:F8:FF                            Unknown
+ 525  4C:AB:7C:F2:FF:FF  ˇˇˇˇˇ?Bª?âÌ?Bª?âÌ?ÿ˚?¬i?-  Unknown
+ 526  4C:AB:87:FF:FF:FF                            Unknown
+ 527  4C:AB:C8:E3:FF:FF                            Unknown
+ 528  4C:AB:C8:F0:F8:FF                            Unknown
+ 529  4C:AB:CC:C5:FF:FF                            Unknown
+ 530  4C:AB:CC:F3:FF:FF                            Unknown
+ 531  4C:AB:DC:F8:FF:FF                            Unknown
+ 532  4C:AB:E3:FF:FF:FF  ?VÇ                       Unknown
+ 533  4C:AB:E7:FF:FF:FF                            Unknown
+ 534  4C:AB:FC:1C:FC:FF                            Unknown
+ 535  4C:AB:FC:50:01:FA  CU_f7ct                   Unknown
+ 536  4C:AB:FC:50:01:FE                            Unknown
+ 537  4C:AB:FC:50:49:FC                            Unknown
+ 538  4C:AB:FC:50:49:FF                            Unknown
+ 539  4C:AB:FC:50:6B:FE                            Unknown
+ 540  4C:AB:FC:50:75:8E                            Unknown
+ 541  4C:AB:FC:50:7A:FF                            Unknown
+ 542  4C:AB:FC:50:81:29                            Unknown
+ 543  4C:AB:FC:50:81:45  CU_f7ct                   Unknown
+ 544  4C:AB:FC:50:81:6D                            Unknown
+ 545  4C:AB:FC:50:81:F5                            Unknown
+ 546  4C:AB:FC:50:B1:C4                            Unknown
+ 547  4C:AB:FC:7A:FF:FF                            Unknown
+ 548  4C:AB:FC:A0:76:FE                            Unknown
+ 549  4C:AB:FC:BA:FF:FF  ˇˇˇˇˇ?Bª?âÌ?Bª?âÌ?ÿZ∞?]?-  Unknown
+ 550  4C:AB:FC:C0:F3:FF                            Unknown
+ 551  4C:AB:FC:D0:FA:FF                            Unknown
+ 552  4C:AB:FC:DC:FC:FF  ˇˇˇˇˇ?Bª?âÌ?Bª?âÌ?PW7S??-  Unknown
+ 553  4C:AB:FC:EA:FF:FF                            Unknown
+ 554  4C:AB:FC:EB:FF:FF                            Unknown
+ 555  4C:AB:FC:FA:FE:FF                            Unknown
+ 556  4C:BC:2F:3E:E5:1C                            WPA (0 handshake)
+ 557  4C:D9:C4:2A:F1:35                            Unknown
+ 558  4C:EB:C3:FF:FF:FF                            Unknown
+ 559  4C:EB:F1:FF:FF:FF                            Unknown
+ 560  4D:20:E2:22:B0:B8                            Unknown
+ 561  4D:5C:01:B5:59:46                            WPA (0 handshake)
+ 562  4D:61:F2:EC:84:EF                            Unknown
+ 563  4D:C9:63:15:CE:D2                            Unknown
+ 564  4E:45:BA:80:16:15                            Unknown
+ 565  4E:4D:10:88:75:B3                            Unknown
+ 566  4E:5F:EA:82:31:93                            Unknown
+ 567  4E:70:00:57:90:FF  ¨??                       Unknown
+ 568  4E:82:B3:0C:52:00                            Unknown
+ 569  4E:92:3B:AB:D7:C0                            Unknown
+ 570  4E:BA:23:10:8A:EE                            Unknown
+ 571  4E:C7:C0:A0:A1:6C                            WPA (0 handshake)
+ 572  4E:D7:E1:03:FA:0E                            WPA (0 handshake)
+ 573  4E:E0:C4:54:44:46                            WPA (0 handshake)
+ 574  4F:4D:39:FD:47:9B                            WPA (0 handshake)
+ 575  4F:93:B8:B1:B6:B0                            WPA (0 handshake)
+ 576  50:01:FE:FF:FF:FF                            Unknown
+ 577  50:21:94:E2:FF:FF                            Unknown
+ 578  50:21:EC:19:D4:78                            Unknown
+ 579  50:21:EC:19:D4:88                            Unknown
+ 580  50:21:EC:19:D4:B8  HUAWEI-ÊàëÊòØÁå™          WPA (0 handshake)
+ 581  50:21:EC:19:D4:B9                            Unknown
+ 582  50:21:EC:19:D4:BD                            Unknown
+ 583  50:21:EC:19:D4:DE  HUAWEI-ÊàëÊò<ˇˇˇ          Unknown
+ 584  50:21:EC:29:CF:B8  HUAWEI≠ˇ‰ëÊòØÁå™          Unknown
+ 585  50:21:EC:AA:D5:BD                            Unknown
+ 586  50:21:F2:FF:FF:FF  %Ä‡%Ä@ÜÄA??¨E√?c„?        Unknown
+ 587  50:2A:FF:FF:FF:FF                            Unknown
+ 588  50:5B:2F:0E:6E:D5                            WPA (0 handshake)
+ 589  50:64:2B:40:09:E8                            WPA (0 handshake)
+ 590  50:77:FE:FF:FF:FF  ˇˇˇˇˇ?Fˆ„Ft*Fˆ„Ft*?·™…ÈF?  Unknown
+ 591  50:9F:FC:A3:D0:7E                            Unknown
+ 592  51:5B:2F:3E:45:46                            WEP (0 IVs)
+ 593  51:BB:DC:14:B8:51                            Unknown
+ 594  51:EC:68:45:38:17                            Unknown
+ 595  52:26:35:A0:3D:4C                            Unknown
+ 596  52:2C:23:88:FD:6C                            Unknown
+ 597  52:4D:F4:06:8D:15                            Unknown
+ 598  52:5B:3C:D0:91:73                            Unknown
+ 599  52:61:08:F1:E9:93                            Unknown
+ 600  52:64:2B:40:09:E8  ??                        Unknown
+ 601  52:7D:EE:62:12:20                            WEP (0 IVs)
+ 602  52:C2:9F:22:5A:25                            WEP (0 IVs)
+ 603  53:10:BB:F1:F3:1B                            WPA (0 handshake)
+ 604  53:21:55:4F:45:57                            Unknown
+ 605  53:5D:C6:FA:96:21  ¨??                       Unknown
+ 606  53:7D:2E:3E:45:46                            WPA (0 handshake)
+ 607  53:7D:2E:3E:45:6F                            WPA (0 handshake)
+ 608  53:7D:2E:3E:45:A4                            WPA (0 handshake)
+ 609  53:B1:28:3E:45:46  TP-LINK_4546              Unknown
+ 610  53:CC:E7:6C:5A:A9                            Unknown
+ 611  53:D5:66:1E:69:B4                            WEP (0 IVs)
+ 612  54:15:B7:6C:86:BD                            Unknown
+ 613  54:83:2A:F1:44:9E                            Unknown
+ 614  54:A7:03:10:54:46  TP-LINK_5446              Unknown
+ 615  54:A7:03:5E:FE:FF                            Unknown
+ 616  54:B3:61:20:42:F4                            Unknown
+ 617  54:D2:07:25:B4:9E                            WEP (0 IVs)
+ 618  55:16:AC:AC:81:55                            Unknown
+ 619  55:22:CF:5E:B0:8E                            Unknown
+ 620  55:31:3C:29:54:8A                            Unknown
+ 621  55:D7:F7:F7:E8:73                            WEP (0 IVs)
+ 622  56:17:9E:69:32:04                            WPA (0 handshake)
+ 623  56:3A:7C:BA:4E:A0  Ziroom60˝                 Unknown
+ 624  56:C2:6F:F0:E1:61                            Unknown
+ 625  56:F2:70:66:0D:C8                            WEP (0 IVs)
+ 626  57:22:37:80:79:B4                            Unknown
+ 627  57:7D:2E:3E:45:46                            WPA (0 handshake)
+ 628  57:BB:61:5F:16:BC                            Unknown
+ 629  58:04:04:6C:08:30                            Unknown
+ 630  58:17:13:3B:5C:46                            WEP (0 IVs)
+ 631  58:46:9F:06:6D:AF                            WEP (0 IVs)
+ 632  58:8C:14:75:CE:8A                            Unknown
+ 633  58:9C:54:B1:27:9D                            WPA (0 handshake)
+ 634  59:64:B3:91:10:85                            Unknown
+ 635  59:6C:27:E5:9E:F3                            Unknown
+ 636  5A:14:84:86:5A:46                            Unknown
+ 637  5A:22:C1:5C:97:C0  ¨??                       Unknown
+ 638  5A:2C:E3:05:BB:52                            WPA (0 handshake)
+ 639  5A:42:D3:53:34:E0                            Unknown
+ 640  5A:7D:2E:3E:45:6F                            WPA (0 handshake)
+ 641  5A:EB:9E:09:1A:C6                            Unknown
+ 642  5B:84:AD:E3:92:65                            Unknown
+ 643  5B:D2:25:3E:A2:86                            Unknown
+ 644  5B:F5:91:3F:9F:28                            Unknown
+ 645  5C:0C:0F:37:C1:13                            Unknown
+ 646  5C:78:78:07:64:80  «ˇˇˇˇˇˇˇˇˇˇˇˇˇˇÉŒ+?¿.∞???  Unknown
+ 647  5C:78:F8:1C:80:01                            Unknown
+ 648  5C:78:F8:22:51:00                            Unknown
+ 649  5C:78:F8:DC:B2:FE                            Unknown
+ 650  5C:78:F8:DC:EC:00  sjmmin                    Unknown
+ 651  5C:78:F8:DC:EC:01  ¡                         Unknown
+ 652  5C:78:F8:DC:EC:05  ??                        Unknown
+ 653  5C:78:F8:DC:EC:80                            Unknown
+ 654  5C:78:F8:DC:EC:B5                            Unknown
+ 655  5C:78:F8:EC:F7:4D                            Unknown
+ 656  5C:96:A0:02:8F:DB                            Unknown
+ 657  5C:E0:F5:DC:EC:01                            Unknown
+ 658  5D:AE:9D:BE:EB:9A                            Unknown
+ 659  5D:AF:C8:EF:83:62                            Unknown
+ 660  5E:0F:AA:B0:37:39                            Unknown
+ 661  5E:68:AF:78:7B:4D                            Unknown
+ 662  5E:81:00:75:A1:9F                            Unknown
+ 663  5E:97:35:D7:1D:D8  101                       Unknown
+ 664  5E:B9:CD:80:B9:7C                            WPA (0 handshake)
+ 665  5E:D4:73:D8:00:77                            Unknown
+ 666  5F:17:41:5E:7C:6E                            Unknown
+ 667  5F:25:A3:F2:83:1A  CU_f7ct                   Unknown
+ 668  5F:2A:CF:54:6F:03                            Unknown
+ 669  5F:73:0E:BB:BA:7E                            Unknown
+ 670  5F:78:C6:06:FE:A0                            Unknown
+ 671  60:1B:5D:09:8F:09                            Unknown
+ 672  60:39:48:14:5F:F6                            Unknown
+ 673  60:3A:7C:3A:97:A0  Ziroom601                 Unknown
+ 674  60:3A:7C:BA:4E:20  Ziroom601                 Unknown
+ 675  60:3A:7C:BA:4E:A0  Ziroom601                 WPA (0 handshake)
+ 676  60:65:3E:29:DE:44                            Unknown
+ 677  60:72:81:56:64:77                            Unknown
+ 678  60:FC:34:63:73:B8                            Unknown
+ 679  60:FF:FF:FF:FF:FF                            Unknown
+ 680  61:EC:52:B5:F7:AC                            Unknown
+ 681  62:20:5D:88:DD:0E                            Unknown
+ 682  62:44:0C:12:13:11                            Unknown
+ 683  62:4E:9D:54:54:0F                            Unknown
+ 684  62:77:38:B6:D7:3A                            Unknown
+ 685  62:7F:DC:26:B3:38                            Unknown
+ 686  62:9D:1A:25:65:F2                            WEP (0 IVs)
+ 687  62:C8:AE:48:C9:13                            Unknown
+ 688  63:0A:B9:2E:F6:81                            Unknown
+ 689  63:0D:AB:F4:98:B7                            Unknown
+ 690  63:8A:24:24:99:DD                            Unknown
+ 691  63:AC:D0:4C:22:1E                            Unknown
+ 692  64:82:F7:26:22:32  ChinaNet-THa5             Unknown
+ 693  64:9B:AE:A0:05:B3  ????                      Unknown
+ 694  64:BC:8D:48:C8:92                            Unknown
+ 695  64:D5:03:2E:4F:97                            Unknown
+ 696  65:1A:8A:49:B9:A7                            WEP (0 IVs)
+ 697  65:73:AD:67:46:28                            Unknown
+ 698  66:23:DD:B5:E3:48                            WEP (0 IVs)
+ 699  66:73:F0:FB:B9:D7                            Unknown
+ 700  66:AB:BB:EB:6F:52                            Unknown
+ 701  66:C7:8F:12:96:ED                            Unknown
+ 702  66:C7:BF:10:96:ED                            Unknown
+ 703  66:C7:BF:27:16:14                            Unknown
+ 704  66:C7:CF:43:2B:06                            Unknown
+ 705  67:B1:D8:A0:BE:0B                            WPA (0 handshake)
+ 706  68:07:CB:0D:92:B4                            Unknown
+ 707  68:4F:A4:7F:A5:51                            Unknown
+ 708  68:50:02:93:38:93                            Unknown
+ 709  68:FE:FF:FF:FF:FF  ˇˇˇˇˇ?°›çƒv?°›çƒv?P_H¿?≠?  Unknown
+ 710  69:0C:00:3B:39:90  yiyidwl                   Unknown
+ 711  69:3F:BB:5A:E6:FD                            Unknown
+ 712  69:6C:49:00:26:D9                            Unknown
+ 713  69:6F:2E:3E:45:46                            WPA (0 handshake)
+ 714  69:D9:75:DF:7B:3D                            Unknown
+ 715  6A:0D:37:98:59:70                            WPA (0 handshake)
+ 716  6A:79:D2:FC:10:90                            Unknown
+ 717  6A:E4:6B:CB:F5:F2                            Unknown
+ 718  6A:EF:F3:BE:F6:86                            Unknown
+ 719  6B:1A:13:A5:E3:AA                            Unknown
+ 720  6B:33:AB:0A:F5:D4                            Unknown
+ 721  6B:58:0E:B3:D6:7E                            Unknown
+ 722  6B:5C:32:3C:3F:C4                            WPA (0 handshake)
+ 723  6B:5F:20:A0:A1:6C                            WEP (0 IVs)
+ 724  6B:63:C8:D1:E5:20                            Unknown
+ 725  6B:7C:DE:A9:4C:C2                            WEP (0 IVs)
+ 726  6B:96:73:F2:66:FD                            Unknown
+ 727  6B:AC:3D:A4:61:AF                            WEP (0 IVs)
+ 728  6B:C1:C0:A0:A1:6C                            WPA (0 handshake)
+ 729  6C:58:3D:41:62:12                            Unknown
+ 730  6C:5A:13:68:E1:14  Â∞èÁé©ÊÑèÂÑø              Unknown
+ 731  6D:01:5E:7F:FF:4A                            Unknown
+ 732  6D:3A:7C:BA:4E:A0  Ziroom601                 Unknown
+ 733  6D:46:5B:A6:A0:3C                            WPA (0 handshake)
+ 734  6D:D8:A0:8C:5A:3C                            Unknown
+ 735  6E:0C:5C:B8:5E:25                            WEP (0 IVs)
+ 736  6E:27:0D:51:95:B2                            Unknown
+ 737  6E:54:87:AF:83:D9                            Unknown
+ 738  6E:83:AD:79:65:61                            Unknown
+ 739  6E:D4:2C:D1:1D:D9  &?                        Unknown
+ 740  6E:F9:29:3B:0D:D2                            Unknown
+ 741  6F:79:7C:2A:08:DD                            Unknown
+ 742  6F:94:23:3C:A2:D9                            Unknown
+ 743  6F:B1:80:D1:27:F0                            Unknown
+ 744  70:75:E5:8B:0F:2B                            Unknown
+ 745  70:7C:3F:E7:45:86                            WEP (0 IVs)
+ 746  70:EC:5E:ED:76:79                            Unknown
+ 747  70:F8:D4:E1:13:9B                            Unknown
+ 748  71:26:74:58:BE:FA                            Unknown
+ 749  71:28:23:4F:B7:03                            Unknown
+ 750  72:07:88:8B:A0:F6                            WPA (0 handshake)
+ 751  72:15:13:DD:94:B1                            Unknown
+ 752  72:1F:20:5A:F7:CC                            Unknown
+ 753  72:57:82:78:0A:F7                            WPA (0 handshake)
+ 754  72:62:DE:8D:80:0F                            Unknown
+ 755  73:AA:CF:D4:30:EE                            Unknown
+ 756  73:F2:3B:8A:36:A0                            Unknown
+ 757  74:00:00:C0:9A:02                            Unknown
+ 758  74:01:79:4E:6F:D9                            Unknown
+ 759  74:05:A5:75:82:22                            Unknown
+ 760  74:05:A5:75:82:62  î¸ˇ                       Unknown
+ 761  74:05:A5:F1:FE:FF                            Unknown
+ 762  74:5C:23:4E:24:4C                            Unknown
+ 763  76:47:85:6B:C7:3C                            Unknown
+ 764  76:7B:26:23:B9:FF                            WPA (0 handshake)
+ 765  76:BE:F4:E9:39:F7                            WEP (0 IVs)
+ 766  76:EC:23:13:93:A8                            Unknown
+ 767  77:12:2E:61:58:83                            Unknown
+ 768  77:46:81:F4:D7:8B                            Unknown
+ 769  77:5E:4B:69:54:CA                            WEP (0 IVs)
+ 770  77:DE:82:DE:8D:7A                            Unknown
+ 771  77:E5:BB:5A:E6:FD                            Unknown
+ 772  78:07:00:00:44:A0                            WEP (0 IVs)
+ 773  78:18:EF:93:45:46                            Unknown
+ 774  78:2E:78:BF:B8:81                            WPA (0 handshake)
+ 775  78:43:9A:1F:26:F8                            Unknown
+ 776  78:66:1E:25:45:46                            WEP (0 IVs)
+ 777  78:A9:5E:B0:84:D6                            Unknown
+ 778  78:B8:89:29:DE:46                            Unknown
+ 779  78:ED:CB:3F:45:46                            WPA (0 handshake)
+ 780  78:EF:8F:1B:D1:A9                            Unknown
+ 781  79:75:58:5D:39:CA                            Unknown
+ 782  79:97:7A:19:5F:4A                            Unknown
+ 783  79:B0:80:71:42:B3                            Unknown
+ 784  79:DF:99:9F:A1:6C                            WEP (0 IVs)
+ 785  7A:23:21:9A:F6:B2                            Unknown
+ 786  7A:23:3A:38:41:33                            Unknown
+ 787  7A:53:F6:B9:B0:BA                            Unknown
+ 788  7A:DB:02:49:1E:1C                            WPA (0 handshake)
+ 789  7B:48:5E:E6:22:FA                            Unknown
+ 790  7B:49:C8:4C:D7:B5                            WPA (0 handshake)
+ 791  7B:51:FF:02:76:AA                            Unknown
+ 792  7B:61:FD:92:BE:78                            Unknown
+ 793  7B:90:52:B3:85:B6                            Unknown
+ 794  7B:D3:65:9C:9C:1C                            Unknown
+ 795  7B:FD:B9:A6:44:3F                            Unknown
+ 796  7C:32:DE:46:24:B2  203                       Unknown
+ 797  7C:58:AA:83:43:46  TP-LINK_4546              Unknown
+ 798  7C:9C:28:76:54:25                            Unknown
+ 799  7C:C2:C3:C0:7A:49                            Unknown
+ 800  7D:15:08:22:91:9B                            Unknown
+ 801  7D:1D:63:DD:0E:9A                            Unknown
+ 802  7D:2F:68:A6:B2:F5                            Unknown
+ 803  7D:83:9B:62:D0:88                            Unknown
+ 804  7E:5F:4D:A0:A1:6C                            WPA (0 handshake)
+ 805  7E:8E:87:B8:8A:99                            WEP (0 IVs)
+ 806  7F:54:FD:F9:74:3E                            Unknown
+ 807  7F:75:B3:A8:48:9C                            WPA (0 handshake)
+ 808  7F:FF:C4:D9:0A:1E                            Unknown
+ 809  80:00:00:00:FF:FF                            Unknown
+ 810  80:49:E3:CB:8F:AF                            Unknown
+ 811  80:76:00:00:C0:4C                            Unknown
+ 812  80:80:2A:97:0B:3D                            Unknown
+ 813  80:99:94:10:8A:78                            Unknown
+ 814  80:C8:68:93:29:B8  Ú??J                      Unknown
+ 815  80:C8:8E:49:29:B8                            WEP (0 IVs)
+ 816  80:C8:E2:37:28:DE                            Unknown
+ 817  81:1D:94:49:A7:8A                            Unknown
+ 818  81:44:F1:74:A1:7D                            Unknown
+ 819  81:5F:FF:75:0F:A2                            Unknown
+ 820  81:B2:54:48:3A:FF                            Unknown
+ 821  81:B5:AF:A8:0F:DC                            Unknown
+ 822  81:BC:B4:4C:30:5F                            WEP (0 IVs)
+ 823  82:5C:65:3A:7F:A1                            Unknown
+ 824  82:5D:94:79:FF:F8                            WEP (0 IVs)
+ 825  82:63:10:63:E1:14  Â∞èÁé©ÊÑèÂÑø              Unknown
+ 826  82:C8:67:1F:63:84                            WEP (0 IVs)
+ 827  83:30:55:35:93:27                            Unknown
+ 828  83:43:6E:96:6F:07                            Unknown
+ 829  83:CE:2B:00:40:25                            Unknown
+ 830  83:DE:46:72:0D:E0                            Unknown
+ 831  84:08:37:74:AF:A3                            Unknown
+ 832  84:0C:6C:F4:7F:AB                            Unknown
+ 833  84:22:E1:DF:3B:06                            Unknown
+ 834  84:74:2E:3E:45:46                            Unknown
+ 835  84:76:37:12:36:00  ?                         Unknown
+ 836  84:76:37:12:DB:18  Happy                     Unknown
+ 837  84:76:37:12:DB:19                            Unknown
+ 838  84:76:37:12:DB:1D  ?Ä                        Unknown
+ 839  84:76:F7:78:03:00                            Unknown
+ 840  84:7B:2E:3E:C5:2E                            WPA (0 handshake)
+ 841  84:7D:2E:3E:45:46                            WPA (0 handshake)
+ 842  84:7F:3B:92:FE:1E                            Unknown
+ 843  84:82:7F:BB:6D:83                            Unknown
+ 844  84:C5:C0:A0:A1:6C                            WPA (0 handshake)
+ 845  84:CA:AD:3E:45:46                            WPA (0 handshake)
+ 846  84:EE:FA:7E:AB:05  ?Õ¬?                      Unknown
+ 847  84:FB:40:28:14:5F                            Unknown
+ 848  85:6E:44:82:B9:84  ?                         Unknown
+ 849  85:76:FB:8E:6C:C1  ?Ä                        Unknown
+ 850  85:7B:2E:3C:D6:2C                            WEP (0 IVs)
+ 851  85:CA:1D:8A:2F:8F                            Unknown
+ 852  85:D6:31:54:5D:F9                            Unknown
+ 853  86:0E:B2:97:F3:3B                            Unknown
+ 854  86:CB:E5:45:88:A2                            Unknown
+ 855  86:F9:2E:3E:45:46                            WPA (0 handshake)
+ 856  87:CB:E2:F9:15:39  DJ                        Unknown
+ 857  88:11:2E:3E:45:E7                            WPA (0 handshake)
+ 858  88:12:B2:BB:47:40                            WPA (0 handshake)
+ 859  88:25:93:22:F2:BA  TP-LINK_F2BA              Unknown
+ 860  88:25:AF:09:79:0F                            Unknown
+ 861  88:38:8F:74:91:16                            Unknown
+ 862  88:3B:7C:7E:E7:CF                            Unknown
+ 863  88:4B:12:33:8D:0F                            Unknown
+ 864  88:85:D2:BB:A3:77                            Unknown
+ 865  89:04:3D:EF:22:BA                            Unknown
+ 866  89:09:07:2B:D8:EC                            Unknown
+ 867  89:C1:57:3A:B3:3F                            Unknown
+ 868  89:D3:42:39:CE:48                            WEP (0 IVs)
+ 869  89:E2:EC:F4:F0:F2                            Unknown
+ 870  8A:1E:F1:31:95:1E                            Unknown
+ 871  8A:63:C8:2B:70:4E                            Unknown
+ 872  8A:CD:68:6B:D1:C3                            Unknown
+ 873  8A:FD:47:7D:C2:94                            Unknown
+ 874  8B:46:98:4E:6A:7D                            Unknown
+ 875  8B:46:BC:E3:38:91                            Unknown
+ 876  8B:4A:C1:EF:F2:70                            WEP (0 IVs)
+ 877  8B:C5:04:7A:0A:2B                            Unknown
+ 878  8B:EC:6A:47:AC:3E                            Unknown
+ 879  8C:34:13:5B:75:78                            Unknown
+ 880  8C:AB:8E:9D:44:28  ‰∏≠ÂõΩËÅîÈÄö              Unknown
+ 881  8C:AB:8E:9D:44:A8                            Unknown
+ 882  8C:AB:FC:FF:FF:FF                            Unknown
+ 883  8C:B4:61:0B:2D:B9                            Unknown
+ 884  8C:C6:27:BA:C8:CB                            WPA (0 handshake)
+ 885  8C:F4:A3:79:32:C4                            Unknown
+ 886  8C:F7:86:D9:FC:4B                            Unknown
+ 887  8C:FB:45:22:81:1D                            Unknown
+ 888  8D:14:30:6B:D8:67                            Unknown
+ 889  8D:70:01:A0:0B:08                            Unknown
+ 890  8D:92:D4:37:87:C2                            Unknown
+ 891  8D:BE:0C:E6:61:BF                            WPA (0 handshake)
+ 892  8D:CF:6E:0F:09:D6                            WPA (0 handshake)
+ 893  8D:F1:58:53:86:87                            WPA (0 handshake)
+ 894  8D:F6:DB:F4:87:B8                            WPA (0 handshake)
+ 895  8E:41:8C:37:B8:63                            Unknown
+ 896  8E:CB:DF:31:B8:5A                            Unknown
+ 897  8F:27:68:DF:6A:BD                            Unknown
+ 898  8F:81:53:95:E4:A8  203                       Unknown
+ 899  8F:A1:F1:66:ED:F8                            Unknown
+ 900  8F:EB:FF:3D:40:1A                            Unknown
+ 901  8F:EE:FA:43:81:B1                            Unknown
+ 902  90:12:34:D7:0B:00  101                       Unknown
+ 903  90:12:34:D7:1D:30                            Unknown
+ 904  90:12:34:D7:1D:BF                            Unknown
+ 905  90:12:34:D7:1D:D8  101                       WPA (0 handshake)
+ 906  90:12:34:D7:1D:D9  ,?«?                      Unknown
+ 907  90:12:34:D7:7D:89                            Unknown
+ 908  90:12:34:D7:7D:EF                            Unknown
+ 909  90:12:34:D7:E2:06                            Unknown
+ 910  90:12:34:D7:E4:FF                            Unknown
+ 911  90:42:83:95:CF:08                            WEP (0 IVs)
+ 912  90:48:71:C3:08:F1  ˙62                       Unknown
+ 913  90:7D:8E:64:45:0E                            WEP (0 IVs)
+ 914  90:8E:03:1F:7B:27                            Unknown
+ 915  90:CD:10:4E:75:19                            Unknown
+ 916  90:E1:4F:AD:E8:C5                            Unknown
+ 917  90:FA:FF:FF:FF:FF                            Unknown
+ 918  91:5F:DF:4D:32:CF                            Unknown
+ 919  91:89:94:C2:38:ED                            Unknown
+ 920  91:8A:D9:4F:D1:57                            Unknown
+ 921  91:9A:FB:F6:90:95                            Unknown
+ 922  91:EB:E8:F8:7E:51                            Unknown
+ 923  92:60:A3:32:47:3A                            Unknown
+ 924  92:A2:39:C3:82:33                            Unknown
+ 925  92:AC:54:6D:4E:31                            WPA (0 handshake)
+ 926  92:C3:AB:22:DF:F0                            Unknown
+ 927  93:78:C1:59:E7:01                            Unknown
+ 928  93:B6:04:BA:B9:C0  602                       Unknown
+ 929  94:30:DE:22:BB:64                            WEP (0 IVs)
+ 930  94:55:2F:3E:45:46                            WEP (0 IVs)
+ 931  94:7D:2C:3E:87:0A                            WPA (0 handshake)
+ 932  94:8A:0C:E7:A0:6C                            WPA (0 handshake)
+ 933  94:B9:11:FB:34:E1                            WEP (0 IVs)
+ 934  94:E7:EB:DC:C6:76                            Unknown
+ 935  94:F5:AB:B1:AF:88                            WEP (0 IVs)
+ 936  94:F8:C9:EF:7C:8C                            Unknown
+ 937  95:28:1A:08:8A:D1                            WPA (0 handshake)
+ 938  95:85:E3:1B:F5:A0                            Unknown
+ 939  96:82:36:2E:8F:0A                            WEP (0 IVs)
+ 940  96:B9:27:97:93:2B                            WPA (0 handshake)
+ 941  97:45:C4:09:F9:F0                            Unknown
+ 942  97:74:A9:EE:06:72                            Unknown
+ 943  97:80:48:50:2F:CD                            WPA (0 handshake)
+ 944  98:42:B2:FD:26:A8                            Unknown
+ 945  98:6E:B5:73:C9:35                            Unknown
+ 946  98:94:42:37:44:42                            Unknown
+ 947  98:C2:C0:A0:A1:6C                            WPA (0 handshake)
+ 948  99:31:C2:49:42:0E                            Unknown
+ 949  99:3E:58:92:4E:8D                            Unknown
+ 950  99:77:83:12:3C:2E                            Unknown
+ 951  99:80:7F:87:94:F7                            Unknown
+ 952  99:F0:C3:F4:AD:33  ??                        Unknown
+ 953  9A:B8:1C:90:78:9B                            Unknown
+ 954  9A:EB:39:53:CD:29                            Unknown
+ 955  9B:81:73:6D:C5:76                            Unknown
+ 956  9B:AC:AD:07:50:0C  ∑?                        Unknown
+ 957  9B:C5:CF:58:49:BA                            Unknown
+ 958  9C:1F:4F:7F:ED:AB                            Unknown
+ 959  9C:49:65:32:7B:0E                            WPA (0 handshake)
+ 960  9C:54:70:06:43:4E                            WPA (0 handshake)
+ 961  9D:05:F4:20:D7:E3                            Unknown
+ 962  9D:7C:2E:3E:45:46                            WPA (0 handshake)
+ 963  9D:F3:83:B8:B3:2B                            Unknown
+ 964  9E:11:79:47:CA:6E                            Unknown
+ 965  9E:4B:61:CE:32:25                            WEP (0 IVs)
+ 966  9E:8A:CE:9C:69:1D                            WPA (0 handshake)
+ 967  9E:A9:B4:BE:DD:30                            Unknown
+ 968  9E:B8:B8:92:40:8A                            Unknown
+ 969  9E:C4:95:7D:30:37                            Unknown
+ 970  9E:FC:B0:BB:5B:4F                            WEP (0 IVs)
+ 971  9F:71:C1:A0:A1:6C                            WPA (0 handshake)
+ 972  9F:73:94:ED:1B:38                            Unknown
+ 973  9F:7E:AE:65:94:08                            Unknown
+ 974  9F:AB:4C:D7:8B:5C                            WPA (0 handshake)
+ 975  A0:0D:8F:1B:D1:A9                            Unknown
+ 976  A0:2E:F4:73:42:01                            Unknown
+ 977  A0:38:8F:90:48:24                            Unknown
+ 978  A0:48:C5:BA:EB:D2                            WEP (0 IVs)
+ 979  A0:6D:0D:5D:7D:EE                            Unknown
+ 980  A0:6F:8F:35:D4:A1                            Unknown
+ 981  A0:F3:AB:DA:A3:03                            WPA (0 handshake)
+ 982  A1:14:2D:7A:1B:9A                            Unknown
+ 983  A1:3C:A6:19:A3:A8                            Unknown
+ 984  A2:1D:A7:29:04:87                            Unknown
+ 985  A2:36:9C:5D:0D:1F                            Unknown
+ 986  A2:83:55:D6:FA:47                            Unknown
+ 987  A2:C4:7E:4D:A2:3A                            Unknown
+ 988  A2:C7:06:82:8C:EB                            Unknown
+ 989  A2:C7:C0:A0:A1:6C  FAST_A0A16C               Unknown
+ 990  A2:FC:C1:65:D1:7E                            Unknown
+ 991  A3:15:7B:6C:24:B2  AAAAA                     Unknown
+ 992  A3:26:14:2E:EE:7B                            WEP (0 IVs)
+ 993  A3:F0:AB:7E:59:87                            Unknown
+ 994  A4:22:47:FE:B0:1E                            Unknown
+ 995  A4:56:02:2C:9A:11  360WiFi-2C9A11            WPA (0 handshake)
+ 996  A4:56:02:49:21:EC                            WPA (0 handshake)
+ 997  A4:56:02:49:83:87  Ä??                       WPA (0 handshake)
+ 998  A4:56:02:93:03:00  dudu                      Unknown
+ 999  A4:56:02:93:38:93  dudu                      WPA (0 handshake)
+1000  A4:56:02:93:A0:9E  dudu                      Unknown
+1001  A4:56:02:93:F0:FB                            Unknown
+1002  A4:56:02:AC:BD:17                            Unknown
+1003  A4:56:02:F5:3B:93  dudu                      Unknown
+1004  A4:56:9A:9E:4B:32  du◊t                      Unknown
+1005  A4:56:B1:92:38:93  dud¬                      Unknown
+1006  A4:56:CE:4F:83:87                            WPA (0 handshake)
+1007  A4:56:EA:FF:FF:FF  ?–B??P?PÉ’Y9àûp6=—?       Unknown
+1008  A4:56:F6:00:00:00                            Unknown
+1009  A4:6C:06:6C:BA:11                            Unknown
+1010  A4:9A:04:93:38:93  dudu                      Unknown
+1011  A4:C5:C0:CB:A4:96                            Unknown
+1012  A4:D6:5B:88:57:E9                            Unknown
+1013  A4:E5:03:93:38:93  du??                      Unknown
+1014  A4:FE:4D:60:21:CD                            Unknown
+1015  A5:69:2E:3E:F5:F4                            WPA (0 handshake)
+1016  A5:74:CB:6B:42:89                            Unknown
+1017  A5:B6:C2:73:86:4A                            Unknown
+1018  A5:E4:FF:FF:07:9D                            Unknown
+1019  A6:02:9D:66:C4:9A                            Unknown
+1020  A6:0D:00:00:00:00  a0??                      Unknown
+1021  A6:5B:E8:55:D2:9E                            Unknown
+1022  A6:6A:03:84:23:28                            WPA (0 handshake)
+1023  A6:99:24:03:8A:D7                            Unknown
+1024  A6:DF:27:0A:E6:29                            Unknown
+1025  A6:E0:28:0F:5E:46  TP-LINK_4546              Unknown
+1026  A7:02:94:EC:84:6C                            WEP (0 IVs)
+1027  A7:40:4A:05:42:18  ¨??                       Unknown
+1028  A7:4A:BF:C9:49:77                            Unknown
+1029  A7:B7:0C:35:F3:7E                            Unknown
+1030  A8:03:2E:3E:45:46                            WPA (0 handshake)
+1031  A8:0C:63:16:4C:1C  HUAWEI-4WL9EG             Unknown
+1032  A8:0C:63:16:4C:1D  ¨?                        Unknown
+1033  A8:0C:63:16:4C:21  ¿l                        Unknown
+1034  A8:0C:63:16:AC:71  ≥≤?                       Unknown
+1035  A8:0C:63:3E:F9:FF                            Unknown
+1036  A8:0C:63:A5:4D:1C  HUAWEI-4WL9EG             Unknown
+1037  A8:0C:63:DA:4A:1C                            Unknown
+1038  A8:0C:D0:17:4C:1C  HUAWEI-4WL9EG             Unknown
+1039  A8:3C:08:CD:FC:1C                            Unknown
+1040  A8:77:D9:C3:BE:6A                            Unknown
+1041  A8:8E:24:90:82:0F                            Unknown
+1042  A8:B1:57:03:B5:C3                            Unknown
+1043  A8:C0:F7:55:A9:69                            WEP (0 IVs)
+1044  A8:E4:CF:93:70:4C                            WEP (0 IVs)
+1045  A9:06:D7:30:5A:25                            Unknown
+1046  A9:28:36:C0:6E:44                            Unknown
+1047  A9:B4:36:2E:4F:B6                            WPA (0 handshake)
+1048  AA:11:30:0B:FF:FF                            Unknown
+1049  AA:D1:2B:0F:3A:AF                            Unknown
+1050  AA:D8:6B:01:D0:67                            Unknown
+1051  AB:05:49:28:48:96                            WEP (0 IVs)
+1052  AB:25:9B:16:01:01  X??                       Unknown
+1053  AB:79:6C:19:11:92  ??                        Unknown
+1054  AB:BE:10:B1:54:C9                            Unknown
+1055  AC:6B:D6:73:77:74                            WEP (0 IVs)
+1056  AC:8A:E2:28:BC:C6                            Unknown
+1057  AC:A8:78:50:61:BD                            Unknown
+1058  AC:BC:A5:BA:4E:A0                            Unknown
+1059  AD:3C:38:C0:94:53                            WEP (0 IVs)
+1060  AD:90:08:08:45:F0                            Unknown
+1061  AE:21:4B:6A:85:80                            Unknown
+1062  AE:94:10:B1:E5:FA                            Unknown
+1063  AF:1D:33:1E:D0:30  yiyidwl                   Unknown
+1064  AF:2B:F0:10:46:26                            Unknown
+1065  AF:4B:00:91:30:02                            Unknown
+1066  AF:76:FE:FF:FF:FF                            Unknown
+1067  AF:FF:6E:5C:AA:10                            Unknown
+1068  B0:0D:8D:47:C7:3E                            Unknown
+1069  B0:19:33:23:F8:82                            WPA (0 handshake)
+1070  B0:4D:2F:3E:54:2E                            Unknown
+1071  B0:91:0E:FB:09:D2                            WEP (0 IVs)
+1072  B0:95:8E:A3:2C:C7  TP-LINK_2CC7              Unknown
+1073  B0:95:8E:A3:EC:FF                            Unknown
+1074  B0:E1:7E:54:18:F8  HUAWEI DB                 WPA (0 handshake)
+1075  B0:E1:7E:54:18:F9                            Unknown
+1076  B0:E1:7E:54:99:E6                            Unknown
+1077  B1:8D:AB:99:0F:F5                            Unknown
+1078  B1:9B:36:91:3B:C1                            Unknown
+1079  B1:D7:85:AD:4B:07                            Unknown
+1080  B2:13:D5:70:65:B4                            WEP (0 IVs)
+1081  B2:14:92:B8:84:CF                            Unknown
+1082  B2:1D:3A:81:EA:9E                            Unknown
+1083  B2:59:C0:E0:FF:42                            Unknown
+1084  B2:89:90:1F:1A:A0                            Unknown
+1085  B2:CA:E8:AF:50:F4                            Unknown
+1086  B3:37:4B:C8:B9:FE  U∂˜Ò\3??ÇÑãéxGV€∑„Ü‰?„-   Unknown
+1087  B3:5B:8E:89:6E:A8                            Unknown
+1088  B3:C6:A0:65:C0:4F                            Unknown
+1089  B3:CD:63:6C:44:28                            WPA (0 handshake)
+1090  B4:68:3D:8E:DA:2F                            Unknown
+1091  B4:86:92:13:65:81                            Unknown
+1092  B4:EE:06:51:B7:34                            WPA (0 handshake)
+1093  B4:F3:E6:B3:3F:F2                            Unknown
+1094  B4:FC:FF:FF:FF:FF   ??.                      Unknown
+1095  B5:02:6C:1F:20:00                            Unknown
+1096  B5:0A:27:BD:93:EE                            Unknown
+1097  B5:6C:D8:DA:3E:C3                            Unknown
+1098  B5:75:1B:2E:4F:F0                            WEP (0 IVs)
+1099  B5:8E:A4:09:C6:54                            Unknown
+1100  B5:BB:D6:AA:E2:3B                            Unknown
+1101  B5:E4:21:D7:F6:A0                            Unknown
+1102  B6:1F:1D:D1:5C:B9                            Unknown
+1103  B6:5D:9B:DF:19:A2                            Unknown
+1104  B6:95:56:95:5A:0C  ¨?                        Unknown
+1105  B7:7C:F6:C5:DB:0D                            WPA (0 handshake)
+1106  B7:92:48:69:2F:A4                            Unknown
+1107  B7:B8:16:47:80:E8                            Unknown
+1108  B8:79:87:A7:1A:08                            WEP (0 IVs)
+1109  B8:7D:2E:3E:45:46                            Unknown
+1110  B9:3D:1E:A6:5C:A3                            WPA (0 handshake)
+1111  B9:5E:6C:84:6B:5B                            Unknown
+1112  B9:79:B5:B1:57:B1                            Unknown
+1113  B9:D1:9B:83:63:16                            Unknown
+1114  BA:56:4A:A9:13:7D                            WEP (0 IVs)
+1115  BA:91:25:68:E6:01                            Unknown
+1116  BA:91:5E:42:D8:0B                            Unknown
+1117  BA:A4:73:40:5D:B6                            WPA (0 handshake)
+1118  BA:B4:36:2E:4F:B6                            WEP (0 IVs)
+1119  BA:B4:36:47:56:B7                            Unknown
+1120  BB:04:91:E1:9C:F5                            WEP (0 IVs)
+1121  BB:23:B7:77:EE:7B                            WPA (0 handshake)
+1122  BB:30:27:D9:E4:1A                            Unknown
+1123  BB:30:48:DB:D7:B9                            Unknown
+1124  BB:8B:99:EE:CE:40                            Unknown
+1125  BB:94:93:DE:CB:B8                            WEP (0 IVs)
+1126  BC:E6:FF:FF:FF:FF  Åı??                      Unknown
+1127  BC:F0:FF:FF:FF:FF                            Unknown
+1128  BD:03:CF:5D:91:C6                            WEP (0 IVs)
+1129  BD:07:79:49:5A:B4                            Unknown
+1130  BD:62:08:4E:8C:6A                            Unknown
+1131  BD:65:26:EC:03:0E                            WPA (0 handshake)
+1132  BD:FD:16:1E:CA:20                            Unknown
+1133  BE:36:1A:B9:1E:A5                            Unknown
+1134  BE:7F:61:19:83:1E                            Unknown
+1135  BE:C4:36:C5:21:2F                            WPA (0 handshake)
+1136  BE:C7:B0:91:18:57                            Unknown
+1137  BF:7D:20:75:22:48                            WEP (0 IVs)
+1138  BF:C8:52:C1:CE:80                            Unknown
+1139  C0:08:24:3C:F7:8E                            Unknown
+1140  C0:23:C1:35:71:63                            Unknown
+1141  C0:33:3D:13:FB:A6                            Unknown
+1142  C0:33:95:68:93:19  @??                       Unknown
+1143  C0:56:AE:76:09:A4                            WEP (0 IVs)
+1144  C0:56:FE:06:12:25                            Unknown
+1145  C0:6B:16:3F:45:46                            WPA (0 handshake)
+1146  C0:79:2E:32:FD:45                            Unknown
+1147  C0:99:50:3E:45:E7                            WPA (0 handshake)
+1148  C0:AC:6C:00:00:00                            Unknown
+1149  C0:C7:C0:A0:A1:1C                            Unknown
+1150  C0:D9:19:AB:D0:B4                            WEP (0 IVs)
+1151  C0:E4:FF:FF:FF:FF  ?fº£ 3;ÿ^4Ö?              Unknown
+1152  C0:F2:7F:91:95:48                            Unknown
+1153  C1:2D:22:21:87:27                            Unknown
+1154  C1:77:E4:81:9F:08                            WPA (0 handshake)
+1155  C1:7D:1A:23:C2:65                            Unknown
+1156  C1:92:17:B1:31:03                            Unknown
+1157  C2:2A:B5:8A:EE:7F                            Unknown
+1158  C2:4E:8F:C7:EC:2D                            Unknown
+1159  C2:7D:C0:19:C6:A4                            WPA (0 handshake)
+1160  C2:98:5C:30:5A:E5                            Unknown
+1161  C2:BF:4A:93:D0:71                            Unknown
+1162  C2:D4:DF:38:23:C5                            Unknown
+1163  C3:98:A5:0B:44:46                            WPA (0 handshake)
+1164  C3:B1:28:3E:45:46                            WPA (0 handshake)
+1165  C3:EC:EB:FB:E5:0C                            Unknown
+1166  C4:14:21:90:7E:89                            Unknown
+1167  C4:21:16:1B:DC:F3                            Unknown
+1168  C4:6A:E1:B7:32:2E  Â∞èÁé©ÊÑèÂÑø              Unknown
+1169  C4:98:0D:7E:5B:25                            WPA (0 handshake)
+1170  C4:98:5C:30:B8:D9                            WEP (0 IVs)
+1171  C4:98:65:DD:01:84                            WPA (0 handshake)
+1172  C4:9A:12:A3:DC:D9                            Unknown
+1173  C4:9B:28:A4:F2:31                            WEP (0 IVs)
+1174  C4:9C:54:07:B1:1A                            Unknown
+1175  C4:E6:BB:C9:CA:AB                            WPA (0 handshake)
+1176  C4:F7:90:60:7D:36                            WEP (0 IVs)
+1177  C5:20:8E:E4:5B:CA                            Unknown
+1178  C5:4B:AB:63:5B:78                            WPA (0 handshake)
+1179  C5:56:1A:32:DE:5B                            WPA (0 handshake)
+1180  C5:64:2A:87:60:67                            WEP (0 IVs)
+1181  C5:98:6C:2B:5A:25                            WPA (0 handshake)
+1182  C5:B5:99:2C:31:C6                            Unknown
+1183  C5:CB:54:5E:0E:5F  TP-LINK_0E5F              Unknown
+1184  C5:CF:59:F4:65:9B                            WPA (0 handshake)
+1185  C5:E0:2F:30:5A:25                            Unknown
+1186  C6:44:0D:54:50:3D                            Unknown
+1187  C6:7D:2E:3E:45:6F                            WEP (0 IVs)
+1188  C6:DB:88:84:2C:49                            Unknown
+1189  C7:3E:D4:01:76:EF                            Unknown
+1190  C7:C9:97:63:38:F8                            Unknown
+1191  C7:E0:EA:B3:09:D2                            Unknown
+1192  C8:35:2E:3E:45:46                            WPA (0 handshake)
+1193  C8:35:2E:3E:85:8A                            WEP (0 IVs)
+1194  C8:52:5E:7F:FF:57                            WEP (0 IVs)
+1195  C8:67:43:E3:80:3D                            Unknown
+1196  C8:68:A3:32:DE:46                            Unknown
+1197  C8:80:1A:3A:00:C9                            Unknown
+1198  C8:82:4E:86:80:65                            WEP (0 IVs)
+1199  C8:CB:02:44:C0:2C                            Unknown
+1200  C8:E2:BD:1F:89:D5                            Unknown
+1201  C8:E6:E9:9E:E6:6C  704                       Unknown
+1202  C9:0A:25:11:F8:5A                            Unknown
+1203  C9:27:B0:22:12:0E                            Unknown
+1204  C9:5D:13:68:E1:14  Â∞èÁé©ÊÑèÂÑø              Unknown
+1205  C9:AC:FA:87:BE:D5                            Unknown
+1206  C9:FF:FF:FF:FF:FF                            Unknown
+1207  CA:A3:3F:89:88:CA                            Unknown
+1208  CA:B7:2E:3E:45:46                            WPA (0 handshake)
+1209  CA:F0:1F:B6:71:92                            Unknown
+1210  CB:14:C4:18:F7:93                            Unknown
+1211  CB:16:20:22:F1:B5                            WEP (0 IVs)
+1212  CB:50:D8:91:63:27                            Unknown
+1213  CC:08:3B:3C:8E:86                            Unknown
+1214  CC:08:FB:50:0E:5F  TP-LINK_0E5F              WPA (0 handshake)
+1215  CC:08:FB:50:FE:28  Ú??                       Unknown
+1216  CC:08:FB:7D:8B:10                            Unknown
+1217  CC:08:FB:7D:AF:6F                            Unknown
+1218  CC:08:FB:7D:AF:A3  TP-LINK_AFA3              WPA (0 handshake)
+1219  CC:08:FB:BD:FC:FF                            Unknown
+1220  CC:09:33:B2:E3:40                            WPA (0 handshake)
+1221  CC:37:99:16:07:1B                            Unknown
+1222  CC:4F:41:51:97:9A                            Unknown
+1223  CC:86:2F:5A:0F:99                            WEP (0 IVs)
+1224  CC:AC:FF:FF:FF:FF  ?VÇ                       Unknown
+1225  CC:B8:00:30:2C:AE                            WEP (0 IVs)
+1226  CC:C7:C0:F0:1D:DC                            WEP (0 IVs)
+1227  CC:CC:FF:FF:FF:FF                            Unknown
+1228  CC:EC:86:EC:9E:FD                            Unknown
+1229  CD:16:23:EB:FF:D0                            WPA (0 handshake)
+1230  CD:35:AD:86:5E:ED                            WEP (0 IVs)
+1231  CE:1B:ED:A1:71:D7                            WPA (0 handshake)
+1232  CE:6C:DF:07:76:1B                            Unknown
+1233  CF:56:B7:BB:B8:FD                            Unknown
+1234  CF:6E:F4:D2:C2:7F                            Unknown
+1235  CF:B8:8F:14:31:9E  203                       Unknown
+1236  CF:C7:0C:B1:FB:4F                            WEP (0 IVs)
+1237  D0:07:3C:8E:FA:4F                            WEP (0 IVs)
+1238  D0:07:FF:FF:FF:FF                            Unknown
+1239  D0:2F:87:A2:A1:6C                            WPA (0 handshake)
+1240  D0:32:D0:A0:D1:E0                            WPA (0 handshake)
+1241  D0:34:FF:FF:FF:FF  ¨??                       Unknown
+1242  D0:37:E4:FD:A0:6C                            WPA (0 handshake)
+1243  D0:39:CE:A0:A1:6C                            WPA (0 handshake)
+1244  D0:46:F0:16:D9:6D                            Unknown
+1245  D0:52:A5:6B:A7:01                            WPA (0 handshake)
+1246  D0:5A:BD:CF:D1:DB                            Unknown
+1247  D0:5C:38:98:D7:74                            Unknown
+1248  D0:5D:20:9D:3F:DE                            WEP (0 IVs)
+1249  D0:5F:1F:55:25:55                            WPA (0 handshake)
+1250  D0:63:D1:9F:A2:EE                            WEP (0 IVs)
+1251  D0:6A:51:99:D3:48                            WEP (0 IVs)
+1252  D0:76:E7:A3:D0:4E                            Unknown
+1253  D0:76:E7:A3:D0:7E  xue                       WPA (0 handshake)
+1254  D0:76:E7:A3:D0:E6                            Unknown
+1255  D0:88:DC:A0:11:8C                            WPA (0 handshake)
+1256  D0:92:F1:6D:2A:27                            Unknown
+1257  D0:9D:F3:EA:7D:1F                            WEP (0 IVs)
+1258  D0:AD:93:42:1B:CE  ¨R?                       Unknown
+1259  D0:B7:4C:A1:A1:6C                            WPA (0 handshake)
+1260  D0:C5:EB:FE:FF:FF                            Unknown
+1261  D0:C7:0C:99:A1:6C                            Unknown
+1262  D0:C7:12:FF:FF:FF                            Unknown
+1263  D0:C7:30:FE:FF:FF                            Unknown
+1264  D0:C7:40:6A:47:FD                            WPA (0 handshake)
+1265  D0:C7:80:84:A1:6C                            Unknown
+1266  D0:C7:92:FE:FF:FF                            Unknown
+1267  D0:C7:B0:FF:FF:FF                            Unknown
+1268  D0:C7:C0:20:7F:99                            WEP (0 IVs)
+1269  D0:C7:C0:50:FE:FF                            Unknown
+1270  D0:C7:C0:62:9F:FF                            Unknown
+1271  D0:C7:C0:A0:0C:7D                            WEP (0 IVs)
+1272  D0:C7:C0:A0:61:90                            WPA (0 handshake)
+1273  D0:C7:C0:A0:71:D7                            WEP (0 IVs)
+1274  D0:C7:C0:A0:91:8B                            WPA (0 handshake)
+1275  D0:C7:C0:A0:A1:1C                            WEP (0 IVs)
+1276  D0:C7:C0:A0:A1:2C                            WPA (0 handshake)
+1277  D0:C7:C0:A0:A1:46                            WPA (0 handshake)
+1278  D0:C7:C0:A0:A1:5C                            WEP (0 IVs)
+1279  D0:C7:C0:A0:A1:6C  FAST_A0A16C               WPA (0 handshake)
+1280  D0:C7:C0:A0:A1:7F                            WPA (0 handshake)
+1281  D0:C7:C0:A0:A1:83                            WPA (0 handshake)
+1282  D0:C7:C0:A0:A1:DC                            Unknown
+1283  D0:C7:C0:A0:A1:E4                            Unknown
+1284  D0:C7:C0:A0:A1:F3                            Unknown
+1285  D0:C7:C0:A0:A1:F4                            WPA (0 handshake)
+1286  D0:C7:C0:A0:A1:FC                            WPA (0 handshake)
+1287  D0:C7:C0:A0:A3:7F                            WPA (0 handshake)
+1288  D0:C7:C0:A0:E1:66                            WEP (0 IVs)
+1289  D0:C7:C0:B0:8A:6D                            WPA (0 handshake)
+1290  D0:C7:C0:C6:8A:FF                            Unknown
+1291  D0:C7:C0:DF:00:91  ¨??                       Unknown
+1292  D0:C7:C0:E4:A3:6C                            Unknown
+1293  D0:C7:C0:F0:AE:6F                            WPA (0 handshake)
+1294  D0:C7:C9:AD:A1:6C                            WPA (0 handshake)
+1295  D0:C7:D5:F3:A0:6C                            WPA (0 handshake)
+1296  D0:C7:DA:B5:A1:6C                            WPA (0 handshake)
+1297  D0:C7:F0:4F:A3:6C                            Unknown
+1298  D0:D2:0C:A9:A1:6C                            Unknown
+1299  D0:D6:E6:65:FB:8C                            Unknown
+1300  D0:EF:FA:28:7C:35                            WEP (0 IVs)
+1301  D0:F5:BD:D3:7C:41                            Unknown
+1302  D1:00:C9:43:E2:CC                            Unknown
+1303  D1:27:FD:52:B1:52                            Unknown
+1304  D1:37:1F:14:D0:A1                            Unknown
+1305  D1:46:65:8C:69:EE  ≥Ô0Wi¬ˇˇˇˇˇˇ              Unknown
+1306  D1:7A:2C:0F:44:46                            WPA (0 handshake)
+1307  D1:8F:20:83:09:5F                            Unknown
+1308  D1:C7:C0:A0:A1:6C                            WPA (0 handshake)
+1309  D1:CD:C0:A0:EE:70                            WPA (0 handshake)
+1310  D1:D7:EB:A1:A1:6C                            WPA (0 handshake)
+1311  D3:3B:7C:BA:4E:A0  Ziroom˙61                 Unknown
+1312  D3:89:2D:22:AB:27                            WEP (0 IVs)
+1313  D3:91:2F:3E:45:46                            WPA (0 handshake)
+1314  D4:34:69:01:41:CE                            Unknown
+1315  D4:57:C3:7A:9A:56                            Unknown
+1316  D4:85:A7:90:62:47                            WEP (0 IVs)
+1317  D6:0E:6A:02:50:67                            WPA (0 handshake)
+1318  D6:40:39:A6:BD:7B                            Unknown
+1319  D7:12:09:10:09:59                            Unknown
+1320  D7:5C:70:13:E6:64                            WEP (0 IVs)
+1321  D7:D4:7F:4A:A8:4C                            WPA (0 handshake)
+1322  D7:DD:C5:AF:BB:1B                            Unknown
+1323  D8:12:3C:03:16:1F                            Unknown
+1324  D8:23:11:2D:7B:A5                            Unknown
+1325  D8:9C:1A:12:4F:29                            WEP (0 IVs)
+1326  D8:B0:4C:C9:02:30                            Unknown
+1327  D8:B0:4C:C9:02:B0                            Unknown
+1328  D8:C7:C0:A0:A1:6C                            WPA (0 handshake)
+1329  D9:03:8A:50:AE:B1                            Unknown
+1330  D9:1D:E9:A1:57:DB                            Unknown
+1331  D9:AA:9B:11:60:B2                            Unknown
+1332  D9:C7:C0:A0:51:29                            WPA (0 handshake)
+1333  D9:DF:FD:4F:17:9E                            WPA (0 handshake)
+1334  DA:00:AA:94:D3:9A                            WPA (0 handshake)
+1335  DA:05:DB:7F:AB:A0                            Unknown
+1336  DA:64:C6:68:11:09                            Unknown
+1337  DA:6C:D6:78:D2:EF                            WEP (0 IVs)
+1338  DB:2A:6F:2B:51:46                            Unknown
+1339  DB:95:04:41:92:84                            Unknown
+1340  DB:9F:E7:FF:FF:FF  ¨?                        Unknown
+1341  DB:B7:39:A7:6A:21                            Unknown
+1342  DB:B8:CA:C5:29:EC                            Unknown
+1343  DC:06:07:00:00:84                            Unknown
+1344  DC:12:34:D7:1D:42                            WEP (0 IVs)
+1345  DC:59:0D:68:67:86                            Unknown
+1346  DC:B9:1B:EF:EB:5F                            Unknown
+1347  DC:FE:18:32:84:AC  501                       Unknown
+1348  DC:FE:78:22:20:B9  501                       Unknown
+1349  DC:FE:93:21:B4:A1  501                       Unknown
+1350  DD:08:1E:00:A2:57                            Unknown
+1351  DD:08:D0:89:4F:94                            Unknown
+1352  DD:1D:D6:1F:0A:6F                            WEP (0 IVs)
+1353  DD:56:1C:13:DE:DD                            Unknown
+1354  DD:96:65:13:FA:43                            Unknown
+1355  DD:AA:61:63:04:ED                            Unknown
+1356  DD:C7:C0:A0:A1:6C                            WPA (0 handshake)
+1357  DE:30:F1:3B:85:64                            Unknown
+1358  DE:63:47:6A:B7:D1                            Unknown
+1359  DE:6E:6E:4D:30:61                            Unknown
+1360  DE:A3:E0:FD:E3:6D                            Unknown
+1361  DE:C7:C0:A0:A1:6C                            WPA (0 handshake)
+1362  DE:ED:1B:E8:A3:6C                            WPA (0 handshake)
+1363  DF:2F:5A:ED:27:A7                            Unknown
+1364  DF:7E:02:8E:5E:BD                            Unknown
+1365  DF:91:01:30:5A:8F                            Unknown
+1366  DF:95:27:9E:4D:69                            Unknown
+1367  DF:F5:09:2A:42:60                            Unknown
+1368  E0:38:3F:53:A0:E6  CU_GVGe                   Unknown
+1369  E0:38:DF:9A:8F:B9                            Unknown
+1370  E0:5F:15:D0:20:50                            Unknown
+1371  E0:78:0B:76:69:0C                            WPA (0 handshake)
+1372  E0:A9:47:30:5A:25                            WPA (0 handshake)
+1373  E0:CF:F8:57:AB:9B                            Unknown
+1374  E0:D3:01:7D:F8:12                            Unknown
+1375  E0:D6:58:A0:A1:6C                            WEP (0 IVs)
+1376  E0:E0:C2:3E:D3:E0                            Unknown
+1377  E0:E5:9C:D4:2D:D1                            Unknown
+1378  E0:F0:06:88:62:64                            Unknown
+1379  E0:F6:FF:FF:FF:FF  ¿z??                      Unknown
+1380  E1:40:95:C0:2E:5F                            Unknown
+1381  E1:DA:33:62:9B:7D                            Unknown
+1382  E2:04:45:9C:0A:85                            Unknown
+1383  E2:28:4A:79:49:BB                            Unknown
+1384  E2:70:04:F7:F3:FF                            WEP (0 IVs)
+1385  E2:9B:5D:41:69:84                            Unknown
+1386  E2:BB:44:4E:51:0C                            Unknown
+1387  E3:1D:3A:84:F0:7D                            WEP (0 IVs)
+1388  E3:37:3B:81:0E:51                            WEP (0 IVs)
+1389  E3:5B:78:60:A8:DE                            Unknown
+1390  E3:87:01:F7:CF:AB                            Unknown
+1391  E4:02:58:FE:B0:FB                            WPA (0 handshake)
+1392  E4:3F:BB:5A:E6:FC                            Unknown
+1393  E4:7D:2E:3E:45:2E                            WPA (0 handshake)
+1394  E4:80:3E:B6:27:72                            Unknown
+1395  E4:8A:5E:B2:58:8F                            WEP (0 IVs)
+1396  E4:8A:BE:C7:44:E9                            WPA (0 handshake)
+1397  E4:A0:49:B8:40:F9                            Unknown
+1398  E4:B5:26:C3:89:FB                            WEP (0 IVs)
+1399  E5:02:86:9B:AF:FE                            Unknown
+1400  E5:84:97:30:A3:6B                            WPA (0 handshake)
+1401  E5:F8:E8:1C:8A:F5  Â∞èÁé©ÊÑèÂÑø              Unknown
+1402  E6:33:18:DB:CD:7C                            Unknown
+1403  E6:65:90:72:1B:CE                            WEP (0 IVs)
+1404  E6:77:19:72:28:EC                            Unknown
+1405  E6:A5:3A:1B:DF:96                            WEP (0 IVs)
+1406  E6:CD:24:7A:00:58                            Unknown
+1407  E6:E8:07:2C:12:58                            Unknown
+1408  E6:FF:FF:FF:FF:FF                            Unknown
+1409  E7:15:88:3E:96:53                            Unknown
+1410  E7:17:5E:7F:FF:87                            WEP (0 IVs)
+1411  E7:25:55:DE:4D:B6                            WPA (0 handshake)
+1412  E7:39:88:E2:2B:D7                            Unknown
+1413  E7:57:7B:BE:22:52                            Unknown
+1414  E7:6D:74:5C:E7:01                            Unknown
+1415  E7:9F:24:89:4C:62  ˇˇˇˇˇˇˇˇˇˇˇˇˇˇ?–y??ÿ?÷c@  Unknown
+1416  E7:FF:FF:FF:FF:FF                            Unknown
+1417  E8:2A:66:28:84:2A                            WEP (0 IVs)
+1418  E8:67:40:AD:2E:5F                            Unknown
+1419  E8:D7:6A:22:EF:0C                            Unknown
+1420  E8:D9:91:C7:65:1B                            WPA (0 handshake)
+1421  E8:E5:09:33:BF:68                            Unknown
+1422  E8:F3:32:87:4C:00                            Unknown
+1423  E9:0D:A5:A1:7F:CE                            Unknown
+1424  E9:14:E6:14:2B:B3                            Unknown
+1425  E9:3A:E5:1C:5A:D7                            WEP (0 IVs)
+1426  E9:3C:8B:41:E7:81                            Unknown
+1427  E9:D2:34:A8:54:AA                            Unknown
+1428  EA:16:2F:3E:E0:EA                            WEP (0 IVs)
+1429  EA:B6:F5:D4:D2:5A                            WEP (0 IVs)
+1430  EA:BA:16:D1:10:20                            Unknown
+1431  EA:EC:B0:C1:43:9D                            Unknown
+1432  EB:DA:3C:44:36:3F                            Unknown
+1433  EB:F1:6A:10:E5:03                            WPA (0 handshake)
+1434  EB:FE:8A:EE:6A:B9                            Unknown
+1435  EC:04:00:00:00:00                            Unknown
+1436  EC:0C:61:00:00:91  ??                        Unknown
+1437  EC:31:F2:FF:FF:FF                            Unknown
+1438  EC:3C:3C:00:00:20                            Unknown
+1439  EC:3C:77:01:00:00  ?                         Unknown
+1440  EC:3C:BB:29:04:43                            Unknown
+1441  EC:3C:BB:5A:47:02                            Unknown
+1442  EC:3C:BB:5A:54:00                            Unknown
+1443  EC:3C:BB:5A:E6:4F                            Unknown
+1444  EC:3C:BB:5A:E6:FC  602                       WPA (0 handshake)
+1445  EC:3C:BB:5A:E6:FD  P=K?                      Unknown
+1446  EC:3C:BB:5A:E7:01  Ò?Ä                       WEP (0 IVs)
+1447  EC:3C:BB:5A:F6:E8                            Unknown
+1448  EC:3C:BB:C2:EB:FC  602                       Unknown
+1449  EC:3C:F9:FF:FF:FF                            Unknown
+1450  EC:41:18:19:98:1D  kongdetian00              Unknown
+1451  EC:64:50:9A:00:2A                            Unknown
+1452  EC:A4:B6:5A:E6:FD  âX˜Ä?$?U’$D”ÜYQ#?è¿ˇˇˇˇˇˇˇˇˇˇˇˇˇ  Unknown
+1453  EC:B6:45:2D:2C:22                            Unknown
+1454  ED:62:4D:94:0E:95                            Unknown
+1455  EE:7F:42:00:F5:1D                            Unknown
+1456  EE:FF:FF:FF:FF:FF  ˇˇˇˇˇ?°›çƒv?°›çƒv?¯       Unknown
+1457  EF:11:DF:C3:06:A2                            Unknown
+1458  EF:1B:13:84:B1:75                            Unknown
+1459  EF:1B:13:84:D1:CB                            Unknown
+1460  EF:3C:BB:5A:E6:FC  602                       Unknown
+1461  EF:44:EF:52:5C:50                            WEP (0 IVs)
+1462  EF:4D:E2:8A:E4:C2                            Unknown
+1463  EF:91:06:DF:C4:2A                            Unknown
+1464  EF:B0:79:2E:12:C5                            Unknown
+1465  EF:C7:B3:24:77:64                            WPA (0 handshake)
+1466  F0:0C:FF:FF:FF:FF  ¨??                       Unknown
+1467  F0:34:B2:FF:FF:FF                            Unknown
+1468  F0:48:FE:FF:FF:FF  Ú?                        Unknown
+1469  F0:5C:E0:ED:62:AD                            Unknown
+1470  F0:6C:8A:5D:37:88  liuzihan                  Unknown
+1471  F0:6E:93:FF:FF:FF  ¨?                        Unknown
+1472  F0:82:FF:FF:FF:FF  ?Ä                        Unknown
+1473  F0:94:FB:FF:FF:FF  !                         Unknown
+1474  F0:B4:29:0B:FF:FF                            WPA (0 handshake)
+1475  F0:B4:29:2C:12:28  ?y?à…º                    Unknown
+1476  F0:B4:29:2C:12:50  Ú??                       Unknown
+1477  F0:B4:29:2C:12:58  liuzihan                  Unknown
+1478  F0:B4:29:2C:12:90                            Unknown
+1479  F0:B4:29:2C:12:98  li?æih·˜                  Unknown
+1480  F0:B4:29:2C:12:B8                            Unknown
+1481  F0:B4:29:2C:12:D8                            Unknown
+1482  F0:B4:29:2C:12:FF                            Unknown
+1483  F0:B4:29:2C:1E:2D  ?à                        Unknown
+1484  F0:B4:29:2C:4B:26                            Unknown
+1485  F0:B4:29:2C:52:FF                            Unknown
+1486  F0:B4:29:4C:14:39  DJ                        Unknown
+1487  F0:B4:29:4E:FE:FF  »Á?‡7?£?˝U               Unknown
+1488  F0:B4:29:82:F8:FF  »Á? 8?„?˝U               Unknown
+1489  F0:B4:29:AC:B2:FF                            Unknown
+1490  F0:B4:29:EC:7E:58  liuzihan                  Unknown
+1491  F0:B4:29:FF:15:39  DJ                        WPA (0 handshake)
+1492  F0:B4:29:FF:69:00                            WPA (0 handshake)
+1493  F0:B4:29:FF:85:78  DJ                        Unknown
+1494  F0:B4:61:FF:FF:FF                            Unknown
+1495  F0:B4:A5:FF:FF:FF                            Unknown
+1496  F0:B4:C1:FF:FF:FF                            Unknown
+1497  F0:F7:C1:EF:35:E8                            WPA (0 handshake)
+1498  F0:FF:FF:FF:FF:FF                            Unknown
+1499  F1:9A:52:21:7F:F9                            Unknown
+1500  F1:A6:92:24:F2:F3                            Unknown
+1501  F1:FF:FF:FF:FF:FF                            Unknown
+1502  F2:15:52:FC:18:A5                            WPA (0 handshake)
+1503  F2:37:D3:3E:85:0A                            WPA (0 handshake)
+1504  F2:40:FC:B2:42:2F                            Unknown
+1505  F2:63:DA:1E:FB:3D                            WPA (0 handshake)
+1506  F2:B9:22:F1:E8:3F                            WPA (0 handshake)
+1507  F3:67:B9:40:CD:EF                            Unknown
+1508  F3:86:05:9C:E0:EE                            Unknown
+1509  F3:C6:BF:53:61:DE                            Unknown
+1510  F4:0B:B6:E3:91:23                            Unknown
+1511  F4:43:30:30:5A:25                            WEP (0 IVs)
+1512  F4:64:8D:95:61:C8                            WEP (0 IVs)
+1513  F4:C7:C0:A0:A1:6C                            WPA (0 handshake)
+1514  F5:B1:5E:6C:79:A3                            Unknown
+1515  F5:B5:A3:30:E8:75                            WEP (0 IVs)
+1516  F5:D6:6F:C7:7E:67                            Unknown
+1517  F5:DC:A7:58:F2:6F                            Unknown
+1518  F5:F1:80:D3:A9:52                            Unknown
+1519  F6:16:3F:C1:3A:71                            Unknown
+1520  F6:16:63:16:4C:1C  »DfJﬁF$H¯e|¯∞T5}ƒ?Ã–¨◊≠é?àﬂJ0?cÍ  Unknown
+1521  F6:69:BC:E3:38:95                            Unknown
+1522  F6:7E:2C:28:B5:0F                            WPA (0 handshake)
+1523  F6:A5:DC:7B:2D:4C                            WPA (0 handshake)
+1524  F6:C3:1A:D6:88:DD                            Unknown
+1525  F7:16:2A:8B:3A:71                            Unknown
+1526  F7:27:3C:3E:09:1D                            Unknown
+1527  F7:80:CE:6F:CA:F6                            Unknown
+1528  F7:DB:3C:6E:3B:E3                            Unknown
+1529  F7:E3:C5:60:5B:25                            WEP (0 IVs)
+1530  F8:37:7C:BA:4E:A0  Ziroom601                 Unknown
+1531  F8:73:26:CA:23:ED                            Unknown
+1532  F8:9E:CD:DE:ED:51                            Unknown
+1533  F8:D6:49:0D:46:F5                            Unknown
+1534  F9:17:2C:C3:BC:74                            Unknown
+1535  F9:3F:C0:90:C2:7F                            Unknown
+1536  F9:F9:4B:C1:86:BA                            WEP (0 IVs)
+1537  F9:FF:FF:FF:FF:FF                            Unknown
+1538  FA:15:AD:C7:BC:3E                            Unknown
+1539  FA:21:3D:31:17:C6                            Unknown
+1540  FA:31:B6:38:3D:4A                            Unknown
+1541  FA:38:E9:DB:A3:89                            WPA (0 handshake)
+1542  FA:85:C1:31:ED:CF                            Unknown
+1543  FA:94:4F:6D:F1:77                            Unknown
+1544  FA:BF:1B:21:8F:C0                            WPA (0 handshake)
+1545  FA:FF:FF:FF:FF:FF                            Unknown
+1546  FB:08:8F:15:EA:60                            Unknown
+1547  FB:19:D9:F4:7F:8A                            WEP (0 IVs)
+1548  FB:78:45:54:DF:D4                            Unknown
+1549  FB:AF:AC:57:2C:BB                            Unknown
+1550  FC:44:2C:D2:1E:E1                            WEP (0 IVs)
+1551  FC:53:92:95:F5:C4                            WEP (0 IVs)
+1552  FC:94:35:13:2C:69  ??                        Unknown
+1553  FC:BC:D1:50:A6:64                            Unknown
+1554  FC:BC:D1:50:A6:E4  ChinaNet-THa5             Unknown
+1555  FC:BC:D1:C8:AB:E4                            Unknown
+1556  FC:FF:FF:FF:FF:FF  ˇˇˇˇˇ?x⁄???,x⁄???,àØ©p„—”?  Unknown
+1557  FD:53:F1:FF:FF:FF                            WPA (0 handshake)
+1558  FD:70:4B:19:EA:D5                            Unknown
+1559  FD:CD:58:F7:23:53                            WEP (0 IVs)
+1560  FD:D2:AE:17:95:03                            Unknown
+1561  FE:A1:0B:E6:47:CB                            WPA (0 handshake)
+1562  FE:A3:A5:92:F0:6C                            Unknown
+1563  FE:FF:FF:7F:D0:79  yÇ                        Unknown
+1564  FF:07:9D:57:20:00                            Unknown
+1565  FF:07:9D:57:20:C0                            Unknown
+1566  FF:07:9D:BF:21:F0  ?n??ˇˇ3?                  Unknown
+1567  FF:1F:74:DE:8D:A0                            Unknown
+1568  FF:33:2F:10:C4:B9                            WEP (0 IVs)
+1569  FF:3F:E8:BC:1B:C1  ΩR@ˇ??Ä                   Unknown
+1570  FF:3F:E8:FC:0D:41  AAAAA                     Unknown
+1571  FF:41:E7:15:08:20                            Unknown
+1572  FF:41:E7:DD:08:17                            Unknown
+1573  FF:48:D9:C7:56:C2                            Unknown
+1574  FF:83:CE:2B:10:40                            Unknown
+1575  FF:FF:07:9D:57:00                            Unknown
+1576  FF:FF:0F:3A:AF:40                            Unknown
+1577  FF:FF:1F:74:5E:81                            Unknown
+1578  FF:FF:1F:74:DE:8D  kongde ban00              Unknown
+1579  FF:FF:41:E7:DD:08  203                       Unknown
+1580  FF:FF:7F:D0:79:05                            Unknown
+1581  FF:FF:7F:D1:FE:FF                            WPA (0 handshake)
+1582  FF:FF:FF:07:9D:57                            Unknown
+1583  FF:FF:FF:07:9D:77  ?Üú@??6F?<                Unknown
+1584  FF:FF:FF:0F:3A:AF                            Unknown
+1585  FF:FF:FF:0F:3A:EF                            Unknown
+1586  FF:FF:FF:1F:74:5E                            Unknown
+1587  FF:FF:FF:3F:E8:BC  203                       Unknown
+1588  FF:FF:FF:41:E7:15                            WEP (0 IVs)
+1589  FF:FF:FF:67:94:B1                            Unknown
+1590  FF:FF:FF:7F:D0:79  101                       Unknown
+1591  FF:FF:FF:83:CE:2B                            Unknown
+1592  FF:FF:FF:FF:07:9D  8                         Unknown
+1593  FF:FF:FF:FF:1F:74                            Unknown
+1594  FF:FF:FF:FF:2B:00                            Unknown
+1595  FF:FF:FF:FF:3F:E8                            Unknown
+1596  FF:FF:FF:FF:41:E7  ?                         Unknown
+1597  FF:FF:FF:FF:83:CE  yi?ˇˇˇˇ                   Unknown
+1598  FF:FF:FF:FF:A0:F3  ?                         Unknown
+1599  FF:FF:FF:FF:FF:07  ¨?                        WEP (0 IVs)
+1600  FF:FF:FF:FF:FF:0F                            Unknown
+1601  FF:FF:FF:FF:FF:3F  203                       WEP (0 IVs)
+1602  FF:FF:FF:FF:FF:41                            Unknown
+1603  FF:FF:FF:FF:FF:83  ChinaNet-THa5             Unknown
+1604  FF:FF:FF:FF:FF:A0                            Unknown
+
+Index number of target network ? 
+Reading packets, please wait...
+Opening /tmp/airportSniffFUCSM0.cap
+[0KRead 24698 packets.
+
+0 potential targets
+
+No matching network found - check your bssid.
+
+
+Quitting aircrack-ng...

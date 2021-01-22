@@ -1,10 +1,10 @@
 int Exec(TString dir_name, string out_name, Int_t NGamma=2);
 int NEW_Algorithm( string dir_name ,Int_t opt = 0)
 {
-    int bin1(50);
+    int bin1(30);
     float tx(800),ty(600);
     //double xmin(0.7),xmax(1.3);
-    double xmin(-0.2),xmax(0.2);
+    double xmin(-0.35),xmax(0.35);
     string out_name = "doc/" + dir_name + "_com.txt";
     
     TH1D* h1D1 = new TH1D("raw","h1_1", bin1, xmin, xmax);

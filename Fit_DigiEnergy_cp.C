@@ -44,21 +44,32 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     TGraph *g = new TGraph();
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);
-    g->GetYaxis()->SetTitle("E_{digi}");
-    g->GetXaxis()->SetTitle("distance");
+    g->GetYaxis()->SetTitle("E_{truth} (GeV)");
+    g->GetXaxis()->SetTitle("d (cm)");
     g->GetXaxis()->CenterTitle();
     g->GetYaxis()->CenterTitle();
     
     string str;
     Int_t N = 0;
     Double_t distance_cut = 3;
+    
+    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,Energy);
+    h->SetMarkerStyle(7);
+    h->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h->GetYaxis()->SetTitle("E_{truth} (GeV)");
+    h->GetXaxis()->SetTitle("d (cm)");
+    h->GetXaxis()->CenterTitle();
+    h->GetYaxis()->CenterTitle();
+    h->GetZaxis()->CenterTitle();
+    
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
-        g->SetPoint(N,distance,(energy));
+        //g->SetPoint(N,distance,energy);
+        h->Fill(distance,energy);
         //g->SetPoint(N,distance,energy);
         N++;
     }
@@ -72,8 +83,10 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
 
     //f->SetParameters(1, 0.6, 5, 3.37, 1.45);
     c1->cd();
-    g->Draw("AP.");
-    g->Fit(f,"R");
+    //g->Draw("AP.");
+    //g->Fit(f,"R");
+    h->Draw("PCOLZ");
+    h->Fit(f,"R");
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
     //if (f->GetParameter(2)>f->GetParameter(4))
     //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;

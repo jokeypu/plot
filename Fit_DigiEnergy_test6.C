@@ -19,7 +19,7 @@ int Fit_DigiEnergy_test6( Int_t NO_Angle = 7, Double_t Energy = 1.0){
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
     
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
-    TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
+    //TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);

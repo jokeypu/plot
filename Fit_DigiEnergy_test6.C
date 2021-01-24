@@ -34,8 +34,8 @@ int Fit_DigiEnergy_test6( Int_t NO_Angle = 7, Double_t Energy = 1.0){
     gStyle->SetTitleOffset(1.0,"xyz");
     
     //std::string file_name(title);
-    std::string file_name = "doc/WorkData_1Gamma_A4_E1.5_OR.txt";
-    Energy = 1.5;
+    std::string file_name = "doc/WorkData_1Gamma_A7_E0.2_OR.txt";
+    Energy = 0.2;
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);
     

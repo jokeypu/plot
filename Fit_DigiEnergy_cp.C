@@ -21,8 +21,8 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
-    TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
+    TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
@@ -103,6 +103,16 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     g_Error->GetXaxis()->SetTitle("distance");
     g_Error->GetXaxis()->CenterTitle();
     g_Error->GetYaxis()->CenterTitle();
+    
+    TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,-Energy,Energy);
+    h_Error->SetMarkerStyle(7);
+    h_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
+    h_Error->GetYaxis()->SetTitle("E_{func}-E_{truth} (GeV)");
+    h_Error->GetXaxis()->SetTitle("d (cm)");
+    h_Error->GetXaxis()->CenterTitle();
+    h_Error->GetYaxis()->CenterTitle();
+    h_Error->GetZaxis()->CenterTitle();
+    
     in_file.clear();
     in_file.seekg(0, ios::beg);
     N = 0;
@@ -111,11 +121,13 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
-        g_Error->SetPoint(N,distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
+        //g_Error->SetPoint(N,distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
+        h_Error->Fill(distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
         N++;
     }
     c2->cd();
-    g_Error->Draw("AP.");
+    //g_Error->Draw("AP.");
+    h_Error->Draw("PCOLZ");
     TString picture_name_error= "doc/A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c2->Print(picture_name_error);
     

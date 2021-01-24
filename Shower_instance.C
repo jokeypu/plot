@@ -167,6 +167,8 @@ int Shower_instance(const char old_file[30], const char new_file[30], double Ene
     Double_t D_Resolution_fix = sqrt(  pow(D_delta_fix,2) + pow(delta_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
     par_file << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << Resolution_fix << " " << D_Resolution_fix << endl;
+    
+    cout << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     //par_file << str_Energy << " " << mean_OR << " " << D_mean_OR << " " << mean_fix << " " << D_mean_fix << endl;
     
     TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";

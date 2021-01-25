@@ -1,0 +1,20 @@
+ Generating stack trace...
+ 0x00007f32295690c3 in <unknown function>
+ 0x00007f322956806f in <unknown function>
+ 0x00007f322375500c in <unknown> from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32237597f3 in cling::Interpreter::EvaluateInternal(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cling::CompilationOptions, cling::Value*, cling::Transaction**, unsigned long) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/Interpreter/Interpreter.cpp:1275 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f322375a891 in cling::Interpreter::echo(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, cling::Value*) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/Interpreter/Interpreter.cpp:922 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f322380161b in cling::MetaSema::actOnxCommand(llvm::StringRef, llvm::StringRef, cling::Value*) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/MetaProcessor/MetaSema.cpp:145 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32238102b9 in cling::MetaParser::isXCommand(cling::MetaSema::ActionResult&, cling::Value*) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/MetaProcessor/MetaParser.cpp:288 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32238114fe in cling::MetaParser::isCommand(cling::MetaSema::ActionResult&, cling::Value*) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/MetaProcessor/MetaParser.cpp:124 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32237fa771 in cling::MetaProcessor::process(llvm::StringRef, cling::Interpreter::CompilationResult&, cling::Value*, bool) at /home/jokey/Panda/FairSoft_jun19/tools/root/interpreter/cling/lib/MetaProcessor/MetaProcessor.cpp:316 (discriminator 1) from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32236c656a in <unknown> from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32236dd8c1 in <unknown> from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f32236ce1e6 in <unknown> from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCling.so
+ 0x00007f3228c90aa7 in TApplication::ExecuteFile(char const*, int*, bool) at /home/jokey/Panda/FairSoft_jun19/tools/root/core/base/src/TApplication.cxx:1161 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCore.so.6.16
+ 0x00007f3228c90213 in TApplication::ProcessLine(char const*, bool, int*) at /home/jokey/Panda/FairSoft_jun19/tools/root/core/base/src/TApplication.cxx:1012 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libCore.so.6.16
+ 0x00007f3229150d2e in TRint::ProcessLineNr(char const*, char const*, int*) at /home/jokey/Panda/FairSoft_jun19/tools/root/core/rint/src/TRint.cxx:762 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libRint.so.6.16
+ 0x00007f3229152427 in TRint::Run(bool) at /home/jokey/Panda/FairSoft_jun19/tools/root/core/rint/src/TRint.cxx:421 from /home/jokey/Panda/FairSoft_jun19/build/lib/root/libRint.so.6.16
+ 0x000056533121fa9c in <unknown> from /home/jokey/Panda/FairSoft_jun19/build/bin/root.exe
+ 0x00007f3227c4f2e1 in __libc_start_main + 0xf1 from /lib/x86_64-linux-gnu/libc.so.6
+ 0x000056533121fafa in _start + 0x2a from /home/jokey/Panda/FairSoft_jun19/build/bin/root.exe

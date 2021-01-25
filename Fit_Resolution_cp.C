@@ -45,13 +45,13 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float energy, R1, ER1_m, ER1_p, R2, ER2_m, ER2_p;
-        strStream >> energy >> R1 >> ER1_m >> ER1_p >> R2 >> ER2_m >> ER2_p;
-        R1_x[N] = energy;
+        float energy_1, R1, ER1_m, ER1_p, energy_2, R2, ER2_m, ER2_p;
+        strStream >> energy_1 >> R1 >> ER1_m >> ER1_p >> energy_2 >> R2 >> ER2_m >> ER2_p;
+        R1_x[N] = energy_1;
         R1_y[N] = R1;
         R1_Ex[N] = 0.0;
         R1_Ey[N] = (ER1_p > ER1_m ? ER1_p : ER1_m);
-        R2_x[N] = energy;
+        R2_x[N] = energy_2;
         R2_y[N] = R2;
         R2_Ex[N] = 0.0;
         R2_Ey[N] = (ER2_p > ER2_m ? ER2_p : ER2_m);
@@ -74,19 +74,19 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr1->GetYaxis()->SetRangeUser(0,0.06);
-    gr2->GetYaxis()->SetRangeUser(0,0.06);
+    gr1->GetYaxis()->SetRangeUser(0.014,0.05);
+    gr2->GetYaxis()->SetRangeUser(0.014,0.05);
     
     gr1->Draw("AP");
     gr2->Draw("Psame");
     
     TF1 *f1 = new TF1("f1","[0]/sqrt(x) + [1]",0,6);
-    f1->SetLineColor(kRed);
+    f1->SetLineColor(kGreen);
     f1->SetLineWidth(2);
-    f1->SetLineStyle(1);
+    f1->SetLineStyle(2);
     
     TF1 *f2 = new TF1("f2","[0]/sqrt(x) + [1]",0,6);
-    f2->SetLineColor(kGreen);
+    f2->SetLineColor(kRed);
     f2->SetLineWidth(2);
     f2->SetLineStyle(2);
     

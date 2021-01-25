@@ -1,4 +1,4 @@
-int Fit_Resolution_cp(Int_t NO_Angle){
+int Fit_Resolution_cp(Int_t NO_Angle = 7){
     //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1;
     out1 << NO_Angle;
@@ -39,14 +39,14 @@ int Fit_Resolution_cp(Int_t NO_Angle){
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
-    double R1_x[12], R1_y[12], R1_Ex[12], R1_Ey_m[12], R1_Ey_p[12];
-    double R2_x[12], R2_y[12], R2_Ex[12], R2_Ey_m[12], R2_Ey_p[12];
+    double R1_x[12], R1_y[12], R1_Ex[12], R1_Ey[12], R1_Ey_m[12], R1_Ey_p[12];
+    double R2_x[12], R2_y[12], R2_Ex[12], R2_Ey[12], R2_Ey_m[12], R2_Ey_p[12];
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
         float energy, R1, ER1_m, ER1_p, R2, ER2_m, ER2_p;
-        strStream >> energy >> R1 >> ER1 >> R2 >> ER2;
+        strStream >> energy >> R1 >> ER1_m >> ER1_p >> R2 >> ER2_m >> ER2_p;
         R1_x[N] = energy;
         R1_y[N] = R1;
         R1_Ex[N] = 0.0;
@@ -76,6 +76,10 @@ int Fit_Resolution_cp(Int_t NO_Angle){
     
     gr2->Draw("LAP");
     gr1->Draw("LPsame");
+    
+    TF1 *f = new TF1("f","[0]/sqrt(x) + [1]",0,6);
+    gr2->Fit(f,"R");
+
     
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(gr1, "Old algorithm", "P");

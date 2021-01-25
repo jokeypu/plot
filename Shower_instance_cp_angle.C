@@ -60,13 +60,13 @@ Double_t finding_sigma(Double_t mean, Double_t Init_sigma){
     return (sigma_max+sigma_min)/2.0;
 }
 
-int Shower_instance_cp(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
+int Shower_instance_cp_angle(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
 {
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::string out_name = "doc/E"+str_Energy+"_resolution_par.txt";
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
@@ -211,11 +211,11 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     Double_t D_Resolution_fix_p = sqrt(  pow(D_delta_fix_p,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
     Double_t D_Resolution_fix_m = sqrt(  pow(D_delta_fix_m,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    par_file << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    par_file << NO_Angle*10 << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << NO_Angle*10 << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
     
-    cout << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    cout << NO_Angle*10 << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << NO_Angle*10 << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
     
-    TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    TString picture_name= "doc/E"+str_Energy+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);
     
     par_file.close();

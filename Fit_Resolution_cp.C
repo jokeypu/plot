@@ -50,11 +50,11 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
         R1_x[N] = energy;
         R1_y[N] = R1;
         R1_Ex[N] = 0.0;
-        R1_Ey[N] = ER1_p;
+        R1_Ey[N] = (ER1_p > ER1_m ? ER1_p : ER1_m);
         R2_x[N] = energy;
         R2_y[N] = R2;
         R2_Ex[N] = 0.0;
-        R2_Ey[N] = ER2_p;
+        R2_Ey[N] = (ER2_p > ER2_m ? ER2_p : ER2_m);
         N++;
     }
     
@@ -74,13 +74,25 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr2->Draw("LAP");
-    gr1->Draw("LPsame");
+    gr1->GetYaxis()->SetRangeUser(0,0.06);
+    gr2->GetYaxis()->SetRangeUser(0,0.06);
     
-    TF1 *f = new TF1("f","[0]/sqrt(x) + [1]",0,6);
-    gr2->Fit(f,"R");
+    gr1->Draw("AP");
+    gr2->Draw("Psame");
+    
+    TF1 *f1 = new TF1("f1","[0]/sqrt(x) + [1]",0,6);
+    f1->SetLineColor(kRed);
+    f1->SetLineWidth(2);
+    f1->SetLineStyle(1);
+    
+    TF1 *f2 = new TF1("f2","[0]/sqrt(x) + [1]",0,6);
+    f2->SetLineColor(kGreen);
+    f2->SetLineWidth(2);
+    f2->SetLineStyle(2);
+    
+    gr1->Fit(f1,"R");
+    gr2->Fit(f2,"R");
 
-    
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
     leg1->AddEntry(gr1, "Old algorithm", "P");
     leg1->AddEntry(gr2, "New algorithm", "P");

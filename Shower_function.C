@@ -9,7 +9,8 @@ int Shower_function()
     //******************************************//
     
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../data/"+dir_name+"/evtcomplete_sim.root");
+    //TFile* file = new TFile("../data/"+dir_name+"/evtcomplete_sim.root");
+    TFile* file = new TFile("/media/jokey/DATA/data/Gamma_6G/evtcomplete_sim.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);

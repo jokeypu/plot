@@ -76,8 +76,8 @@ int Fit_Resolution_cp_angle(double v_Energy = 1.0){
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr1->GetYaxis()->SetRangeUser(0.025,0.055);
-    gr2->GetYaxis()->SetRangeUser(0.025,0.055);
+    gr1->GetYaxis()->SetRangeUser(0.023,0.06);
+    gr2->GetYaxis()->SetRangeUser(0.023,0.06);
     
     gr1->Draw("AP");
     gr2->Draw("Psame");

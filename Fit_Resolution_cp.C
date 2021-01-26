@@ -33,7 +33,7 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     
     TGraph *g2 = new TGraph();
     g2->SetMarkerStyle(22);
-    g2->SetMarkerColorAlpha(kBlue+1, 1);
+    g2->SetMarkerColorAlpha(kBlack+1, 1);
     g2->GetXaxis()->SetTitle("Energy");
     g2->GetYaxis()->SetTitle("Resolution");
     g2->GetXaxis()->CenterTitle();
@@ -59,20 +59,20 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     }
     
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
-    gr1->SetMarkerStyle(21);
-    gr1->SetMarkerColorAlpha(kBlue+1, 1);
+    gr1->SetMarkerStyle(20);
+    gr1->SetMarkerColorAlpha(kBlack, 1);
     gr1->GetXaxis()->SetTitle("E_{#gamma}  (GeV/c^{2})");
-    gr1->GetYaxis()->SetTitle("Resolution");
-    gr1->GetYaxis()->SetTitleOffset(1.3);
+    gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
+    gr1->GetYaxis()->SetTitleOffset(1.4);
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
     
     TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
-    gr2->SetMarkerColorAlpha(kRed-3, 1);
+    gr2->SetMarkerColorAlpha(kRed, 1);
     gr2->GetXaxis()->SetTitle("E_{#gamma}  (GeV/c^{2})");
-    gr2->GetYaxis()->SetTitle("Resolution");
-    gr2->GetYaxis()->SetTitleOffset(1.3);
+    gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
+    gr2->GetYaxis()->SetTitleOffset(1.4);
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
@@ -83,7 +83,7 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     gr2->Draw("Psame");
     
     TF1 *f1 = new TF1("f1","[0]/sqrt(x) + [1]",0,6.5);
-    f1->SetLineColor(kBlue);
+    f1->SetLineColor(kBlack);
     f1->SetLineWidth(2);
     f1->SetLineStyle(2);
     f1->SetParName(0, "#sigma_{0}");
@@ -110,18 +110,18 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     cout << sss1 << endl;
     cout << sss2 << endl;
     TPaveText *pt = new TPaveText(0.609218, 0.437037, 0.878758, 0.691852,"NDC");
-    TText *tt1 = pt->AddText("Raw");
-    TText *t1 = pt->AddText("Resolution:  #frac{0.0250}{#sqrt{E_{#gamma}}} + 0.0139");
+    //TText *tt1 = pt->AddText("Raw");
+    TText *t1 = pt->AddText("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.50%}{#sqrt{E_{#gamma}}} + 1.39%");
     pt->AddLine(.0,.5,1.,.5);
-    TText *tt2 = pt->AddText("New");
-    TText *t2 = pt->AddText("Resolution:  #frac{0.0216}{#sqrt{E_{#gamma}}} + 0.0079");
+    //TText *tt2 = pt->AddText("New");
+    TText *t2 = pt->AddText("New: #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.16%}{#sqrt{E_{#gamma}}} + 0.79%");
     
-    tt1->SetTextColor(kBlue);
-    t1->SetTextColor(kBlue);
-    tt2->SetTextColor(kRed);
+    //tt1->SetTextColor(kBlack);
+    t1->SetTextColor(kBlack);
+    //tt2->SetTextColor(kRed);
     t2->SetTextColor(kRed);
-    tt1->SetTextSize(0.04);
-    tt2->SetTextSize(0.04);
+    //tt1->SetTextSize(0.04);
+    //tt2->SetTextSize(0.04);
     t1->SetTextSize(0.028);
     t2->SetTextSize(0.028);
     pt->Draw();

@@ -59,11 +59,11 @@ int Fit_Resolution_cp_angle(double v_Energy = 1.0){
     }
     
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
-    gr1->SetMarkerStyle(21);
-    gr1->SetMarkerColorAlpha(kBlue+1, 1);
+    gr1->SetMarkerStyle(20);
+    gr1->SetMarkerColorAlpha(kBlack, 1);
     gr1->GetXaxis()->SetTitle("#theta  (deg)");
-    gr1->GetYaxis()->SetTitle("Resolution");
-    gr1->GetYaxis()->SetTitleOffset(1.3);
+    gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
+    gr1->GetYaxis()->SetTitleOffset(1.4);
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
     
@@ -71,8 +71,8 @@ int Fit_Resolution_cp_angle(double v_Energy = 1.0){
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed-3, 1);
     gr2->GetXaxis()->SetTitle("#theta  (deg)");
-    gr2->GetYaxis()->SetTitle("Resolution");
-    gr2->GetYaxis()->SetTitleOffset(1.3);
+    gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
+    gr2->GetYaxis()->SetTitleOffset(1.4);
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     

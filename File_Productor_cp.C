@@ -75,7 +75,7 @@ int File_Productor_cp(std::string dir_name){
     
     int N(0);
     int SEED_CUT(-1);
-    Int_t maxEvtNo = ioman->GetEntries();
+    Int_t maxEvtNo = ioman->CheckMaxEventNo();
     //maxEvtNo /= 10;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event

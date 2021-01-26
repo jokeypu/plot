@@ -115,7 +115,7 @@ int File_Productor_cp(std::string dir_name){
                     if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
-        if (Exist.size() != NGamma) continue;
+        //if (Exist.size() != NGamma) continue;
         
         //Get the true energy of each shower
         std::map<Int_t, Double_t> truth_E;
@@ -157,9 +157,9 @@ int File_Productor_cp(std::string dir_name){
             digi_seed_id = p->first;
             c++;
         }
-        if ( c!=1 ) continue;
+        //if ( c!=1 ) continue;
         if (ievt==0) SEED_CUT = digi_seed_id;
-        if (SEED_CUT != digi_seed_id) continue;
+        //if (SEED_CUT != digi_seed_id) continue;
         
         PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(digi_seed);
         double Seed_Energy = digi->GetEnergy();
@@ -179,7 +179,7 @@ int File_Productor_cp(std::string dir_name){
                     Det_Pos = idigi->where();
                 }
             }
-            if (Digi_Energy == -1) continue;
+            //if (Digi_Energy == -1) continue;
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             if ( angle > 90 && angle <= 180 ) angle = 180 - angle;

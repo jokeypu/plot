@@ -48,36 +48,36 @@ int Fit_Resolution_cp_angle(double v_Energy = 1.0){
         float angle_1, R1, ER1_m, ER1_p, angle_2, R2, ER2_m, ER2_p;
         strStream >> angle_1 >> R1 >> ER1_m >> ER1_p >> angle_2 >> R2 >> ER2_m >> ER2_p;
         R1_x[N] = angle_1;
-        R1_y[N] = R1;
+        R1_y[N] = 100*R1;
         R1_Ex[N] = 0.0;
-        R1_Ey[N] = (ER1_p > ER1_m ? ER1_p : ER1_m);
+        R1_Ey[N] = 100*(ER1_p > ER1_m ? ER1_p : ER1_m);
         R2_x[N] = angle_2;
-        R2_y[N] = R2;
+        R2_y[N] = 100*R2;
         R2_Ex[N] = 0.0;
-        R2_Ey[N] = (ER2_p > ER2_m ? ER2_p : ER2_m);
+        R2_Ey[N] = 100*(ER2_p > ER2_m ? ER2_p : ER2_m);
         N++;
     }
     
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(20);
     gr1->SetMarkerColorAlpha(kBlack, 1);
-    gr1->GetXaxis()->SetTitle("#theta  (deg)");
-    gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
-    gr1->GetYaxis()->SetTitleOffset(1.4);
+    gr1->GetXaxis()->SetTitle("#theta  [deg]");
+    gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
+    gr1->GetYaxis()->SetTitleOffset(1.0);
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
     
     TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed-3, 1);
-    gr2->GetXaxis()->SetTitle("#theta  (deg)");
-    gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}");
-    gr2->GetYaxis()->SetTitleOffset(1.4);
+    gr2->GetXaxis()->SetTitle("#theta  [deg]");
+    gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
+    gr2->GetYaxis()->SetTitleOffset(1.0);
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();
     
-    gr1->GetYaxis()->SetRangeUser(0.023,0.06);
-    gr2->GetYaxis()->SetRangeUser(0.023,0.06);
+    gr1->GetYaxis()->SetRangeUser(2.3,6);
+    gr2->GetYaxis()->SetRangeUser(2.3,6);
     
     gr1->Draw("AP");
     gr2->Draw("Psame");

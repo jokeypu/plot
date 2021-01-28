@@ -51,9 +51,9 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 3;
+    Double_t distance_cut = 3.5;
     
-    TH2D* h = new TH2D("Hist","h",300,0,distance_cut,300,0,Energy);
+    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,Energy);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
     h->GetYaxis()->SetTitle("E_{truth} (GeV)");
@@ -74,11 +74,18 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         N++;
     }
     
+    for (int i = 1; i < 201; i++){
+        for (int j = 1; j < 201; j++){
+            if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
+            if (h->GetBinContent(i,j)!=0) h->SetBinContent(i,j,(int)(6*TMath::Log(h->GetBinContent(i,j))));
+        }
+    }
+    
     //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     f->SetParameters(Energy, 2.5, 0.9, 0.7, 3);
     //f->SetParLimits(0, 0.5, 1);
-    f->SetParLimits(2, 0, 1);
+    //f->SetParLimits(2, 0, 1);
     //f->SetParLimits(2, 1.01, 25);
 
     //f->SetParameters(1, 0.6, 5, 3.37, 1.45);

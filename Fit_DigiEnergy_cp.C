@@ -73,10 +73,12 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //g->SetPoint(N,distance,energy);
         N++;
     }
+    //cout << N << endl;
     
     for (int i = 1; i < 201; i++){
         for (int j = 1; j < 201; j++){
-            if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
+            if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
+            else if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
             if (h->GetBinContent(i,j)!=0) h->SetBinContent(i,j,(int)(6*TMath::Log(h->GetBinContent(i,j))));
         }
     }

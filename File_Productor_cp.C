@@ -98,7 +98,7 @@ int File_Productor_cp(std::string dir_name){
         }
         
         TVector3 Cent_pos;
-        Cent_pos.SetMagThetaPhi( Bump->Mag(), mom_gamma.Theta(), mom_gamma.Phi() );
+        Cent_pos.SetMagThetaPhi( (Bump->where()).Mag(), mom_gamma.Theta(), mom_gamma.Phi() );
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

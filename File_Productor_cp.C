@@ -73,7 +73,7 @@ int File_Productor_cp(std::string dir_name){
     t->SetBranchAddress("EmcCluster",&fClusterArray);
     if (!fClusterArray) return -1;
     
-    int N(0);
+    int N(0),CC(0);
     int SEED_CUT(-1);
     Int_t maxEvtNo = ioman->CheckMaxEventNo();
     //maxEvtNo /= 10;
@@ -86,100 +86,14 @@ int File_Productor_cp(std::string dir_name){
         int nbumps = fBumpArray->GetEntriesFast();
         int ndigis = fDigiArray->GetEntriesFast();
         
-        //Get the momentum of each photon
-        std::vector<TVector3> Gamma_mom;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(iGamma);
-            Gamma_mom.push_back(mcTrack->GetMomentum());
-        }
-        
-        //Calculate the average distance between photons
-        Double_t distance(0);
-        Int_t Ncunt(0);
-        for (int iGamma = 0; iGamma < NGamma-1; iGamma++) {
-            for (int jGamma = iGamma+1; jGamma < NGamma; jGamma++) {
-                Double_t TheDistance = ((65.0/Gamma_mom[iGamma].Pt())*Gamma_mom[iGamma]-(65.0/Gamma_mom[jGamma].Pt())*Gamma_mom[jGamma]).Mag();
-                distance += TheDistance;
-                Ncunt++;
-            }
-        }
-        distance /= Ncunt;
-        
-        //Exclude events generated electron-positron
-        std::map<Int_t, bool> Exist;
-        for (int i = 0; i < nhits; i++) {
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
-            for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++) {
-                for (int iGamma = 0; iGamma < NGamma; iGamma++)
-                    if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
-            }
-        }
-        //if (Exist.size() != NGamma) continue;
-        
-        //Get the true energy of each shower
-        std::map<Int_t, Double_t> truth_E;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) truth_E[iGamma] = 0.0;
-        for (int i = 0; i < nhits; i++) {
-            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
-            std::map<Int_t, Double_t>::iterator ptr;
-            for ( ptr = dep.begin(); ptr != dep.end(); ptr++) {
-                for (int iGamma = 0; iGamma < NGamma; iGamma++)
-                    if (ptr->first == iGamma) truth_E[iGamma] += ptr->second;
-            }
-        }
-        
-        //Match bump for each photon
-        std::vector<Int_t> match;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            Double_t min_d(99999);
-            Int_t index(-1);
-            for (int i = 0; i < nbumps; i++) {
-                PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
-                TVector3 pos = Bump->position();
-                Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
-                if (d < min_d) { min_d = d; index = i; }
-            }
-            if ( index == -1 ) return 1;
-            match.push_back(index);
-        }
-        
         PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(0);
-        PndEmcCluster *theCluster = (PndEmcCluster *)fClusterArray->At(0);
-        std::map<Int_t, Int_t> theMaximaDigis = theCluster->LocalMaxMap();
-        
-        std::map<Int_t, Int_t>::iterator p;
-        Int_t digi_seed(-1),digi_seed_id(-1);
-        int c(0);
-        for (p = theMaximaDigis.begin(); p != theMaximaDigis.end(); p++){
-            digi_seed = p->second;
-            digi_seed_id = p->first;
-            c++;
-        }
-        //if ( c!=1 ) continue;
-        if (ievt==0) SEED_CUT = digi_seed_id;
-        //if (SEED_CUT != digi_seed_id) continue;
-        
-        PndEmcDigi* digi = (PndEmcDigi*)fDigiArray->At(digi_seed);
-        double Seed_Energy = digi->GetEnergy();
-        TVector3 Seed_pos = digi->where();
         TVector3 Cent_pos = Bump->where();
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
-            //if (hit->GetDetectorID() == digi_seed_id) continue;
             TVector3 Det_Pos;
+            hit->Position(&Det_Pos);
             double Truth_Energy = hit->GetEnergy();
-            double Digi_Energy = -1;
-            for (int j = 0 ; j < ndigis ; j++){
-                PndEmcDigi* idigi = (PndEmcDigi*)fDigiArray->At(j);
-                if (idigi->GetDetectorId() == hit->GetDetectorID()) {
-                    Digi_Energy = idigi->GetEnergy();
-                    Det_Pos = idigi->where();
-                }
-            }
-            //if (Digi_Energy == -1) continue;
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             double angle = AA(&Det_Pos, &Cent_pos, 1.25);
             if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
@@ -188,8 +102,9 @@ int File_Productor_cp(std::string dir_name){
             N++;
             File_out << Distance << " " << angle << " " << Truth_Energy << endl;
         }
+        CC++;
     }
     File_out.close();
-    cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
+    cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << "   total:" << CC << endl;
     return 0;
 }

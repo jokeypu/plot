@@ -92,7 +92,7 @@ int File_Productor_cp(std::string dir_name){
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             TVector3 Det_Pos;
-            hit->Position(&Det_Pos);
+            hit->Position(Det_Pos);
             double Truth_Energy = hit->GetEnergy();
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             double angle = AA(&Det_Pos, &Cent_pos, 1.25);

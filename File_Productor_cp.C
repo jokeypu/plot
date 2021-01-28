@@ -86,8 +86,13 @@ int File_Productor_cp(std::string dir_name){
         int nbumps = fBumpArray->GetEntriesFast();
         int ndigis = fDigiArray->GetEntriesFast();
         
-        if (nbumps!=1) continue;
-        PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(0);
+        if (nbumps==0) continue;
+        PndEmcBump* Bump;
+        Double_t Bump_E=-1;
+        for (int i = 0; i < nbumps; i++){
+             PndEmcBump* Bump_i = (PndEmcBump*)fBumpArray->At(i);
+            if ((Bump_i->energy())>Bump_E) Bump = Bump_i;
+        }
         TVector3 Cent_pos = Bump->where();
         
         for (int i = 0; i < nhits; i++) {

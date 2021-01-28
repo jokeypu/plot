@@ -86,9 +86,6 @@ int File_Productor_cp(std::string dir_name){
         int nbumps = fBumpArray->GetEntriesFast();
         int ndigis = fDigiArray->GetEntriesFast();
         
-        PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(0);
-        TVector3 mom_gamma = mcTrack->GetMomentum();
-        
         //if (nbumps==0) continue;
         PndEmcBump* Bump;
         Double_t Bump_E=-1;
@@ -97,8 +94,12 @@ int File_Productor_cp(std::string dir_name){
             if ((Bump_i->energy())>Bump_E) Bump = Bump_i;
         }
         
-        TVector3 Cent_pos;
-        Cent_pos.SetMagThetaPhi( (Bump->where()).Mag(), mom_gamma.Theta(), mom_gamma.Phi() );
+        //PndMCTrack *mcTrack = (PndMCTrack *)fMCTrackArray->At(0);
+        //TVector3 mom_gamma = mcTrack->GetMomentum();
+        //TVector3 Cent_pos;
+        //Cent_pos.SetMagThetaPhi( (Bump->where()).Mag(), mom_gamma.Theta(), mom_gamma.Phi() );
+        
+        TVector3 Cent_pos = Bump->where();
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

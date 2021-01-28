@@ -53,7 +53,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     Int_t N = 0;
     Double_t distance_cut = 3;
     
-    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,Energy);
+    TH2D* h = new TH2D("Hist","h",300,0,distance_cut,300,0,Energy);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
     h->GetYaxis()->SetTitle("E_{truth} (GeV)");

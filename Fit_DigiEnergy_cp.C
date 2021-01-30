@@ -34,7 +34,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     gStyle->SetTitleFont(42,"xyz");
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
-    gStyle->SetTitleOffset(1.0,"xyz");
+    gStyle->SetTitleOffset(1.2,"xyz");
     
     std::string file_name(title);
     //std::string file_name = "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";
@@ -44,20 +44,20 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     TGraph *g = new TGraph();
     g->SetMarkerStyle(7);
     g->SetMarkerColorAlpha(kAzure+3, 0.5);
-    g->GetYaxis()->SetTitle("E_{truth} (GeV)");
-    g->GetXaxis()->SetTitle("d (cm)");
+    g->GetYaxis()->SetTitle("E_{truth}   [GeV]");
+    g->GetXaxis()->SetTitle("t   [X_{0}]");
     g->GetXaxis()->CenterTitle();
     g->GetYaxis()->CenterTitle();
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 3.5;
+    Double_t distance_cut = 4;
     
     TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,Energy);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h->GetYaxis()->SetTitle("E_{truth} (GeV)");
-    h->GetXaxis()->SetTitle("d (cm)");
+    h->GetYaxis()->SetTitle("E_{truth}   [GeV]");
+    h->GetXaxis()->SetTitle("t   [X_{0}]");
     h->GetXaxis()->CenterTitle();
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
@@ -69,7 +69,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
         //g->SetPoint(N,distance,energy);
-        h->Fill(distance,energy);
+        h->Fill(distance/X0,energy);
         //g->SetPoint(N,distance,energy);
         N++;
     }
@@ -79,7 +79,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         for (int j = 1; j < 201; j++){
             if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
             else if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
-            if (h->GetBinContent(i,j)!=0) h->SetBinContent(i,j,(int)(6*TMath::Log(h->GetBinContent(i,j))));
+            if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(6*TMath::Log(h->GetBinContent(i,j))));
         }
     }
     
@@ -108,16 +108,16 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     TGraph *g_Error = new TGraph();
     g_Error->SetMarkerStyle(7);
     g_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
-    g_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}");
-    g_Error->GetXaxis()->SetTitle("distance");
+    g_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}   [GeV]");
+    g_Error->GetXaxis()->SetTitle("t   [X_{0}]");
     g_Error->GetXaxis()->CenterTitle();
     g_Error->GetYaxis()->CenterTitle();
     
     TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,-Energy,Energy);
     h_Error->SetMarkerStyle(7);
     h_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h_Error->GetYaxis()->SetTitle("E_{func}-E_{truth} (GeV)");
-    h_Error->GetXaxis()->SetTitle("d (cm)");
+    h_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}   [GeV]");
+    h_Error->GetXaxis()->SetTitle("t   [X_{0}]");
     h_Error->GetXaxis()->CenterTitle();
     h_Error->GetYaxis()->CenterTitle();
     h_Error->GetZaxis()->CenterTitle();
@@ -131,7 +131,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
         //g_Error->SetPoint(N,distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
-        h_Error->Fill(distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
+        h_Error->Fill(distance/X0,(FABC(distance/X0,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
         N++;
     }
     c2->cd();

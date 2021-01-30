@@ -53,3 +53,4 @@ dkms.conf
 
 share/
 #doc/
+sniff_comb_*.txt

@@ -51,9 +51,9 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 4;
+    Double_t distance_cut = 3.5/X0;
     
-    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,Energy);
+    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,(Energy));
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
     h->GetYaxis()->SetTitle("E_{truth}   [GeV]");
@@ -69,7 +69,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
         //g->SetPoint(N,distance,energy);
-        h->Fill(distance/X0,energy);
+        h->Fill(distance/X0,(energy));
         //g->SetPoint(N,distance,energy);
         N++;
     }
@@ -79,7 +79,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         for (int j = 1; j < 201; j++){
             if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
             else if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
-            if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(6*TMath::Log(h->GetBinContent(i,j))));
+            //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(6*TMath::Log(h->GetBinContent(i,j))));
         }
     }
     
@@ -92,6 +92,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
 
     //f->SetParameters(1, 0.6, 5, 3.37, 1.45);
     c1->cd();
+    //c1->SetLogx();
     //g->Draw("AP.");
     //g->Fit(f,"R");
     h->Draw("PCOLZ");
@@ -101,6 +102,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
     //else par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << endl;
 
+    //c1->SetLogx();
     //c1->SetLogy();
     TString picture_name= "doc/A"+str_NO_Angle+"_FitPicture_cp/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c1->Print(picture_name);

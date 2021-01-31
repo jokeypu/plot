@@ -37,7 +37,7 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
     return angle;
 }
 
-int File_Productor_cp(std::string dir_name){
+int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
     //std::string dir_name="Gamma_one_1G";
     std::string out_name = "doc/"+ dir_name +".txt";
     
@@ -99,7 +99,25 @@ int File_Productor_cp(std::string dir_name){
         //TVector3 Cent_pos;
         //Cent_pos.SetMagThetaPhi( (Bump->where()).Mag(), mom_gamma.Theta(), mom_gamma.Phi() );
         
+        bool Exist = false;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            std::set<FairLink> links = (hit->GetTrackEntering()).GetLinks();
+            for (std::set<FairLink>::iterator linkIter = links.begin(); linkIter != links.end(); linkIter++) {
+                    if (linkIter->GetIndex() == 0) Exist = true;
+            }
+        }
+        if (!Exist) continue;
+        
         TVector3 Cent_pos = Bump->where();
+        
+        double E_max = -1.0;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            double Ei = hit->GetEnergy();
+            if (Ei > E_max) E_max = Ei;
+        }
+        if (E_max = -1 || E_max < Shower_Energy/10.0) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

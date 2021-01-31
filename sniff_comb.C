@@ -2,8 +2,8 @@ void mode_comb_TO_2(int NCut = 5);
 void mode_comb_TO_3(int NCut = 5);
 void mode_comb_TO_4(int NCut = 5);
 int sniff_comb(){
-    mode_comb_TO_2(5);
-    //mode_comb_TO_3(5);
+   // mode_comb_TO_2(5);
+    mode_comb_TO_3(5);
     //mode_comb_TO_4(5);
 	return 0;
 }

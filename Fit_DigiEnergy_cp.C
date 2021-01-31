@@ -69,6 +69,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
         //g->SetPoint(N,distance,energy);
+        if (distance/X0 < 2 && energy < Energy*0.3*exp(-1.25*distance)) continue;
         h->Fill(distance/X0,(energy));
         //g->SetPoint(N,distance,energy);
         N++;
@@ -78,15 +79,15 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     for (int i = 1; i < 201; i++){
         for (int j = 1; j < 201; j++){
             if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
-            else if (h->GetBinContent(i,j)<=2) h->SetBinContent(i,j,0);
+            else if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);
             //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(6*TMath::Log(h->GetBinContent(i,j))));
         }
     }
     
     //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
-    f->SetParameters(Energy, 2.5, 0.9, 0.7, 3);
-    //f->SetParLimits(0, 0.5, 1);
+    f->SetParameters(0.8*Energy, 2.5, 0.9, 0.7, 3);
+    //f->SetParLimits(0, 0.8*Energy, 0.85*Energy);
     //f->SetParLimits(2, 0, 1);
     //f->SetParLimits(2, 1.01, 25);
 

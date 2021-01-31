@@ -117,7 +117,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             double Ei = hit->GetEnergy();
             if (Ei > E_max) E_max = Ei;
         }
-        if (E_max = -1 || E_max < Shower_Energy/10.0) continue;
+        if (E_max == -1 || E_max < Shower_Energy/10.0) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

@@ -48,6 +48,7 @@ int z_Pi_mom(){
             double delta_angle = TMath::RadToDeg()*(vv_n1.Angle(vv_n2));
             double E_gamma1 = E_pi0/2-px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             double E_gamma2 = E_pi0/2+px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
+            //cout << E_pi0 << "   " << E_gamma1 << ", " << E_gamma2 << endl;
             h_E->Fill(E_pi0,E_gamma1);
             //h_E->Fill(E_pi0,E_gamma2);
             h->Fill(E_pi0,delta_angle);

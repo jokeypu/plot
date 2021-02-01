@@ -35,7 +35,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.2,"xyz");
-    gStyle->SetPalette(1);
+    //gStyle->SetPalette(1);
     
     std::string file_name(title);
     //std::string file_name = "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";

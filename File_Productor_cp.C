@@ -112,12 +112,29 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
         TVector3 Cent_pos = Bump->where();
         
         double E_max = -1.0;
+        Int_t max_energy_index = -1;
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             double Ei = hit->GetEnergy();
-            if (Ei > E_max) E_max = Ei;
+            if (Ei > E_max) {
+                E_max = Ei;
+                max_energy_index = i;
+            }
         }
-        if (E_max == -1 || E_max < Shower_Energy/3.0) continue;
+        
+        if (E_max == -1 || E_max < Shower_Energy/2.0) continue;
+        
+        double min_distance = 99999;
+        Int_t min_distance_index = -1;
+        for (int i = 0; i < nhits; i++) {
+            PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+            TVector3 Det_Pos;
+            hit->Position(Det_Pos);
+            Distance = DD(&Det_Pos, &Cent_pos, 1.25);
+            if (Distance < min_distance) min_distance_index = i;
+        }
+        
+        if (max_energy_index != min_distance_index) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

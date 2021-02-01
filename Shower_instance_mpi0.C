@@ -218,10 +218,10 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     par_file << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
     
     cout << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
-    
-    TString picture_name= "doc/mpi0_A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
-    c1->Print(picture_name);
     */
+    TString picture_name= "doc/mpi0_A"+str_NO_Angle+"_resolution_Picture/mpi0_A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    c1->Print(picture_name);
+    
     par_file.close();
     
     return 0;

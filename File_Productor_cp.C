@@ -107,7 +107,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
                     if (linkIter->GetIndex() == 0) Exist = true;
             }
         }
-        //if (!Exist) continue;
+        if (!Exist) continue;
         
         TVector3 Cent_pos = Bump->where();
         
@@ -118,10 +118,10 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             TVector3 Det_Pos;
             hit->Position(Det_Pos);
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            if (Distance < min_distance) {E_max = hit->GetEnergy();}
+            if (Distance < min_distance) {min_distance = Distance;E_max = hit->GetEnergy();}
         }
         //cout << E_max << endl;
-        //if (E_max < Shower_Energy/100.0) continue;
+        if (E_max < Shower_Energy/2.0) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
@@ -133,7 +133,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
             if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 14) continue;
-            if (Distance <1.5 && Truth_Energy < Shower_Energy/5.0) continue;
+            //if (Distance <1.5 && Truth_Energy < Shower_Energy/5.0) continue;
             File_out << Distance << " " << angle << " " << Truth_Energy << endl;
             N++;
         }

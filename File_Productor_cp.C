@@ -130,7 +130,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             TVector3 Det_Pos;
             hit->Position(Det_Pos);
-            Distance = DD(&Det_Pos, &Cent_pos, 1.25);
+            double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             if (Distance < min_distance) min_distance_index = i;
         }
         

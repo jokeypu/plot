@@ -52,13 +52,5 @@ Mkfile.old
 dkms.conf
 
 share/
-<<<<<<< HEAD
-<<<<<<< HEAD
 doc/
-=======
-#doc/
-=======
-doc/
->>>>>>> adc4134d306ac946044b5fcd4e0d146d0439a578
-sniff_comb_*.txt
->>>>>>> f5e74ecc41f7c62fca429be8f8d388da05d3955f
+sniff_comb_*

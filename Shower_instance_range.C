@@ -79,8 +79,8 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     
     string file_str1(old_file), file_str2(new_file);
     
-    string file_name1 = "doc/" + file_str1 + "_pi0_gamma.txt";
-    string file_name2 = "doc/" + file_str2 + "_pi0_gamma.txt";
+    string file_name1 = "doc/" + file_str1 + ".txt";
+    string file_name2 = "doc/" + file_str2 + ".txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -176,7 +176,6 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
     
-    /*
     SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2), f1->GetParameter(3), f1->GetParameter(4));
     Double_t sigma1 = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
     
@@ -218,7 +217,7 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     
     TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);
-    */
+    
     par_file.close();
     
     return 0;

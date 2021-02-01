@@ -121,7 +121,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             if (Distance < min_distance) {E_max = hit->GetEnergy();}
         }
         
-        if (E_max < Shower_Energy/2.0) continue;
+        if (E_max < Shower_Energy/10.0) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
@@ -133,8 +133,8 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
             if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
             if (Distance > 14) continue;
-            N++;
             File_out << Distance << " " << angle << " " << Truth_Energy << endl;
+            N++;
         }
         CC++;
     }

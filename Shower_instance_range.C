@@ -60,13 +60,13 @@ Double_t finding_sigma(Double_t mean, Double_t Init_sigma){
     return (sigma_max+sigma_min)/2.0;
 }
 
-int Shower_instance_cp(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7)
+int Shower_instance_range(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7, double cut_min, double cut_max)
 {
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::string out_name = "doc/range_A"+str_NO_Angle+ "_E" + str_Energy + "_resolution_par.txt";
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
@@ -79,8 +79,8 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     
     string file_str1(old_file), file_str2(new_file);
     
-    string file_name1 = "doc/" + file_str1 + ".txt";
-    string file_name2 = "doc/" + file_str2 + ".txt";
+    string file_name1 = "doc/" + file_str1 + "_range.txt";
+    string file_name2 = "doc/" + file_str2 + "_range.txt";
     
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
@@ -135,10 +135,20 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     for (int i = 0; i < MaxNo; i++) {
         if (!getline(file1,str1)) continue;
         if (!getline(file2,str2)) continue;
-        double value1= atof(str1.c_str());
-        double value2= atof(str2.c_str());
-        h1D1->Fill(value1);
-        h1D2->Fill(value2);
+        std::stringstream strStream1(str1);
+        std::stringstream strStream2(str2);
+        double distance1, value1_1, value1_2;
+        double distance2, value2_1, value2_2;
+        strStream1 >> distance1 >> value1_1 >> value1_2;
+        strStream2 >> distance2 >> value2_1 >> value2_2;
+        if (distance1 > cut_min && distance1 < cut_max) {
+            h1D1->Fill(value1_1);
+            h1D1->Fill(value1_2);
+        }
+        if (distance2 > cut_min && distance2 < cut_max) {
+            h1D2->Fill(value2_1);
+            h1D2->Fill(value2_2);
+        }
         N++;
     }
     file1.clear();
@@ -152,15 +162,15 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
     
-    Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0, set_p03 = set_p00/10.0, set_p04 =  h1D1->GetStdDev(); 
-    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0;
+    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
     f1->SetLineColor(kBlack);
-    f1->SetParameters(set_p00,set_p01,set_p02,set_p03,set_p04);
+    f1->SetParameters(set_p00,set_p01,set_p02);
     
-    Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0, set_p13 = set_p10/10.0, set_p14 =  h1D2->GetStdDev(); 
-    TF1 *f2=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0;
+    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
     f2->SetLineColor(kRed);
-    f2->SetParameters(set_p10,set_p11,set_p12,set_p13,set_p14);
+    f2->SetParameters(set_p10,set_p11,set_p12);
     
     h1D1->Fit(f1,"R");
     h1D2->Fit(f2,"R");
@@ -170,52 +180,32 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     h1D1->Draw("SAME");
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
-    leg->AddEntry(h1D1, old_file, "L");
-    leg->AddEntry(h1D2, new_file, "L");
-    //leg->AddEntry(h1D1,"Bump Energy old" , "L");
-    //leg->AddEntry(h1D2,"Bump Energy new", "L");
+    //leg->AddEntry(h1D1, old_file, "L");
+    //leg->AddEntry(h1D2, new_file, "L");
+    leg->AddEntry(h1D1,"Bump Energy Raw" , "L");
+    leg->AddEntry(h1D2,"Bump Energy New", "L");
     leg->Draw();
     
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2), f1->GetParameter(3), f1->GetParameter(4));
-    Double_t sigma1 = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2)+f1->GetParError(2), f1->GetParameter(3), f1->GetParameter(4)+f1->GetParError(4));
-    Double_t sigma1p = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2)-f1->GetParError(2), f1->GetParameter(3), f1->GetParameter(4)-f1->GetParError(4));
-    Double_t sigma1m = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2), f2->GetParameter(3), f2->GetParameter(4));
-    Double_t sigma2 = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2)+f2->GetParError(2), f2->GetParameter(3), f2->GetParameter(4)+f2->GetParError(4));
-    Double_t sigma2p = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2)-f2->GetParError(2), f2->GetParameter(3), f2->GetParameter(4)-f2->GetParError(4));
-    Double_t sigma2m = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-
     Double_t mean_OR = f1->GetParameter(1);
     Double_t mean_fix = f2->GetParameter(1);
     Double_t D_mean_OR = f1->GetParError(1);
     Double_t D_mean_fix = f2->GetParError(1);
     
-    Double_t D_delta_OR_p = sigma1p - sigma1;
-    Double_t D_delta_OR_m = sigma1 - sigma1m;
-    Double_t D_delta_fix_p = sigma2p - sigma2;
-    Double_t D_delta_fix_m = sigma2 - sigma2m;
+    Double_t sigma_OR = f1->GetParameter(2);
+    Double_t sigma_fix = f2->GetParameter(2);
+    Double_t D_sigma_OR = f1->GetParError(2);
+    Double_t D_sigma_fix = f2->GetParError(2);
 
-    Double_t Resolution_OR = sigma1/mean_OR;
-    Double_t Resolution_fix = sigma2/mean_fix;
-    Double_t D_Resolution_OR_p = sqrt(  pow(D_delta_OR_p,2) + pow(sigma1,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
-    Double_t D_Resolution_OR_m = sqrt(  pow(D_delta_OR_m,2) + pow(sigma1,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
-    Double_t D_Resolution_fix_p = sqrt(  pow(D_delta_fix_p,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
-    Double_t D_Resolution_fix_m = sqrt(  pow(D_delta_fix_m,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
+    Double_t Resolution_OR = sigma_OR/mean_OR;
+    Double_t Resolution_fix = sigma_fix/mean_fix;
+    Double_t D_Resolution_OR = sqrt(  pow(D_sigma_OR,2) + pow(sigma_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
+    Double_t D_Resolution_fix = sqrt(  pow(D_sigma_fix,2) + pow(sigma_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    par_file << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    par_file << cut_min << " " << cut_max << " " << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     
-    cout << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    cout << cut_min << " " << cut_max << " " << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     
-    TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    TString picture_name= "doc/range_A"+str_NO_Angle+ "_E" + str_Energy +"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);
     
     par_file.close();

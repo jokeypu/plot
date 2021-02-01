@@ -158,7 +158,7 @@ int Shower_instance_cp(const char old_file[30], const char new_file[30], double 
     f1->SetParameters(set_p00,set_p01,set_p02,set_p03,set_p04);
     
     Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0, set_p13 = set_p10/10.0, set_p14 =  h1D2->GetStdDev(); 
-    TF1 *f2=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
     f2->SetLineColor(kRed);
     f2->SetParameters(set_p10,set_p11,set_p12,set_p13,set_p14);
     

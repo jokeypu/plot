@@ -1,17 +1,21 @@
-int Exec(string dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
+int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma=2, bool IsSplit=1);
 int Shower_iFile_pi0_gamma(string dir_name)
 {
-    string out_name = "doc/" + dir_name + "_pi0_gamma.txt";
-    if( Exec( dir_name, out_name, 2, true) ) return 1;
+    string out_name1 = "doc/" + dir_name + "_pi0_gamma_min.txt";
+    string out_name2 = "doc/" + dir_name + "_pi0_gamma_max.txt";
+    if( Exec( dir_name, out_name1, out_name2, 2, true) ) return 1;
     return 0;
 }
 
 //*****************************************************************************************//
-int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
+int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
-    ofstream out;
-    out.open(out_name,ios::out);
+    ofstream out_min;
+    out_min.open(out_name_min,ios::out);
+    
+    ofstream out_max;
+    out_max.open(out_name_max,ios::out);
     
     TString file_path_sim = "../data/"+dir_name+"/evtcomplete_sim.root";
     TString file_path_digi = "../data/"+dir_name+"/evtcomplete_digi.root";
@@ -102,7 +106,7 @@ int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
             Int_t index(-1);
             for (int i = 0; i < nbumps; i++) {
                 PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
-                TVector3 pos = Bump->position();
+                TVector3 pos = Bump->where();
                 Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
                 if (d < min_d) { min_d = d; index = i; }
             }
@@ -122,12 +126,20 @@ int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
         
         //if (distance > 5) continue;
         //Calculate the error of energy and position
+        Double_t bump_E_min(-1.0), bump_E_max(-1.0);
+        Double_t bump_E[2];
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
-            Double_t bump_E = Bump->energy();
-            out << bump_E - truth_E[iGamma] << endl;
-            N++;
+            bump_E[iGamma] = Bump->energy();
         }
+        if (bump_E[0] < bump_E[1]) {
+            out_min << bump_E[0] << " " << truth_E[0] << endl;
+            out_max << bump_E[1] << " " << truth_E[1] << endl;
+        }else{
+            out_min << bump_E[1] << " " << truth_E[1] << endl;
+            out_max << bump_E[0] << " " << truth_E[0] << endl;
+        }
+        N++;
     }
     out.close();
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

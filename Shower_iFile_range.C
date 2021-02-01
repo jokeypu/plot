@@ -1,7 +1,25 @@
+Double_t DD(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
+    Double_t distance(0), angle(0);
+    if (*DetPos != *Cent) {
+        TVector3 vz(0, 0, 1);
+        TVector3 DetPos_o = (*DetPos) - 3.7*vz;
+        TVector3 DetPos_n;
+        DetPos_n.SetMagThetaPhi(DetPos_o.Mag(), DetPos_o.Theta(), DetPos_o.Phi()-0.06981317);
+        TVector3 ey = DetPos_n.Cross(vz).Unit();
+        TVector3 ex = DetPos_n.Cross(ey).Unit();
+        Double_t dx = abs((*Cent-*DetPos).Dot(ex));
+        Double_t dy = abs((*Cent-*DetPos).Dot(ey));
+        distance = sqrt(dx*dx+dy*dy);
+        angle = 57.2957*TMath::ATan(dy/dx);
+        if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
+        if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+    }
+    return distance;
+}
 int Exec(string dir_name, string out_name, Int_t NGamma=2, bool IsSplit=1);
-int Shower_iFile(string dir_name)
+int Shower_iFile_range(string dir_name)
 {
-    string out_name = "doc/" + dir_name + ".txt";
+    string out_name = "doc/" + dir_name + "_range.txt";
     if( Exec( dir_name, out_name, 2, true) ) return 1;
     return 0;
 }
@@ -88,7 +106,7 @@ int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
             Int_t index(-1);
             for (int i = 0; i < nbumps; i++) {
                 PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
-                TVector3 pos = Bump->position();
+                TVector3 pos = Bump->where();
                 Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
                 if (d < min_d) { min_d = d; index = i; }
             }
@@ -108,13 +126,20 @@ int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
         
         //if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
+        Double_t bump_E[2];
+        std::vector<TVector3> Bump_pos;
+        Bump_pos.clear();
         //Calculate the error of energy and position
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
-            Double_t bump_E = Bump->energy();
-            out << bump_E << endl;
-            N++;
+            bump_E[iGamma] = Bump->energy();
+            Bump_pos.push_back(Bump->where());
         }
+        TVector3 Bump_pos1 = Bump_pos[0];
+        TVector3 Bump_pos2 = Bump_pos[1];
+        Double_t Distance = DD(&Bump_pos1, &Bump_pos2, 1.25);
+        out << Distance << " " << bump_E[0] << " " << bump_E[1] << endl;
+        N++;
     }
     out.close();
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;

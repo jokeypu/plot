@@ -117,12 +117,11 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
             TVector3 Det_Pos;
             hit->Position(Det_Pos);
-            //double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            double Distance = (Det_Pos - Cent_pos).Mag();
+            double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             if (Distance < min_distance) {E_max = hit->GetEnergy();}
         }
-        cout << E_max << endl;
-        //if (E_max < Shower_Energy/10.0) continue;
+        //cout << E_max << endl;
+        if (E_max < Shower_Energy/100.0) continue;
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);

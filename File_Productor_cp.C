@@ -120,7 +120,7 @@ int File_Productor_cp(std::string dir_name, Double_t Shower_Energy){
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
             if (Distance < min_distance) {E_max = hit->GetEnergy();}
         }
-        
+        cout << E_max << endl;
         //if (E_max < Shower_Energy/10.0) continue;
         
         for (int i = 0; i < nhits; i++) {

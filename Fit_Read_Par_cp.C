@@ -89,13 +89,13 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     f1->SetLineColor(kRed-7);
     f1->SetParameters(-2,0.5,1.42);
 
-    TF1* f2=new TF1("f2","[0]*x+[1]",0,Max_Energy);
+    TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
-    //f0->SetParameters(2,7,0.04);
+    f2->SetParameters(-2,0.5,0.9);
     
-    TF1* f3=new TF1("f3","[0]*x+[1]",0,Max_Energy);
+    TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    //f1->SetParameters(2,0.5,1.55);
+    f3->SetParameters(2,0.5,0.7);
     
     TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
@@ -115,10 +115,14 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     //g4->GetYaxis()->SetRangeUser(3.5,5.5);
     
     g0->GetYaxis()->SetRangeUser(0,6.5);
-    g1->GetYaxis()->SetRangeUser(1,4);
-    g2->GetYaxis()->SetRangeUser(0.5,1.5);
-    g3->GetYaxis()->SetRangeUser(0.2,1.2);
-    g4->GetYaxis()->SetRangeUser(2,7);
+    //g1->GetYaxis()->SetRangeUser(1,4);
+    g1->GetYaxis()->SetRangeUser(2.5,3.1);
+    //g2->GetYaxis()->SetRangeUser(0.5,1.5);
+    g2->GetYaxis()->SetRangeUser(0.5,1.1);
+    //g3->GetYaxis()->SetRangeUser(0.2,1.2);
+    g3->GetYaxis()->SetRangeUser(0.5,1.1);
+    //g4->GetYaxis()->SetRangeUser(2,7);
+    g4->GetYaxis()->SetRangeUser(2.5,7.5);
     
     c1->Divide(2, 2);
     c1->cd(1);
@@ -138,10 +142,9 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     
     AllPar_file << str_NO_Angle << " "
     << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " "
-    << f2->GetParameter(0) << " " << f2->GetParameter(1) << " "
-    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
+    << f2->GetParameter(0) << " " << f2->GetParameter(1) << " " << f2->GetParameter(2) << " "
+    << f3->GetParameter(0) << " " << f3->GetParameter(1) << " " << f3->GetParameter(2) << " "
     << f4->GetParameter(0) << " " << f4->GetParameter(1) << " " << f4->GetParameter(2) << " "
-    //<< f3->GetParameter(0) << " " << f3->GetParameter(1) << " "
     << endl;
     AllPar_file.close();
     par_file.close();

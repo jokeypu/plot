@@ -70,9 +70,9 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
-    int bin1 = 100*(15.0/(0.6*Energy)),bin2(200);
+    int bin1 = 100,bin2(200);
     float tx(1200),ty(900);
-    double xmin(0),xmax(15);
+    double xmin(60),xmax(200);
     //double xmin(0),xmax(2.0);
     cout << "-INFO  Old File : " << old_file << endl;
     cout << "-INFO  New File : " << new_file << endl;
@@ -146,8 +146,8 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     cout << "Entries : " << N << endl;
     
     c1->cd();
-    h1D2->Draw();
-    h1D1->Draw("SAME");
+    h1D1->Draw();
+    h1D2->Draw("SAME");
     
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());

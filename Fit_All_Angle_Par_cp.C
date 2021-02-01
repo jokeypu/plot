@@ -8,8 +8,8 @@ int Fit_All_Angle_Par_cp(){
     //tx0 *= 2;ty0 *= 2;tx1 *= 2;ty1 *= 2;
 
     TCanvas* c1=new TCanvas("PANDA0","All Angle p1",tx0,ty0);
-    TCanvas* c2=new TCanvas("PANDA1","All Angle p2",tx1,ty1);
-    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",tx1,ty1);
+    TCanvas* c2=new TCanvas("PANDA1","All Angle p2",tx0,ty0);
+    TCanvas* c3=new TCanvas("PANDA3","All Angle p3",tx0,ty0);
     TCanvas* c4=new TCanvas("PANDA2","All Angle p4",tx0,ty0);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -59,11 +59,19 @@ int Fit_All_Angle_Par_cp(){
     
     TGraph *g22 = new TGraph();
     g22->SetMarkerStyle(22);
-    g22->SetMarkerColorAlpha(kRed, 1);
+    g22->SetMarkerColorAlpha(kGreen+1, 1);
     g22->GetXaxis()->SetTitle("#theta(deg)");
     g22->GetYaxis()->SetTitle("p22");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
+
+    TGraph *g23 = new TGraph();
+    g23->SetMarkerStyle(22);
+    g23->SetMarkerColorAlpha(kRed, 1);
+    g23->GetXaxis()->SetTitle("#theta(deg)");
+    g23->GetYaxis()->SetTitle("p23");
+    g23->GetXaxis()->CenterTitle();
+    g23->GetYaxis()->CenterTitle();
     
     TGraph *g31 = new TGraph();
     g31->SetMarkerStyle(22);
@@ -75,11 +83,20 @@ int Fit_All_Angle_Par_cp(){
     
     TGraph *g32 = new TGraph();
     g32->SetMarkerStyle(22);
-    g32->SetMarkerColorAlpha(kRed, 1);
+    g32->SetMarkerColorAlpha(kGreen+1, 1);
     g32->GetXaxis()->SetTitle("#theta(deg)");
     g32->GetYaxis()->SetTitle("p32");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
+    
+
+    TGraph *g33 = new TGraph();
+    g33->SetMarkerStyle(22);
+    g33->SetMarkerColorAlpha(kRed, 1);
+    g33->GetXaxis()->SetTitle("#theta(deg)");
+    g33->GetYaxis()->SetTitle("p33");
+    g33->GetXaxis()->CenterTitle();
+    g33->GetYaxis()->CenterTitle();
     
     TGraph *g41 = new TGraph();
     g41->SetMarkerStyle(22);
@@ -110,8 +127,8 @@ int Fit_All_Angle_Par_cp(){
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
         int NO_Angle(-1);
-        float p11, p12, p13, p21, p22, p31, p32, p41, p42, p43;
-        strStream >> NO_Angle >> p11 >> p12 >> p13 >> p21 >> p22 >> p31 >> p32 >> p41 >> p42 >> p43;
+        float p11, p12, p13, p21, p22, p23, p31, p32, p33, p41, p42, p43;
+        strStream >> NO_Angle >> p11 >> p12 >> p13 >> p21 >> p22 >> p23 >> p31 >> p32 >> p33 >> p41 >> p42 >> p43;
         
         Double_t t_min, t_max;
         if (NO_Angle == 1) {t_min = 23.8514; t_max = 24.6978;}
@@ -137,22 +154,24 @@ int Fit_All_Angle_Par_cp(){
         if (NO_Angle == 21) {t_min = 127.273; t_max = 129.033;}
         if (NO_Angle == 22) {t_min = 132.400; t_max = 134.031;}
         if (NO_Angle == 23) {t_min = 137.230; t_max = 138.679;}
-        Double_t angle = (t_max+t_min)/20.0;
-        if (NO_Angle == -1 || 10*angle<18 || 10*angle > 145) return 1;
+        Double_t angle = (t_max+t_min)/2.0;
+        if (NO_Angle == -1 || angle<18 || angle > 145) return 1;
         
-        g11->SetPoint(N,10*angle,p11);
-        g12->SetPoint(N,10*angle,p12);
-        g13->SetPoint(N,10*angle,p13);
+        g11->SetPoint(N,angle,p11);
+        g12->SetPoint(N,angle,p12);
+        g13->SetPoint(N,angle,p13);
         
-        g21->SetPoint(N,10*angle,p21);
-        g22->SetPoint(N,10*angle,p22);
+        g21->SetPoint(N,angle,p21);
+        g22->SetPoint(N,angle,p22);
+        g23->SetPoint(N,angle,p23);
         
-        g31->SetPoint(N,10*angle,p31);
-        g32->SetPoint(N,10*angle,p32);
+        g31->SetPoint(N,angle,p31);
+        g32->SetPoint(N,angle,p32);
+        g33->SetPoint(N,angle,p33);
         
-        g41->SetPoint(N,10*angle,p41);
-        g42->SetPoint(N,10*angle,p42);
-        g43->SetPoint(N,10*angle,p43);
+        g41->SetPoint(N,angle,p41);
+        g42->SetPoint(N,angle,p42);
+        g43->SetPoint(N,angle,p43);
         
         N++;
     }
@@ -173,13 +192,20 @@ int Fit_All_Angle_Par_cp(){
     
     TF1* f22=new TF1("f22","[0]",20,140);
     f22->SetLineColor(kRed-7);
+
+    TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",20,140);
+    f23->SetLineColor(kRed-7);
+    f23->SetParameters(0.04,80,0.004);
     
     TF1* f31=new TF1("f31","[0]",20,140);
     f31->SetLineColor(kRed-7);
-    
-    TF1* f32=new TF1("f32","[0]*(x-[1])*(x-[1])+[2]",20,140);
+
+    TF1* f32=new TF1("f32","[0]",20,140);
     f32->SetLineColor(kRed-7);
-    f32->SetParameters(-0.04,80,0.004);
+    
+    TF1* f33=new TF1("f33","[0]*(x-[1])*(x-[1])+[2]",20,140);
+    f33->SetLineColor(kRed-7);
+    f33->SetParameters(-0.04,80,0.004);
     
     TF1* f41=new TF1("f41","[0]",20,140);
     f41->SetLineColor(kRed-7);
@@ -196,23 +222,27 @@ int Fit_All_Angle_Par_cp(){
     g13->Fit(f13,"R");
     g21->Fit(f21,"R");
     g22->Fit(f22,"R");
+    g23->Fit(f23,"R");
     g31->Fit(f31,"R");
     g32->Fit(f32,"R");
+    g33->Fit(f33,"R");
     g41->Fit(f41,"R");
     g42->Fit(f42,"R");
     g43->Fit(f43,"R");
     
-    g11->GetYaxis()->SetRangeUser(-6.5,2.5);
-    g12->GetYaxis()->SetRangeUser(-4,14);
-    g13->GetYaxis()->SetRangeUser(3,3.35);
-    g21->GetYaxis()->SetRangeUser(-0.1,0.1);
-    g22->GetYaxis()->SetRangeUser(0.6,1.3);
-    g31->GetYaxis()->SetRangeUser(-0.01,0.01);
-    g32->GetYaxis()->SetRangeUser(0.6,0.75);
-    g41->GetYaxis()->SetRangeUser(-6,0);
-    g42->GetYaxis()->SetRangeUser(0,5);
-    g43->GetYaxis()->SetRangeUser(4.2,6);
-    
+    g11->GetYaxis()->SetRangeUser(-3.05,2.15);
+    g12->GetYaxis()->SetRangeUser(-10,22);
+    g13->GetYaxis()->SetRangeUser(2.59,3.11);
+    g21->GetYaxis()->SetRangeUser(-2.4,0.8);
+    g22->GetYaxis()->SetRangeUser(-3,21);
+    g23->GetYaxis()->SetRangeUser(0.865,0.93);
+    g31->GetYaxis()->SetRangeUser(-0.15,0.57);
+    g32->GetYaxis()->SetRangeUser(-0.5,11.5);
+    g33->GetYaxis()->SetRangeUser(0.672,0.828);
+    g41->GetYaxis()->SetRangeUser(-6,-1.2);
+    g42->GetYaxis()->SetRangeUser(-0.35,2.45);
+    g43->GetYaxis()->SetRangeUser(4.48,8.12);
+
     //c1->Divide(3, 1);
     c1->Divide(1, 3);
     c1->cd(1);
@@ -223,18 +253,23 @@ int Fit_All_Angle_Par_cp(){
     g13->Draw("AP.");
     
     //c2->Divide(2, 1);
-    c2->Divide(1, 2);
+    c2->Divide(1, 3);
     c2->cd(1);
     g21->Draw("AP.");
     c2->cd(2);
     g22->Draw("AP.");
+    c2->cd(3);
+    g23->Draw("AP.");
+
     
     //c3->Divide(2, 1);
-    c3->Divide(1, 2);
+    c3->Divide(1, 3);
     c3->cd(1);
     g31->Draw("AP.");
     c3->cd(2);
     g32->Draw("AP.");
+    c3->cd(3);
+    g33->Draw("AP.");
     
     //c4->Divide(3, 1);
     c4->Divide(1, 3);
@@ -246,8 +281,8 @@ int Fit_All_Angle_Par_cp(){
     g43->Draw("AP.");
     
     cout << "Double_t fit_par1[5] = {" << f11->GetParameter(0) << ", " << f12->GetParameter(0) << ", " << f13->GetParameter(0) << ", " << f13->GetParameter(1) << ", " << f13->GetParameter(2) << "};" << endl;
-    cout << "Double_t fit_par2[2] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << "};" << endl;
-    cout << "Double_t fit_par3[4] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << ", " << f32->GetParameter(1) << ", " << f32->GetParameter(2) << "};" << endl;
+    cout << "Double_t fit_par2[5] = {" << f21->GetParameter(0) << ", " << f22->GetParameter(0) << ", " << f23->GetParameter(0) << ", " << f23->GetParameter(1) << ", " << f23->GetParameter(2) << "};" << endl;
+    cout << "Double_t fit_par3[5] = {" << f31->GetParameter(0) << ", " << f32->GetParameter(0) << ", " << f33->GetParameter(0) << ", " << f33->GetParameter(1) << ", " << f33->GetParameter(2) << "};" << endl;
     cout << "Double_t fit_par4[5] = {" << f41->GetParameter(0) << ", " << f42->GetParameter(0) << ", " << f43->GetParameter(0) << ", " << f43->GetParameter(1) << ", " << f43->GetParameter(2) << "};" << endl;
     
     

@@ -69,7 +69,7 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
         //g->SetPoint(N,distance,energy);
-        //if (distance/X0 < 2 && energy < Energy*0.3*exp(-1.25*distance)) continue;
+        if (distance/X0 < 2 && energy < Energy*0.3*exp(-1.25*distance)) continue;
         h->Fill(distance/X0,(energy));
         //g->SetPoint(N,distance,energy);
         N++;

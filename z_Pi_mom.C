@@ -15,8 +15,10 @@ int z_Pi_mom(){
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1,"xyz");
+    //gStyle->SetPalette(1);
+    gStyle->SetPalette(1);
     
-    TH2D* h = new TH2D("Hist","h",500,1,6,500,2,15);
+    TH2D* h = new TH2D("Hist","h",500,1,6,500,2,20);
     //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
@@ -26,7 +28,7 @@ int z_Pi_mom(){
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
     
-    TH2D* h_E = new TH2D("Hist_E","h_E",500,0,6,500,0,6);
+    TH2D* h_E = new TH2D("Hist_E","h_E",500,1,6,500,0,6);
     h_E->SetMarkerStyle(7);
     h_E->SetMarkerColorAlpha(kAzure+3, 0.5);
     h_E->GetXaxis()->SetTitle("E_{#pi0}   [GeV]");
@@ -54,12 +56,18 @@ int z_Pi_mom(){
             h->Fill(E_pi0,delta_angle);
         }
     }
+    
+    Int_t BinCut =  160;
+    //Int_t BinCut =  20;
     for (int i = 1; i < 501; i++){
         for (int j = 1; j < 501; j++){
-            if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log(h->GetBinContent(i,j))));
-            if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log(h_E->GetBinContent(i,j))));
+            //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log10(h->GetBinContent(i,j))));
+            if (h->GetBinContent(i,j) > 3*BinCut) h->SetBinContent(i, j, 3*BinCut);
+            if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
+            //if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log10(h_E->GetBinContent(i,j))));
         }
     }
+    
     c1->cd();
     h->Draw("PCOLZ");
     

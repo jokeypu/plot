@@ -51,16 +51,11 @@ int Exec(string dir_name, string out_name, Int_t NGamma, bool IsSplit){
         //if (distance > 5) continue;
         if (nclusters != 1 || nbumps != 2) continue;
         //Calculate the error of energy and position
-<<<<<<< HEAD
-        Double_t PX = PY = PZ = PE = 0.0;
-        for (int iGamma = 0; iGamma < NGamma; iGamma++) {
-            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
-=======
+
         Double_t PX, PY, PZ, PE;
         PX = PY = PZ = PE = 0.0;
         for (int iGamma = 0; iGamma < NGamma; iGamma++) {
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(iGamma);
->>>>>>> 560032398e62720358ab05de2eaee2c7b602b026
             Double_t bump_E = Bump->energy();
             TVector3 bump_mom = Bump->where();
             bump_mom.SetMag(bump_E);

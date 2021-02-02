@@ -86,7 +86,9 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    gStyle->SetOptStat(1);
+    //gStyle->SetOptStat(1);
+    //gStyle->SetOptStat(111110);
+    gStyle->SetOptStat(1001);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -148,6 +150,11 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     c1->cd();
     h1D2->Draw();
     h1D1->Draw("SAME");
+    
+    TPaveStats *ps1 = (TPaveStats*)h1D1->GetListOfFunctions()->FindObject("stats");
+    TPaveStats *ps2 = (TPaveStats*)h1D2->GetListOfFunctions()->FindObject("stats");
+    ps1->Draw("SAME");
+    ps2->Draw("SAME");
     
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());

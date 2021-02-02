@@ -146,8 +146,8 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     cout << "Entries : " << N << endl;
     
     c1->cd();
-    h1D1->Draw();
-    h1D2->Draw("SAME");
+    h1D2->Draw();
+    h1D1->Draw("SAME");
     
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());

@@ -101,18 +101,18 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
+    TH1D* h1D1 = new TH1D("Energy_Raw","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kGray+3);
     h1D1->SetLineWidth(2);
-    h1D1->GetXaxis()->SetTitle("Energy");
+    h1D1->GetXaxis()->SetTitle("E_{#gamma}   [GeV]");
     h1D1->GetYaxis()->SetTitle("Entries");
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, xmin, xmax);
+    TH1D* h1D2 = new TH1D("Energy_New","h1_2", bin1, xmin, xmax);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
-    h1D2->GetXaxis()->SetTitle("Energy");
+    h1D2->GetXaxis()->SetTitle("E_{#gamma}   [GeV]");
     h1D2->GetYaxis()->SetTitle("Entries");
     h1D2->GetXaxis()->CenterTitle();
     h1D2->GetYaxis()->CenterTitle();
@@ -166,27 +166,26 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     //h1D2->SetAxisRange(NewRange_min, NewRange_max);
     //h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
-    
-    Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0;
-    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
-    f1->SetLineColor(kBlack);
-    f1->SetParameters(set_p00,set_p01,set_p02);
-    
-    Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0;
-    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
-    f2->SetLineColor(kRed);
-    f2->SetParameters(set_p10,set_p11,set_p12);
-    
-    //h1D1->Fit(f1,"R");
-    //h1D2->Fit(f2,"R");
-
     int N1_max(-1), N2_max(-1);
     for (int i = 1; i <= bin1; i++){
         int N1 = h1D1->GetBinContent(i);
         int N2 = h1D2->GetBinContent(i);
-	if (N1 > N1_max) N1_max = N1;
-	if (N2 > N2_max) N2_max = N2;
+    if (N1 > N1_max) N1_max = N1;
+    if (N2 > N2_max) N2_max = N2;
     }
+    
+    Double_t set_p00 = N1_max, set_p01 = h1D1->GetMean(), set_p02 = dex*Energy/5.0;
+    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    f1->SetLineColor(kBlack);
+    f1->SetParameters(set_p00,set_p01,set_p02);
+    
+    Double_t set_p10 = N2_max, set_p11 = h1D2->GetMean(), set_p12 = dex*Energy/5;
+    TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
+    f2->SetLineColor(kRed);
+    f2->SetParameters(set_p10,set_p11,set_p12);
+    
+    h1D1->Fit(f1,"R");
+    h1D2->Fit(f2,"R");
 
     c1->cd();
     if (N1_max > N2_max){

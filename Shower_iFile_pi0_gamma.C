@@ -70,7 +70,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
                     if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
-        //if (Exist.size() != 2) continue;
+        if (Exist.size() != 2) continue;
         
         //Calculate the average distance between photons
         Double_t distance(0);
@@ -104,7 +104,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             Double_t min_d(99999);
             Int_t index(-1);
             for (int i = 0; i < nbumps; i++) {
-                PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i-1);
+                PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
                 TVector3 pos = Bump->where();
                 Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
                 if (d < min_d) { min_d = d; index = i; }
@@ -121,31 +121,24 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         bool result(false);
         std::map<Int_t, Int_t>::iterator it;
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
-        //if (IsSplit && result) continue;
+        if (IsSplit && result) continue;
         
         //if (distance > 5) continue;
         //Calculate the error of energy and position
         Double_t bump_E_min(-1.0), bump_E_max(-1.0);
-        Double_t bump_E[3];
-        //for (int iGamma = 1; iGamma < NGamma; iGamma++) {
-        //    PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
-        //    bump_E[iGamma] = Bump->energy();
-        //}
+        Double_t bump_E[2];
+        for (int iGamma = 1; iGamma < NGamma; iGamma++) {
+            PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma-1]);
+            bump_E[iGamma] = Bump->energy();
+        }
         //cout << bump_E[0] << " " << truth_E[0] << endl;
         //cout << bump_E[1] << " " << truth_E[1] << endl;
-        PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(0);
-        //Bump->energy();
-        if (ievt%2 == 1){
-            out_min << Bump->energy() << " " << truth_E[1] << endl;}
-        else{
-        out_max << Bump->energy() << " " << truth_E[1] << endl;
-        }
-        //if (bump_E[0] < bump_E[1]) {
-            //out_min << bump_E[0] << " " << truth_E[0] << endl;
-        //    out_max << bump_E[1] << " " << truth_E[1] << endl;
-        //}else{
-         //   out_min << bump_E[1] << " " << truth_E[1] << endl;
-         //   out_max << bump_E[0] << " " << truth_E[0] << endl;
+        if (bump_E[0] < bump_E[1]) {
+            out_min << bump_E[0] << " " << truth_E[0] << endl;
+            out_max << bump_E[1] << " " << truth_E[1] << endl;
+        }else{
+            out_min << bump_E[1] << " " << truth_E[1] << endl;
+            out_max << bump_E[0] << " " << truth_E[0] << endl;
         }
         N++;
     }

@@ -52,9 +52,6 @@ Mkfile.old
 dkms.conf
 
 share/
-<<<<<<< HEAD
-doc/
-=======
 doc/*
->>>>>>> 560032398e62720358ab05de2eaee2c7b602b026
 sniff_comb_*
+core_dump_*

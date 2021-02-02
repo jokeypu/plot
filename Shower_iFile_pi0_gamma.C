@@ -51,7 +51,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();
-        if (nclusters != 1 || nbumps != 2) continue;
+        //if (nclusters != 1 || nbumps != 2) continue;
         
         //Get the momentum of each photon
         std::vector<TVector3> Gamma_mom;

@@ -131,6 +131,8 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(match[iGamma]);
             bump_E[iGamma] = Bump->energy();
         }
+        cout << bump_E[0] << " " << truth_E[0] << endl;
+        cout << bump_E[1] << " " << truth_E[1] << endl;
         if (bump_E[0] < bump_E[1]) {
             out_min << bump_E[0] << " " << truth_E[0] << endl;
             out_max << bump_E[1] << " " << truth_E[1] << endl;

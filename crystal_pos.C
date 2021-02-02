@@ -3,21 +3,22 @@ bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
 }
 int crystal_pos(int aa=1)
 {
+    TString dir_name = "Gamma_0.1to6G_all";
     FairRunAna *fRun = new FairRunAna();
-    TFile* file = new TFile("../../data/Gamma_1G_all_all/evtcomplete_digi.root");
+    TFile* file = new TFile("../../data/"+ dir_name +"/evtcomplete_digi.root");
     FairFileSource* source = new FairFileSource(file,"InputFile");
     FairRootManager* ioman = FairRootManager::Instance();
     ioman->SetSource(source);
     ioman->InitSource();
     
-    TFile* f = new TFile("../../data/Gamma_1G_all_all/evtcomplete_sim.root");
+    TFile* f = new TFile("../../data/"+ dir_name +"/evtcomplete_sim.root");
     TTree* t = (TTree*)f->Get("pndsim");
     TClonesArray* fMCtrackArray = new TClonesArray("PndMCTrack");
     t->SetBranchAddress("MCTrack",&fMCtrackArray);
     if (!fMCtrackArray) return -1;
     
     PndEmcMapper::Init(1);
-    TFile *parfile = new TFile("../../data/Gamma_1G_all_all/evtcomplete_par.root");
+    TFile *parfile = new TFile("../../data/"+ dir_name +"/evtcomplete_par.root");
     parfile->Get("FairGeoParSet");
     PndEmcStructure *fEmcStr = PndEmcStructure::Instance();
     PndEmcMapper *fMapper = PndEmcMapper::Instance();
@@ -108,6 +109,7 @@ int crystal_pos(int aa=1)
         cout << N+1 << " " << it->second << endl;
         N++;
     }
+    c1->SetGridx();
     g->GetYaxis()->SetRangeUser(0,70);
     g->Draw("AP.");
     return 0;

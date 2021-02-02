@@ -113,10 +113,12 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     cout << sss2 << endl;
     TPaveText *pt = new TPaveText(0.609218, 0.437037, 0.878758, 0.691852,"NDC");
     //TText *tt1 = pt->AddText("Raw");
-    TText *t1 = pt->AddText("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.50%}{#sqrt{E_{#gamma}}} + 1.39%");
+    TText *t1 = pt->AddText(Form("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{%g #pm %g (%)}{#sqrt{E_{#gamma}}} + %g #pm %g (%)",f1->GetParameter(0),f1->GetParError(0),f1->GetParameter(1),f1->GetParError(1)));
+    //TText *t1 = pt->AddText("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.50%}{#sqrt{E_{#gamma}}} + 1.39%");
     pt->AddLine(.0,.5,1.,.5);
     //TText *tt2 = pt->AddText("New");
-    TText *t2 = pt->AddText("New: #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.16%}{#sqrt{E_{#gamma}}} + 0.79%");
+    TText *t2 = pt->AddText(Form("New:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{%g #pm %g (%)}{#sqrt{E_{#gamma}}} + %g #pm %g (%)",f2->GetParameter(0),f2->GetParError(0),f2->GetParameter(1),f2->GetParError(1)));
+    //TText *t2 = pt->AddText("New: #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.16%}{#sqrt{E_{#gamma}}} + 0.79%");
     
     //tt1->SetTextColor(kBlack);
     t1->SetTextColor(kBlack);

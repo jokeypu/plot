@@ -1,7 +1,7 @@
 bool cmp(const pair<Int_t, Double_t>& a, const pair<Int_t, Double_t>& b) {
         return a.second > b.second;
 }
-int test(int aa=1)
+int crystal_pos(int aa=1)
 {
     FairRunAna *fRun = new FairRunAna();
     TFile* file = new TFile("../../data/Gamma_1G_all_all/evtcomplete_digi.root");
@@ -108,6 +108,7 @@ int test(int aa=1)
         cout << N+1 << " " << it->second << endl;
         N++;
     }
+    g->GetYaxis()->SetRangeUser(0,70);
     g->Draw("AP.");
     return 0;
 }

@@ -82,6 +82,7 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     string file_name1 = "doc/" + file_str1 + "_mpi0.txt";
     string file_name2 = "doc/" + file_str2 + "_mpi0.txt";
     
+    TCanvas* c2=new TCanvas("PANDA2","c2",tx,ty);
     TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -150,15 +151,15 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     c1->cd();
     //h1D2->Draw();
     //h1D1->Draw("SAME");
-    
-    h1D2->Draw();
-    gPad->Update();
+
     h1D1->Draw();
     gPad->Update();
+    h1D2->Draw();
+    gPad->Update();
     
-    THStack* hs= new THStack("hs","m_{#pi^{0}} histograms  (Raw vs. New)");
-    hs->Add(h1D1);
-    hs->Add(h1D2);
+    //THStack* hs= new THStack("hs","m_{#pi^{0}} histograms  (Raw vs. New)");
+    //hs->Add(h1D1);
+    //hs->Add(h1D2);
     
     TPaveStats *ps1 = (TPaveStats*)h1D1->GetListOfFunctions()->FindObject("stats");
     TPaveStats *ps2 = (TPaveStats*)h1D2->GetListOfFunctions()->FindObject("stats");
@@ -173,11 +174,15 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     ps2->SetX2NDC(0.333333);
     ps2->SetY2NDC(0.725217);
     
+    //c2->cd();
     //hs->Draw();
     ps1->Draw();
     ps2->Draw();
+    //hs->Draw();
+    //h1D1->Draw("SAME");
     
     gPad->Update();
+    h1D1->Draw("SAME");
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             

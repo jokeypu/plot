@@ -29,7 +29,7 @@ int Fit_All_Angle_Par_cp(){
     g11->SetMarkerStyle(22);
     g11->SetMarkerColorAlpha(kGreen+1, 1);
     g11->GetXaxis()->SetTitle("#theta(deg)");
-    g11->GetYaxis()->SetTitle("p11");
+    g11->GetYaxis()->SetTitle("A");
     g11->GetXaxis()->CenterTitle();
     g11->GetYaxis()->CenterTitle();
     
@@ -37,7 +37,7 @@ int Fit_All_Angle_Par_cp(){
     g12->SetMarkerStyle(22);
     g12->SetMarkerColorAlpha(kGreen+1, 1);
     g12->GetXaxis()->SetTitle("#theta(deg)");
-    g12->GetYaxis()->SetTitle("p12");
+    g12->GetYaxis()->SetTitle("#kappa");
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
     
@@ -45,7 +45,7 @@ int Fit_All_Angle_Par_cp(){
     g13->SetMarkerStyle(22);
     g13->SetMarkerColorAlpha(kRed, 1);
     g13->GetXaxis()->SetTitle("#theta(deg)");
-    g13->GetYaxis()->SetTitle("p13");
+    g13->GetYaxis()->SetTitle("h");
     g13->GetXaxis()->CenterTitle();
     g13->GetYaxis()->CenterTitle();
     
@@ -53,7 +53,7 @@ int Fit_All_Angle_Par_cp(){
     g21->SetMarkerStyle(22);
     g21->SetMarkerColorAlpha(kGreen+1, 1);
     g21->GetXaxis()->SetTitle("#theta(deg)");
-    g21->GetYaxis()->SetTitle("p21");
+    g21->GetYaxis()->SetTitle("B");
     g21->GetXaxis()->CenterTitle();
     g21->GetYaxis()->CenterTitle();
     
@@ -61,7 +61,7 @@ int Fit_All_Angle_Par_cp(){
     g22->SetMarkerStyle(22);
     g22->SetMarkerColorAlpha(kGreen+1, 1);
     g22->GetXaxis()->SetTitle("#theta(deg)");
-    g22->GetYaxis()->SetTitle("p22");
+    g22->GetYaxis()->SetTitle("#mu");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
 
@@ -69,7 +69,7 @@ int Fit_All_Angle_Par_cp(){
     g23->SetMarkerStyle(22);
     g23->SetMarkerColorAlpha(kRed, 1);
     g23->GetXaxis()->SetTitle("#theta(deg)");
-    g23->GetYaxis()->SetTitle("p23");
+    g23->GetYaxis()->SetTitle("m");
     g23->GetXaxis()->CenterTitle();
     g23->GetYaxis()->CenterTitle();
     
@@ -77,7 +77,7 @@ int Fit_All_Angle_Par_cp(){
     g31->SetMarkerStyle(22);
     g31->SetMarkerColorAlpha(kGreen+1, 1);
     g31->GetXaxis()->SetTitle("#theta(deg)");
-    g31->GetYaxis()->SetTitle("p31");
+    g31->GetYaxis()->SetTitle("C");
     g31->GetXaxis()->CenterTitle();
     g31->GetYaxis()->CenterTitle();
     
@@ -85,7 +85,7 @@ int Fit_All_Angle_Par_cp(){
     g32->SetMarkerStyle(22);
     g32->SetMarkerColorAlpha(kGreen+1, 1);
     g32->GetXaxis()->SetTitle("#theta(deg)");
-    g32->GetYaxis()->SetTitle("p32");
+    g32->GetYaxis()->SetTitle("#tau");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
     
@@ -94,7 +94,7 @@ int Fit_All_Angle_Par_cp(){
     g33->SetMarkerStyle(22);
     g33->SetMarkerColorAlpha(kRed, 1);
     g33->GetXaxis()->SetTitle("#theta(deg)");
-    g33->GetYaxis()->SetTitle("p33");
+    g33->GetYaxis()->SetTitle("n");
     g33->GetXaxis()->CenterTitle();
     g33->GetYaxis()->CenterTitle();
     
@@ -102,7 +102,7 @@ int Fit_All_Angle_Par_cp(){
     g41->SetMarkerStyle(22);
     g41->SetMarkerColorAlpha(kGreen+1, 1);
     g41->GetXaxis()->SetTitle("#theta(deg)");
-    g41->GetYaxis()->SetTitle("p41");
+    g41->GetYaxis()->SetTitle("D");
     g41->GetXaxis()->CenterTitle();
     g41->GetYaxis()->CenterTitle();
     
@@ -110,7 +110,7 @@ int Fit_All_Angle_Par_cp(){
     g42->SetMarkerStyle(22);
     g42->SetMarkerColorAlpha(kGreen+1, 1);
     g42->GetXaxis()->SetTitle("#theta(deg)");
-    g42->GetYaxis()->SetTitle("p42");
+    g42->GetYaxis()->SetTitle("#lambda");
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
     
@@ -118,7 +118,7 @@ int Fit_All_Angle_Par_cp(){
     g43->SetMarkerStyle(22);
     g43->SetMarkerColorAlpha(kRed, 1);
     g43->GetXaxis()->SetTitle("#theta(deg)");
-    g43->GetYaxis()->SetTitle("p43");
+    g43->GetYaxis()->SetTitle("q");
     g43->GetXaxis()->CenterTitle();
     g43->GetYaxis()->CenterTitle();
     

@@ -234,18 +234,21 @@ int Fit_All_Angle_Par_cp(){
     g42->Fit(f42,"R");
     g43->Fit(f43,"R");
     
-    g11->GetYaxis()->SetRangeUser(-3.05,2.15);
-    g12->GetYaxis()->SetRangeUser(-10,22);
-    g13->GetYaxis()->SetRangeUser(2.59,3.11);
-    g21->GetYaxis()->SetRangeUser(-2.4,0.8);
-    g22->GetYaxis()->SetRangeUser(-3,21);
-    g23->GetYaxis()->SetRangeUser(0.865,0.93);
-    g31->GetYaxis()->SetRangeUser(-0.15,0.57);
-    g32->GetYaxis()->SetRangeUser(-0.5,11.5);
-    g33->GetYaxis()->SetRangeUser(0.672,0.828);
-    g41->GetYaxis()->SetRangeUser(-6,-1.2);
-    g42->GetYaxis()->SetRangeUser(-0.35,2.45);
-    g43->GetYaxis()->SetRangeUser(4.48,8.12);
+    g11->GetYaxis()->SetRangeUser(-4.35, 3.45);
+    g12->GetYaxis()->SetRangeUser(-18, 30);
+    g13->GetYaxis()->SetRangeUser(2.59, 3.11);
+    //----------------
+    g21->GetYaxis()->SetRangeUser(-3.2, 1.6);
+    g22->GetYaxis()->SetRangeUser(-9, 27);
+    g23->GetYaxis()->SetRangeUser(0.865, 0.93);
+    //----------------
+    g31->GetYaxis()->SetRangeUser(-0.33, 0.75);
+    g32->GetYaxis()->SetRangeUser(-3.5, 14.5);
+    g33->GetYaxis()->SetRangeUser(0.672, 0.828);
+    //----------------
+    g41->GetYaxis()->SetRangeUser(-7.2, 4.44089e-16);
+    g42->GetYaxis()->SetRangeUser(-1.05, 3.15);
+    g43->GetYaxis()->SetRangeUser(4.48, 8.12);
 
     //c1->Divide(3, 1);
     c1->Divide(1, 3);

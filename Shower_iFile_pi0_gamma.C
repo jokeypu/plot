@@ -106,7 +106,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             for (int i = 0; i < nbumps; i++) {
                 PndEmcBump* Bump = (PndEmcBump*)fBumpArray->At(i);
                 TVector3 pos = Bump->where();
-                Double_t d = pos.Mag()*sin(Gamma_mom[iGamma].Angle(pos));
+                Double_t d = pos.Mag()*sin(Gamma_mom[iGamma-1].Angle(pos));
                 if (d < min_d) { min_d = d; index = i; }
             }
             if ( index == -1 ) return 1;

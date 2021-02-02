@@ -98,7 +98,7 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
-    TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
+    TH1D* h1D1 = new TH1D("m_{#pi^{0}} Raw","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kGray+3);
     h1D1->SetLineWidth(2);
     h1D1->GetXaxis()->SetTitle("m_{#pi0}  [MeV]");
@@ -106,7 +106,7 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
-    TH1D* h1D2 = new TH1D("Hist1_2","h1_2", bin1, xmin, xmax);
+    TH1D* h1D2 = new TH1D("m_{#pi^{0}} New","h1_2", bin1, xmin, xmax);
     h1D2->SetLineColor(kRed);
     h1D2->SetLineWidth(2);
     h1D2->GetXaxis()->SetTitle("m_{#pi0}  [MeV]");
@@ -151,9 +151,9 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     //h1D2->Draw();
     //h1D1->Draw("SAME");
     
-    h1D1->Draw();
-    gPad->Update();
     h1D2->Draw();
+    gPad->Update();
+    h1D1->Draw("SAME");
     gPad->Update();
     
     THStack* hs= new THStack("hs","m_{#pi^{0}} histograms  (Raw vs. New)");
@@ -174,10 +174,10 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     ps2->SetY2NDC(0.725217);
     
     //hs->Draw();
-    ps1->Draw();
-    ps2->Draw();
+    //ps1->Draw();
+    //ps2->Draw();
     
-    gPad->Update();
+    //gPad->Update();
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             

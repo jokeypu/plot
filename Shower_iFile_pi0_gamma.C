@@ -70,7 +70,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
                     if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
-        if (Exist.size() != 2) continue;
+        //if (Exist.size() != 2) continue;
         
         //Calculate the average distance between photons
         Double_t distance(0);

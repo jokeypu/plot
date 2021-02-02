@@ -86,9 +86,9 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
     gStyle->SetStatY(0.88);
-    //gStyle->SetOptStat(1);
+    gStyle->SetOptStat(1);
     //gStyle->SetOptStat(111110);
-    gStyle->SetOptStat(1001);
+    //gStyle->SetOptStat(1001);
     gStyle->SetLabelFont(42,"xyz");
     gStyle->SetLabelSize(0.05,"xyz");
     gStyle->SetLabelOffset(0.01,"xyz");
@@ -148,14 +148,36 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     cout << "Entries : " << N << endl;
     
     c1->cd();
+    //h1D2->Draw();
+    //h1D1->Draw("SAME");
+    
+    h1D1->Draw();
+    gPad->Update();
     h1D2->Draw();
-    h1D1->Draw("SAME");
+    gPad->Update();
+    
+    THStack* hs= new THStack("hs","m_{#pi^{0}} histograms  (Raw vs. New)");
+    hs->Add(h1D1);
+    hs->Add(h1D2);
     
     TPaveStats *ps1 = (TPaveStats*)h1D1->GetListOfFunctions()->FindObject("stats");
     TPaveStats *ps2 = (TPaveStats*)h1D2->GetListOfFunctions()->FindObject("stats");
-    ps1->Draw("SAME");
-    ps2->Draw("SAME");
     
+    ps1->SetX1NDC(0.132832);
+    ps1->SetY1NDC(0.773913);
+    ps1->SetX2NDC(0.333333);
+    ps1->SetY2NDC(0.874783);
+    
+    ps2->SetX1NDC(0.132832);
+    ps2->SetY1NDC(0.624348);
+    ps2->SetX2NDC(0.333333);
+    ps2->SetY2NDC(0.725217);
+    
+    hs->Draw();
+    ps1->Draw();
+    ps2->Draw();
+    
+    gPad->Update();
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             

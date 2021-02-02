@@ -173,7 +173,7 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     ps2->SetX2NDC(0.333333);
     ps2->SetY2NDC(0.725217);
     
-    hs->Draw();
+    //hs->Draw();
     ps1->Draw();
     ps2->Draw();
     

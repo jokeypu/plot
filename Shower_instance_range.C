@@ -197,14 +197,14 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     	h1D1->Draw("SAME");
    }
 
-    TLegend * leg = new TLegend(0.7, 0.7 , 0.9, 0.8);
+    TLegend * leg = new TLegend(0.68, 0.76, 0.88, 0.86);
     //leg->AddEntry(h1D1, old_file, "L");
     //leg->AddEntry(h1D2, new_file, "L");
     leg->AddEntry(h1D1,"Bump Energy Raw" , "L");
     leg->AddEntry(h1D2,"Bump Energy New", "L");
     leg->Draw();
     
-    TPaveText *pt = new TPaveText(0.609218, 0.437037, 0.878758, 0.691852,"NDC");
+    TPaveText *pt = new TPaveText(0.68, 0.65, 0.88, 0.73,"NDC");
     pt->AddText(Form("CUT : %g ~ %g (X_{0})",cut_min/X0,cut_max/X0));
     pt->AddLine(.0,.5,1.,.5);
     pt->AddText(Form("d : %g (X_{0})",cut_mean/X0));

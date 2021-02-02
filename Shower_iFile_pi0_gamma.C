@@ -141,7 +141,8 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         }
         N++;
     }
-    out.close();
+    out_min.close();
+    out_max.close();
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     return 0;
 }

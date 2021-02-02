@@ -61,7 +61,7 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(20);
     gr1->SetMarkerColorAlpha(kBlack, 1);
-    gr1->GetXaxis()->SetTitle("E_{#gamma}  [GeV/c^{2}]");
+    gr1->GetXaxis()->SetTitle("E_{#gamma}   [GeV/c^{2}]");
     gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
     gr1->GetYaxis()->SetTitleOffset(1.0);
     gr1->GetXaxis()->CenterTitle();
@@ -70,7 +70,7 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed, 1);
-    gr2->GetXaxis()->SetTitle("E_{#gamma}  [GeV/c^{2}]");
+    gr2->GetXaxis()->SetTitle("E_{#gamma}   [GeV/c^{2}]");
     gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
     gr2->GetYaxis()->SetTitleOffset(1.0);
     gr2->GetXaxis()->CenterTitle();
@@ -111,13 +111,15 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     string sss2 = par3_str+"/#sqrt{E} + "+par4_str;
     cout << sss1 << endl;
     cout << sss2 << endl;
-    TPaveText *pt = new TPaveText(0.609218, 0.437037, 0.878758, 0.691852,"NDC");
+    
+    float N_per = 100.0;
+    TPaveText *pt = new TPaveText(0.501002, 0.48, 0.877756, 0.736296,"NDC");
     //TText *tt1 = pt->AddText("Raw");
-    TText *t1 = pt->AddText(Form("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{%g #pm %g (%)}{#sqrt{E_{#gamma}}} + %g #pm %g (%)",f1->GetParameter(0),f1->GetParError(0),f1->GetParameter(1),f1->GetParError(1)));
+    TText *t1 = pt->AddText(Form("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{(%g #pm %g) %%}{#sqrt{E_{#gamma}}} + (%g #pm %g) %%",round(N_per*(float)f1->GetParameter(0))/N_per,round(N_per*(float)f1->GetParError(0))/N_per,round(N_per*(float)f1->GetParameter(1))/N_per,round(N_per*(float)f1->GetParError(1))/N_per));
     //TText *t1 = pt->AddText("Raw:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.50%}{#sqrt{E_{#gamma}}} + 1.39%");
     pt->AddLine(.0,.5,1.,.5);
     //TText *tt2 = pt->AddText("New");
-    TText *t2 = pt->AddText(Form("New:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{%g #pm %g (%)}{#sqrt{E_{#gamma}}} + %g #pm %g (%)",f2->GetParameter(0),f2->GetParError(0),f2->GetParameter(1),f2->GetParError(1)));
+    TText *t2 = pt->AddText(Form("New:  #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{(%g #pm %g) %%}{#sqrt{E_{#gamma}}} + (%g #pm %g) %%",round(N_per*(float)f2->GetParameter(0))/N_per, round(N_per*(float)f2->GetParError(0))/N_per,round(N_per*(float)f2->GetParameter(1))/N_per,round(N_per*(float)f2->GetParError(1))/N_per));
     //TText *t2 = pt->AddText("New: #frac{#sigma(E_{#gamma})}{E_{#gamma}}  =  #frac{2.16%}{#sqrt{E_{#gamma}}} + 0.79%");
     
     //tt1->SetTextColor(kBlack);
@@ -130,9 +132,10 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     t2->SetTextSize(0.028);
     pt->Draw();
 
-    TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
+    TLegend * leg1 = new TLegend(0.554108,0.76,0.824649,0.89037);
     leg1->AddEntry(gr1, "Raw algorithm", "EP");
     leg1->AddEntry(gr2, "New algorithm", "EP");
+    leg1->SetBorderSize(1);
     leg1->Draw("SAME");
     
     return 0;

@@ -183,6 +183,12 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     
     gPad->Update();
     h1D1->Draw("SAME");
+    
+    TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
+    leg->AddEntry(h1D1,"m_{#pi^{0}} Raw" , "L");
+    leg->AddEntry(h1D2,"m_{#pi^{0}} New", "L");
+    leg->Draw();
+    
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             

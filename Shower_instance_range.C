@@ -178,12 +178,14 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
     f1->SetLineColor(kBlack);
     f1->SetLineStyle(2);
+    f1->SetLineWidth(2);
     f1->SetParameters(set_p00,set_p01,set_p02);
     
     Double_t set_p10 = N2_max, set_p11 = h1D2->GetMean(), set_p12 = dex*Energy/5;
     TF1 *f2=new TF1("f2","[0]*TMath::Gaus(x,[1],[2])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
     f2->SetLineColor(kRed);
     f2->SetLineStyle(2);
+    f2->SetLineWidth(2);
     f2->SetParameters(set_p10,set_p11,set_p12);
     
     h1D1->Fit(f1,"R");

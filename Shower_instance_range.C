@@ -62,6 +62,7 @@ Double_t finding_sigma(Double_t mean, Double_t Init_sigma){
 
 int Shower_instance_range(const char old_file[30], const char new_file[30], double Energy , int NO_Angle, double cut_min, double cut_max)
 {
+    const Double_t X0 = 0.89;
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
@@ -196,12 +197,18 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     	h1D1->Draw("SAME");
    }
 
-    TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
+    TLegend * leg = new TLegend(0.7, 0.7 , 0.9, 0.8);
     //leg->AddEntry(h1D1, old_file, "L");
     //leg->AddEntry(h1D2, new_file, "L");
     leg->AddEntry(h1D1,"Bump Energy Raw" , "L");
     leg->AddEntry(h1D2,"Bump Energy New", "L");
     leg->Draw();
+    
+    TPaveText *pt = new TPaveText(0.609218, 0.437037, 0.878758, 0.691852,"NDC");
+    pt->AddText(Form("CUT : %g ~ %g (X_{0})",cut_min/X0,cut_max/X0));
+    pt->AddLine(.0,.5,1.,.5);
+    pt->AddText(Form("d : %g (X_{0})",cut_mean/X0));
+    pt->Draw();
     
     Double_t mean_OR = f1->GetParameter(1);
     Double_t mean_fix = f2->GetParameter(1);

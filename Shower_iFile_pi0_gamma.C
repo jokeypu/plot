@@ -70,7 +70,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
                     if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
-        if (Exist.size() != NGamma) continue;
+        //if (Exist.size() != NGamma) continue;
         
         //Calculate the average distance between photons
         Double_t distance(0);
@@ -121,7 +121,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
         bool result(false);
         std::map<Int_t, Int_t>::iterator it;
         for ( it = Nshare.begin(); it != Nshare.end(); it++) if (it->second != 1) result = true;
-        if (IsSplit && result) continue;
+        //if (IsSplit && result) continue;
         
         //if (distance > 5) continue;
         //Calculate the error of energy and position

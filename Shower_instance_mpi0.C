@@ -153,7 +153,7 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     
     h1D2->Draw();
     gPad->Update();
-    h1D1->Draw("SAME");
+    h1D1->Draw();
     gPad->Update();
     
     THStack* hs= new THStack("hs","m_{#pi^{0}} histograms  (Raw vs. New)");
@@ -174,10 +174,10 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     ps2->SetY2NDC(0.725217);
     
     //hs->Draw();
-    //ps1->Draw();
-    //ps2->Draw();
+    ps1->Draw();
+    ps2->Draw();
     
-    //gPad->Update();
+    gPad->Update();
     /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             

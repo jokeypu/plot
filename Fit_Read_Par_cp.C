@@ -72,6 +72,7 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
         std::stringstream strStream(str);
         float energy, p0, p1, p2, p3, p4;
         strStream >> energy >> p0 >> p1 >> p2 >> p3 >> p4;
+        if (energy < 0.2) continue;
         g0->SetPoint(N,energy,p0);
         g1->SetPoint(N,energy,p1);
         g2->SetPoint(N,energy,p2);

@@ -8,7 +8,7 @@ int Shower_instance_pi0_gamma(const char old_file[30], const char new_file[30], 
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
-    int bin1(200),bin2(200);
+    int bin1(100),bin2(200);
     float tx(1200),ty(900);
     double xmin(0),xmax(Energy);
     //double xmin(0),xmax(2.0);

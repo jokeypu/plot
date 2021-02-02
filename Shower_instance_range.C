@@ -60,7 +60,7 @@ Double_t finding_sigma(Double_t mean, Double_t Init_sigma){
     return (sigma_max+sigma_min)/2.0;
 }
 
-int Shower_instance_range(const char old_file[30], const char new_file[30], double Energy = 1.0 , int NO_Angle = 7, double cut_min, double cut_max)
+int Shower_instance_range(const char old_file[30], const char new_file[30], double Energy , int NO_Angle, double cut_min, double cut_max)
 {
     ostringstream out1,out2;
     out1 << NO_Angle;
@@ -70,9 +70,13 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     std::ofstream par_file;
     par_file.open(out_name,std::ios::app);
     
-    int bin1 = 100*(15.0/(0.6*Energy)),bin2(200);
+    double cut_mean = fabs(cut_max + cut_min)/2.0;
+    double dex = 22.709*exp(-1.11254*cut_mean)+0.139594;
+    if (dex > 1.0) dex = 1.0;
+
+    int bin1 = 120, bin2 = 200;
     float tx(1200),ty(900);
-    double xmin(0),xmax(15);
+    double xmin = 0.98*Energy - dex*Energy, xmax = 0.98*Energy + dex*Energy;
     //double xmin(0),xmax(2.0);
     cout << "-INFO  Old File : " << old_file << endl;
     cout << "-INFO  New File : " << new_file << endl;
@@ -158,8 +162,8 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
     double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
                                             
-    h1D2->SetAxisRange(NewRange_min, NewRange_max);
-    h1D1->SetAxisRange(NewRange_min, NewRange_max);
+    //h1D2->SetAxisRange(NewRange_min, NewRange_max);
+    //h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
     
     Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0;
@@ -172,13 +176,26 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     f2->SetLineColor(kRed);
     f2->SetParameters(set_p10,set_p11,set_p12);
     
-    h1D1->Fit(f1,"R");
-    h1D2->Fit(f2,"R");
-    
+    //h1D1->Fit(f1,"R");
+    //h1D2->Fit(f2,"R");
+
+    int N1_max(-1), N2_max(-1);
+    for (int i = 1; i <= bin1; i++){
+        int N1 = h1D1->GetBinContent(i);
+        int N2 = h1D2->GetBinContent(i);
+	if (N1 > N1_max) N1_max = N1;
+	if (N2 > N2_max) N2_max = N2;
+    }
+
     c1->cd();
-    h1D2->Draw();
-    h1D1->Draw("SAME");
-   
+    if (N1_max > N2_max){
+	h1D1->Draw();
+	h1D2->Draw("SAME");
+    }else{
+    	h1D2->Draw();
+    	h1D1->Draw("SAME");
+   }
+
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     //leg->AddEntry(h1D1, old_file, "L");
     //leg->AddEntry(h1D2, new_file, "L");
@@ -205,7 +222,11 @@ int Shower_instance_range(const char old_file[30], const char new_file[30], doub
     
     cout << cut_min << " " << cut_max << " " << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     
-    TString picture_name= "doc/range_A"+str_NO_Angle+ "_E" + str_Energy +"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
+    ostringstream oo;
+    //oo << (cut_min+cut_max)/2.0;
+    oo << fixed << setprecision(2) << (cut_min+cut_max)/2.0;
+    string str_cut = oo.str();
+    TString picture_name= "doc/range_A"+str_NO_Angle+ "_E" + str_Energy +"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_CUT"+str_cut+"_resolution_Picture.png";
     c1->Print(picture_name);
     
     par_file.close();

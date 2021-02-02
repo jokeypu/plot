@@ -93,6 +93,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             std::map<Int_t, Double_t>  dep = hit->GetDepositedEnergyMap();
             std::map<Int_t, Double_t>::iterator ptr;
             for ( ptr = dep.begin(); ptr != dep.end(); ptr++) {
+	    //cout << ptr->first << endl;
                 for (int iGamma = 1; iGamma < NGamma; iGamma++)
                     if (ptr->first == iGamma) truth_E[iGamma] += ptr->second;
             }
@@ -132,14 +133,16 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
             bump_E[iGamma-1] = Bump->energy();
         }
         //cout << bump_E[0] << " " << truth_E[0] << endl;
-        //cout << bump_E[1] << " " << truth_E[1] << endl;
-        if (bump_E[0] < bump_E[1]) {
-            out_min << bump_E[0] << " " << truth_E[1] << endl;
-            out_max << bump_E[1] << " " << truth_E[2] << endl;
-        }else{
-            out_min << bump_E[1] << " " << truth_E[2] << endl;
-            out_max << bump_E[0] << " " << truth_E[1] << endl;
-        }
+        //cout << bump_E[0] << " " << truth_E[1] << endl;
+        out_min << bump_E[0] << " " << truth_E[1] << endl;
+        out_max << bump_E[0] << " " << truth_E[1] << endl;
+        //if (bump_E[0] < bump_E[1]) {
+          //  out_min << bump_E[0] << " " << truth_E[1] << endl;
+          //  out_max << bump_E[1] << " " << truth_E[2] << endl;
+        //}else{
+          //  out_min << bump_E[1] << " " << truth_E[2] << endl;
+           // out_max << bump_E[0] << " " << truth_E[1] << endl;
+        //}
         N++;
     }
     out_min.close();

@@ -73,7 +73,7 @@ int Shower_function_test()
         int num(5);
         maxEvtNo /= 10;
         for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-            if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
+            if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
             ioman->ReadEvent(ievt); // read event by event
             int npoints = fPointArray->GetEntriesFast();
             int ntrack = fMCTrackArray->GetEntriesFast();

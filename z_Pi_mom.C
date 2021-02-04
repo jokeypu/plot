@@ -1,5 +1,7 @@
 int z_Pi_mom(){
     const double m_pi0 = 0.1349768;
+    int nbins1 = 5000, nbins2 = 1000;
+    Int_t BinCut =  1000;
     
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
@@ -18,27 +20,27 @@ int z_Pi_mom(){
     //gStyle->SetPalette(1);
     gStyle->SetPalette(1);
     
-    TH2D* h = new TH2D("Hist","h",500,0,6,500,2,200);
+    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1,0.5,50);
     //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h->GetXaxis()->SetTitle("E_{#pi0}   [GeV]");
+    h->GetXaxis()->SetTitle("P_{#pi0}   [GeV]");
     h->GetYaxis()->SetTitle("angle   [deg]");
     h->GetXaxis()->CenterTitle();
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
     
-    TH2D* h_E = new TH2D("Hist_E","h_E",500,1,6,500,0,6);
+    TH2D* h_E = new TH2D("Hist_E","h_E",nbins2,0,30,nbins2,0,30);
     h_E->SetMarkerStyle(7);
     h_E->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h_E->GetXaxis()->SetTitle("E_{#pi0}   [GeV]");
+    h_E->GetXaxis()->SetTitle("P_{#pi0}   [GeV]");
     h_E->GetYaxis()->SetTitle("E_{#gamma}   [GeV]");
     h_E->GetXaxis()->CenterTitle();
     h_E->GetYaxis()->CenterTitle();
     h_E->GetZaxis()->CenterTitle();
     
-    for (double E_pi0 = 0; E_pi0 < 6 ; E_pi0+= 0.001){
-        for (int i = 0; i < 1000 ; i++){
+    for (double E_pi0 = 0; E_pi0 < 30 ; E_pi0+= 0.001){
+        for (int i = 0; i < 10000 ; i++){
             double rd1 = 2*(rand()/(RAND_MAX+1.))-1;
             double rd2 = 2*(rand()/(RAND_MAX+1.))-1;
             double rd3 = 2*(rand()/(RAND_MAX+1.))-1;
@@ -51,24 +53,25 @@ int z_Pi_mom(){
             double E_gamma1 = E_pi0/2-px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             double E_gamma2 = E_pi0/2+px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             //cout << E_pi0 << "   " << E_gamma1 << ", " << E_gamma2 << endl;
-            h_E->Fill(E_pi0,E_gamma1);
+            h_E->Fill(E_pi0-m_pi0,E_gamma1);
             //h_E->Fill(E_pi0,E_gamma2);
-            h->Fill(E_pi0,delta_angle);
+            h->Fill(E_pi0-m_pi0,delta_angle);
         }
     }
     
-    Int_t BinCut =  160;
     //Int_t BinCut =  20;
-    for (int i = 1; i < 501; i++){
-        for (int j = 1; j < 501; j++){
+    for (int i = 1; i < nbins1+1; i++){
+        for (int j = 1; j < nbins1+1; j++){
             //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log10(h->GetBinContent(i,j))));
             if (h->GetBinContent(i,j) > 3*BinCut) h->SetBinContent(i, j, 3*BinCut);
-            if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
+            //if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
             //if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log10(h_E->GetBinContent(i,j))));
         }
     }
     
     c1->cd();
+    c1->SetGridy();
+    c1->SetLogy();
     h->Draw("PCOLZ");
     
     c2->cd();

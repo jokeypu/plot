@@ -71,7 +71,7 @@ int NEW_DigiVsHit()
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
-        if (ievt%(maxEvtNo/100)==0) cout << "Step1: " << 100 * (int)ievt/maxEvtNo << "%" << endl;
+        if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << "Step1: " << 100 * (int)ievt/maxEvtNo << "%" << endl;
         int nhits = fHitArray->GetEntriesFast();
         int ndigis = fDigiArray->GetEntriesFast();
         
@@ -144,7 +144,7 @@ int Exec(string dir_name, TH1D *h_pass, TH1D *h_Get, Int_t NGamma, bool IsSplit)
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-        if (ievt%(maxEvtNo/100)==0) cout <<  "Step2: " << 100 * (int)ievt/maxEvtNo << "%" << endl;
+        if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout <<  "Step2: " << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
         int nhits = fHitArray->GetEntriesFast();

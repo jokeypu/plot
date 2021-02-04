@@ -83,7 +83,7 @@ int Exec(string dir_name, string out_name_min, string out_name_max, Int_t NGamma
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
-    	if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
+    	if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
         int nhits = fHitArray->GetEntriesFast();

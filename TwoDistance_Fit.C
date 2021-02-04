@@ -602,7 +602,7 @@ int Exec(TString dir_name, TGraph2D *g, Int_t NGamma){
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         ioman->ReadEvent(ievt); // read event by event
         t->GetEntry(ievt);
-        if (ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
+        if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         int nhits = fHitArray->GetEntriesFast();
         int nclusters = fClusterArray->GetEntriesFast();
         int nbumps = fBumpArray->GetEntriesFast();

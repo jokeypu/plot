@@ -1,5 +1,5 @@
 string Z_MyTool_GetDeltaTheta(double Theta_cent = 181, double Phi_Range = 9){
-    double Phi_cent = 0;
+    double Phi_cent = 0.5;
     Phi_Range = fabs(Phi_Range);
     if (Theta_cent < 0 || fabs(Theta_cent)>180.001){
         cout << "Input theta center:(DEG)" << endl;

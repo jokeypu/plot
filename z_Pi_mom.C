@@ -1,7 +1,11 @@
 int z_Pi_mom(){
     const double m_pi0 = 0.1349768;
-    int nbins1 = 25000, nbins2 = 3000;
-    Int_t BinCut =  10000, NN = 10000;
+    int nbins1 = 10, nbins2 = 3000;
+    Int_t NN = 100;
+
+    int xmax_N = 25;
+    double xmax = (double)xmax_N;
+    nbins1 *= xmax;
     
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
@@ -45,7 +49,7 @@ int z_Pi_mom(){
     
     gStyle->SetPalette(NColor,colors,1);
     
-    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1,0.5,50);
+    TH2D* h = new TH2D("Hist","h",nbins1,0,xmax,nbins1,0.5,50);
     //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
@@ -64,7 +68,8 @@ int z_Pi_mom(){
     h_E->GetYaxis()->CenterTitle();
     h_E->GetZaxis()->CenterTitle();
     
-    for (double E_pi0 = 0.0005; E_pi0 < 25 ; E_pi0+= 0.001){
+    Double_t step = 1.0/nbins1;
+    for (double E_pi0 = step/2.0; E_pi0 < 25 ; E_pi0+= step){
         for (int i = 0; i < NN ; i++){
             double rd1 = 2*(rand()/(RAND_MAX+1.))-1;
             double rd2 = 2*(rand()/(RAND_MAX+1.))-1;
@@ -85,13 +90,14 @@ int z_Pi_mom(){
     }
     
     //Int_t BinCut =  20;
+    //TH1D *h_temp = h->ProfileY("py",1,2);
     for (int i = 1; i < nbins1+1; i++){
         for (int j = 1; j < nbins1+1; j++){
             //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log10(h->GetBinContent(i,j))));
             //if (h->GetBinContent(i,j) > 3*BinCut) h->SetBinContent(i, j, 3*BinCut);
-            Double wx = h->ProfileX()->GetBinWidth(i);
-            Double wy = h->ProfileY()->GetBinWidth(j);
-            h->SetBinContent(i, j, h->GetBinContent(i,j)/NN/(wx*xy));
+            //Double_t wx = h->ProfileX()->GetBinWidth(i);
+            //Double_t wy = h_temp->GetBinWidth(j);
+            //h->SetBinContent(i, j, h->GetBinContent(i,j)/(NN*wy));
             //if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
             //if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log10(h_E->GetBinContent(i,j))));
         }

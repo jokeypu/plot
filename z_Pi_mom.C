@@ -45,7 +45,7 @@ int z_Pi_mom(){
     
     gStyle->SetPalette(NColor,colors,1);
     
-    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1/10,0.5,50);
+    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1,0.5,50);
     //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
@@ -89,7 +89,9 @@ int z_Pi_mom(){
         for (int j = 1; j < nbins1+1; j++){
             //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log10(h->GetBinContent(i,j))));
             //if (h->GetBinContent(i,j) > 3*BinCut) h->SetBinContent(i, j, 3*BinCut);
-            h->SetBinContent(i, j, h->GetBinContent(i,j)/NN);
+            Double wx = h->ProfileX()->GetBinWidth(i);
+            Double wy = h->ProfileY()->GetBinWidth(j)
+            h->SetBinContent(i, j, h->GetBinContent(i,j)/NN/(wx*xy));
             //if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
             //if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log10(h_E->GetBinContent(i,j))));
         }

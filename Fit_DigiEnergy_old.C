@@ -1,3 +1,9 @@
+/*Double_t FABC(Double_t x,Double_t A, Double_t B, Double_t C, Double_t p1, Double_t p2){
+    //p2 *= (1.0-(1.0-A)*exp(-pow(x/B,C)));
+    p2 *= (1.0-A*exp(-pow(x/B,C)));
+    //c2 *= 4*(1-exp(-A*pow(x,3)));
+    return p1*exp(-p2*x);
+}*/
 const Double_t X0 = 0.89;
 const Double_t RM = 2.00;
 Double_t FABC(Double_t t,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4){
@@ -5,7 +11,7 @@ Double_t FABC(Double_t t,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Dou
     return p0*exp(-p1*xi*X0/RM);
 }
 
-int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
+int Fit_DigiEnergy_old(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
     //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1,out2;
     out1 << NO_Angle;
@@ -32,12 +38,13 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     //gStyle->SetPalette(1);
     
     std::string file_name(title);
+    //std::string file_name = "doc/WorkData_1Gamma_A7_E1.0_OR_R.txt";
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);
     
     TGraph *g = new TGraph();
-    g->SetMarkerStyle(20);
-    g->SetMarkerColor(kYellow);
+    g->SetMarkerStyle(7);
+    g->SetMarkerColorAlpha(kAzure+3, 0.5);
     g->GetYaxis()->SetTitle("E_{truth}   [GeV]");
     g->GetXaxis()->SetTitle("t   [X_{0}]");
     g->GetXaxis()->CenterTitle();
@@ -46,11 +53,10 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
     string str;
     Int_t N = 0;
     Double_t distance_cut = 3.5/X0;
-    Int_t binx = 200, biny = 200;
     
-    TH2D* h = new TH2D("Hist", "h", binx, 0, distance_cut, biny, 0, Energy);
+    TH2D* h = new TH2D("Hist","h",200,0,distance_cut,200,0,(Energy));
     h->SetMarkerStyle(7);
-    h->SetMarkerColorAlpha(kAzure+3, 1);
+    h->SetMarkerColorAlpha(kAzure+3, 0.5);
     h->GetYaxis()->SetTitle("E_{truth}   [GeV]");
     h->GetXaxis()->SetTitle("t   [X_{0}]");
     h->GetXaxis()->CenterTitle();
@@ -61,39 +67,45 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         std::stringstream strStream(str);
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
+        //if (angle>10 || angle<0) continue;
         if (distance > distance_cut) continue;
-        h->Fill(distance/X0,energy);
+        //g->SetPoint(N,distance,energy);
+        //if (distance/X0 < 2 && energy < Energy*0.3*exp(-1.25*distance)) continue;
+        h->Fill(distance/X0,(energy));
+        //g->SetPoint(N,distance,energy);
         N++;
     }
-    
-    int cunt = 0;
-    int step = 7;
-    for (int i = 1; i < binx+1; i+=step){
-        Double_t mean = h->ProfileY("px",i,i+step-1)->GetMean();
-        Double_t wx = distance_cut/binx;
-        Double_t nx =( (i+(step-1)/2)*wx - wx/2  );
-        g->SetPoint(cunt, nx, mean);
-        cunt++;
-    }
+    //cout << N << endl;
     
     for (int i = 1; i < 201; i++){
         for (int j = 1; j < 201; j++){
             if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
             else if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);
+            //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(6*TMath::Log(h->GetBinContent(i,j))));
         }
     }
     
+    //TF1* f=new TF1("f1","TMath::Log(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
     f->SetParameters(0.8*Energy, 2.5, 0.9, 0.7, 3);
-    f->SetLineWidth(3);
-    f->SetLineColor(kRed);
+    //f->SetParLimits(0, 0.8*Energy, 0.85*Energy);
+    //f->SetParLimits(2, 0, 1);
+    //f->SetParLimits(2, 1.01, 25);
 
+    //f->SetParameters(1, 0.6, 5, 3.37, 1.45);
     c1->cd();
+    //c1->SetLogx();
+    //g->Draw("AP.");
+    //g->Fit(f,"R");
     h->Draw("PCOLZ");
-    g->Draw("Psame");
-    g->Fit(f,"R");
+    h->Fit(f,"R");
     par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
-    
+    //if (f->GetParameter(2)>f->GetParameter(4))
+    //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
+    //else par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << endl;
+
+    //c1->SetLogx();
+    //c1->SetLogy();
     TString picture_name= "doc/A"+str_NO_Angle+"_FitPicture_cp/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c1->Print(picture_name);
     
@@ -122,10 +134,12 @@ int Fit_DigiEnergy_cp(std::string dir_name, const char title[30], Int_t NO_Angle
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
+        //g_Error->SetPoint(N,distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
         h_Error->Fill(distance/X0,(FABC(distance/X0,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
         N++;
     }
     c2->cd();
+    //g_Error->Draw("AP.");
     h_Error->Draw("PCOLZ");
     TString picture_name_error= "doc/A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c2->Print(picture_name_error);

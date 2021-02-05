@@ -1,11 +1,12 @@
 int z_Pi_mom(){
     const double m_pi0 = 0.1349768;
-    int nbins1 = 10, nbins2 = 3000;
-    Int_t NN = 100;
+    int nbins1 = 200, nbins2 = 3000;
+    Int_t NN = 1000;
 
     int xmax_N = 25;
     double xmax = (double)xmax_N;
-    nbins1 *= xmax;
+    int nbins1_cp = nbins1;
+    nbins1 *= xmax_N;
     
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
@@ -21,17 +22,7 @@ int z_Pi_mom(){
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1,"xyz");
-    //gStyle->SetPalette(62);
-    //gStyle->SetPalette(1);
-    
-    /*const Int_t Number = 3;
-    Double_t Red[Number]    = { 1.00, 0.00, 0.00};
-    Double_t Green[Number]  = { 0.00, 1.00, 0.00};
-    Double_t Blue[Number]   = { 1.00, 0.00, 1.00};
-    Double_t Length[Number] = { 0.00, 0.50, 1.00 };
-    Int_t nb=50;
-    TColor::CreateGradientColorTable(Number,Length,Red,Green,Blue,nb);*/
-    
+    gStyle->SetPalette(1);
     
     const Int_t NColor = 200;
     Int_t colors[NColor];
@@ -50,7 +41,6 @@ int z_Pi_mom(){
     gStyle->SetPalette(NColor,colors,1);
     
     TH2D* h = new TH2D("Hist","h",nbins1,0,xmax,nbins1,0.5,50);
-    //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);
     h->GetXaxis()->SetTitle("P_{#pi^{0}}   [GeV/c]");
@@ -68,7 +58,7 @@ int z_Pi_mom(){
     h_E->GetYaxis()->CenterTitle();
     h_E->GetZaxis()->CenterTitle();
     
-    Double_t step = 1.0/nbins1;
+    Double_t step = 1.0/nbins1_cp;
     for (double E_pi0 = step/2.0; E_pi0 < 25 ; E_pi0+= step){
         for (int i = 0; i < NN ; i++){
             double rd1 = 2*(rand()/(RAND_MAX+1.))-1;
@@ -82,24 +72,15 @@ int z_Pi_mom(){
             double delta_angle = TMath::RadToDeg()*(vv_n1.Angle(vv_n2));
             double E_gamma1 = E_pi0/2-px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             double E_gamma2 = E_pi0/2+px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
-            //cout << E_pi0 << "   " << E_gamma1 << ", " << E_gamma2 << endl;
-            //h_E->Fill(E_pi0-m_pi0,E_gamma1);
-            //h_E->Fill(E_pi0,E_gamma2);
             h->Fill(E_pi0-m_pi0,delta_angle);
         }
     }
     
-    //Int_t BinCut =  20;
-    //TH1D *h_temp = h->ProfileY("py",1,2);
+    TH1D *h_temp = h->ProfileY("py",1,1);
     for (int i = 1; i < nbins1+1; i++){
         for (int j = 1; j < nbins1+1; j++){
-            //if (h->GetBinContent(i,j) != 0) h->SetBinContent(i, j, (int)(TMath::Log10(h->GetBinContent(i,j))));
-            //if (h->GetBinContent(i,j) > 3*BinCut) h->SetBinContent(i, j, 3*BinCut);
-            //Double_t wx = h->ProfileX()->GetBinWidth(i);
-            //Double_t wy = h_temp->GetBinWidth(j);
-            //h->SetBinContent(i, j, h->GetBinContent(i,j)/(NN*wy));
-            //if (h_E->GetBinContent(i,j) > BinCut) h_E->SetBinContent(i, j, BinCut);
-            //if (h_E->GetBinContent(i,j) != 0) h_E->SetBinContent(i, j, (int)(TMath::Log10(h_E->GetBinContent(i,j))));
+            Double_t wy = h_temp->GetBinWidth(j);
+            h->SetBinContent(i, j, h->GetBinContent(i,j)/(NN*wy));
         }
     }
     

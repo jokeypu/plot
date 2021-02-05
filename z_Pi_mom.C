@@ -45,7 +45,7 @@ int z_Pi_mom(){
     
     gStyle->SetPalette(NColor,colors,1);
     
-    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1,0.5,50);
+    TH2D* h = new TH2D("Hist","h",nbins1,0,25,nbins1/10,0.5,50);
     //TH2D* h = new TH2D("Hist","h",500,0,6,500,2,181);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 0.5);

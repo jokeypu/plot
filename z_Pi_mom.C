@@ -1,6 +1,6 @@
 int z_Pi_mom(){
     const double m_pi0 = 0.1349768;
-    int nbins1 = 30000, nbins2 = 300;
+    int nbins1 = 25000, nbins2 = 3000;
     Int_t BinCut =  10000, NN = 10000;
     
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
@@ -64,7 +64,7 @@ int z_Pi_mom(){
     h_E->GetYaxis()->CenterTitle();
     h_E->GetZaxis()->CenterTitle();
     
-    for (double E_pi0 = 0.0005; E_pi0 < 30 ; E_pi0+= 0.001){
+    for (double E_pi0 = 0.0005; E_pi0 < 25 ; E_pi0+= 0.001){
         for (int i = 0; i < NN ; i++){
             double rd1 = 2*(rand()/(RAND_MAX+1.))-1;
             double rd2 = 2*(rand()/(RAND_MAX+1.))-1;

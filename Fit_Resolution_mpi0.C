@@ -1,8 +1,8 @@
-int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
+int Fit_Resolution_mpi0(Int_t NO_Angle){
     ostringstream out1;
     out1 << NO_Angle;
     string str_NO_Angle = out1.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::string out_name = "doc/mpi0_A"+str_NO_Angle+"_resolution_par.txt";
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
     
@@ -44,17 +44,19 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float cut_min, cut_max,  mean_1, R1, ER1_m, ER1_p, mean_2, R2, ER2_m, ER2_p;
-        strStream >> cut_min >> cut_max >> mean_1 >> R1 >> ER1_m >> mean_2 >> R2 >> ER2_m;
+        float x_1, E_x1, R1, ER1_m, ER1_p, x_2, E_x2, R2, ER2_m, ER2_p;
+        strStream >> x_1 >> R1 >> ER1_m >> x_2 >> R2 >> ER2_m;
         ER1_p = ER1_m;
         ER2_p = ER2_m;
-        R1_x[N] = (cut_min+cut_max)/2.0;
+        R1_x[N] = x_1;
         R1_y[N] = 100*R1;
         R1_Ex[N] = 0.0;
+        //R1_Ex[N] = E_x1;
         R1_Ey[N] = 100*(ER1_p > ER1_m ? ER1_p : ER1_m);
-        R2_x[N] = (cut_min+cut_max)/2.0;
+        R2_x[N] = x_2;
         R2_y[N] = 100*R2;
         R2_Ex[N] = 0.0;
+        //R2_Ex[N] = E_x2;
         R2_Ey[N] = 100*(ER2_p > ER2_m ? ER2_p : ER2_m);
         N++;
     }

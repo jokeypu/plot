@@ -211,9 +211,9 @@ int Shower_instance_two(const char old_file[30], const char new_file[30], double
     Double_t D_Resolution_fix_p = sqrt(  pow(D_delta_fix_p,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
     Double_t D_Resolution_fix_m = sqrt(  pow(D_delta_fix_m,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    par_file << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    par_file << mean_OR << " " << D_mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << D_mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
     
-    cout << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    cout << mean_OR << " " << D_mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << D_mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
     
     TString picture_name= "doc/A"+str_NO_Angle+"_resolution_Picture/A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);

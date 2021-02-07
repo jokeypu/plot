@@ -45,15 +45,17 @@ int Fit_Resolution_cp(Int_t NO_Angle = 7){
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float energy_1, R1, ER1_m, ER1_p, energy_2, R2, ER2_m, ER2_p;
-        strStream >> energy_1 >> R1 >> ER1_m >> ER1_p >> energy_2 >> R2 >> ER2_m >> ER2_p;
-        R1_x[N] = energy_1;
+        float x_1, E_x1, R1, ER1_m, ER1_p, x_2, E_x2, R2, ER2_m, ER2_p;
+        strStream >> x_1 >> E_x1 >> R1 >> ER1_m >> ER1_p >> x_2 >> E_x2 >> R2 >> ER2_m >> ER2_p;
+        R1_x[N] = x_1;
         R1_y[N] = 100*R1;
-        R1_Ex[N] = 0.0;
+        //R1_Ex[N] = 0.0;
+        R1_Ex[N] = E_x1;
         R1_Ey[N] = 100*(ER1_p > ER1_m ? ER1_p : ER1_m);
-        R2_x[N] = energy_2;
+        R2_x[N] = x_2;
         R2_y[N] = 100*R2;
-        R2_Ex[N] = 0.0;
+        //R2_Ex[N] = 0.0;
+        R2_Ex[N] = E_x2;
         R2_Ey[N] = 100*(ER2_p > ER2_m ? ER2_p : ER2_m);
         N++;
     }

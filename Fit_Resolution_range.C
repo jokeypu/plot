@@ -83,6 +83,8 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     //gr1->GetYaxis()->SetRangeUser(1.4,5);
     //gr2->GetYaxis()->SetRangeUser(1.4,5);
     
+    c1->SetGridy();
+    c1->SetLogy();
     gr1->Draw("AP");
     gr2->Draw("Psame");
     

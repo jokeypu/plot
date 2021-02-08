@@ -156,7 +156,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     //f->Draw("SAME");
     f_cp->Draw("SAME");
     
-    TLegend * leg = new TLegend(0.68, 0.76, 0.88, 0.86);
+    TLegend * leg = new TLegend(0.625, 0.6, 0.88, 0.86);
     leg->AddEntry(f_cp,"Raw: exp(-#epsilonr/R_{M})" , "L");
     leg->AddEntry(g_Error,"New: f(r)/f(r_{seed})" , "p");
     leg->AddEntry(g_Error_cp,"data: E_{digi}/E_{seed}", "p");

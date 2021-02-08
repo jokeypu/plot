@@ -1,8 +1,7 @@
-const Double_t X0 = 0.89;
 const Double_t RM = 2.00;
-Double_t FABC(Double_t t,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4){
-    Double_t xi = t - p2*t*exp(-pow(X0*t/p3/RM,p4));
-    return p0*exp(-p1*xi*X0/RM);
+Double_t FABC(Double_t r,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Double_t p4){
+    Double_t xi = r - p2*r*exp(-pow(r/p3/RM,p4));
+    return p0*exp(-p1*xi/RM);
 }
 
 int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
@@ -45,14 +44,14 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     
     string str;
     Int_t N = 0;
-    Double_t distance_cut = 3.5/X0;
+    Double_t distance_cut = 3.5;
     Int_t binx = 200, biny = 200;
     
     TH2D* h = new TH2D("Hist", "h", binx, 0, distance_cut, biny, 0, Energy);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 1);
     h->GetYaxis()->SetTitle("E_{truth}   [GeV]");
-    h->GetXaxis()->SetTitle("t   [X_{0}]");
+    h->GetXaxis()->SetTitle("r   [cm]");
     h->GetXaxis()->CenterTitle();
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
@@ -62,7 +61,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
-        h->Fill(distance/X0,energy);
+        h->Fill(distance,energy);
         N++;
     }
     
@@ -84,7 +83,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     }
     
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
-    f->SetParameters(0.8*Energy, 2.5, 0.9, 0.7, 3);
+    f->SetParameters(0.8*Energy, 2.5, 0.9, 1.4, 3);
     f->SetLineWidth(3);
     f->SetLineColor(kRed);
 
@@ -122,7 +121,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
-        h_Error->Fill(distance/X0,(FABC(distance/X0,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
+        h_Error->Fill(distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
         N++;
     }
     c2->cd();

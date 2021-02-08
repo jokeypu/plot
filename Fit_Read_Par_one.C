@@ -1,4 +1,4 @@
-int Fit_Read_Par_cp(Int_t NO_Angle){
+int Fit_Read_Par_one(Int_t NO_Angle){
     //title[20] = "doc/"+ dir_name +"_R.txt"
     ostringstream out1;
     out1 << NO_Angle;
@@ -115,15 +115,15 @@ int Fit_Read_Par_cp(Int_t NO_Angle){
     //g3->GetYaxis()->SetRangeUser(0.6,0.8);
     //g4->GetYaxis()->SetRangeUser(3.5,5.5);
     
-    //g0->GetYaxis()->SetRangeUser(0,6.5);
+    g0->GetYaxis()->SetRangeUser(0,6.5);
     //g1->GetYaxis()->SetRangeUser(1,4);
-    //g1->GetYaxis()->SetRangeUser(2.5,3.1);
+    g1->GetYaxis()->SetRangeUser(2.5,3.1);
     //g2->GetYaxis()->SetRangeUser(0.5,1.5);
-    //g2->GetYaxis()->SetRangeUser(0.5,1.1);
+    g2->GetYaxis()->SetRangeUser(0.5,1.1);
     //g3->GetYaxis()->SetRangeUser(0.2,1.2);
-    //g3->GetYaxis()->SetRangeUser(0.5,1.1);
+    g3->GetYaxis()->SetRangeUser(0.5,1.1);
     //g4->GetYaxis()->SetRangeUser(2,7);
-    //g4->GetYaxis()->SetRangeUser(2.5,7.5);
+    g4->GetYaxis()->SetRangeUser(2.5,7.5);
     
     c1->Divide(2, 2);
     c1->cd(1);

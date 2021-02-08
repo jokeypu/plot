@@ -53,8 +53,10 @@ int Shower_iFile_mpi0(string dir_name)
     if (NO_Angle == 21) {t_min = 127.273; t_max = 129.033;}
     if (NO_Angle == 22) {t_min = 132.400; t_max = 134.031;}
     if (NO_Angle == 23) {t_min = 137.230; t_max = 138.679;}
-    double delta_cut = Z_MyTool_GetDeltaTheta_mpi0(t_min,6.75);
-    Set_Angle_Cut(t_min-delta_cut, t_min+delta_cut);
+    if (NO_Angle>0 && NO_Angle<24){
+    	double delta_cut = Z_MyTool_GetDeltaTheta_mpi0(t_min,6.75);
+    	Set_Angle_Cut(t_min-delta_cut, t_min+delta_cut);
+    }
     string out_name = "doc/" + dir_name + "_mpi0.txt";
     if( Exec( dir_name, out_name, 2, true) ) return 1;
     return 0;

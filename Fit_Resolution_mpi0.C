@@ -62,7 +62,7 @@ int Fit_Resolution_mpi0(Int_t NO_Angle){
         N++;
     }
     
-    TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
+    TGraphErrors *gr1 = new TGraphErrors(N_point,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(22);
     gr1->SetMarkerColorAlpha(kBlack, 1);
     gr1->GetXaxis()->SetTitle("distance   [cm]");
@@ -71,7 +71,7 @@ int Fit_Resolution_mpi0(Int_t NO_Angle){
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
     
-    TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
+    TGraphErrors *gr2 = new TGraphErrors(N_point,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed, 1);
     gr2->GetXaxis()->SetTitle("distance   [cm]");

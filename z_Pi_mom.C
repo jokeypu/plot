@@ -1,6 +1,6 @@
 int z_Pi_mom(){
     const double m_pi0 = 0.1349768;
-    int nbins1 = 200, nbins2 = 3000;
+    int nbins1 = 200, nbins2 = 5000;
     Int_t NN = 1000;
 
     int xmax_N = 25;
@@ -23,6 +23,16 @@ int z_Pi_mom(){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1,"xyz");
     gStyle->SetPalette(1);
+    
+    c1->SetLeftMargin(0.15);
+    c1->SetRightMargin(0.15);
+    c1->SetTopMargin(-0.15);
+    c1->SetBottomMargin(0.15);
+    
+    c2->SetLeftMargin(0.15);
+    c2->SetRightMargin(0.15);
+    c2->SetTopMargin(-0.15);
+    c2->SetBottomMargin(0.15);
     
     const Int_t NColor = 200;
     Int_t colors[NColor];
@@ -73,6 +83,8 @@ int z_Pi_mom(){
             double E_gamma1 = E_pi0/2-px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             double E_gamma2 = E_pi0/2+px/m_pi0*sqrt(E_pi0*E_pi0-m_pi0*m_pi0);
             h->Fill(E_pi0-m_pi0,delta_angle);
+            h_E->Fill(E_pi0-m_pi0, E_gamma1);
+            h_E->Fill(E_pi0-m_pi0, E_gamma2);
         }
     }
     

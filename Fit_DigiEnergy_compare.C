@@ -32,7 +32,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     //gStyle->SetPalette(1);
     
     c1->SetLeftMargin(0.15);
-    c1->SetRightMargin(-0.15);
+    c1->SetRightMargin(0.15);
     c1->SetTopMargin(-0.15);
     c1->SetBottomMargin(0.15);
     

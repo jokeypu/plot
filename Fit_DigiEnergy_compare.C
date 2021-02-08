@@ -150,6 +150,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     c2->SetLeftMargin(0.15);
     c2->SetRightMargin(0.15);
     c2->SetTopMargin(0.15);
+    c2->SetBottomMargin(0.15);
     
     g_Error->GetYaxis()->SetRangeUser(0,1);
     g_Error_cp->GetYaxis()->SetRangeUser(0,1);

@@ -30,6 +30,16 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     gStyle->SetTitleOffset(1.2,"xyz");
     //gStyle->SetPalette(1);
     
+    c1->SetLeftMargin(0.15);
+    c1->SetRightMargin(-0.15);
+    c1->SetTopMargin(-0.15);
+    c1->SetBottomMargin(0.15);
+    
+    c2->SetLeftMargin(0.15);
+    c2->SetRightMargin(-0.15);
+    c2->SetTopMargin(-0.15);
+    c2->SetBottomMargin(0.15);
+    
     std::string file_name(title);
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);

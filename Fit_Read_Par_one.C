@@ -25,6 +25,11 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     gStyle->SetTitleOffset(1.0,"xyz");
     //gStyle->SetOptFit(1111);
     
+    c1->SetLeftMargin(0.15);
+    c1->SetRightMargin(-0.15);
+    c1->SetTopMargin(-0.15);
+    c1->SetBottomMargin(0.15);
+    
     TGraph *g0 = new TGraph();
     g0->SetMarkerStyle(20);
     g0->SetMarkerColorAlpha(kGray-1, 1);

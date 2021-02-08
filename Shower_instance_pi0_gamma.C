@@ -36,6 +36,11 @@ int Shower_instance_pi0_gamma(const char old_file[30], const char new_file[30], 
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     
+    c1->SetLeftMargin(0.15);
+    c1->SetRightMargin(-0.15);
+    c1->SetTopMargin(-0.15);
+    c1->SetBottomMargin(0.15);
+    
     TH1D* h1D1 = new TH1D("Hist_Raw","h_raw", bin1, xmin, xmax);
     h1D1->SetLineColor(kGray+3);
     h1D1->SetLineWidth(2);

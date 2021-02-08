@@ -31,6 +31,16 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     gStyle->SetTitleOffset(1.2,"xyz");
     //gStyle->SetPalette(1);
     
+    c1->SetLeftMargin(0.15);
+    c1->SetRightMargin(-0.15);
+    c1->SetTopMargin(-0.15);
+    c1->SetBottomMargin(0.15);
+    
+    c2->SetLeftMargin(0.15);
+    c2->SetRightMargin(-0.15);
+    c2->SetTopMargin(-0.15);
+    c2->SetBottomMargin(0.15);
+    
     std::string file_name = "doc/"+ dir_name +".txt";
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);
@@ -146,12 +156,8 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
         g_Error->SetPoint(N,distance,FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))/FABC(dseed,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4)));
         N++;
     }
-    c2->cd();
-    c2->SetLeftMargin(0.15);
-    c2->SetRightMargin(-0.15);
-    c2->SetTopMargin(-0.15);
-    c2->SetBottomMargin(0.15);
     
+    c2->cd();
     g_Error->GetYaxis()->SetRangeUser(0,1);
     g_Error_cp->GetYaxis()->SetRangeUser(0,1);
     //h_Error->Draw("PCOLZ");

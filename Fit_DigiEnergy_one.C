@@ -36,7 +36,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     
     TGraph *g = new TGraph();
     g->SetMarkerStyle(20);
-    g->SetMarkerColor(kYellow);
+    g->SetMarkerColor(kYellow-4);
     g->GetYaxis()->SetTitle("E_{truth}   [GeV]");
     g->GetXaxis()->SetTitle("t   [X_{0}]");
     g->GetXaxis()->CenterTitle();

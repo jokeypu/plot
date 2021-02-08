@@ -189,29 +189,46 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     leg->AddEntry(h1D2,"m_{#pi^{0}} New", "L");
     leg->Draw();
     
-    /*double NewRange_min = h1D2->GetMean()-(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
-    double NewRange_max = h1D2->GetMean()+(4.4 - 0.4*(Energy))*(h1D2->GetStdDev());
+    double NewRange_min = 130;
+    double NewRange_max = 140;
                                             
     h1D2->SetAxisRange(NewRange_min, NewRange_max);
     h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
-    
-    Double_t set_p00 = N/20.0, set_p01 = h1D1->GetMean(), set_p02 = (h1D1->GetStdDev())/10.0, set_p03 = set_p00/10.0, set_p04 =  h1D1->GetStdDev(); 
-    TF1 *f1=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
-    f1->SetLineColor(kBlack);
-    f1->SetParameters(set_p00,set_p01,set_p02,set_p03,set_p04);
-    
-    Double_t set_p10 = N/10.0, set_p11 = h1D2->GetMean(), set_p12 = (h1D2->GetStdDev())/10.0, set_p13 = set_p10/10.0, set_p14 =  h1D2->GetStdDev(); 
-    TF1 *f2=new TF1("f1","[0]*TMath::Gaus(x,[1],[2])+[3]*TMath::Gaus(x,[1],[4])",NewRange_min+0.01*Energy, NewRange_max-0.01*Energy);
-    f2->SetLineColor(kRed);
-    f2->SetParameters(set_p10,set_p11,set_p12,set_p13,set_p14);
-    
-    h1D1->Fit(f1,"R");
-    h1D2->Fit(f2,"R");
-    
-    c1->cd();
-    h1D2->Draw();
-    h1D1->Draw("SAME");
+    int N1_max(-1), N2_max(-1);
+     for (int i = 1; i <= bin1; i++){
+         int N1 = h1D1->GetBinContent(i);
+         int N2 = h1D2->GetBinContent(i);
+     if (N1 > N1_max) N1_max = N1;
+     if (N2 > N2_max) N2_max = N2;
+     }
+     
+     Double_t set_p00 = N1_max, set_p01 = h1D1->GetMean(), set_p02 = 1.0;
+     TF1 *f1=new TF1("f1","[0]*Novosibirsk(x,[1],[2],[3])",NewRange_min, NewRange_max);
+     f1->SetLineColor(kBlack);
+     f1->SetLineStyle(2);
+     f1->SetLineWidth(2);
+    f1->SetParameters(set_p00,set_p01,set_p02,0.0);
+     
+     Double_t set_p10 = N2_max, set_p11 = h1D2->GetMean(), set_p12 = 1.0;
+     TF1 *f2=new TF1("f2","[0]*Novosibirsk(x,[1],[2],[3])",NewRange_min, NewRange_max);
+     f2->SetLineColor(kRed);
+     f2->SetLineStyle(2);
+     f2->SetLineWidth(2);
+    f2->SetParameters(set_p10,set_p11,set_p12,0.0);
+     
+     h1D1->Fit(f1,"R");
+     h1D2->Fit(f2,"R");
+
+     c1->cd();
+     if (N1_max > N2_max){
+     h1D1->Draw();
+     h1D2->Draw("SAME");
+     }else{
+         h1D2->Draw();
+         h1D1->Draw("SAME");
+    }
+
    
     TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
     leg->AddEntry(h1D1, old_file, "L");
@@ -220,45 +237,25 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
     leg->Draw();
     
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2), f1->GetParameter(3), f1->GetParameter(4));
-    Double_t sigma1 = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2)+f1->GetParError(2), f1->GetParameter(3), f1->GetParameter(4)+f1->GetParError(4));
-    Double_t sigma1p = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f1->GetParameter(0), f1->GetParameter(1), f1->GetParameter(2)-f1->GetParError(2), f1->GetParameter(3), f1->GetParameter(4)-f1->GetParError(4));
-    Double_t sigma1m = finding_sigma(f1->GetParameter(1),f1->GetParameter(2)>f1->GetParameter(4)? f1->GetParameter(2):f1->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2), f2->GetParameter(3), f2->GetParameter(4));
-    Double_t sigma2 = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2)+f2->GetParError(2), f2->GetParameter(3), f2->GetParameter(4)+f2->GetParError(4));
-    Double_t sigma2p = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-    
-    SetPar(f2->GetParameter(0), f2->GetParameter(1), f2->GetParameter(2)-f2->GetParError(2), f2->GetParameter(3), f2->GetParameter(4)-f2->GetParError(4));
-    Double_t sigma2m = finding_sigma(f2->GetParameter(1),f2->GetParameter(2)>f2->GetParameter(4)? f2->GetParameter(2):f2->GetParameter(4));
-
     Double_t mean_OR = f1->GetParameter(1);
     Double_t mean_fix = f2->GetParameter(1);
     Double_t D_mean_OR = f1->GetParError(1);
     Double_t D_mean_fix = f2->GetParError(1);
     
-    Double_t D_delta_OR_p = sigma1p - sigma1;
-    Double_t D_delta_OR_m = sigma1 - sigma1m;
-    Double_t D_delta_fix_p = sigma2p - sigma2;
-    Double_t D_delta_fix_m = sigma2 - sigma2m;
+    Double_t sigma_OR = f1->GetParameter(2);
+    Double_t sigma_fix = f2->GetParameter(2);
+    Double_t D_sigma_OR = f1->GetParError(2);
+    Double_t D_sigma_fix = f2->GetParError(2);
 
-    Double_t Resolution_OR = sigma1/mean_OR;
-    Double_t Resolution_fix = sigma2/mean_fix;
-    Double_t D_Resolution_OR_p = sqrt(  pow(D_delta_OR_p,2) + pow(sigma1,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
-    Double_t D_Resolution_OR_m = sqrt(  pow(D_delta_OR_m,2) + pow(sigma1,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
-    Double_t D_Resolution_fix_p = sqrt(  pow(D_delta_fix_p,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
-    Double_t D_Resolution_fix_m = sqrt(  pow(D_delta_fix_m,2) + pow(sigma2,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
+    Double_t Resolution_OR = sigma_OR/mean_OR;
+    Double_t Resolution_fix = sigma_fix/mean_fix;
+    Double_t D_Resolution_OR = sqrt(  pow(D_sigma_OR,2) + pow(sigma_OR,2)*pow(D_mean_OR,2)/pow(mean_OR,2)  )/mean_OR;
+    Double_t D_Resolution_fix = sqrt(  pow(D_sigma_fix,2) + pow(sigma_fix,2)*pow(D_mean_fix,2)/pow(mean_fix,2)  )/mean_fix;
 
-    par_file << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
+    par_file << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << str_Energy << " " << Resolution_fix << " " << D_Resolution_fix << endl;
     
-    cout << mean_OR << " " << Resolution_OR << " " << D_Resolution_OR_m << " " << D_Resolution_OR_p << " " << mean_fix << " " << Resolution_fix << " " << D_Resolution_fix_m << " " << D_Resolution_fix_p << endl;
-    */
+    cout << str_Energy << " " << Resolution_OR << " " << D_Resolution_OR << " " << str_Energy << " " << Resolution_fix << " " << D_Resolution_fix << endl;
+    
     TString picture_name= "doc/mpi0_A"+str_NO_Angle+"_resolution_Picture/mpi0_A"+str_NO_Angle+"_E"+str_Energy+"_resolution_Picture.png";
     c1->Print(picture_name);
     

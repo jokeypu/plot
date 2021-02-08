@@ -7,6 +7,8 @@ int z_Pi_mom(){
     double xmax = (double)xmax_N;
     int nbins1_cp = nbins1;
     nbins1 *= xmax_N;
+    //double xmax_cp = xmax;
+    double xmax_cp = 6;
     
     TCanvas* c2=new TCanvas("PANDA2","test2",800,600);
     TCanvas* c1=new TCanvas("PANDA1","test1",800,600);
@@ -59,7 +61,7 @@ int z_Pi_mom(){
     h->GetYaxis()->CenterTitle();
     h->GetZaxis()->CenterTitle();
     
-    TH2D* h_E = new TH2D("Hist_E","h_E",nbins2,0,30,nbins2,0,30);
+    TH2D* h_E = new TH2D("Hist_E","h_E",nbins2,0,xmax_cp,nbins2,0,xmax_cp);
     h_E->SetMarkerStyle(7);
     h_E->SetMarkerColorAlpha(kAzure+3, 0.5);
     h_E->GetXaxis()->SetTitle("P_{#pi^{0}}   [GeV/c]");

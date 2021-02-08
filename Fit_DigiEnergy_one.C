@@ -73,8 +73,8 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     }
     
     int cunt = 0;
-    int step = 7;
-    for (int i = 1; i < binx+1; i+=step){
+    int step = 9;
+    for (int i = 5; i < binx+1; i+=step){
         Double_t mean = h->ProfileY("px",i,i+step-1)->GetMean();
         Double_t wx = distance_cut/binx;
         Double_t nx =( (i+(step-1)/2)*wx - wx/2  );

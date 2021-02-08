@@ -65,6 +65,13 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         N++;
     }
     
+    for (int i = 1; i < 201; i++){
+        for (int j = 1; j < 201; j++){
+            if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
+            else if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);
+        }
+    }
+    
     int cunt = 0;
     int step = 7;
     for (int i = 1; i < binx+1; i+=step){
@@ -73,13 +80,6 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         Double_t nx =( (i+(step-1)/2)*wx - wx/2  );
         g->SetPoint(cunt, nx, mean);
         cunt++;
-    }
-    
-    for (int i = 1; i < 201; i++){
-        for (int j = 1; j < 201; j++){
-            if (N < 30000) {if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);}
-            else if (h->GetBinContent(i,j)<2) h->SetBinContent(i,j,0);
-        }
     }
     
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);

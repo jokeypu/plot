@@ -92,7 +92,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     f_cp->SetLineWidth(3);
     f_cp->SetLineStyle(2);
     f_cp->SetLineColor(kCyan);
-
+    
     c1->cd();
     h->Draw("PCOLZ");
     g->Draw("Psame");
@@ -142,7 +142,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
         strStream >> dseed >> distance >> Eseed >> energy;
         if (distance > distance_cut) continue;
         h_Error->Fill(distance,energy/Eseed);
-	g_Error_cp->SetPoint(N,distance,energy/Eseed);
+        g_Error_cp->SetPoint(N,distance,energy/Eseed);
         g_Error->SetPoint(N,distance,FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))/FABC(dseed,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4)));
         N++;
     }
@@ -155,6 +155,12 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     g_Error->Draw("Psame");
     //f->Draw("SAME");
     f_cp->Draw("SAME");
+    
+    TLegend * leg = new TLegend(0.68, 0.76, 0.88, 0.86);
+    leg->AddEntry(f_cp,"Raw: exp(-#epsilonr/R_{M})" , "L");
+    leg->AddEntry(g_Error,"New: f(r)/f(r_{seed})" , "L");
+    leg->AddEntry(g_Error_cp,"data: E_{digi}/E_{seed}", "L");
+    leg->Draw();
     
     //TString picture_name_error= "doc/compare_A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     //c2->Print(picture_name_error);

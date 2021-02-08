@@ -39,14 +39,14 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
-    int const N_point = 36;
+    int const N_point = 35;
     double R1_x[N_point], R1_y[N_point], R1_Ex[N_point], R1_Ey[N_point], R1_Ey_m[N_point], R1_Ey_p[N_point];
     double R2_x[N_point], R2_y[N_point], R2_Ex[N_point], R2_Ey[N_point], R2_Ey_m[N_point], R2_Ey_p[N_point];
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {
         std::stringstream strStream(str);
-        float cut_min, cut_max,  mean_1, R1, ER1_m, ER1_p, mean_2, R2, ER2_m, ER2_p;
+        double cut_min, cut_max,  mean_1, R1, ER1_m, ER1_p, mean_2, R2, ER2_m, ER2_p;
         strStream >> cut_min >> cut_max >> mean_1 >> R1 >> ER1_m >> mean_2 >> R2 >> ER2_m;
         ER1_p = ER1_m;
         ER2_p = ER2_m;
@@ -60,8 +60,9 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
         R2_Ey[N] = 100*(ER2_p > ER2_m ? ER2_p : ER2_m);
         N++;
     }
+    cout << N << endl; 
     
-    TGraphErrors *gr1 = new TGraphErrors(12,R1_x,R1_y,R1_Ex,R1_Ey);
+    TGraphErrors *gr1 = new TGraphErrors(N_point,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(22);
     gr1->SetMarkerColorAlpha(kBlack, 1);
     gr1->GetXaxis()->SetTitle("distance   [cm]");
@@ -70,7 +71,7 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
     
-    TGraphErrors *gr2 = new TGraphErrors(12,R2_x,R2_y,R2_Ex,R2_Ey);
+    TGraphErrors *gr2 = new TGraphErrors(N_point,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed, 1);
     gr2->GetXaxis()->SetTitle("distance   [cm]");

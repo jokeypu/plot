@@ -2,7 +2,7 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     ostringstream out1;
     out1 << NO_Angle;
     string str_NO_Angle = out1.str();
-    std::string out_name = "doc/A"+str_NO_Angle+"_resolution_par.txt";
+    std::string out_name = "doc/range_A"+str_NO_Angle+"_resolution_par.txt";
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
     

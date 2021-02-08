@@ -31,15 +31,15 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     gStyle->SetTitleOffset(1.2,"xyz");
     //gStyle->SetPalette(1);
     
-    c1->SetLeftMargin(0.15);
-    c1->SetRightMargin(0.15);
-    c1->SetTopMargin(-0.15);
-    c1->SetBottomMargin(0.15);
+    c1->SetLeftMargin(0.13);
+    c1->SetRightMargin(0.13);
+    c1->SetTopMargin(-0.13);
+    c1->SetBottomMargin(0.13);
     
-    c2->SetLeftMargin(0.15);
-    c2->SetRightMargin(-0.15);
-    c2->SetTopMargin(-0.15);
-    c2->SetBottomMargin(0.15);
+    c2->SetLeftMargin(0.13);
+    c2->SetRightMargin(-0.13);
+    c2->SetTopMargin(-0.13);
+    c2->SetBottomMargin(0.13);
     
     std::string file_name = "doc/"+ dir_name +".txt";
     std::ifstream in_file;
@@ -160,6 +160,8 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     c2->cd();
     g_Error->GetYaxis()->SetRangeUser(0,1);
     g_Error_cp->GetYaxis()->SetRangeUser(0,1);
+    g_Error->GetXaxis()->SetRangeUser(0,distance_cut);
+    g_Error_cp->GetXaxis()->SetRangeUser(0,distance_cut);
     //h_Error->Draw("PCOLZ");
     g_Error_cp->Draw("AP.");
     g_Error->Draw("Psame");

@@ -4,8 +4,9 @@ Double_t FABC(Double_t r,Double_t p0, Double_t p1, Double_t p2, Double_t p3, Dou
     return p0*exp(-p1*xi/RM);
 }
 
-int Fit_DigiEnergy_compare(std::string dir_name, const char title[30], Int_t NO_Angle, Double_t Energy){
+int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy){
     //title[20] = "doc/"+ dir_name +"_R.txt"
+    //root Fit_DigiEnergy_compare.C'("WorkData_1Gamma_A12_E1.0_OR",12,1.0)';
     ostringstream out1,out2;
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
@@ -30,7 +31,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, const char title[30], Int_t NO_
     gStyle->SetTitleOffset(1.2,"xyz");
     //gStyle->SetPalette(1);
     
-    std::string file_name(title);
+    std::string file_name = "doc/"+ dir_name +".txt";
     std::ifstream in_file;
     in_file.open(file_name,std::ios::in);
     
@@ -58,8 +59,8 @@ int Fit_DigiEnergy_compare(std::string dir_name, const char title[30], Int_t NO_
     
     while (std::getline(in_file, str)) {
         std::stringstream strStream(str);
-        float dseed, distance, Eseed, energy;
-        strStream >> dseed >> distance >> Eseed >> energy;
+        float distance, angle, energy;
+        strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
         h->Fill(distance,energy);
         N++;
@@ -90,14 +91,14 @@ int Fit_DigiEnergy_compare(std::string dir_name, const char title[30], Int_t NO_
     TF1* f_cp=new TF1("f_cp","exp(-1.25*x)",0,distance_cut);
     f_cp->SetLineWidth(3);
     f_cp->SetLineStyle(2);
-    f_cp->SetLineColor(kYellow);
+    f_cp->SetLineColor(kCyan);
 
     c1->cd();
     h->Draw("PCOLZ");
     g->Draw("Psame");
     g->Fit(f,"R");
     f->Draw("SAME");
-    f_cp->Draw("SAME");
+    //f_cp->Draw("SAME");
     //par_file << str_Energy << " " << f->GetParameter(0) << " " << f->GetParameter(1) << " " << f->GetParameter(2) << " " << f->GetParameter(3) << " " << f->GetParameter(4) << endl;
     
     //TString picture_name= "doc/compare_A"+str_NO_Angle+"_FitPicture_cp/A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
@@ -105,44 +106,61 @@ int Fit_DigiEnergy_compare(std::string dir_name, const char title[30], Int_t NO_
     
     TGraph *g_Error = new TGraph();
     g_Error->SetMarkerStyle(7);
-    g_Error->SetMarkerColorAlpha(kYellow, 0.5);
-    g_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}   [GeV]");
-    g_Error->GetXaxis()->SetTitle("t   [X_{0}]");
+    g_Error->SetMarkerColorAlpha(kRed, 0.5);
+    g_Error->GetYaxis()->SetTitle("E_{digi}/E_{seed}");
+    g_Error->GetXaxis()->SetTitle("r   [cm]");
     g_Error->GetXaxis()->CenterTitle();
     g_Error->GetYaxis()->CenterTitle();
     
-    TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,-Energy,Energy);
+    TGraph *g_Error_cp = new TGraph();
+    g_Error_cp->SetMarkerStyle(7);
+    g_Error_cp->SetMarkerColorAlpha(kAzure+3, 0.5);
+    g_Error_cp->GetYaxis()->SetTitle("E_{digi}/E_{seed}");
+    g_Error_cp->GetXaxis()->SetTitle("r   [cm]");
+    g_Error_cp->GetXaxis()->CenterTitle();
+    g_Error_cp->GetYaxis()->CenterTitle();
+    
+    TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,0,1.1);
     h_Error->SetMarkerStyle(7);
     h_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
-    h_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}   [GeV]");
-    h_Error->GetXaxis()->SetTitle("t   [X_{0}]");
+    h_Error->GetYaxis()->SetTitle("E_{digi}/E_{seed}");
+    h_Error->GetXaxis()->SetTitle("r   [cm]");
     h_Error->GetXaxis()->CenterTitle();
     h_Error->GetYaxis()->CenterTitle();
     h_Error->GetZaxis()->CenterTitle();
     
-    in_file.clear();
-    in_file.seekg(0, ios::beg);
+    std::string file_name_n = "doc/compare_"+ dir_name +".txt";
+    std::ifstream in_file_n;
+    in_file_n.open(file_name_n,std::ios::in);
+    
+    //in_file_n.clear();
+    //in_file_n.seekg(0, ios::beg);
     N = 0;
-    while (std::getline(in_file, str)) {
+    while (std::getline(in_file_n, str)) {
         std::stringstream strStream(str);
         float dseed, distance, Eseed, energy;
         strStream >> dseed >> distance >> Eseed >> energy;
         if (distance > distance_cut) continue;
         h_Error->Fill(distance,energy/Eseed);
+	g_Error_cp->SetPoint(N,distance,energy/Eseed);
         g_Error->SetPoint(N,distance,FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))/FABC(dseed,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4)));
         N++;
     }
     c2->cd();
     
-    h_Error->Draw("PCOLZ");
+    g_Error->GetYaxis()->SetRangeUser(0,1);
+    g_Error_cp->GetYaxis()->SetRangeUser(0,1);
+    //h_Error->Draw("PCOLZ");
+    g_Error_cp->Draw("AP.");
     g_Error->Draw("Psame");
-    f->Draw("SAME");
+    //f->Draw("SAME");
     f_cp->Draw("SAME");
     
     //TString picture_name_error= "doc/compare_A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     //c2->Print(picture_name_error);
     
     in_file.close();
-    par_file.close();
+    in_file_n.close();
+    //par_file.close();
     return 0;
 }

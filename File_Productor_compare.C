@@ -38,6 +38,7 @@ Double_t AA(const TVector3 *DetPos, const TVector3 *Cent, const Double_t par){
 }
 
 int File_Productor_compare(std::string dir_name, Double_t Shower_Energy){
+    //root File_Productor_compare.C'("WorkData_1Gamma_A12_E1.0_OR",1.0)';
     //std::string dir_name="Gamma_one_1G";
     std::string out_name = "doc/compare_"+ dir_name +".txt";
     
@@ -137,16 +138,13 @@ int File_Productor_compare(std::string dir_name, Double_t Shower_Energy){
         
         for (int i = 0; i < nhits; i++) {
             PndEmcHit* hit = (PndEmcHit*)fHitArray->At(i);
+	    if (hit->GetDetectorID() == digi_seed_id) continue;
             TVector3 Det_Pos;
             hit->Position(Det_Pos);
             double Truth_Energy = hit->GetEnergy();
             double Distance = DD(&Det_Pos, &Cent_pos, 1.25);
-            double dseed = DD(&Det_Pos, &Cent_pos, 1.25);
-            double angle = AA(&Seed_pos, &Cent_pos, 1.25);
-            if ( angle > 90 && angle <= 180 ) angle = 180 - angle;
-            if ( angle > 45 && angle <= 90 ) angle = 90 - angle;
+            double dseed = DD(&Seed_pos, &Cent_pos, 1.25);
             if (Distance > 4) continue;
-            //if (Distance <1.5 && Truth_Energy < Shower_Energy/5.0) continue;
             File_out << dseed << " " << Distance << " " << Seed_Energy << " " << Truth_Energy << endl;
             N++;
         }

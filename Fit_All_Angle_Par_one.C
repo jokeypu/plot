@@ -24,25 +24,25 @@ int Fit_All_Angle_Par_one(){
     gStyle->SetTitleSize(0.05,"xyz");
     gStyle->SetTitleOffset(1.0,"xyz");
     //gStyle->SetOptFit(1111);
-    c1->SetLeftMargin(0.15);
-    c1->SetRightMargin(-0.15);
-    c1->SetTopMargin(-0.15);
-    c1->SetBottomMargin(0.15);
+    c1->SetLeftMargin(0.13);
+    c1->SetRightMargin(-0.13);
+    c1->SetTopMargin(-0.13);
+    c1->SetBottomMargin(0.13);
     
-    c2->SetLeftMargin(0.15);
-    c2->SetRightMargin(-0.15);
-    c2->SetTopMargin(-0.15);
-    c2->SetBottomMargin(0.15);
+    c2->SetLeftMargin(0.13);
+    c2->SetRightMargin(-0.13);
+    c2->SetTopMargin(-0.13);
+    c2->SetBottomMargin(0.13);
     
-    c3->SetLeftMargin(0.15);
-    c3->SetRightMargin(-0.15);
-    c3->SetTopMargin(-0.15);
-    c3->SetBottomMargin(0.15);
+    c3->SetLeftMargin(0.13);
+    c3->SetRightMargin(-0.13);
+    c3->SetTopMargin(-0.13);
+    c3->SetBottomMargin(0.13);
     
-    c4->SetLeftMargin(0.15);
-    c4->SetRightMargin(-0.15);
-    c4->SetTopMargin(-0.15);
-    c4->SetBottomMargin(0.15);
+    c4->SetLeftMargin(0.13);
+    c4->SetRightMargin(-0.13);
+    c4->SetTopMargin(-0.13);
+    c4->SetBottomMargin(0.13);
     
     TGraph *g11 = new TGraph();
     g11->SetMarkerStyle(22);

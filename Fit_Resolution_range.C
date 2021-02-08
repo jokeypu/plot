@@ -23,10 +23,10 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     gStyle->SetTitleOffset(1.0,"xyz");
     //gStyle->SetOptFit(1111);
     
-    c1->SetLeftMargin(0.15);
-    c1->SetRightMargin(-0.15);
-    c1->SetTopMargin(-0.15);
-    c1->SetBottomMargin(0.15);
+    c1->SetLeftMargin(0.13);
+    c1->SetRightMargin(-0.13);
+    c1->SetTopMargin(-0.13);
+    c1->SetBottomMargin(0.13);
     
     TGraph *g1 = new TGraph();
     g1->SetMarkerStyle(20);

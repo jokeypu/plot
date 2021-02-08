@@ -3,7 +3,6 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     out1 << NO_Angle;
     out2 << fixed << setprecision(1) << Energy;
     string str_NO_Angle = out1.str(), str_Energy = out2.str();
-    
     std::string out_name = "doc/range_A" + str_NO_Angle + "_E" + str_Energy + "_resolution_par.txt";
     std::ifstream par_file;
     par_file.open(out_name,std::ios::in);
@@ -40,8 +39,9 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
-    double R1_x[12], R1_y[12], R1_Ex[12], R1_Ey[12], R1_Ey_m[12], R1_Ey_p[12];
-    double R2_x[12], R2_y[12], R2_Ex[12], R2_Ey[12], R2_Ey_m[12], R2_Ey_p[12];
+    int const N_point = 36;
+    double R1_x[N_point], R1_y[N_point], R1_Ex[N_point], R1_Ey[N_point], R1_Ey_m[N_point], R1_Ey_p[N_point];
+    double R2_x[N_point], R2_y[N_point], R2_Ex[N_point], R2_Ey[N_point], R2_Ey_m[N_point], R2_Ey_p[N_point];
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {

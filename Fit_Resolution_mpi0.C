@@ -38,8 +38,9 @@ int Fit_Resolution_mpi0(Int_t NO_Angle){
     g2->GetXaxis()->CenterTitle();
     g2->GetYaxis()->CenterTitle();
     
-    double R1_x[12], R1_y[12], R1_Ex[12], R1_Ey[12], R1_Ey_m[12], R1_Ey_p[12];
-    double R2_x[12], R2_y[12], R2_Ex[12], R2_Ey[12], R2_Ey_m[12], R2_Ey_p[12];
+    int const N_point = 36;
+    double R1_x[N_point], R1_y[N_point], R1_Ex[N_point], R1_Ey[N_point], R1_Ey_m[N_point], R1_Ey_p[N_point];
+    double R2_x[N_point], R2_y[N_point], R2_Ex[N_point], R2_Ey[N_point], R2_Ey_m[N_point], R2_Ey_p[N_point];
     string str;
     Int_t N = 0;
     while (std::getline(par_file, str)) {

@@ -70,8 +70,8 @@ int Fit_Resolution_mpi0(Int_t NO_Angle){
     TGraphErrors *gr1 = new TGraphErrors(N_point,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(22);
     gr1->SetMarkerColorAlpha(kBlack, 1);
-    gr1->GetXaxis()->SetTitle("P_{#pi0}   [GeV/c]");
-    gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
+    gr1->GetXaxis()->SetTitle("P_{#pi^{0}}   [GeV/c]");
+    gr1->GetYaxis()->SetTitle("#sigma(m_{#pi^{0}})/m_{#pi^{0}}   [%]");
     gr1->GetYaxis()->SetTitleOffset(1.0);
     gr1->GetXaxis()->CenterTitle();
     gr1->GetYaxis()->CenterTitle();
@@ -79,8 +79,8 @@ int Fit_Resolution_mpi0(Int_t NO_Angle){
     TGraphErrors *gr2 = new TGraphErrors(N_point,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed, 1);
-    gr2->GetXaxis()->SetTitle("P_{#pi0}   [GeV/c]");
-    gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
+    gr2->GetXaxis()->SetTitle("P_{#pi^{0}}   [GeV/c]");
+    gr2->GetYaxis()->SetTitle("#sigma(m_{#pi^{0}})/m_{#pi^{0}}   [%]");
     gr2->GetYaxis()->SetTitleOffset(1.0);
     gr2->GetXaxis()->CenterTitle();
     gr2->GetYaxis()->CenterTitle();

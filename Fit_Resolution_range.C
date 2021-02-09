@@ -70,7 +70,7 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     TGraphErrors *gr1 = new TGraphErrors(N_point,R1_x,R1_y,R1_Ex,R1_Ey);
     gr1->SetMarkerStyle(22);
     gr1->SetMarkerColorAlpha(kBlack, 1);
-    gr1->GetXaxis()->SetTitle("distance   [cm]");
+    gr1->GetXaxis()->SetTitle("d   [cm]");
     gr1->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
     gr1->GetYaxis()->SetTitleOffset(1.0);
     gr1->GetXaxis()->CenterTitle();
@@ -79,7 +79,7 @@ int Fit_Resolution_range(Int_t NO_Angle, Double_t Energy){
     TGraphErrors *gr2 = new TGraphErrors(N_point,R2_x,R2_y,R2_Ex,R2_Ey);
     gr2->SetMarkerStyle(21);
     gr2->SetMarkerColorAlpha(kRed, 1);
-    gr2->GetXaxis()->SetTitle("distance   [cm]");
+    gr2->GetXaxis()->SetTitle("d   [cm]");
     gr2->GetYaxis()->SetTitle("#sigma(E_{#gamma})/E_{#gamma}   [%]");
     gr2->GetYaxis()->SetTitleOffset(1.0);
     gr2->GetXaxis()->CenterTitle();

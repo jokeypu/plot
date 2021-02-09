@@ -10,6 +10,7 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     AllPar_file.open("doc/AllPar_cp.txt",std::ios::app);
     
     TString ts = "Angle "+str_NO_Angle;
+    TCanvas* c2=new TCanvas("PANDA2",ts,800,600);
     TCanvas* c1=new TCanvas("PANDA1",ts,1000,700);
     gStyle->SetOptTitle(0);
     gStyle->SetStatX(0.36);
@@ -83,7 +84,7 @@ int Fit_Read_Par_one(Int_t NO_Angle){
         g2->SetPoint(N,energy,p2);
         g3->SetPoint(N,energy,p3);
         g4->SetPoint(N,energy,p4);
-        Max_Energy = energy;
+        if (energy>Max_Energy) Max_Energy = energy;
         N++;
     }
     
@@ -93,19 +94,31 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     
     TF1* f1=new TF1("f1","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
-    f1->SetParameters(-2,0.5,1.42);
+    f1->SetParameters(-0.18, 1.4, 2.7);
+    f1->SetParLimits(0,-0.01,1.0);
+    f1->SetParLimits(1, 0.13.0);
+    f1->SetParLimits(2,2.0,3.5);
 
     TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
-    f2->SetParameters(-2,0.5,0.9);
+    f2->SetParameters(-0.23,2.8,0.92);
+    f2->SetParLimits(0,-0.01,1.0);
+    f2->SetParLimits(1,1.0,5.0);
+    f2->SetParLimits(2,0.5,1.5);
     
     TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
-    f3->SetParameters(2,0.5,0.7);
+    f3->SetParameters(0.62,8.6,0.77);
+    f3->SetParLimits(0,-0.01,1.0);
+    f3->SetParLimits(1,1.0,15.0);
+    f3->SetParLimits(2,0.3,1.5);
     
     TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
-    f4->SetParameters(-2.14,0.88,4.27);
+    f4->SetParameters(-2.8,1.8,5.27);
+    f4->SetParLimits(0,-0.1,5.0);
+    f4->SetParLimits(1,1.0,5.0);
+    f4->SetParLimits(2,2.1,7.0);
     
     
     g0->Fit(f0,"R");
@@ -145,6 +158,9 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     //g3->Draw("AP.");
     c1->cd(4);
     g4->Draw("AP.");
+
+    c2->cd();
+    g0->Draw("AP.");
     
     AllPar_file << str_NO_Angle << " "
     << f1->GetParameter(0) << " " << f1->GetParameter(1) << " " << f1->GetParameter(2) << " "

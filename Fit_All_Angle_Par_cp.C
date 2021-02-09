@@ -2,7 +2,7 @@ int Fit_All_Angle_Par_cp(){
     std::string in_name = "doc/AllPar_cp.txt";
     std::ifstream par_file;
     par_file.open(in_name,std::ios::in);
-    double ty0 = 1200, tx0 = 800;
+    double tx0 = 1500, ty0 = 400;
     double ty1 = 833, tx1 = 800;
 	
     //tx0 *= 2;ty0 *= 2;tx1 *= 2;ty1 *= 2;
@@ -22,21 +22,21 @@ int Fit_All_Angle_Par_cp(){
     gStyle->SetTitleFont(42,"xyz");
     gStyle->SetTitleColor(1,"xyz");
     gStyle->SetTitleSize(0.05,"xyz");
-    gStyle->SetTitleOffset(1.0,"xyz");
+    gStyle->SetTitleOffset(0.92,"xyz");
     //gStyle->SetOptFit(1111);
     
     TGraph *g11 = new TGraph();
-    g11->SetMarkerStyle(22);
-    g11->SetMarkerColorAlpha(kGreen+1, 1);
-    g11->GetXaxis()->SetTitle("#theta(deg)");
+    g11->SetMarkerStyle(20);
+    g11->SetMarkerColorAlpha(kBlue, 1);
+    g11->GetXaxis()->SetTitle("#theta   [deg]");
     g11->GetYaxis()->SetTitle("A");
     g11->GetXaxis()->CenterTitle();
     g11->GetYaxis()->CenterTitle();
     
     TGraph *g12 = new TGraph();
-    g12->SetMarkerStyle(22);
-    g12->SetMarkerColorAlpha(kGreen+1, 1);
-    g12->GetXaxis()->SetTitle("#theta(deg)");
+    g12->SetMarkerStyle(21);
+    g12->SetMarkerColorAlpha(kViolet, 1);
+    g12->GetXaxis()->SetTitle("#theta   [deg]");
     g12->GetYaxis()->SetTitle("#kappa");
     g12->GetXaxis()->CenterTitle();
     g12->GetYaxis()->CenterTitle();
@@ -44,23 +44,23 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g13 = new TGraph();
     g13->SetMarkerStyle(22);
     g13->SetMarkerColorAlpha(kRed, 1);
-    g13->GetXaxis()->SetTitle("#theta(deg)");
+    g13->GetXaxis()->SetTitle("#theta   [deg]");
     g13->GetYaxis()->SetTitle("h");
     g13->GetXaxis()->CenterTitle();
     g13->GetYaxis()->CenterTitle();
     
     TGraph *g21 = new TGraph();
-    g21->SetMarkerStyle(22);
-    g21->SetMarkerColorAlpha(kGreen+1, 1);
-    g21->GetXaxis()->SetTitle("#theta(deg)");
+    g21->SetMarkerStyle(20);
+    g21->SetMarkerColorAlpha(kBlue, 1);
+    g21->GetXaxis()->SetTitle("#theta   [deg]");
     g21->GetYaxis()->SetTitle("B");
     g21->GetXaxis()->CenterTitle();
     g21->GetYaxis()->CenterTitle();
     
     TGraph *g22 = new TGraph();
-    g22->SetMarkerStyle(22);
-    g22->SetMarkerColorAlpha(kGreen+1, 1);
-    g22->GetXaxis()->SetTitle("#theta(deg)");
+    g22->SetMarkerStyle(21);
+    g22->SetMarkerColorAlpha(kViolet, 1);
+    g22->GetXaxis()->SetTitle("#theta   [deg]");
     g22->GetYaxis()->SetTitle("#mu");
     g22->GetXaxis()->CenterTitle();
     g22->GetYaxis()->CenterTitle();
@@ -68,23 +68,23 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g23 = new TGraph();
     g23->SetMarkerStyle(22);
     g23->SetMarkerColorAlpha(kRed, 1);
-    g23->GetXaxis()->SetTitle("#theta(deg)");
+    g23->GetXaxis()->SetTitle("#theta   [deg]");
     g23->GetYaxis()->SetTitle("m");
     g23->GetXaxis()->CenterTitle();
     g23->GetYaxis()->CenterTitle();
     
     TGraph *g31 = new TGraph();
-    g31->SetMarkerStyle(22);
-    g31->SetMarkerColorAlpha(kGreen+1, 1);
-    g31->GetXaxis()->SetTitle("#theta(deg)");
+    g31->SetMarkerStyle(20);
+    g31->SetMarkerColorAlpha(kBlue, 1);
+    g31->GetXaxis()->SetTitle("#theta   [deg]");
     g31->GetYaxis()->SetTitle("C");
     g31->GetXaxis()->CenterTitle();
     g31->GetYaxis()->CenterTitle();
     
     TGraph *g32 = new TGraph();
-    g32->SetMarkerStyle(22);
-    g32->SetMarkerColorAlpha(kGreen+1, 1);
-    g32->GetXaxis()->SetTitle("#theta(deg)");
+    g32->SetMarkerStyle(21);
+    g32->SetMarkerColorAlpha(kViolet, 1);
+    g32->GetXaxis()->SetTitle("#theta   [deg]");
     g32->GetYaxis()->SetTitle("#tau");
     g32->GetXaxis()->CenterTitle();
     g32->GetYaxis()->CenterTitle();
@@ -93,23 +93,23 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g33 = new TGraph();
     g33->SetMarkerStyle(22);
     g33->SetMarkerColorAlpha(kRed, 1);
-    g33->GetXaxis()->SetTitle("#theta(deg)");
+    g33->GetXaxis()->SetTitle("#theta   [deg]");
     g33->GetYaxis()->SetTitle("n");
     g33->GetXaxis()->CenterTitle();
     g33->GetYaxis()->CenterTitle();
     
     TGraph *g41 = new TGraph();
-    g41->SetMarkerStyle(22);
-    g41->SetMarkerColorAlpha(kGreen+1, 1);
-    g41->GetXaxis()->SetTitle("#theta(deg)");
+    g41->SetMarkerStyle(20);
+    g41->SetMarkerColorAlpha(kBlue, 1);
+    g41->GetXaxis()->SetTitle("#theta   [deg]");
     g41->GetYaxis()->SetTitle("D");
     g41->GetXaxis()->CenterTitle();
     g41->GetYaxis()->CenterTitle();
     
     TGraph *g42 = new TGraph();
-    g42->SetMarkerStyle(22);
-    g42->SetMarkerColorAlpha(kGreen+1, 1);
-    g42->GetXaxis()->SetTitle("#theta(deg)");
+    g42->SetMarkerStyle(21);
+    g42->SetMarkerColorAlpha(kViolet, 1);
+    g42->GetXaxis()->SetTitle("#theta   [deg]");
     g42->GetYaxis()->SetTitle("#lambda");
     g42->GetXaxis()->CenterTitle();
     g42->GetYaxis()->CenterTitle();
@@ -117,7 +117,7 @@ int Fit_All_Angle_Par_cp(){
     TGraph *g43 = new TGraph();
     g43->SetMarkerStyle(22);
     g43->SetMarkerColorAlpha(kRed, 1);
-    g43->GetXaxis()->SetTitle("#theta(deg)");
+    g43->GetXaxis()->SetTitle("#theta   [deg]");
     g43->GetYaxis()->SetTitle("q");
     g43->GetXaxis()->CenterTitle();
     g43->GetYaxis()->CenterTitle();
@@ -178,10 +178,10 @@ int Fit_All_Angle_Par_cp(){
     par_file.close();
 
     TF1* f11=new TF1("f11","[0]",20,140);
-    f11->SetLineColor(kRed-7);
+    f11->SetLineColor(kBlue+2);
     
     TF1* f12=new TF1("f12","[0]",20,140);
-    f12->SetLineColor(kRed-7);
+    f12->SetLineColor(kViolet-1);
     
     TF1* f13=new TF1("f13","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f13->SetLineColor(kRed-7);
@@ -189,10 +189,10 @@ int Fit_All_Angle_Par_cp(){
     //f13->SetParLimits(1,90,90);
     
     TF1* f21=new TF1("f21","[0]",20,140);
-    f21->SetLineColor(kRed-7);
+    f21->SetLineColor(kBlue+2);
     
     TF1* f22=new TF1("f22","[0]",20,140);
-    f22->SetLineColor(kRed-7);
+    f22->SetLineColor(kViolet-1);
 
     TF1* f23=new TF1("f23","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f23->SetLineColor(kRed-7);
@@ -200,10 +200,10 @@ int Fit_All_Angle_Par_cp(){
     //f23->SetParLimits(1,90,90);
     
     TF1* f31=new TF1("f31","[0]",20,140);
-    f31->SetLineColor(kRed-7);
+    f31->SetLineColor(kBlue+2);
 
     TF1* f32=new TF1("f32","[0]",20,140);
-    f32->SetLineColor(kRed-7);
+    f32->SetLineColor(kViolet-1);
     
     TF1* f33=new TF1("f33","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f33->SetLineColor(kRed-7);
@@ -211,10 +211,10 @@ int Fit_All_Angle_Par_cp(){
     //f33->SetParLimits(1,90,90);
     
     TF1* f41=new TF1("f41","[0]",20,140);
-    f41->SetLineColor(kRed-7);
+    f41->SetLineColor(kBlue+2);
     
     TF1* f42=new TF1("f42","[0]",20,140);
-    f42->SetLineColor(kRed-7);
+    f42->SetLineColor(kViolet-1);
     
     TF1* f43=new TF1("f43","[0]*(x-[1])*(x-[1])+[2]",20,140);
     f43->SetLineColor(kRed-7);
@@ -250,8 +250,8 @@ int Fit_All_Angle_Par_cp(){
     g42->GetYaxis()->SetRangeUser(-1.05, 3.15);
     g43->GetYaxis()->SetRangeUser(4.48, 8.12);
 
-    //c1->Divide(3, 1);
-    c1->Divide(1, 3);
+    c1->Divide(3, 1);
+    //c1->Divide(1, 3);
     c1->cd(1);
     g11->Draw("AP.");
     c1->cd(2);
@@ -259,8 +259,8 @@ int Fit_All_Angle_Par_cp(){
     c1->cd(3);
     g13->Draw("AP.");
     
-    //c2->Divide(2, 1);
-    c2->Divide(1, 3);
+    c2->Divide(3, 1);
+    //c2->Divide(1, 3);
     c2->cd(1);
     g21->Draw("AP.");
     c2->cd(2);
@@ -269,8 +269,8 @@ int Fit_All_Angle_Par_cp(){
     g23->Draw("AP.");
 
     
-    //c3->Divide(2, 1);
-    c3->Divide(1, 3);
+    c3->Divide(3, 1);
+    //c3->Divide(1, 3);
     c3->cd(1);
     g31->Draw("AP.");
     c3->cd(2);
@@ -278,8 +278,8 @@ int Fit_All_Angle_Par_cp(){
     c3->cd(3);
     g33->Draw("AP.");
     
-    //c4->Divide(3, 1);
-    c4->Divide(1, 3);
+    c4->Divide(3, 1);
+    //c4->Divide(1, 3);
     c4->cd(1);
     g41->Draw("AP.");
     c4->cd(2);

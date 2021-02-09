@@ -96,7 +96,7 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     f1->SetLineColor(kRed-7);
     f1->SetParameters(-0.18, 1.4, 2.7);
     f1->SetParLimits(0,-0.01,1.0);
-    f1->SetParLimits(1, 0.13.0);
+    f1->SetParLimits(1,0.1, 3.0);
     f1->SetParLimits(2,2.0,3.5);
 
     TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);

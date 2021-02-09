@@ -199,11 +199,11 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     leg->AddEntry(h1D2,"m_{#pi^{0}} New", "L");
     leg->Draw();
     
-    double NewRange_min = 130;
-    double NewRange_max = 140;
+    double NewRange_min = 80;
+    double NewRange_max = 200;
                                             
-    h1D2->SetAxisRange(NewRange_min, NewRange_max);
-    h1D1->SetAxisRange(NewRange_min, NewRange_max);
+    //h1D2->SetAxisRange(NewRange_min, NewRange_max);
+    //h1D1->SetAxisRange(NewRange_min, NewRange_max);
     
     int N1_max(-1), N2_max(-1);
      for (int i = 1; i <= bin1; i++){
@@ -240,12 +240,12 @@ int Shower_instance_mpi0(const char old_file[30], const char new_file[30], doubl
     }
 
    
-    TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
-    leg->AddEntry(h1D1, old_file, "L");
-    leg->AddEntry(h1D2, new_file, "L");
+    //TLegend * leg = new TLegend(0.7,0.7 , 0.9, 0.8);
+    //leg->AddEntry(h1D1, old_file, "L");
+    //leg->AddEntry(h1D2, new_file, "L");
     //leg->AddEntry(h1D1,"Bump Energy old" , "L");
     //leg->AddEntry(h1D2,"Bump Energy new", "L");
-    leg->Draw();
+    //leg->Draw();
     
     Double_t mean_OR = f1->GetParameter(1);
     Double_t mean_fix = f2->GetParameter(1);

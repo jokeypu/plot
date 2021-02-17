@@ -103,6 +103,11 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     f_cp->SetLineStyle(2);
     f_cp->SetLineColor(kCyan);
     
+    TF1* f_test=new TF1("f_test","exp(-[0]*pow(x-[1],[2]))",0,distance_cut);
+    f_test->SetLineWidth(3);
+    //f_test->SetLineStyle(2);
+    f_test->SetLineColor(kYellow);
+    
     c1->cd();
     h->Draw("PCOLZ");
     g->Draw("Psame");
@@ -165,6 +170,7 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     //h_Error->Draw("PCOLZ");
     g_Error_cp->Draw("AP.");
     g_Error->Draw("Psame");
+    g_Error->Fit(f_test,"R");
     //f->Draw("SAME");
     f_cp->Draw("SAME");
     

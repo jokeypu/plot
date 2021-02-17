@@ -57,10 +57,10 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     Double_t distance_cut = 3.5;
     Int_t binx = 200, biny = 200;
     
-    TH2D* h = new TH2D("Hist", "h", binx, 0, distance_cut, biny, 0, Energy);
+    TH2D* h = new TH2D("Hist", "h", binx, 0, distance_cut, biny, 0, 1);
     h->SetMarkerStyle(7);
     h->SetMarkerColorAlpha(kAzure+3, 1);
-    h->GetYaxis()->SetTitle("E_{truth}   [GeV]");
+    h->GetYaxis()->SetTitle("E_{digi}/E_{Shower}   [GeV]");
     h->GetXaxis()->SetTitle("r   [cm]");
     h->GetXaxis()->CenterTitle();
     h->GetYaxis()->CenterTitle();
@@ -71,7 +71,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
-        h->Fill(distance,energy);
+        h->Fill(distance,energy/Energy);
         N++;
     }
     
@@ -83,17 +83,33 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     }
     
     int cunt = 0;
-    int step = 9;
-    for (int i = 5; i < binx+1; i+=step){
-        Double_t mean = h->ProfileY("px",i,i+step-1)->GetMean();
-        Double_t wx = distance_cut/binx;
-        Double_t nx =( (i+(step-1)/2)*wx - wx/2  );
-        g->SetPoint(cunt, nx, mean);
+    double d_s = 0.2;
+    double  step = (distance_cut-d_s)/15;
+    std::map<int, TH1D*> h_map;
+    for (double  i = d_s; i < distance_cut; i+=step){
+    	in_file.clear();
+	in_file.seekg(0, ios::beg);
+	double dc_min = i, dc_max = dc_min+step;
+        Double_t nx = (dc_min + dc_max)/2.0;
+	h_map[cunt] = new TH1D(Form("t%f_to_t%f",i,i+step), Form("t%f_to_t%f",i,i+step),200,0,1);
+    	while (std::getline(in_file, str)) {
+        	std::stringstream strStream(str);
+        	float distance, angle, energy;
+       	 	strStream >> distance >> angle >> energy;
+        	if (distance > dc_min && distance < dc_max) h_map[cunt]->Fill(energy/Energy);
+    	}
+
+        TF1* f_temp = new TF1("f_temp", "[0]*TMath::Gaus(x,[1],[2])",0,1);
+	f_temp->SetParameters(1000, (1.0-0.29*nx), 1);
+	//h_map[cunt]->Fit(f_temp,"R");
+	if ( f_temp->GetParameter(1) > 1) continue;
+        //g->SetPoint(cunt, nx, f_temp->GetParameter(1));
+        g->SetPoint(cunt, nx, h_map[cunt]->GetMean());
         cunt++;
     }
     
     TF1* f=new TF1("f1","(FABC(x,[0],[1],[2],[3],[4]))",0,distance_cut);
-    f->SetParameters(0.8*Energy, 2.5, 0.9, 1.4, 3);
+    f->SetParameters(0.8, 2.5, 0.9, 1.4, 3);
     f->SetLineWidth(3);
     f->SetLineColor(kRed);
 
@@ -131,11 +147,12 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         float distance, angle, energy;
         strStream >> distance >> angle >> energy;
         if (distance > distance_cut) continue;
-        h_Error->Fill(distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy));
+        h_Error->Fill(distance,(FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))-energy/Energy));
         N++;
     }
     c2->cd();
-    h_Error->Draw("PCOLZ");
+    h_map[5]->Draw();
+    //h_Error->Draw("PCOLZ");
     TString picture_name_error= "doc/A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c2->Print(picture_name_error);
     

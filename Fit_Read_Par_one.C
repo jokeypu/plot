@@ -88,23 +88,23 @@ int Fit_Read_Par_one(Int_t NO_Angle){
         N++;
     }
     
-    TF1* f0=new TF1("f0","[0]*x+[1]",0,Max_Energy);
+    TF1* f0=new TF1("f0","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f0->SetLineColor(kRed-7);
-    f0->SetParameters(-0.004,1.5,1.38);
+    f0->SetParameters(0.07,1.4,0.8);
     
     TF1* f1=new TF1("f1","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f1->SetLineColor(kRed-7);
     f1->SetParameters(-0.18, 1.4, 2.7);
-    f1->SetParLimits(0,-0.01,1.0);
-    f1->SetParLimits(1,0.1, 3.0);
-    f1->SetParLimits(2,2.0,3.5);
+    //f1->SetParLimits(0,-0.01,1.0);
+    //f1->SetParLimits(1,0.1, 3.0);
+    //f1->SetParLimits(2,2.0,3.5);
 
     TF1* f2=new TF1("f2","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f2->SetLineColor(kRed-7);
     f2->SetParameters(-0.23,2.8,0.92);
-    f2->SetParLimits(0,-0.01,1.0);
-    f2->SetParLimits(1,1.0,5.0);
-    f2->SetParLimits(2,0.5,1.5);
+    //f2->SetParLimits(0,-0.01,1.0);
+    //f2->SetParLimits(1,1.0,5.0);
+    //f2->SetParLimits(2,0.5,1.5);
     
     TF1* f3=new TF1("f3","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f3->SetLineColor(kRed-7);
@@ -116,9 +116,9 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     TF1* f4=new TF1("f4","[0]*exp(-[1]*x)+[2]",0,Max_Energy);
     f4->SetLineColor(kRed-7);
     f4->SetParameters(-2.8,1.8,5.27);
-    f4->SetParLimits(0,-0.1,5.0);
-    f4->SetParLimits(1,1.0,5.0);
-    f4->SetParLimits(2,2.1,7.0);
+    //f4->SetParLimits(0,-0.1,5.0);
+    //f4->SetParLimits(1,1.0,5.0);
+    //f4->SetParLimits(2,2.1,7.0);
     
     
     g0->Fit(f0,"R");
@@ -133,9 +133,9 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     //g3->GetYaxis()->SetRangeUser(0.6,0.8);
     //g4->GetYaxis()->SetRangeUser(3.5,5.5);
     
-    g0->GetYaxis()->SetRangeUser(0,6.5);
+    g0->GetYaxis()->SetRangeUser(0.6,1.2);
     //g1->GetYaxis()->SetRangeUser(1,4);
-    g1->GetYaxis()->SetRangeUser(2.5,3.1);
+    g1->GetYaxis()->SetRangeUser(2.5,2.9);
     //g2->GetYaxis()->SetRangeUser(0.5,1.5);
     g2->GetYaxis()->SetRangeUser(0.5,1.1);
     //g3->GetYaxis()->SetRangeUser(0.2,1.2);

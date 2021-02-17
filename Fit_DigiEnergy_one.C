@@ -87,22 +87,21 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     double  step = (distance_cut-d_s)/15;
     std::map<int, TH1D*> h_map;
     for (double  i = d_s; i < distance_cut; i+=step){
-    	in_file.clear();
-	in_file.seekg(0, ios::beg);
-	double dc_min = i, dc_max = dc_min+step;
+        in_file.clear();
+        in_file.seekg(0, ios::beg);
+        double dc_min = i, dc_max = dc_min+step;
         Double_t nx = (dc_min + dc_max)/2.0;
-	h_map[cunt] = new TH1D(Form("t%f_to_t%f",i,i+step), Form("t%f_to_t%f",i,i+step),200,0,1);
-    	while (std::getline(in_file, str)) {
-        	std::stringstream strStream(str);
-        	float distance, angle, energy;
-       	 	strStream >> distance >> angle >> energy;
-        	if (distance > dc_min && distance < dc_max) h_map[cunt]->Fill(energy/Energy);
-    	}
-
+        h_map[cunt] = new TH1D(Form("t%f_to_t%f",i,i+step), Form("t%f_to_t%f",i,i+step),200,0,1);
+        while (std::getline(in_file, str)) {
+            std::stringstream strStream(str);
+            float distance, angle, energy;
+            strStream >> distance >> angle >> energy;
+            if (distance > dc_min && distance < dc_max) h_map[cunt]->Fill(energy/Energy);
+        }
         TF1* f_temp = new TF1("f_temp", "[0]*TMath::Gaus(x,[1],[2])",0,1);
-	f_temp->SetParameters(1000, (1.0-0.29*nx), 1);
-	//h_map[cunt]->Fit(f_temp,"R");
-	if ( f_temp->GetParameter(1) > 1) continue;
+        f_temp->SetParameters(1000, 0.5, 1);
+        //h_map[cunt]->Fit(f_temp,"R");
+        if ( f_temp->GetParameter(1) > 1) continue;
         //g->SetPoint(cunt, nx, f_temp->GetParameter(1));
         g->SetPoint(cunt, nx, h_map[cunt]->GetMean());
         cunt++;
@@ -112,7 +111,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     f->SetParameters(0.8, 2.5, 0.9, 1.4, 3);
     f->SetLineWidth(3);
     f->SetLineColor(kRed);
-
+    
     c1->cd();
     h->Draw("PCOLZ");
     g->Draw("Psame");

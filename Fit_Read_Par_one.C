@@ -135,7 +135,7 @@ int Fit_Read_Par_one(Int_t NO_Angle){
     
     g0->GetYaxis()->SetRangeUser(0.6,1.2);
     //g1->GetYaxis()->SetRangeUser(1,4);
-    g1->GetYaxis()->SetRangeUser(2.5,2.9);
+    g1->GetYaxis()->SetRangeUser(2.5,3.1);
     //g2->GetYaxis()->SetRangeUser(0.5,1.5);
     g2->GetYaxis()->SetRangeUser(0.5,1.1);
     //g3->GetYaxis()->SetRangeUser(0.2,1.2);

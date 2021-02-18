@@ -168,12 +168,11 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     //f->Draw("SAME");
     f_cp->Draw("SAME");
 
-    TF1* f_test=new TF1("f_test","exp(-[0]*pow(x-[1],[2]))",1,distance_cut);
+    TF1* f_test=new TF1("f_test","exp(-[0]*(x-[1]/x))",1,distance_cut);
     f_test->SetLineWidth(3);
     //f_test->SetLineStyle(2);
     f_test->SetLineColor(kYellow);
-    f_test->SetParameters(2.1,1,0.7);
-    f_test->SetParLimits(2,0.1,0.9);
+    f_test->SetParameters(2.1,1);
     g_Error_cp->Fit(f_test,"R");
     
     TLegend * leg = new TLegend(0.625, 0.6, 0.88, 0.86);

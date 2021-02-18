@@ -46,7 +46,8 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     
     TGraph *g = new TGraph();
     g->SetMarkerStyle(20);
-    g->SetMarkerColor(kYellow-4);
+    g->SetMarkerColor(kYellow);
+    g->SetMarkerSize(1.3);
     g->GetYaxis()->SetTitle("E_{truth}   [GeV]");
     g->GetXaxis()->SetTitle("t   [X_{0}]");
     g->GetXaxis()->CenterTitle();
@@ -83,15 +84,15 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     }
     
     int cunt = 0;
-    double d_s = 0.2;
-    double  step = (distance_cut-d_s)/15;
+    double d_s = 0.0;
+    double  step = (distance_cut-d_s)/35;
     std::map<int, TH1D*> h_map;
     for (double  i = d_s; i < distance_cut; i+=step){
         in_file.clear();
         in_file.seekg(0, ios::beg);
         double dc_min = i, dc_max = dc_min+step;
         Double_t nx = (dc_min + dc_max)/2.0;
-        h_map[cunt] = new TH1D(Form("t%f_to_t%f",i,i+step), Form("t%f_to_t%f",i,i+step),200,0,1);
+        h_map[cunt] = new TH1D(Form("t%f_to_t%f",i,i+step), Form("t%f_to_t%f",i,i+step),180,0,1);
         while (std::getline(in_file, str)) {
             std::stringstream strStream(str);
             float distance, angle, energy;
@@ -103,6 +104,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         //h_map[cunt]->Fit(f_temp,"R");
         if ( f_temp->GetParameter(1) > 1) continue;
         //g->SetPoint(cunt, nx, f_temp->GetParameter(1));
+        //g->SetPoint(cunt, nx, h_map[cunt]->GetBinCenter(h_map[cunt]->GetMaximumBin()));
         g->SetPoint(cunt, nx, h_map[cunt]->GetMean());
         cunt++;
     }
@@ -129,7 +131,7 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
     g_Error->GetXaxis()->CenterTitle();
     g_Error->GetYaxis()->CenterTitle();
     
-    TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,-Energy,Energy);
+    TH2D* h_Error = new TH2D("Hist_Error","h_Error",200,0,distance_cut,200,-1,1);
     h_Error->SetMarkerStyle(7);
     h_Error->SetMarkerColorAlpha(kAzure+3, 0.5);
     h_Error->GetYaxis()->SetTitle("E_{func}-E_{truth}   [GeV]");
@@ -150,8 +152,8 @@ int Fit_DigiEnergy_one(std::string dir_name, const char title[30], Int_t NO_Angl
         N++;
     }
     c2->cd();
-    h_map[5]->Draw();
-    //h_Error->Draw("PCOLZ");
+    //h_map[5]->Draw();
+    h_Error->Draw("PCOLZ");
     TString picture_name_error= "doc/A"+str_NO_Angle+"_FitPicture_cp/Error_A"+str_NO_Angle+"_E"+str_Energy+"_FitPar_cp.png";
     c2->Print(picture_name_error);
     

@@ -1,11 +1,25 @@
 const Int_t Mode = 2;
-int Exec(string dir_name, TH1D *h, vector<Int_t> NBin, Int_t NGamma=2, bool IsSplit=1);
+int Exec(string dir_name, TH1D *h, Int_t NGamma=2, bool IsSplit=1);
 int NEW_Algorithm_test1(string dir_name)
 {
     int bin1(50);
     float tx(800),ty(600);
     //double xmin(0.7),xmax(1.3);
     double xmin(0),xmax(8);
+    
+    TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
+    gStyle->SetOptTitle(0);
+    gStyle->SetStatX(0.36);
+    gStyle->SetStatY(0.88);
+    gStyle->SetOptStat(0);
+    gStyle->SetLabelFont(42,"xyz");
+    gStyle->SetLabelSize(0.05,"xyz");
+    gStyle->SetLabelOffset(0.01,"xyz");
+    gStyle->SetNdivisions(510,"xyz");
+    gStyle->SetTitleFont(42,"xyz");
+    gStyle->SetTitleColor(1,"xyz");
+    gStyle->SetTitleSize(0.05,"xyz");
+    gStyle->SetTitleOffset(1.0,"xyz");
     
     TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kRed);
@@ -15,52 +29,18 @@ int NEW_Algorithm_test1(string dir_name)
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
+    if( Exec( dir_name, h1D1, 2, true) ) return 1;
     
-    vector<Int_t> NBin;
-    NBin.push_back(-1);
-    if (Mode != 1) {
-        ifstream file;
-        file.open("doc/NBin.txt", ios::in);
-        string str;
-        while (getline(file,str)) {
-            Int_t value= atof(str.c_str());
-            NBin.push_back(value);
-        }
-        file.close();
-    }
-    
-    if( Exec( dir_name, h1D1, NBin, 2, true) ) return 1;
-    
-    if (Mode == 1){
-        ofstream file;
-        file.open("doc/NBin.txt", ios::out);
-        for (int i=1; i<= bin1; i++) file << h1D1->GetBinContent(i) << endl;
-        file.close();
-    }else{
-        TCanvas* c1=new TCanvas("PANDA1","c1",tx,ty);
-        gStyle->SetOptTitle(0);
-        gStyle->SetStatX(0.36);
-        gStyle->SetStatY(0.88);
-        gStyle->SetOptStat(0);
-        gStyle->SetLabelFont(42,"xyz");
-        gStyle->SetLabelSize(0.05,"xyz");
-        gStyle->SetLabelOffset(0.01,"xyz");
-        gStyle->SetNdivisions(510,"xyz");
-        gStyle->SetTitleFont(42,"xyz");
-        gStyle->SetTitleColor(1,"xyz");
-        gStyle->SetTitleSize(0.05,"xyz");
-        gStyle->SetTitleOffset(1.0,"xyz");
-        h1D1->Draw("HIST");
-        TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
-        leg1->AddEntry(h1D1, "The ratio of successful splitting", "L");
-        leg1->Draw("SAME");
-    }
+    h1D1->Draw("HIST");
+    TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
+    leg1->AddEntry(h1D1, "The ratio of successful splitting", "L");
+    leg1->Draw("SAME");
     
     return 0;
 }
 
 //*****************************************************************************************//
-int Exec(string dir_name, TH1D *h, vector<Int_t> NBin, Int_t NGamma, bool IsSplit){
+int Exec(string dir_name, TH1D *h, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
@@ -91,6 +71,13 @@ int Exec(string dir_name, TH1D *h, vector<Int_t> NBin, Int_t NGamma, bool IsSpli
     int N(0);
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
+    
+    
+    for (float i = 0; i < 8; i += 0.5){
+      double  distance_cut_min = i;
+        double distance_cut_max = i + 0.5;
+        int N_total = 0;
+        int N_splite = 0;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
@@ -131,9 +118,13 @@ int Exec(string dir_name, TH1D *h, vector<Int_t> NBin, Int_t NGamma, bool IsSpli
             }
         }
         distance /= Ncunt;
-        if (Mode == 1) h->Fill(distance);
-        else if (nbumps == 2) h->Fill(distance,100*1.0/NBin[h->FindBin(distance)]);
-        N++;
+        if ( nclusters != 1 ) continue;
+        if (distance > distance_cut_min && distance < distance_cut_max) N_total++;
+        else continue;
+        if ( nbumps == 2 ) N_splite++;
+    }
+        double ratio = (double)(N_splite/N_total);
+        double d = (distance_cut_max+distance_cut_min)/2.0;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     return 0;

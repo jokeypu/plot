@@ -153,13 +153,15 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
         if (distance > distance_cut) continue;
         h_Error->Fill(distance,energy/Eseed);
         g_Error_cp->SetPoint(N,distance,energy/Eseed);
-        g_Error->SetPoint(N,distance,FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))/FABC(dseed,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4)));
+	float E_exp = FABC(distance,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4))/FABC(dseed,f->GetParameter(0),f->GetParameter(1),f->GetParameter(2),f->GetParameter(3),f->GetParameter(4));
+	if (E_exp < 1.0) g_Error->SetPoint(N,distance,E_exp);
+        else g_Error->SetPoint(N,distance,1.0);
         N++;
     }
-    
+
     c2->cd();
-    g_Error->GetYaxis()->SetRangeUser(0,1);
-    g_Error_cp->GetYaxis()->SetRangeUser(0,1);
+    g_Error->GetYaxis()->SetRangeUser(0,1.1);
+    g_Error_cp->GetYaxis()->SetRangeUser(0,1.1);
     g_Error->GetXaxis()->SetRangeUser(0,distance_cut);
     g_Error_cp->GetXaxis()->SetRangeUser(0,distance_cut);
     //h_Error->Draw("PCOLZ");
@@ -168,15 +170,25 @@ int Fit_DigiEnergy_compare(std::string dir_name, Int_t NO_Angle, Double_t Energy
     //f->Draw("SAME");
     f_cp->Draw("SAME");
 
-    TF1* f_test=new TF1("f_test","exp(-[0]*(x-[1]/x))",1,distance_cut);
+    TF1* f_test=new TF1("f_test","exp(-[0]*(x+[1]/x))",1,distance_cut);
     f_test->SetLineWidth(3);
     //f_test->SetLineStyle(2);
     f_test->SetLineColor(kYellow);
     f_test->SetParameters(2.1,1);
     g_Error_cp->Fit(f_test,"R");
     
+    for (int i = N; i < 2*N; i++){
+    	float distance = 1.5*(rand() / double(RAND_MAX));
+    	g_Error_cp->SetPoint(i,distance,1);
+    }
+    g_Error_cp->GetYaxis()->SetRangeUser(0,1.1);
+    g_Error_cp->Draw("AP.");
+    g_Error->Draw("Psame");
+    f_cp->Draw("SAME");
+
     TLegend * leg = new TLegend(0.625, 0.6, 0.88, 0.86);
     leg->AddEntry(f_cp,"Raw: exp(-#epsilonr/R_{M})" , "L");
+    leg->AddEntry(f_test,"Raw+: exp[-#epsilon(r+p/r)/R_{M}]" , "L");
     leg->AddEntry(g_Error,"New: f(r)/f(r_{seed})" , "p");
     leg->AddEntry(g_Error_cp,"data: E_{digi}/E_{seed}", "p");
     leg->Draw();

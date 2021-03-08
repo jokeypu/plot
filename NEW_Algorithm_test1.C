@@ -1,5 +1,5 @@
 const Int_t Mode = 2;
-int Exec(string dir_name, TH1D *h, Int_t NGamma=2, bool IsSplit=1);
+int Exec(string dir_name, TGraph *g, Int_t NGamma=2, bool IsSplit=1);
 int NEW_Algorithm_test1(string dir_name)
 {
     int bin1(50);
@@ -24,23 +24,25 @@ int NEW_Algorithm_test1(string dir_name)
     TH1D* h1D1 = new TH1D("Hist1_1","h1_1", bin1, xmin, xmax);
     h1D1->SetLineColor(kRed);
     h1D1->SetLineWidth(2);
-    h1D1->GetXaxis()->SetTitle("distance");
-    h1D1->GetYaxis()->SetTitle("ratio (%)");
+    h1D1->GetXaxis()->SetTitle("d   [cm]");
+    h1D1->GetYaxis()->SetTitle("ratio [%]");
     h1D1->GetXaxis()->CenterTitle();
     h1D1->GetYaxis()->CenterTitle();
     
-    if( Exec( dir_name, h1D1, 2, true) ) return 1;
+    TGraph *g = new TGraph();
+    if( Exec( dir_name, g, 2, true) ) return 1;
     
-    h1D1->Draw("HIST");
+    //h1D1->Draw("HIST");
+    g->Draw("AP.");
     TLegend * leg1 = new TLegend(0.61,0.72,0.88,0.85);
-    leg1->AddEntry(h1D1, "The ratio of successful splitting", "L");
+    leg1->AddEntry(g, "The ratio of successful splitting", "P");
     leg1->Draw("SAME");
     
     return 0;
 }
 
 //*****************************************************************************************//
-int Exec(string dir_name, TH1D *h, Int_t NGamma, bool IsSplit){
+int Exec(string dir_name, TGraph *g, Int_t NGamma, bool IsSplit){
     //IsSplit: Whether shower separation is required
     //NGamma: Number of photons produced
     
@@ -72,12 +74,12 @@ int Exec(string dir_name, TH1D *h, Int_t NGamma, bool IsSplit){
     //Int_t maxEvtNo = ioman->CheckMaxEventNo();
     Int_t maxEvtNo = t->GetEntries();
     
-    
+    int NN = 0;
     for (float i = 0; i < 8; i += 0.5){
       double  distance_cut_min = i;
         double distance_cut_max = i + 0.5;
-        int N_total = 0;
-        int N_splite = 0;
+        double N_total = 0.0;
+        double N_splite = 0.0;
     for (Int_t ievt = 0; ievt < maxEvtNo; ievt++) {
         if (maxEvtNo>=100 && ievt%(maxEvtNo/100)==0) cout << 100 * (int)ievt/maxEvtNo << "%" << endl;
         ioman->ReadEvent(ievt); // read event by event
@@ -103,7 +105,7 @@ int Exec(string dir_name, TH1D *h, Int_t NGamma, bool IsSplit){
                     if (linkIter->GetIndex() == iGamma) Exist[iGamma] = true;
             }
         }
-        if (Exist.size() != NGamma) continue;
+        //if (Exist.size() != NGamma) continue;
         //if (nclusters!=1) continue;
         
         //Calculate the average distance between photons
@@ -119,12 +121,15 @@ int Exec(string dir_name, TH1D *h, Int_t NGamma, bool IsSplit){
         }
         distance /= Ncunt;
         if ( nclusters != 1 ) continue;
-        if (distance > distance_cut_min && distance < distance_cut_max) N_total++;
+        if (distance > distance_cut_min && distance < distance_cut_max) N_total+=1.0;
         else continue;
-        if ( nbumps == 2 ) N_splite++;
+        if ( nbumps == 2 ) N_splite+=1.0;
     }
-        double ratio = (double)(N_splite/N_total);
+        double ratio = (N_splite/N_total);
         double d = (distance_cut_max+distance_cut_min)/2.0;
+	cout << "XXXX  " << d << 100*ratio << endl;
+	g->SetPoint(NN,d,100*ratio);
+	NN++;
     }
     cout << "Max Event Nomber:" << maxEvtNo << ", " << "Passed:" << N << endl;
     return 0;
